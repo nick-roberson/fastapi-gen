@@ -6,25 +6,21 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 # Output Imports
-from models.models import Task, Input, Output
+from models.models import User, Group
 
-# Pydantic Imports
-from pydantic import BaseModel
+# Typing Imports
 from typing import List
 
 # Manager Imports
-from task_manager import TaskManager
-from input_manager import InputManager
-from output_manager import OutputManager
+from user_manager import get_user_manager
+from group_manager import get_group_manager
 
 
 # Create instances of managers for each model
 
-task_manager = TaskManager()
+user_manager = get_user_manager()
 
-input_manager = InputManager()
-
-output_manager = OutputManager()
+group_manager = get_group_manager()
 
 
 logger = logging.getLogger(__name__)
@@ -46,110 +42,81 @@ async def root():
 
 
 ##############################################
-# Get Endpoints for Task, Input, Output
+# Get Endpoints for User, Group
 ##############################################
 
 
-@app.get("/task")
-def get_task(task_id: str):
-    logging.info(f"Getting Task with id: {id}")
-    return task_manager.get(task_id=task_id)
+@app.get("/user")
+def get_user(user_id: str):
+    logging.info(f"Getting User with id: {id}")
+    return user_manager.get(user_id=user_id)
 
 
-@app.get("/tasks")
-def get_tasks() -> List[Task]:
-    logging.info(f"Getting all Tasks")
-    return task_manager.get_all()
+@app.get("/users")
+def get_users() -> List[User]:
+    logging.info(f"Getting all Users")
+    return user_manager.get_all()
 
 
-@app.get("/input")
-def get_input(input_id: str):
-    logging.info(f"Getting Input with id: {id}")
-    return input_manager.get(input_id=input_id)
+@app.get("/group")
+def get_group(group_id: str):
+    logging.info(f"Getting Group with id: {id}")
+    return group_manager.get(group_id=group_id)
 
 
-@app.get("/inputs")
-def get_inputs() -> List[Input]:
-    logging.info(f"Getting all Inputs")
-    return input_manager.get_all()
-
-
-@app.get("/output")
-def get_output(output_id: str):
-    logging.info(f"Getting Output with id: {id}")
-    return output_manager.get(output_id=output_id)
-
-
-@app.get("/outputs")
-def get_outputs() -> List[Output]:
-    logging.info(f"Getting all Outputs")
-    return output_manager.get_all()
+@app.get("/groups")
+def get_groups() -> List[Group]:
+    logging.info(f"Getting all Groups")
+    return group_manager.get_all()
 
 
 ##############################################
-# Create Endpoints for Task, Input, Output
+# Create Endpoints for User, Group
 ##############################################
 
 
-@app.post("/task")
-def create_task(task: Task):
-    logging.info(f"Creating Task: {str(task)}")
-    return task_manager.create(task)
+@app.post("/user")
+def create_user(user: User):
+    logging.info(f"Creating User: {str(user)}")
+    return user_manager.create(user)
 
 
-@app.post("/input")
-def create_input(input: Input):
-    logging.info(f"Creating Input: {str(input)}")
-    return input_manager.create(input)
-
-
-@app.post("/output")
-def create_output(output: Output):
-    logging.info(f"Creating Output: {str(output)}")
-    return output_manager.create(output)
+@app.post("/group")
+def create_group(group: Group):
+    logging.info(f"Creating Group: {str(group)}")
+    return group_manager.create(group)
 
 
 ##############################################
-# Update Endpoints for Task, Input, Output
+# Update Endpoints for User, Group
 ##############################################
 
 
-@app.put("/task")
-def update_task(task: Task):
-    logging.info(f"Updating Task: {str(task)}")
-    return task_manager.update(task)
+@app.put("/user")
+def update_user(user: User):
+    logging.info(f"Updating User: {str(user)}")
+    return user_manager.update(user)
 
 
-@app.put("/input")
-def update_input(input: Input):
-    logging.info(f"Updating Input: {str(input)}")
-    return input_manager.update(input)
-
-
-@app.put("/output")
-def update_output(output: Output):
-    logging.info(f"Updating Output: {str(output)}")
-    return output_manager.update(output)
+@app.put("/group")
+def update_group(group: Group):
+    logging.info(f"Updating Group: {str(group)}")
+    return group_manager.update(group)
 
 
 ##############################################
-# Delete Endpoints for Task, Input, Output
+# Delete Endpoints for User, Group
 ##############################################
 
 
-@app.delete("/task/id")
-def delete_task(task_id: str):
-    return task_manager.delete(task_id=task_id)
+@app.delete("/user/id")
+def delete_user(user_id: str):
+    return user_manager.delete(user_id=user_id)
 
 
-@app.delete("/input/id")
-def delete_input(input_id: str):
-    return input_manager.delete(input_id=input_id)
-
-
-@app.delete("/output/id")
-def delete_output(output_id: str):
-    return output_manager.delete(output_id=output_id)
+@app.delete("/group/id")
+def delete_group(group_id: str):
+    return group_manager.delete(group_id=group_id)
 
 
 if __name__ == "__main__":

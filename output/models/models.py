@@ -6,17 +6,15 @@ from typing import List, Dict
 # Models
 
 
-class Task(BaseModel):
+class User(BaseModel):
 
     id: str = FieldInfo(
-        default=None, description="The unique identifier of the task", required=False
+        default=None, description="The unique identifier of the user", required=False
     )
 
-    name: str = FieldInfo(description="The name of the task", required=True)
+    username: str = FieldInfo(description="The username of the user", required=True)
 
-    inputs: list = FieldInfo(description="None", required=True)
-
-    outputs: list = FieldInfo(description="None", required=True)
+    email: str = FieldInfo(description="The email of the user", required=True)
 
     class Config:
         extra = "ignore"
@@ -25,32 +23,15 @@ class Task(BaseModel):
         return self.dict()
 
 
-class Input(BaseModel):
+class Group(BaseModel):
 
     id: str = FieldInfo(
-        default=None, description="The unique identifier of the input", required=False
+        default=None, description="The unique identifier of the group", required=False
     )
 
-    name: str = FieldInfo(description="None", required=True)
+    name: str = FieldInfo(description="The name of the group", required=True)
 
-    type: str = FieldInfo(description="None", required=True)
-
-    class Config:
-        extra = "ignore"
-
-    def to_dict(self) -> Dict:
-        return self.dict()
-
-
-class Output(BaseModel):
-
-    id: str = FieldInfo(
-        default=None, description="The unique identifier of the output", required=False
-    )
-
-    name: str = FieldInfo(description="None", required=True)
-
-    type: str = FieldInfo(description="None", required=True)
+    users: list = FieldInfo(description="None", required=True)
 
     class Config:
         extra = "ignore"
