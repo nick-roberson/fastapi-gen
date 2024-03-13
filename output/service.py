@@ -4,7 +4,6 @@ from typing import List
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-
 from group_manager import get_group_manager
 from models.models import Group, User
 from user_manager import get_user_manager

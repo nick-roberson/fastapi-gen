@@ -33,7 +33,8 @@ async def root():
 
 {% for model in models %}
 @app.get("/{{ model.name.lower() }}")
-def get_{{ model.name.lower() }}({{ model.model_id_var_name }}: str):
+def get_{{ model.name.lower() }}({{ model.model_id_var_name }}: str) -> {{ model.name }}:
+    """ Get a {{ model.name }} """
     logging.info(f"Getting {{ model.name }} with id: {id}")
     return {{ model.manager_var_name }}.get({{ model.model_id_var_name }}={{ model.model_id_var_name }})
 

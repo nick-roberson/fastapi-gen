@@ -108,7 +108,8 @@ To view the generated OpenAPI documentation, navigate to [http://localhost:8000/
 
 You can import the API into Postman by following the steps in the following link: [Importing a Collection Using OpenAPI](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/)
 
-The OpenAPI documentation can be found at [http://localhost:8000/docs](http://localhost:8000/docs).
+The OpenAPI documentation can be found at [http://localhost:8000/docs](http://localhost:8000/docs). The raw JSON 
+for the OpenAPI documentation can be found at [http://localhost:8000/openapi.json](http://localhost:8000/openapi.json).
 
 ### Example Requests
 

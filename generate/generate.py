@@ -1,3 +1,4 @@
+import datetime
 import os
 from typing import Dict, List
 
@@ -6,8 +7,9 @@ from jinja2 import Environment, FileSystemLoader
 from generate.constants import (MANAGER_TEMPLATES, MODEL_TEMPLATES,
                                 MONGO_TEMPLATES, SAMPLE_INPUT,
                                 SERVICE_TEMPLATES)
-from generate.models import ModelDefinition
+from generate.models import ModelDefinition, ServiceVersion
 from generate.utils import load_config, parse_model_definition, validate_config
+from generate.versions.utils import load_versions, save_version
 
 
 def generate_models(output_dir: str, models: List[ModelDefinition]) -> str:
@@ -109,10 +111,25 @@ def clear_output(output_dir: str) -> None:
 
 
 def generate(output_dir: str, input: str = SAMPLE_INPUT) -> Dict:
+    """Generate the models and services from the input yaml config.
+
+    Args:
+        output_dir (str): Output directory
+        input (str, optional): Path to the input yaml config.
+            Defaults to SAMPLE_INPUT.
+
+    Returns:
+        Dict: Dictionary of the generated files
+    """
     # Load the config and validate
     config = load_config(input)
     validate_config(config)
     models_def = parse_model_definition(config)
+
+    # Load previous versions
+    service_versions = load_versions()
+    new_version = len(service_versions) + 1
+    print(f"Loaded {len(service_versions)} service versions")
 
     # Clear the output directory
     clear_output(output_dir)
@@ -125,6 +142,16 @@ def generate(output_dir: str, input: str = SAMPLE_INPUT) -> Dict:
     # Simple copying of code over
     mongo_file = generate_mongo(output_dir=output_dir)
 
+    # Write new version to the versions directory
+    new_version = ServiceVersion(
+        version=new_version,
+        created_at=datetime.datetime.now().strftime("%Y%m%d%H%M%S"),
+        models=models_def.models,
+        dependencies=models_def.dependencies,
+    )
+    save_version(new_version)
+
+    # Return the generated files
     return {
         "models": model_file,
         "service": service_file,
