@@ -7,12 +7,13 @@
     <list default="true" id="66c6fd5e-f913-4693-bed1-8dc6547e2687" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/generate/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/group_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/output/group_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/models/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/output/models/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/mongo.py" beforeDir="false" afterPath="$PROJECT_DIR$/output/mongo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/output/service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/user_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/output/user_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/manager/manager.jinja" beforeDir="false" afterPath="$PROJECT_DIR$/templates/manager/manager.jinja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/service/service.jinja" beforeDir="false" afterPath="$PROJECT_DIR$/templates/service/service.jinja" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

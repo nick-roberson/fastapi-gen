@@ -149,3 +149,51 @@ RESPONSE:
         }
     ]
 ```
+
+Add A Group:
+```bash
+REQUEST: 
+    POST http://localhost:8000/group
+BODY:
+    {
+      "name": "test_group",
+      "users": []
+    }
+RESPONSE:
+    {
+        "id": "45e4ad8a-9186-4c57-8daa-bf2f0876759c",
+        "name": "test_group",
+        "users": []
+    }
+```
+
+Update the group with users from the previous examples:
+```bash
+REQUEST: 
+    PUT http://localhost:8000/group?group_id=45e4ad8a-9186-4c57-8daa-bf2f0876759c
+BODY:
+    {
+      "id": "45e4ad8a-9186-4c57-8daa-bf2f0876759c",
+      "name": "test_group",
+      "users": ["0f91623b-7f17-41bf-b54d-c068dd8a7191", "ea5ec257-8414-4572-a017-a01b0a36e3a7"]
+    }
+RESPONSE:
+    None
+```
+
+Get All Groups:
+```bash
+REQUEST: 
+    GET http://localhost:8000/groups
+RESPONSE:
+    [
+        {
+            "id": "45e4ad8a-9186-4c57-8daa-bf2f0876759c",
+            "name": "test_group",
+            "users": [
+                "0f91623b-7f17-41bf-b54d-c068dd8a7191",
+                "ea5ec257-8414-4572-a017-a01b0a36e3a7"
+            ]
+        }
+    ]
+```

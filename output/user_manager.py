@@ -33,7 +33,7 @@ class UserManager:
         try:
             if not user.id:
                 user.id = str(uuid.uuid4())
-            self.collection.insert_one(user.dict())
+            self.collection.insert_one(user.model_dump("json"))
             return user
         except Exception as e:
             print(e)
@@ -52,10 +52,18 @@ class UserManager:
         except Exception as e:
             print(e)
 
-    def update(self, user: User) -> None:
+    def update(self, user: User) -> User:
         """Update a User"""
         try:
-            self.collection.update_one({"id": user.id}, {"$set": user.dict()})
+            # Raise error if id is not present on the model
+            if not user.id:
+                raise Exception("User id is required")
+            # Update
+            self.collection.update_one(
+                {"id": user.id}, {"$set": user.model_dump(mode="json")}
+            )
+            # Return new copy
+            return self.get(user.id)
         except Exception as e:
             print(e)
 

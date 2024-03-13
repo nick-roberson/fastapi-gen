@@ -61,7 +61,7 @@ def get_{{ model.name.lower() }}s() -> List[{{ model.name }}]:
 
 {% for model in models %}
 @app.post("/{{ model.name.lower() }}")
-def create_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}):
+def create_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -> {{ model.name }}:
     logging.info(f"Creating {{ model.name }}: {str({{model.name.lower()}})}")
     return {{ model.manager_var_name }}.create({{model.name.lower()}})
 
@@ -73,7 +73,7 @@ def create_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}):
 
 {% for model in models %}
 @app.put("/{{ model.name.lower() }}")
-def update_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}):
+def update_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -> {{ model.name }}:
     logging.info(f"Updating {{ model.name }}: {str({{model.name.lower()}})}")
     return {{ model.manager_var_name }}.update({{model.name.lower()}})
 

@@ -76,13 +76,13 @@ def get_groups() -> List[Group]:
 
 
 @app.post("/user")
-def create_user(user: User):
+def create_user(user: User) -> User:
     logging.info(f"Creating User: {str(user)}")
     return user_manager.create(user)
 
 
 @app.post("/group")
-def create_group(group: Group):
+def create_group(group: Group) -> Group:
     logging.info(f"Creating Group: {str(group)}")
     return group_manager.create(group)
 
@@ -93,13 +93,13 @@ def create_group(group: Group):
 
 
 @app.put("/user")
-def update_user(user: User):
+def update_user(user: User) -> User:
     logging.info(f"Updating User: {str(user)}")
     return user_manager.update(user)
 
 
 @app.put("/group")
-def update_group(group: Group):
+def update_group(group: Group) -> Group:
     logging.info(f"Updating Group: {str(group)}")
     return group_manager.update(group)
 

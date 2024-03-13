@@ -30,7 +30,7 @@ class {{ model.name }}Manager:
         try:
             if not {{ model.name.lower() }}.id:
                 {{ model.name.lower() }}.id = str(uuid.uuid4())
-            self.collection.insert_one({{ model.name.lower() }}.dict())
+            self.collection.insert_one({{ model.name.lower() }}.model_dump("json"))
             return {{ model.name.lower() }}
         except Exception as e:
             print(e)
@@ -49,10 +49,19 @@ class {{ model.name }}Manager:
         except Exception as e:
             print(e)
 
-    def update(self, {{ model.name.lower() }}: {{ model.name }}) -> None:
+    def update(self, {{ model.name.lower() }}: {{ model.name }}) -> {{ model.name }}:
         """ Update a {{ model.name }} """
         try:
-            self.collection.update_one({'id': {{ model.name.lower() }}.id}, {'$set': {{ model.name.lower() }}.dict()})
+            # Raise error if id is not present on the model
+            if not {{ model.name.lower() }}.id:
+                raise Exception("{{ model.name }} id is required")
+            # Update
+            self.collection.update_one(
+                {'id': {{ model.name.lower() }}.id},
+                {'$set': {{ model.name.lower() }}.model_dump(mode="json")}
+            )
+            # Return new copy
+            return self.get({{ model.name.lower() }}.id)
         except Exception as e:
             print(e)
 

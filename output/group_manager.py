@@ -33,7 +33,7 @@ class GroupManager:
         try:
             if not group.id:
                 group.id = str(uuid.uuid4())
-            self.collection.insert_one(group.dict())
+            self.collection.insert_one(group.model_dump("json"))
             return group
         except Exception as e:
             print(e)
@@ -52,10 +52,18 @@ class GroupManager:
         except Exception as e:
             print(e)
 
-    def update(self, group: Group) -> None:
+    def update(self, group: Group) -> Group:
         """Update a Group"""
         try:
-            self.collection.update_one({"id": group.id}, {"$set": group.dict()})
+            # Raise error if id is not present on the model
+            if not group.id:
+                raise Exception("Group id is required")
+            # Update
+            self.collection.update_one(
+                {"id": group.id}, {"$set": group.model_dump(mode="json")}
+            )
+            # Return new copy
+            return self.get(group.id)
         except Exception as e:
             print(e)
 
