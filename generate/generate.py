@@ -110,19 +110,18 @@ def clear_output(output_dir: str) -> None:
     os.makedirs(output_dir)
 
 
-def generate(output_dir: str, input: str = SAMPLE_INPUT) -> Dict:
+def generate(output_dir: str, input_file: str) -> Dict:
     """Generate the models and services from the input yaml config.
 
     Args:
         output_dir (str): Output directory
-        input (str, optional): Path to the input yaml config.
-            Defaults to SAMPLE_INPUT.
+        input_file (str): Path to the input yaml config.
 
     Returns:
         Dict: Dictionary of the generated files
     """
-    # Load the config and validate
-    config = load_config(input)
+    # Load, Validate, and Parse the config
+    config = load_config(input_file=input_file)
     validate_config(config)
     models_def = parse_model_definition(config)
 
@@ -138,14 +137,14 @@ def generate(output_dir: str, input: str = SAMPLE_INPUT) -> Dict:
     model_file = generate_models(output_dir=output_dir, models=models_def.models)
     service_file = generate_services(output_dir=output_dir, models=models_def.models)
     manager_files = generate_managers(output_dir=output_dir, models=models_def.models)
-
     # Simple copying of code over
     mongo_file = generate_mongo(output_dir=output_dir)
 
     # Write new version to the versions directory
     new_version = ServiceVersion(
         version=new_version,
-        created_at=datetime.datetime.now().strftime("%Y%m%d%H%M%S"),
+        name="Service Version",
+        created_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         models=models_def.models,
         dependencies=models_def.dependencies,
     )

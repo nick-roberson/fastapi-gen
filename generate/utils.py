@@ -14,16 +14,16 @@ DEPENDENCY_DEFINITION_FIELDS: dict[str, FieldInfo] = DependencyDefinition.model_
 MODEL_DEFINITION_LIST_FIELDS: dict[str, FieldInfo] = ModelDefinitionList.model_fields
 
 
-def load_config(config_path) -> Dict:
+def load_config(input_file: str) -> Dict:
     """Simple load config from file path. Error if cannot be found."""
     # Check if the file exists
-    if not os.path.exists(config_path):
-        raise ValueError(f"Config file not found at {config_path}")
+    if not os.path.exists(input_file):
+        raise ValueError(f"Config file not found at {input_file}")
+
     # Load the config
-    with open(config_path, "r") as f:
+    with open(input_file, "r") as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
-    # Validate the config
-    validate_config(config)
+
     return config
 
 

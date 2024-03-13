@@ -16,13 +16,15 @@ def parse_args():
         description="Simple CLI to generate models and services from a yaml config."
     )
     parser.add_argument(
-        "--input",
+        "--input-config",
+        "-i",
         type=str,
         default=DEFAULT_INPUT,
         help="Path to the input yaml config.",
     )
     parser.add_argument(
-        "--output",
+        "--output-dir",
+        "-o",
         type=str,
         default=DEFAULT_OUTPUT,
         help="Path to the output directory.",
@@ -50,7 +52,7 @@ def generate_files(args: argparse.Namespace):
     )
 
     # Generate those files in that directory
-    result = generate(output_dir=args.output, input=args.input)
+    result = generate(output_dir=args.output, input_file=args.input)
     print(f"Generated files:")
     print(f"  Models:  {result['models']}")
     print(f"  Service: {result['service']}")
