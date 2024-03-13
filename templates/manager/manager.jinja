@@ -19,8 +19,6 @@ def get_{{ model.name.lower() }}_manager():
         __{{ model.name.upper()}}_MANAGER = {{ model.name }}Manager()
     return __{{ model.name.upper()}}_MANAGER
 
-logger = logging.getLogger(__name__)
-
 class {{ model.name }}Manager:
 
     collection_name: str = '{{ model.name.lower() }}'
@@ -31,7 +29,7 @@ class {{ model.name }}Manager:
 
     def create(self, {{ model.name.lower() }}: {{ model.name }}) -> {{ model.name }}:
         """ Create a new {{ model.name }} """
-        logger.info("Creating {{ model.name }}: {}".format({{ model.name.lower() }}))
+        logging.info("Creating {{ model.name }}: {}".format({{ model.name.lower() }}))
         try:
             if not {{ model.name.lower() }}.id:
                 {{ model.name.lower() }}.id = str(uuid.uuid4())
@@ -42,7 +40,7 @@ class {{ model.name }}Manager:
 
     def get_all(self) -> List[{{ model.name }}]:
         """ Get all {{ model.name }} """
-        logger.info(f"Getting all {{ model.name }}")
+        logging.info(f"Getting all {{ model.name }}")
         try:
             return list(self.collection.find())
         except Exception as e:
@@ -50,7 +48,7 @@ class {{ model.name }}Manager:
 
     def get(self, {{ model.name.lower() }}_id: str) -> {{ model.name }}:
         """ Get a {{ model.name }} by its id """
-        logger.info("Getting {{ model.name }}: {}.format({{ model.name.lower() }}_id)")
+        logging.info("Getting {{ model.name }}: {}.format({{ model.name.lower() }}_id)")
         try:
             return self.collection.find_one({'id': {{ model.name.lower() }}_id})
         except Exception as e:
@@ -58,7 +56,7 @@ class {{ model.name }}Manager:
 
     def update(self, {{ model.name.lower() }}: {{ model.name }}) -> {{ model.name }}:
         """ Update a {{ model.name }} """
-        logger.info("Updating {{ model.name }}: {}".format({{ model.name.lower() }}))
+        logging.info("Updating {{ model.name }}: {}".format({{ model.name.lower() }}))
         try:
             # Raise error if id is not present on the model
             if not {{ model.name.lower() }}.id:
@@ -77,7 +75,7 @@ class {{ model.name }}Manager:
 
     def delete(self, {{ model.name.lower() }}_id: str) -> {{ model.name }}:
         """ Delete a {{ model.name }} """
-        logger.info("Deleting {{ model.name }}: {}".format({{ model.name.lower() }}_id))
+        logging.info("Deleting {{ model.name }}: {}".format({{ model.name.lower() }}_id))
         try:
             # Find in database
             obj = self.get({{ model.name.lower() }}_id)

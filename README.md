@@ -84,8 +84,7 @@ Run the following commands to run the service:
 
 To lint the code just to make it more readable you can use `black` and `isort`:
 ```bash
-% poetry run black .
-% poetry run isort .
+% poetry run black . && poetry run isort .
 ```
 
 To run the new service 

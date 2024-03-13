@@ -5,7 +5,6 @@ from typing import List
 
 # Import Models
 from models.models import User
-
 # Import MongoDB Utils
 from mongo import get_client, get_collection
 
@@ -22,9 +21,6 @@ def get_user_manager():
     return __USER_MANAGER
 
 
-logger = logging.getLogger(__name__)
-
-
 class UserManager:
 
     collection_name: str = "user"
@@ -35,7 +31,7 @@ class UserManager:
 
     def create(self, user: User) -> User:
         """Create a new User"""
-        logger.info("Creating User: {}".format(user))
+        logging.info("Creating User: {}".format(user))
         try:
             if not user.id:
                 user.id = str(uuid.uuid4())
@@ -46,7 +42,7 @@ class UserManager:
 
     def get_all(self) -> List[User]:
         """Get all User"""
-        logger.info(f"Getting all User")
+        logging.info(f"Getting all User")
         try:
             return list(self.collection.find())
         except Exception as e:
@@ -54,7 +50,7 @@ class UserManager:
 
     def get(self, user_id: str) -> User:
         """Get a User by its id"""
-        logger.info("Getting User: {}.format(user_id)")
+        logging.info("Getting User: {}.format(user_id)")
         try:
             return self.collection.find_one({"id": user_id})
         except Exception as e:
@@ -62,7 +58,7 @@ class UserManager:
 
     def update(self, user: User) -> User:
         """Update a User"""
-        logger.info("Updating User: {}".format(user))
+        logging.info("Updating User: {}".format(user))
         try:
             # Raise error if id is not present on the model
             if not user.id:
@@ -80,7 +76,7 @@ class UserManager:
 
     def delete(self, user_id: str) -> User:
         """Delete a User"""
-        logger.info("Deleting User: {}".format(user_id))
+        logging.info("Deleting User: {}".format(user_id))
         try:
             # Find in database
             obj = self.get(user_id)

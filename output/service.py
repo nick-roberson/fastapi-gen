@@ -1,5 +1,4 @@
 import logging
-
 # Typing Imports
 from typing import List
 
@@ -8,19 +7,17 @@ import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from group_manager import get_group_manager
-
 # Output Imports
 from models.models import Group, User
-
 # Manager Imports
 from user_manager import get_user_manager
 
 # Create instances of managers for each model
+
 user_manager = get_user_manager()
+
 group_manager = get_group_manager()
 
-# Initialize logger
-logger = logging.getLogger(__name__)
 
 # Create FastAPI App and Allow CORS
 app = FastAPI()

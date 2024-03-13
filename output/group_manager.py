@@ -5,7 +5,6 @@ from typing import List
 
 # Import Models
 from models.models import Group
-
 # Import MongoDB Utils
 from mongo import get_client, get_collection
 
@@ -22,9 +21,6 @@ def get_group_manager():
     return __GROUP_MANAGER
 
 
-logger = logging.getLogger(__name__)
-
-
 class GroupManager:
 
     collection_name: str = "group"
@@ -35,7 +31,7 @@ class GroupManager:
 
     def create(self, group: Group) -> Group:
         """Create a new Group"""
-        logger.info("Creating Group: {}".format(group))
+        logging.info("Creating Group: {}".format(group))
         try:
             if not group.id:
                 group.id = str(uuid.uuid4())
@@ -46,7 +42,7 @@ class GroupManager:
 
     def get_all(self) -> List[Group]:
         """Get all Group"""
-        logger.info(f"Getting all Group")
+        logging.info(f"Getting all Group")
         try:
             return list(self.collection.find())
         except Exception as e:
@@ -54,7 +50,7 @@ class GroupManager:
 
     def get(self, group_id: str) -> Group:
         """Get a Group by its id"""
-        logger.info("Getting Group: {}.format(group_id)")
+        logging.info("Getting Group: {}.format(group_id)")
         try:
             return self.collection.find_one({"id": group_id})
         except Exception as e:
@@ -62,7 +58,7 @@ class GroupManager:
 
     def update(self, group: Group) -> Group:
         """Update a Group"""
-        logger.info("Updating Group: {}".format(group))
+        logging.info("Updating Group: {}".format(group))
         try:
             # Raise error if id is not present on the model
             if not group.id:
@@ -80,7 +76,7 @@ class GroupManager:
 
     def delete(self, group_id: str) -> Group:
         """Delete a Group"""
-        logger.info("Deleting Group: {}".format(group_id))
+        logging.info("Deleting Group: {}".format(group_id))
         try:
             # Find in database
             obj = self.get(group_id)

@@ -20,9 +20,6 @@ from typing import List
 {{ model.manager_var_name }} = get_{{ model.manager_var_name }}()
 {% endfor %}
 
-# Initialize Logger
-logger = logging.getLogger(__name__)
-
 # Create FastAPI App and Allow CORS
 app = FastAPI()
 app.add_middleware(
