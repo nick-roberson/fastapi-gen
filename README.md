@@ -103,13 +103,13 @@ REQUEST:
 BODY: 
     {
       "username": "nicholas",
-      "email": "nicholas.roberson.95@gmail.com"
+      "email": "my.email@gmail.com"
     }
 RESPONSE:
     {
       "id": "0f91623b-7f17-41bf-b54d-c068dd8a7191",
       "username": "nicholas",
-      "email": "nicholas.roberson.95@gmail.com"
+      "email": "my.email@gmail.com"
     }
 ```
 
@@ -140,7 +140,7 @@ RESPONSE:
         {
             "id": "0f91623b-7f17-41bf-b54d-c068dd8a7191",
             "username": "nicholas",
-            "email": "nicholas.roberson.95@gmail.com"
+            "email": "my.email@gmail.com"
         },
         {
             "id": "ea5ec257-8414-4572-a017-a01b0a36e3a7",
