@@ -1,0 +1,65 @@
+# Standard Imports
+import uuid
+
+# Import Models
+from models.models import {{ model.name }}
+
+# Import MongoDB Utils
+from mongo.utils import get_collection, get_client
+
+# For each model, generate a list of managers that will handle CRUD operations
+
+# Singleton Manager for {{ model.name }}
+__{{ model.name.upper()}}_MANAGER = None
+def get_{{ model.name.lower() }}_manager():
+    global __{{ model.name.upper()}}_MANAGER
+    if not __{{ model.name.upper()}}_MANAGER:
+        __{{ model.name.upper()}}_MANAGER = {{ model.name }}Manager()
+    return __{{ model.name.upper()}}_MANAGER
+
+class {{ model.name }}Manager:
+
+    collection_name: str = '{{ model.name.lower() }}'
+
+    def __init__(self):
+        self.client = get_client()
+        self.collection = get_collection(self.client, self.collection_name)
+
+    def create(self, {{ model.name.lower() }}: {{ model.name }}) -> {{ model.name }}:
+        """ Create a new {{ model.name }} """
+        try:
+            if not {{ model.name.lower() }}.id:
+                {{ model.name.lower() }}.id = str(uuid.uuid4())
+            self.collection.insert_one({{ model.name.lower() }}.dict())
+            return {{ model.name.lower() }}
+        except Exception as e:
+            print(e)
+
+    def get_all(self) -> list:
+        """ Get all {{ model.name }} """
+        try:
+            return list(self.collection.find())
+        except Exception as e:
+            print(e)
+
+    def get(self, {{ model.name.lower() }}_id: str) -> {{ model.name }}:
+        """ Get a {{ model.name }} by its id """
+        try:
+            return self.collection.find_one({'id': {{ model.name.lower() }}_id})
+        except Exception as e:
+            print(e)
+
+    def update(self, {{ model.name.lower() }}: {{ model.name }}) -> None:
+        """ Update a {{ model.name }} """
+        try:
+            self.collection.update_one({'id': {{ model.name.lower() }}.id}, {'$set': {{ model.name.lower() }}.dict()})
+        except Exception as e:
+            print(e)
+
+    def delete(self, {{ model.name.lower() }}_id: str) -> None:
+        """ Delete a {{ model.name }} """
+        try:
+            self.collection.delete_one({'id': {{ model.name.lower() }}_id})
+        except Exception as e:
+            print(e)
+

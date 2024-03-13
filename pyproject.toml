@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "service-builder"
+version = "0.1.0"
+description = ""
+authors = ["nick-roberson <nicholas.roberson.95@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pyyaml = "^6.0.1"
+jinja2 = "^3.1.3"
+pydantic = "^2.6.4"
+fastapi = "^0.110.0"
+uvicorn = "^0.28.0"
+pymongo = "^4.6.2"
+certifi = "^2024.2.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

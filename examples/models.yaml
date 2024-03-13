@@ -1,0 +1,48 @@
+models:
+  - name: Task
+    fields:
+      - name: id
+        type: str
+        required: false
+        default: None
+        description: The unique identifier of the task
+      - name: name
+        type: str
+        description: The name of the task
+        required: true
+      - name: inputs
+        type: list
+        of_type: Input
+      - name: outputs
+        type: list
+        of_type: Output
+  - name: Input
+    fields:
+      - name: id
+        type: str
+        required: false
+        default: None
+        description: The unique identifier of the input
+      - name: name
+        type: str
+      - name: type
+        type: str
+  - name: Output
+    fields:
+      - name: id
+        type: str
+        required: false
+        default: None
+        description: The unique identifier of the output
+      - name: name
+        type: str
+      - name: type
+        type: str
+dependencies:
+  - base: pydantic
+    imports:
+      - BaseModel
+      - Field
+      - List
+      - Optional
+      - Union

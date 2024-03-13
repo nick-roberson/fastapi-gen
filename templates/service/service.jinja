@@ -1,0 +1,95 @@
+import logging
+
+# FastAPI Imports
+import uvicorn
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
+# Output Imports
+from models.models import {{ model_names }}
+
+# Typing Imports
+from typing import List
+
+# Manager Imports
+{% for model in models %}from {{ model.name.lower() }}_manager import {{ model.manager_name }}
+{% endfor %}
+
+# Create instances of managers for each model
+{% for model in models %}
+{{ model.manager_var_name }} = {{ model.manager_name }}()
+{% endfor %}
+
+logger = logging.getLogger(__name__)
+
+# Create FastAPI App and Allow CORS
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+##############################################
+# Get Endpoints for {{ model_names }}
+##############################################
+
+{% for model in models %}
+@app.get("/{{ model.name.lower() }}")
+def get_{{ model.name.lower() }}({{ model.model_id_var_name }}: str):
+    logging.info(f"Getting {{ model.name }} with id: {id}")
+    return {{ model.manager_var_name }}.get({{ model.model_id_var_name }}={{ model.model_id_var_name }})
+
+
+@app.get("/{{ model.name.lower() }}s")
+def get_{{ model.name.lower() }}s() -> List[{{ model.name }}]:
+    logging.info(f"Getting all {{ model.name }}s")
+    return {{ model.manager_var_name }}.get_all()
+
+
+{% endfor %}
+
+##############################################
+# Create Endpoints for {{ model_names }}
+##############################################
+
+{% for model in models %}
+@app.post("/{{ model.name.lower() }}")
+def create_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}):
+    logging.info(f"Creating {{ model.name }}: {str({{model.name.lower()}})}")
+    return {{ model.manager_var_name }}.create({{model.name.lower()}})
+
+{% endfor %}
+
+##############################################
+# Update Endpoints for {{ model_names }}
+##############################################
+
+{% for model in models %}
+@app.put("/{{ model.name.lower() }}")
+def update_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}):
+    logging.info(f"Updating {{ model.name }}: {str({{model.name.lower()}})}")
+    return {{ model.manager_var_name }}.update({{model.name.lower()}})
+
+{% endfor %}
+
+##############################################
+# Delete Endpoints for {{ model_names }}
+##############################################
+
+{% for model in models %}
+@app.delete("/{{ model.name.lower() }}/id")
+def delete_{{ model.name.lower()}}({{ model.model_id_var_name }}: str):
+    return {{ model.manager_var_name }}.delete({{ model.model_id_var_name }}={{ model.model_id_var_name }})
+
+{% endfor %}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="localhost", port=5000)
