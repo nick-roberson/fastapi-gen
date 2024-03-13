@@ -124,7 +124,7 @@ BODY
     }
 RESPONSE:
     {
-      "id": "60f3e3e3e3e3e3e3e3e3e3e3",
+      "id": "ea5ec257-8414-4572-a017-a01b0a36e3a7",
       "username": "test",
       "email": "test@gmail.com"
     }
