@@ -5,29 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66c6fd5e-f913-4693-bed1-8dc6547e2687" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/output/group_manager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/user_manager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/mongo/mongo.jinja" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/models.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/examples/models.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/generate/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate/generate.py" beforeDir="false" afterPath="$PROJECT_DIR$/generate/generate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generate/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/generate/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/input_manager.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/models/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/group_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/output/group_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/models/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/output/models/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/mongo/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/mongo/utils.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/output_manager.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/mongo.py" beforeDir="false" afterPath="$PROJECT_DIR$/output/mongo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/output/service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/task_manager.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/poetry.lock" beforeDir="false" afterPath="$PROJECT_DIR$/poetry.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/manager/manager.jinja" beforeDir="false" afterPath="$PROJECT_DIR$/templates/manager/manager.jinja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/service/service.jinja" beforeDir="false" afterPath="$PROJECT_DIR$/templates/service/service.jinja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/user_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/output/user_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

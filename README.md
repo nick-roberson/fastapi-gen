@@ -89,3 +89,63 @@ To run the new service
 ```
 
 To view the generated OpenAPI documentation, navigate to [http://localhost:8000/docs](http://localhost:8000/docs).
+
+## API Examples
+
+### Create a User
+
+These can be run pretty easily in Postman:
+
+Add 1 User:
+```bash
+REQUEST: 
+    POST http://localhost:8000/user
+BODY: 
+    {
+      "username": "nicholas",
+      "email": "nicholas.roberson.95@gmail.com"
+    }
+RESPONSE:
+    {
+      "id": "0f91623b-7f17-41bf-b54d-c068dd8a7191",
+      "username": "nicholas",
+      "email": "nicholas.roberson.95@gmail.com"
+    }
+```
+
+Add 2nd User:
+```bash
+REQUEST: 
+    POST http://localhost:8000/user
+BODY
+    {
+      "username": "test",
+      "email": "test@gmail.com"
+    }
+RESPONSE:
+    {
+      "id": "60f3e3e3e3e3e3e3e3e3e3e3",
+      "username": "test",
+      "email": "test@gmail.com"
+    }
+    
+```
+
+Get All Users:
+```bash
+REQUEST: 
+    GET http://localhost:8000/users
+RESPONSE:
+    [
+        {
+            "id": "0f91623b-7f17-41bf-b54d-c068dd8a7191",
+            "username": "nicholas",
+            "email": "nicholas.roberson.95@gmail.com"
+        },
+        {
+            "id": "ea5ec257-8414-4572-a017-a01b0a36e3a7",
+            "username": "test",
+            "email": "test@gmail.com"
+        }
+    ]
+```

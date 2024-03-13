@@ -112,8 +112,18 @@ def parse_model_definition(config) -> ModelDefinitionList:
     # Parse the models
     for model in config["models"]:
         fields = []
+
+        # Parse the fields
         for field in model["fields"]:
             fields.append(FieldDefinition(**field))
+
+        # If no `id` field is present, add it
+        if not any(field.name == "id" for field in fields):
+            print("During parsing found no id field, adding one automatically")
+            fields.append(
+                FieldDefinition(name="id", type="str", required=False, default=None)
+            )
+
         models.append(ModelDefinition(name=model["name"], fields=fields))
 
     # Parse the dependencies (optional, yet to be implemented)
