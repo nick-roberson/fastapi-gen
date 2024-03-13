@@ -1,14 +1,9 @@
-# Standard Imports
 import logging
 import uuid
 from typing import List
 
-# Import Models
 from models.models import Group
-# Import MongoDB Utils
 from mongo import get_client, get_collection
-
-# For each model, generate a list of managers that will handle CRUD operations
 
 # Singleton Manager for Group
 __GROUP_MANAGER = None

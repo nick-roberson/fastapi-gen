@@ -1,17 +1,10 @@
 import logging
-
-# FastAPI Imports
 import uvicorn
+from typing import List
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-
-# Output Imports
 from models.models import {{ model_names }}
 
-# Typing Imports
-from typing import List
-
-# Manager Imports
 {% for model in models %}from {{ model.name.lower() }}_manager import get_{{ model.manager_var_name }}
 {% endfor %}
 
