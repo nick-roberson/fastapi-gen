@@ -86,7 +86,8 @@ def validate_config(config) -> None:
                         f"{model_names}"
                     )
 
-    # For each DependencyDefinition confirm fields are valid
+    # For each DependencyDefinition confirm fields are valid (optional so we can sub with empty list)
+    config["dependencies"] = config.get("dependencies", [])
     for dependency in config["dependencies"]:
         if any(
             field_name not in DependencyDefinition.model_fields.keys()
@@ -107,11 +108,16 @@ def parse_model_definition(config) -> ModelDefinitionList:
     """
     models = []
     dependencies = []
+
+    # Parse the models
     for model in config["models"]:
         fields = []
         for field in model["fields"]:
             fields.append(FieldDefinition(**field))
         models.append(ModelDefinition(name=model["name"], fields=fields))
+
+    # Parse the dependencies (optional, yet to be implemented)
     for dependency in config["dependencies"]:
         dependencies.append(DependencyDefinition(**dependency))
+
     return ModelDefinitionList(models=models, dependencies=dependencies)

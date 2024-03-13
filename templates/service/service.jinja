@@ -12,12 +12,12 @@ from models.models import {{ model_names }}
 from typing import List
 
 # Manager Imports
-{% for model in models %}from {{ model.name.lower() }}_manager import {{ model.manager_name }}
+{% for model in models %}from {{ model.name.lower() }}_manager import get_{{ model.manager_var_name }}
 {% endfor %}
 
 # Create instances of managers for each model
 {% for model in models %}
-{{ model.manager_var_name }} = {{ model.manager_name }}()
+{{ model.manager_var_name }} = get_{{ model.manager_var_name }}()
 {% endfor %}
 
 logger = logging.getLogger(__name__)

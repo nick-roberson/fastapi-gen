@@ -5,7 +5,7 @@ import uuid
 from models.models import {{ model.name }}
 
 # Import MongoDB Utils
-from mongo.utils import get_collection, get_client
+from mongo import get_collection, get_client
 
 # For each model, generate a list of managers that will handle CRUD operations
 
