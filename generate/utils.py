@@ -4,8 +4,12 @@ from typing import Dict
 import yaml
 from pydantic.fields import FieldInfo
 
-from generate.models import (DependencyDefinition, FieldDefinition,
-                             ModelDefinition, ModelDefinitionList)
+from generate.models import (
+    DependencyDefinition,
+    FieldDefinition,
+    ModelDefinition,
+    ModelDefinitionList,
+)
 
 # Pull output the fields from the models
 FIELD_DEFINITION_FIELDS: dict[str, FieldInfo] = FieldDefinition.model_fields

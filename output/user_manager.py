@@ -5,6 +5,7 @@ from typing import List
 
 # Import Models
 from models.models import User
+
 # Import MongoDB Utils
 from mongo import get_client, get_collection
 

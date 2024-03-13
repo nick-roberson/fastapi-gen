@@ -4,22 +4,26 @@ This is a simple FastAPI service that can be used as a starting point for a new 
 
 ## Features
 
-CRUD Endpoints for multiple models 
-backed by a MongoDB DB.
+- [x] Generate FastAPI service from a YAML file
+- [x] Generate MongoDB models from a YAML file
+- [x] Generate MongoDB manager from a YAML file
+- [x] Generate CRUD operations for each model in the YAML
+
+## Requirements
+
+- Poetry is installed
+- MongoDB Atlas free tier account setup and the `MONGO_URI` environment variable set
 
 ## Setup
 
 This project runs using poetry and should have all the basic imports declared in the `pyproject.toml` file.
-
 ```bash
 % poetry install
 ```
-
 To update 
 ```bash
 % poetry update
 ```
-
 To add new dependencies
 ```bash
 % poetry add <package>
