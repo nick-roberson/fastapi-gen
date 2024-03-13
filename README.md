@@ -84,7 +84,7 @@ Run the following commands to run the service:
 
 To run the new service 
 ```bash
-% cd output
+% cd /Users/nicholas/Code/service-builder/output
 % poetry run uvicorn service:app --reload --port 8000
 ```
 
