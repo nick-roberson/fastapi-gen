@@ -175,7 +175,7 @@ RESPONSE:
 Update the group with users from the previous examples:
 ```bash
 REQUEST: 
-    PUT http://localhost:8000/group?group_id=45e4ad8a-9186-4c57-8daa-bf2f0876759c
+    PUT http://localhost:8000/group
 BODY:
     {
       "id": "45e4ad8a-9186-4c57-8daa-bf2f0876759c",
