@@ -20,6 +20,7 @@ from typing import List
 {{ model.manager_var_name }} = get_{{ model.manager_var_name }}()
 {% endfor %}
 
+# Initialize Logger
 logger = logging.getLogger(__name__)
 
 # Create FastAPI App and Allow CORS
@@ -90,6 +91,15 @@ def delete_{{ model.name.lower()}}({{ model.model_id_var_name }}: str):
 
 {% endfor %}
 
+def init_logging():
+    """ Initialize Logging """
+    logging.basicConfig(level=logging.INFO)
+    logging.getLogger("uvicorn").setLevel(logging.INFO)
+    logging.getLogger("uvicorn.error").setLevel(logging.INFO)
+    logging.getLogger("uvicorn.access").setLevel(logging.INFO)
+
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="localhost", port=5000)
+    # Initialize Logging
+    init_logging()
+    # Start the server
+    uvicorn.run(app, host="localhost", port=8000)

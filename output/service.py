@@ -1,28 +1,25 @@
 import logging
 
+# Typing Imports
+from typing import List
+
 # FastAPI Imports
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from group_manager import get_group_manager
 
 # Output Imports
-from models.models import User, Group
-
-# Typing Imports
-from typing import List
+from models.models import Group, User
 
 # Manager Imports
 from user_manager import get_user_manager
-from group_manager import get_group_manager
-
 
 # Create instances of managers for each model
-
 user_manager = get_user_manager()
-
 group_manager = get_group_manager()
 
-
+# Initialize logger
 logger = logging.getLogger(__name__)
 
 # Create FastAPI App and Allow CORS
@@ -119,7 +116,16 @@ def delete_group(group_id: str):
     return group_manager.delete(group_id=group_id)
 
 
-if __name__ == "__main__":
-    import uvicorn
+def init_logging():
+    """Initialize Logging"""
+    logging.basicConfig(level=logging.INFO)
+    logging.getLogger("uvicorn").setLevel(logging.INFO)
+    logging.getLogger("uvicorn.error").setLevel(logging.INFO)
+    logging.getLogger("uvicorn.access").setLevel(logging.INFO)
 
-    uvicorn.run(app, host="localhost", port=5000)
+
+if __name__ == "__main__":
+    # Initialize Logging
+    init_logging()
+    # Start the server
+    uvicorn.run(app, host="localhost", port=8000)

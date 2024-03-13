@@ -15,6 +15,7 @@ uvicorn = "^0.28.0"
 pymongo = "^4.6.2"
 certifi = "^2024.2.2"
 rich = "^13.7.1"
+isort = "^5.13.2"
 
 
 [build-system]

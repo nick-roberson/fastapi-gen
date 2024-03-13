@@ -1,7 +1,8 @@
 # Model Type Imports
+from typing import Dict, List
+
 from pydantic import BaseModel
 from pydantic.fields import FieldInfo
-from typing import List, Dict
 
 # Models
 

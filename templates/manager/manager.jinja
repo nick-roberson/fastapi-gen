@@ -1,5 +1,7 @@
 # Standard Imports
 import uuid
+import logging
+from typing import List
 
 # Import Models
 from models.models import {{ model.name }}
@@ -17,6 +19,8 @@ def get_{{ model.name.lower() }}_manager():
         __{{ model.name.upper()}}_MANAGER = {{ model.name }}Manager()
     return __{{ model.name.upper()}}_MANAGER
 
+logger = logging.getLogger(__name__)
+
 class {{ model.name }}Manager:
 
     collection_name: str = '{{ model.name.lower() }}'
@@ -27,16 +31,18 @@ class {{ model.name }}Manager:
 
     def create(self, {{ model.name.lower() }}: {{ model.name }}) -> {{ model.name }}:
         """ Create a new {{ model.name }} """
+        logger.info("Creating {{ model.name }}: {}".format({{ model.name.lower() }}))
         try:
             if not {{ model.name.lower() }}.id:
                 {{ model.name.lower() }}.id = str(uuid.uuid4())
-            self.collection.insert_one({{ model.name.lower() }}.model_dump("json"))
+            self.collection.insert_one({{ model.name.lower() }}.model_dump(mode="json"))
             return {{ model.name.lower() }}
         except Exception as e:
             print(e)
 
-    def get_all(self) -> list:
+    def get_all(self) -> List[{{ model.name }}]:
         """ Get all {{ model.name }} """
+        logger.info(f"Getting all {{ model.name }}")
         try:
             return list(self.collection.find())
         except Exception as e:
@@ -44,6 +50,7 @@ class {{ model.name }}Manager:
 
     def get(self, {{ model.name.lower() }}_id: str) -> {{ model.name }}:
         """ Get a {{ model.name }} by its id """
+        logger.info("Getting {{ model.name }}: {}.format({{ model.name.lower() }}_id)")
         try:
             return self.collection.find_one({'id': {{ model.name.lower() }}_id})
         except Exception as e:
@@ -51,24 +58,37 @@ class {{ model.name }}Manager:
 
     def update(self, {{ model.name.lower() }}: {{ model.name }}) -> {{ model.name }}:
         """ Update a {{ model.name }} """
+        logger.info("Updating {{ model.name }}: {}".format({{ model.name.lower() }}))
         try:
             # Raise error if id is not present on the model
             if not {{ model.name.lower() }}.id:
                 raise Exception("{{ model.name }} id is required")
+
             # Update
             self.collection.update_one(
                 {'id': {{ model.name.lower() }}.id},
                 {'$set': {{ model.name.lower() }}.model_dump(mode="json")}
             )
+
             # Return new copy
             return self.get({{ model.name.lower() }}.id)
         except Exception as e:
             print(e)
 
-    def delete(self, {{ model.name.lower() }}_id: str) -> None:
+    def delete(self, {{ model.name.lower() }}_id: str) -> {{ model.name }}:
         """ Delete a {{ model.name }} """
+        logger.info("Deleting {{ model.name }}: {}".format({{ model.name.lower() }}_id))
         try:
+            # Find in database
+            obj = self.get({{ model.name.lower() }}_id)
+            if not obj:
+                raise Exception("{{ model.name }} not found")
+
+            # Delete if found
             self.collection.delete_one({'id': {{ model.name.lower() }}_id})
+
+            # Return the deleted object
+            return obj
         except Exception as e:
             print(e)
 

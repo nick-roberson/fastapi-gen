@@ -1,11 +1,13 @@
 # Standard Imports
+import logging
 import uuid
+from typing import List
 
 # Import Models
 from models.models import Group
 
 # Import MongoDB Utils
-from mongo import get_collection, get_client
+from mongo import get_client, get_collection
 
 # For each model, generate a list of managers that will handle CRUD operations
 
@@ -20,6 +22,9 @@ def get_group_manager():
     return __GROUP_MANAGER
 
 
+logger = logging.getLogger(__name__)
+
+
 class GroupManager:
 
     collection_name: str = "group"
@@ -30,16 +35,18 @@ class GroupManager:
 
     def create(self, group: Group) -> Group:
         """Create a new Group"""
+        logger.info("Creating Group: {}".format(group))
         try:
             if not group.id:
                 group.id = str(uuid.uuid4())
-            self.collection.insert_one(group.model_dump("json"))
+            self.collection.insert_one(group.model_dump(mode="json"))
             return group
         except Exception as e:
             print(e)
 
-    def get_all(self) -> list:
+    def get_all(self) -> List[Group]:
         """Get all Group"""
+        logger.info(f"Getting all Group")
         try:
             return list(self.collection.find())
         except Exception as e:
@@ -47,6 +54,7 @@ class GroupManager:
 
     def get(self, group_id: str) -> Group:
         """Get a Group by its id"""
+        logger.info("Getting Group: {}.format(group_id)")
         try:
             return self.collection.find_one({"id": group_id})
         except Exception as e:
@@ -54,22 +62,35 @@ class GroupManager:
 
     def update(self, group: Group) -> Group:
         """Update a Group"""
+        logger.info("Updating Group: {}".format(group))
         try:
             # Raise error if id is not present on the model
             if not group.id:
                 raise Exception("Group id is required")
+
             # Update
             self.collection.update_one(
                 {"id": group.id}, {"$set": group.model_dump(mode="json")}
             )
+
             # Return new copy
             return self.get(group.id)
         except Exception as e:
             print(e)
 
-    def delete(self, group_id: str) -> None:
+    def delete(self, group_id: str) -> Group:
         """Delete a Group"""
+        logger.info("Deleting Group: {}".format(group_id))
         try:
+            # Find in database
+            obj = self.get(group_id)
+            if not obj:
+                raise Exception("Group not found")
+
+            # Delete if found
             self.collection.delete_one({"id": group_id})
+
+            # Return the deleted object
+            return obj
         except Exception as e:
             print(e)

@@ -82,6 +82,12 @@ Run the following commands to run the service:
   % poetry run uvicorn service:app --reload --port 8000
 ```
 
+To lint the code just to make it more readable you can use `black` and `isort`:
+```bash
+% poetry run black .
+% poetry run isort .
+```
+
 To run the new service 
 ```bash
 % cd /Users/nicholas/Code/service-builder/output

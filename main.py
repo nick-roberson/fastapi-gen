@@ -1,8 +1,10 @@
-from generate.models import ModelDefinitionList
-from generate.generate import generate
 import argparse
 import os
+
 from rich import print
+
+from generate.generate import generate
+from generate.models import ModelDefinitionList
 
 DEFAULT_INPUT: str = "examples/models.yaml"
 DEFAULT_OUTPUT: str = f"{os.getcwd()}/output"

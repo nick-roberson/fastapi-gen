@@ -1,18 +1,17 @@
 import os
-from typing import List, Dict
+from typing import Dict, List
+
 from jinja2 import Environment, FileSystemLoader
 
-from generate.utils import load_config, validate_config, parse_model_definition
 from generate.constants import (
-    SAMPLE_INPUT,
-    MODEL_TEMPLATES,
-    SERVICE_TEMPLATES,
     MANAGER_TEMPLATES,
+    MODEL_TEMPLATES,
     MONGO_TEMPLATES,
+    SAMPLE_INPUT,
+    SERVICE_TEMPLATES,
 )
-from generate.models import (
-    ModelDefinition,
-)
+from generate.models import ModelDefinition
+from generate.utils import load_config, parse_model_definition, validate_config
 
 
 def generate_models(output_dir: str, models: List[ModelDefinition]) -> str:
