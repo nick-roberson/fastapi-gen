@@ -4,6 +4,7 @@ from typing import List
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+
 from group_manager import get_group_manager
 from models.models import Group, User
 from user_manager import get_user_manager
@@ -37,7 +38,8 @@ async def root():
 
 
 @app.get("/user")
-def get_user(user_id: str):
+def get_user(user_id: str) -> User:
+    """Get a User"""
     logging.info(f"Getting User with id: {id}")
     return user_manager.get(user_id=user_id)
 
@@ -49,7 +51,8 @@ def get_users() -> List[User]:
 
 
 @app.get("/group")
-def get_group(group_id: str):
+def get_group(group_id: str) -> Group:
+    """Get a Group"""
     logging.info(f"Getting Group with id: {id}")
     return group_manager.get(group_id=group_id)
 
