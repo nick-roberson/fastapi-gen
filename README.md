@@ -35,8 +35,8 @@ Define a YAML file anywhere that you would like to, it only has to match the for
 
 This will create a service that manages two simple objects `User` and `Group` with the following fields:
 ```yaml
-# config.yaml
 models:
+  # User model
   - name: User
     fields:
       - name: id
@@ -46,12 +46,13 @@ models:
         description: The unique identifier of the user
       - name: username
         type: str
-        description: The username of the user
         required: true
+        description: The username of the user
       - name: email
         type: str
-        description: The email of the user
         required: true
+        description: The email of the user
+  # Group model
   - name: Group
     fields:
       - name: id
@@ -61,10 +62,12 @@ models:
         description: The unique identifier of the group
       - name: name
         type: str
-        description: The name of the group
         required: true
+        description: The name of the group
       - name: users
         type: list
+        required: true
+        description: The users in the group
 ```
 
 Automatically generate the service using the following command:
