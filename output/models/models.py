@@ -1,14 +1,12 @@
 # Model Type Imports
-from typing import Dict, List
-
 from pydantic import BaseModel
 from pydantic.fields import FieldInfo
+from typing import List, Dict
 
 # Models
 
 
 class User(BaseModel):
-
     id: str = FieldInfo(
         default=None, description="The unique identifier of the user", required=False
     )
@@ -25,7 +23,6 @@ class User(BaseModel):
 
 
 class Group(BaseModel):
-
     id: str = FieldInfo(
         default=None, description="The unique identifier of the group", required=False
     )

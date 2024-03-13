@@ -60,8 +60,16 @@ def get_{{ model.name.lower() }}s() -> List[{{ model.name }}]:
 {% for model in models %}
 @app.post("/{{ model.name.lower() }}")
 def create_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -> {{ model.name }}:
+    """ Create a {{ model.name }} """
     logging.info(f"Creating {{ model.name }}: {str({{model.name.lower()}})}")
     return {{ model.manager_var_name }}.create({{model.name.lower()}})
+
+
+@app.post("/{{ model.name.lower() }}s")
+def create_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.name }}]) -> List[{{ model.name }}]:
+    """ Create multiple {{ model.name }}s """
+    logging.info(f"Creating {{ model.name }}s: {str({{model.name.lower()}}s)}")
+    return {{ model.manager_var_name }}.create_many({{model.name.lower()}}s)
 
 {% endfor %}
 
@@ -72,8 +80,16 @@ def create_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) ->
 {% for model in models %}
 @app.put("/{{ model.name.lower() }}")
 def update_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -> {{ model.name }}:
+    """ Update a {{ model.name }} """
     logging.info(f"Updating {{ model.name }}: {str({{model.name.lower()}})}")
     return {{ model.manager_var_name }}.update({{model.name.lower()}})
+
+
+@app.put("/{{ model.name.lower() }}s")
+def update_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.name }}]) -> List[{{ model.name }}]:
+    """ Update multiple {{ model.name }}s """
+    logging.info(f"Updating {{ model.name }}s: {str({{model.name.lower()}}s)}")
+    return {{ model.manager_var_name }}.udpate_many({{model.name.lower()}}s)
 
 {% endfor %}
 
@@ -84,7 +100,16 @@ def update_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) ->
 {% for model in models %}
 @app.delete("/{{ model.name.lower() }}/id")
 def delete_{{ model.name.lower()}}({{ model.model_id_var_name }}: str):
+    """ Delete a {{ model.name }} """
+    logging.info(f"Deleting {{ model.name }} with id: {id}")
     return {{ model.manager_var_name }}.delete({{ model.model_id_var_name }}={{ model.model_id_var_name }})
+
+
+@app.delete("/{{ model.name.lower() }}s")
+def delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s: List[str]):
+    """ Delete multiple {{ model.name }}s """
+    logging.info(f"Deleting {{ model.name }}s: {str({{ model.model_id_var_name }}s)}")
+    return {{ model.manager_var_name }}.delete_many({{ model.model_id_var_name }}s={{ model.model_id_var_name }}s)
 
 {% endfor %}
 

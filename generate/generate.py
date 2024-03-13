@@ -70,7 +70,6 @@ def generate_managers(output_dir: str, models: List[ModelDefinition]) -> List[st
 
     # Get list of model names for imports
     for model in models:
-
         # Generate the service
         output = service_template.render(model=model, manager_name=model.manager_name)
 

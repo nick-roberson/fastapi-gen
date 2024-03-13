@@ -1,19 +1,20 @@
 import logging
 
-# Typing Imports
-from typing import List
-
 # FastAPI Imports
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from group_manager import get_group_manager
 
 # Output Imports
-from models.models import Group, User
+from models.models import User, Group
+
+# Typing Imports
+from typing import List
 
 # Manager Imports
 from user_manager import get_user_manager
+from group_manager import get_group_manager
+
 
 # Create instances of managers for each model
 
@@ -74,14 +75,30 @@ def get_groups() -> List[Group]:
 
 @app.post("/user")
 def create_user(user: User) -> User:
+    """Create a User"""
     logging.info(f"Creating User: {str(user)}")
     return user_manager.create(user)
 
 
+@app.post("/users")
+def create_users(users: List[User]) -> List[User]:
+    """Create multiple Users"""
+    logging.info(f"Creating Users: {str(users)}")
+    return user_manager.create_many(users)
+
+
 @app.post("/group")
 def create_group(group: Group) -> Group:
+    """Create a Group"""
     logging.info(f"Creating Group: {str(group)}")
     return group_manager.create(group)
+
+
+@app.post("/groups")
+def create_groups(groups: List[Group]) -> List[Group]:
+    """Create multiple Groups"""
+    logging.info(f"Creating Groups: {str(groups)}")
+    return group_manager.create_many(groups)
 
 
 ##############################################
@@ -91,14 +108,30 @@ def create_group(group: Group) -> Group:
 
 @app.put("/user")
 def update_user(user: User) -> User:
+    """Update a User"""
     logging.info(f"Updating User: {str(user)}")
     return user_manager.update(user)
 
 
+@app.put("/users")
+def update_users(users: List[User]) -> List[User]:
+    """Update multiple Users"""
+    logging.info(f"Updating Users: {str(users)}")
+    return user_manager.udpate_many(users)
+
+
 @app.put("/group")
 def update_group(group: Group) -> Group:
+    """Update a Group"""
     logging.info(f"Updating Group: {str(group)}")
     return group_manager.update(group)
+
+
+@app.put("/groups")
+def update_groups(groups: List[Group]) -> List[Group]:
+    """Update multiple Groups"""
+    logging.info(f"Updating Groups: {str(groups)}")
+    return group_manager.udpate_many(groups)
 
 
 ##############################################
@@ -108,12 +141,30 @@ def update_group(group: Group) -> Group:
 
 @app.delete("/user/id")
 def delete_user(user_id: str):
+    """Delete a User"""
+    logging.info(f"Deleting User with id: {id}")
     return user_manager.delete(user_id=user_id)
+
+
+@app.delete("/users")
+def delete_users(user_ids: List[str]):
+    """Delete multiple Users"""
+    logging.info(f"Deleting Users: {str(user_ids)}")
+    return user_manager.delete_many(user_ids=user_ids)
 
 
 @app.delete("/group/id")
 def delete_group(group_id: str):
+    """Delete a Group"""
+    logging.info(f"Deleting Group with id: {id}")
     return group_manager.delete(group_id=group_id)
+
+
+@app.delete("/groups")
+def delete_groups(group_ids: List[str]):
+    """Delete multiple Groups"""
+    logging.info(f"Deleting Groups: {str(group_ids)}")
+    return group_manager.delete_many(group_ids=group_ids)
 
 
 def init_logging():

@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66c6fd5e-f913-4693-bed1-8dc6547e2687" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/group_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/output/group_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/output/service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/user_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/output/user_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/manager/manager.jinja" beforeDir="false" afterPath="$PROJECT_DIR$/templates/manager/manager.jinja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/service/service.jinja" beforeDir="false" afterPath="$PROJECT_DIR$/templates/service/service.jinja" afterDir="false" />
-    </list>
+    <list default="true" id="66c6fd5e-f913-4693-bed1-8dc6547e2687" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,23 +23,23 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2ddUCCH3VDRYoIW59mRuJQ1HYAt" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.main.executor": "Debug",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.main.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/output/managers" />

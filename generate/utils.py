@@ -69,7 +69,6 @@ def validate_config(config) -> None:
         ):
             raise ValueError(f"Invalid field name in ModelDefinition `{model['name']}`")
         for field in model["fields"]:
-
             # Validate the field
             if any(
                 field_name not in FieldDefinition.model_fields.keys()

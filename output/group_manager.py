@@ -1,13 +1,13 @@
 # Standard Imports
-import logging
 import uuid
+import logging
 from typing import List
 
 # Import Models
 from models.models import Group
 
 # Import MongoDB Utils
-from mongo import get_client, get_collection
+from mongo import get_collection, get_client
 
 # For each model, generate a list of managers that will handle CRUD operations
 
@@ -23,31 +23,54 @@ def get_group_manager():
 
 
 class GroupManager:
-
     collection_name: str = "group"
 
     def __init__(self):
         self.client = get_client()
         self.collection = get_collection(self.client, self.collection_name)
 
+    ########################################################
+    # Create Operations                                    #
+    ########################################################
+
     def create(self, group: Group) -> Group:
         """Create a new Group"""
         logging.info("Creating Group: {}".format(group))
         try:
+            # Generate id for the model
             if not group.id:
                 group.id = str(uuid.uuid4())
+
+            # Insert into database
             self.collection.insert_one(group.model_dump(mode="json"))
+
+            # Return the created Group
             return group
         except Exception as e:
-            print(e)
+            raise e
 
-    def get_all(self) -> List[Group]:
-        """Get all Group"""
-        logging.info(f"Getting all Group")
+    def create_many(self, group_list: List[Group]) -> List[Group]:
+        """Create a list of Group"""
+        logging.info("Creating Group: {}".format(group_list))
         try:
-            return list(self.collection.find())
+            # Generate ids for the models
+            for model in group_list:
+                if not model.id:
+                    model.id = str(uuid.uuid4())
+
+            # Insert into database
+            self.collection.insert_many(
+                [group.model_dump(mode="json") for group in group_list]
+            )
+
+            # Return the Group list
+            return group_list
         except Exception as e:
-            print(e)
+            raise e
+
+    ########################################################
+    # Read Operations                                      #
+    ########################################################
 
     def get(self, group_id: str) -> Group:
         """Get a Group by its id"""
@@ -55,7 +78,27 @@ class GroupManager:
         try:
             return self.collection.find_one({"id": group_id})
         except Exception as e:
-            print(e)
+            raise e
+
+    def get_many(self, group_ids: List[str]) -> List[Group]:
+        """Get a list of Group by their ids"""
+        logging.info("Getting Group: {}".format(group_ids))
+        try:
+            return list(self.collection.find({"id": {"$in": group_ids}}))
+        except Exception as e:
+            raise e
+
+    def get_all(self) -> List[Group]:
+        """Get all Group"""
+        logging.info(f"Getting all Group")
+        try:
+            return list(self.collection.find())
+        except Exception as e:
+            raise e
+
+    ########################################################
+    # Update Operations                                    #
+    ########################################################
 
     def update(self, group: Group) -> Group:
         """Update a Group"""
@@ -73,7 +116,24 @@ class GroupManager:
             # Return new copy
             return self.get(group.id)
         except Exception as e:
-            print(e)
+            raise e
+
+    def update_many(self, group_list: List[Group]) -> List[Group]:
+        """Update a list of Group"""
+        logging.info("Updating Group: {}".format(group_list))
+        try:
+            # Update
+            for group in group_list:
+                self.update(group)
+
+            # Return new copies
+            return self.get_many([group.id for group in group_list])
+        except Exception as e:
+            raise e
+
+    ########################################################
+    # Delete Operations                                    #
+    ########################################################
 
     def delete(self, group_id: str) -> Group:
         """Delete a Group"""
@@ -90,4 +150,23 @@ class GroupManager:
             # Return the deleted object
             return obj
         except Exception as e:
-            print(e)
+            raise e
+
+    def delete_many(self, group_ids: List[str]) -> List[Group]:
+        """Delete a list of Group"""
+        logging.info("Deleting Group: {}".format(group_ids))
+        try:
+            # Find in database
+            objs = self.get_many(group_ids)
+            if not objs:
+                raise Exception("Groups not found")
+            if len(objs) != len(group_ids):
+                raise Exception("Some Groups not found")
+
+            # Delete if found
+            self.collection.delete_many({"id": {"$in": group_ids}})
+
+            # Return the deleted objects
+            return objs
+        except Exception as e:
+            raise e
