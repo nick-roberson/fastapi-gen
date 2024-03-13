@@ -104,7 +104,15 @@ To view the generated OpenAPI documentation, navigate to [http://localhost:8000/
 
 ## API Examples
 
-### Create a User
+### Import into Postman
+
+You can import the API into Postman by following the steps in the following link: [Importing a Collection Using OpenAPI](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/)
+
+The OpenAPI documentation can be found at [http://localhost:8000/docs](http://localhost:8000/docs).
+
+### Example Requests
+
+#### Create a User
 
 These can be run pretty easily in Postman:
 
@@ -162,7 +170,8 @@ RESPONSE:
     ]
 ```
 
-Add A Group:
+#### Add a Group
+
 ```bash
 REQUEST: 
     POST http://localhost:8000/group
