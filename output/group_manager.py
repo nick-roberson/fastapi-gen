@@ -1,13 +1,12 @@
 # Standard Imports
-import uuid
 import logging
+import uuid
 from typing import List
 
 # Import Models
 from models.models import Group
-
 # Import MongoDB Utils
-from mongo import get_collection, get_client
+from mongo import get_client, get_collection
 
 # For each model, generate a list of managers that will handle CRUD operations
 
@@ -23,6 +22,7 @@ def get_group_manager():
 
 
 class GroupManager:
+
     collection_name: str = "group"
 
     def __init__(self):

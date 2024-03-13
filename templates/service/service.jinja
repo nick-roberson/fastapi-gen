@@ -98,7 +98,7 @@ def update_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.name
 ##############################################
 
 {% for model in models %}
-@app.delete("/{{ model.name.lower() }}/id")
+@app.delete("/{{ model.name.lower() }}")
 def delete_{{ model.name.lower()}}({{ model.model_id_var_name }}: str):
     """ Delete a {{ model.name }} """
     logging.info(f"Deleting {{ model.name }} with id: {id}")

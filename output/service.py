@@ -1,20 +1,16 @@
 import logging
+# Typing Imports
+from typing import List
 
 # FastAPI Imports
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-
+from group_manager import get_group_manager
 # Output Imports
-from models.models import User, Group
-
-# Typing Imports
-from typing import List
-
+from models.models import Group, User
 # Manager Imports
 from user_manager import get_user_manager
-from group_manager import get_group_manager
-
 
 # Create instances of managers for each model
 
@@ -139,7 +135,7 @@ def update_groups(groups: List[Group]) -> List[Group]:
 ##############################################
 
 
-@app.delete("/user/id")
+@app.delete("/user")
 def delete_user(user_id: str):
     """Delete a User"""
     logging.info(f"Deleting User with id: {id}")
@@ -153,7 +149,7 @@ def delete_users(user_ids: List[str]):
     return user_manager.delete_many(user_ids=user_ids)
 
 
-@app.delete("/group/id")
+@app.delete("/group")
 def delete_group(group_id: str):
     """Delete a Group"""
     logging.info(f"Deleting Group with id: {id}")
