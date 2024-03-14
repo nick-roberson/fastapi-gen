@@ -10,6 +10,9 @@ class User(BaseModel):
     )
     username: str = FieldInfo(description="The username of the user", required=True)
     email: str = FieldInfo(description="The email of the user", required=True)
+    location: str = FieldInfo(description="The location of the user", required=False)
+    age: int = FieldInfo(description="The age of the user", required=False)
+    team: str = FieldInfo(description="The team name of the user", required=False)
 
     class Config:
         extra = "ignore"

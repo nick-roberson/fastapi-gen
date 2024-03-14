@@ -16,6 +16,21 @@ models:
         type: str
         required: true
         description: The email of the user
+      - name: location
+        type: str
+        required: false
+        default: null
+        description: The location of the user
+      - name: age
+        type: int
+        required: false
+        default: null
+        description: The age of the user
+      - name: team
+        type: str
+        required: false
+        default: null
+        description: The team name of the user
 
   # Group model
   - name: Group

@@ -1,4 +1,5 @@
 import os
+from collections import defaultdict
 from typing import Dict
 
 import yaml
@@ -14,6 +15,11 @@ DEPENDENCY_DEFINITION_FIELDS: dict[str, FieldInfo] = DependencyDefinition.model_
 MODEL_DEFINITION_LIST_FIELDS: dict[str, FieldInfo] = ModelDefinitionList.model_fields
 
 
+########################################
+# Load Config                          #
+########################################
+
+
 def load_config(input_file: str) -> Dict:
     """Simple load config from file path. Error if cannot be found."""
     # Check if the file exists
@@ -25,6 +31,11 @@ def load_config(input_file: str) -> Dict:
         config = yaml.load(f, Loader=yaml.FullLoader)
 
     return config
+
+
+########################################
+# Validate Config                      #
+########################################
 
 
 def validate_field(field: FieldDefinition) -> None:
@@ -95,6 +106,11 @@ def validate_config(config) -> None:
             )
 
 
+########################################
+# Parse Model Definition               #
+########################################
+
+
 def parse_model_definition(config) -> ModelDefinitionList:
     """Parse the model definition from the config.
     Args:
@@ -128,3 +144,47 @@ def parse_model_definition(config) -> ModelDefinitionList:
         dependencies.append(DependencyDefinition(**dependency))
 
     return ModelDefinitionList(models=models, dependencies=dependencies)
+
+
+########################################
+# Model Differences                    #
+########################################
+
+
+def diff_model_definitions(
+    model_definitions: ModelDefinitionList, other: ModelDefinitionList
+):
+    """Gets the differences in the model definitions. Returns a Dict
+    that contains sections for the "model", "fields", and "dependencies".
+
+    Args:
+        model_definitions: ModelDefinitionList
+        other: ModelDefinitionList
+    Returns:
+        Dict
+    """
+    diffs = defaultdict(list)
+
+    # Diff the models
+    for model in model_definitions.models:
+        other_model = next((m for m in other.models if m.name == model.name), None)
+        if other_model is None:
+            diffs["models"].append(f"Model {model.name} not found in other")
+        else:
+            diffs["models"].extend(ModelDefinition.diff(model, other_model))
+
+    # Diff the dependencies
+    for dependency in model_definitions.dependencies:
+        other_dependency = next(
+            (d for d in other.dependencies if d.base == dependency.base), None
+        )
+        if other_dependency is None:
+            diffs["dependencies"].append(
+                f"Dependency {dependency.base} not found in other"
+            )
+        else:
+            diffs["dependencies"].extend(
+                DependencyDefinition.diff(dependency, other_dependency)
+            )
+
+    return diffs

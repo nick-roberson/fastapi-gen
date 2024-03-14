@@ -73,7 +73,10 @@ models:
 Automatically generate the service using the following command:
 ```bash
 % poetry install && poetry update
-% poetry run python main.py
+% poetry run python main.py --config examples/models.yaml --output-dir output
+
+...
+
 Generating models and services with the following inputs
     Input:  examples/models.yaml
     Output: /Users/nicholas/Code/service-builder/output

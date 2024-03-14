@@ -8,7 +8,8 @@ from generate.constants import (MANAGER_TEMPLATES, MODEL_TEMPLATES,
                                 MONGO_TEMPLATES, SAMPLE_INPUT,
                                 SERVICE_TEMPLATES)
 from generate.models import ModelDefinition, ServiceVersion
-from generate.utils import load_config, parse_model_definition, validate_config
+from generate.utils import (diff_model_definitions, load_config,
+                            parse_model_definition, validate_config)
 from generate.versions.utils import load_versions, save_version
 
 
@@ -126,18 +127,18 @@ def generate(output_dir: str, input_file: str) -> Dict:
     models_def = parse_model_definition(config)
 
     # Load previous versions
+    new_version = 1
     service_versions = load_versions()
-    new_version = len(service_versions) + 1
-    print(f"Loaded {len(service_versions)} service versions")
+    if service_versions:
+        new_version = len(service_versions) + 1
 
     # Clear the output directory
     clear_output(output_dir)
 
-    # Generate the models
+    # Generate the models and other code
     model_file = generate_models(output_dir=output_dir, models=models_def.models)
     service_file = generate_services(output_dir=output_dir, models=models_def.models)
     manager_files = generate_managers(output_dir=output_dir, models=models_def.models)
-    # Simple copying of code over
     mongo_file = generate_mongo(output_dir=output_dir)
 
     # Write new version to the versions directory

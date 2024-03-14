@@ -22,6 +22,9 @@ def load_versions() -> list[ServiceVersion]:
 
     # Load thm into ServiceVersion objects
     service_versions = [ServiceVersion(**version) for version in versions]
+
+    # Order by version number first -> last
+    service_versions.sort(key=lambda x: x.version, reverse=True)
     return service_versions
 
 
