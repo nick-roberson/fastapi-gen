@@ -1,16 +1,11 @@
-import pytest
 import tempfile
 
-from generate.constants import (
-    SAMPLE_INPUT,
-)
+import pytest
+
+from generate.constants import SAMPLE_INPUT
+from generate.generate import (generate_database, generate_managers,
+                               generate_models, generate_services)
 from generate.utils import load_config, parse_model_definition, validate_config
-from generate.generate import (
-    generate_models,
-    generate_services,
-    generate_managers,
-    generate_database,
-)
 
 
 def test_validate():

@@ -1,7 +1,8 @@
+import enum
 from typing import Any, List, Optional, Tuple
+
 from pydantic import BaseModel, field_validator
 from pydantic.fields import FieldInfo
-import enum
 
 
 class FieldDefinition(BaseModel):

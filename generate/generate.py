@@ -4,19 +4,11 @@ from typing import Dict, List
 
 from jinja2 import Environment, FileSystemLoader
 
-from generate.constants import (
-    MANAGER_TEMPLATES,
-    MODEL_TEMPLATES,
-    MONGO_TEMPLATES,
-    SAMPLE_INPUT,
-    SERVICE_TEMPLATES,
-)
-from generate.models import (
-    ModelDefinition,
-    ServiceVersion,
-    DatabaseConfig,
-    DatabaseTypes,
-)
+from generate.constants import (MANAGER_TEMPLATES, MODEL_TEMPLATES,
+                                MONGO_TEMPLATES, SAMPLE_INPUT,
+                                SERVICE_TEMPLATES)
+from generate.models import (DatabaseConfig, DatabaseTypes, ModelDefinition,
+                             ServiceVersion)
 from generate.utils import load_config, parse_model_definition, validate_config
 from generate.versions.utils import load_versions, save_version
 
