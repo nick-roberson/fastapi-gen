@@ -14,7 +14,14 @@ from generate.versions.utils import load_versions, save_version
 
 
 def generate_models(output_dir: str, models: List[ModelDefinition]) -> str:
-    """Use the JINJA Template to generate the models"""
+    """Use the JINJA Template to generate the models
+
+    Args:
+        output_dir (str): Output directory
+        models (List[ModelDefinition]): List of model definitions
+    Returns:
+        str: File name of the generated models
+    """
     # Load the template
     env = Environment(loader=FileSystemLoader(MODEL_TEMPLATES))
     model_template = env.get_template("model.jinja")
@@ -34,7 +41,14 @@ def generate_models(output_dir: str, models: List[ModelDefinition]) -> str:
 
 
 def generate_services(output_dir: str, models: List[ModelDefinition]) -> str:
-    """Use the JINJA Template to generate the service"""
+    """Use the JINJA Template to generate the service
+
+    Args:
+        output_dir (str): Output directory
+        models (List[ModelDefinition]): List of model definitions
+    Returns:
+        str: File name of the generated service
+    """
     # Load the template
     env = Environment(loader=FileSystemLoader(SERVICE_TEMPLATES))
     service_template = env.get_template("service.jinja")
@@ -62,11 +76,18 @@ def generate_services(output_dir: str, models: List[ModelDefinition]) -> str:
 def generate_managers(
     output_dir: str, db_config: DatabaseConfig, models: List[ModelDefinition]
 ) -> List[str]:
-    """Use the JINJA Template to generate the service"""
-    manager_file_names = []
+    """Use the JINJA Template to generate the service
 
-    # Load the template
+    Args:
+        output_dir (str): Output directory
+        db_config (DatabaseConfig): Database configuration
+        models (List[ModelDefinition]): List of model definitions
+    Returns:
+        List[str]: List of file names of the generated managers
+    """
+    # If the db_type is MONGO, generate the manager
     if db_config.db_type == DatabaseTypes.MONGO.value:
+        manager_file_names = []
         env = Environment(loader=FileSystemLoader(MANAGER_TEMPLATES))
         service_template = env.get_template("manager.jinja")
 
@@ -87,17 +108,23 @@ def generate_managers(
                 f.write(output)
 
             manager_file_names.append(file_name)
+        return manager_file_names
     else:
         raise ValueError(
             f"Invalid db_type `{db_config.db_type}`, allowed types are {DatabaseTypes.choices()}"
         )
 
-    return manager_file_names
-
 
 def generate_database(output_dir: str, db_config: DatabaseConfig) -> str:
-    """Use the JINJA Template to generate the service"""
+    """Use the JINJA Template to generate the database.
 
+    Args:
+        output_dir (str): Output directory
+        db_config (DatabaseConfig): Database configuration
+    Returns:
+        str: File name of the generated database
+    """
+    # If the db_type is MONGO, generate the db utils
     if db_config.db_type == DatabaseTypes.MONGO.value:
         # Load the template
         env = Environment(loader=FileSystemLoader(MONGO_TEMPLATES))
@@ -120,7 +147,11 @@ def generate_database(output_dir: str, db_config: DatabaseConfig) -> str:
 
 
 def clear_output(output_dir: str) -> None:
-    """Delete the entire output directory, then recreate it"""
+    """Delete the entire output directory, then recreate it
+
+    Args:
+        output_dir (str): Output directory
+    """
     if os.path.exists(output_dir):
         os.system(f"rm -rf {output_dir}")
     os.makedirs(output_dir)
