@@ -1,20 +1,35 @@
-# Generate Simple FastAPI Service
+# FastAPI Service Generator
+
+---
 
 This is a simple FastAPI service that can be used as a starting point for a new project.
 
 ## Features
+
+--- 
 
 - [x] Generate FastAPI service from a YAML file
 - [x] Generate MongoDB models from a YAML file
 - [x] Generate MongoDB manager from a YAML file
 - [x] Generate CRUD operations for each model in the YAML
 
+### Planned Features
+
+- [ ] Allow support for multiple database types (Postgres, MySQL, etc.)
+- [ ] Generate a Dockerfile for the service
+- [ ] Generate Poetry files for the service based on the dependencies in the YAML file
+
+
 ## Requirements
+
+---
 
 - Poetry is installed
 - MongoDB Atlas free tier account setup and the `MONGO_URI` environment variable set
 
 ## Setup
+
+---
 
 This project runs using poetry and should have all the basic imports declared in the `pyproject.toml` file.
 ```bash
@@ -106,6 +121,8 @@ To run the new service
 To view the generated OpenAPI documentation, navigate to [http://localhost:8000/docs](http://localhost:8000/docs).
 
 ## API Examples
+
+---
 
 ### Import into Postman
 

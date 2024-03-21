@@ -1,0 +1,13 @@
+[tool.poetry]
+name = "{{ name }}"
+version = "{{version}}"
+description = "{{ description }}"
+authors = ["{{ email }}"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+{{dependency_rows}}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

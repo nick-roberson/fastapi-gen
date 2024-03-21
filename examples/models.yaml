@@ -55,9 +55,19 @@ models:
         required: true
         description: The users in the group
 
+# Dependencies
 dependencies:
-  - name: pymongo
-  - name: pydantic
-  - name: fastapi
-  - name: uvicorn
-  - name: rich
+  - name: "python"
+    version: "3.11.7"
+  - name: "pydantic"
+    version: "^2.6.4"
+  - name: "fastapi"
+    version: "^0.110.0"
+  - name: "uvicorn"
+    version: "^0.28.0"
+  - name: "pymongo"
+    version: "^4.6.2"
+  - name: "certifi"
+    version: "^2024.2.2"
+  - name: "rich"
+    version: "^13.7.1"

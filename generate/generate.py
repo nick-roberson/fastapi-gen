@@ -5,10 +5,10 @@ from typing import Dict, List
 from jinja2 import Environment, FileSystemLoader
 
 from generate.constants import (MANAGER_TEMPLATES, MODEL_TEMPLATES,
-                                MONGO_TEMPLATES, SAMPLE_INPUT,
-                                SERVICE_TEMPLATES)
-from generate.models import (DatabaseConfig, DatabaseTypes, ModelConfig,
-                             ServiceVersion)
+                                MONGO_TEMPLATES, POETRY_TEMPLATES,
+                                README_TEMPLATES, SERVICE_TEMPLATES)
+from generate.models import (DatabaseConfig, DatabaseTypes, DependencyConfig,
+                             ModelConfig, ServiceVersion)
 from generate.parse import load_config, parse_config, validate_config
 from generate.versions.utils import load_versions, save_version
 
@@ -146,6 +146,70 @@ def generate_database(output_dir: str, db_config: DatabaseConfig) -> str:
     return file_name
 
 
+def generate_poetry_toml(output_dir: str, dependencies: List[DependencyConfig]) -> str:
+    """Use the JINJA Template to generate the poetry toml file.
+
+    Args:
+        output_dir (str): Output directory
+    Returns:
+        str: File name of the generated poetry toml file
+    """
+    # Load the template
+    env = Environment(loader=FileSystemLoader(POETRY_TEMPLATES))
+    service_template = env.get_template("toml.jinja")
+
+    # Create a list of dependencies
+    dependency_rows = []
+    for dep in dependencies:
+        print(f"dep: {dep}")
+        if dep.version:
+            dependency_rows.append(f'{dep.name} = "{dep.version}"')
+        else:
+            dependency_rows.append(f'{dep.name} = "*"')
+    dependency_rows = "\n".join(dependency_rows)
+
+    # Generate the service
+    output = service_template.render(
+        name="service",
+        version="0.1.0",
+        description="My Generated Service",
+        email="TODO",
+        dependency_rows=dependency_rows,
+    )
+
+    # Write the service to the output directory
+    file_name = f"{output_dir}/pyproject.toml"
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    with open(file_name, "w") as f:
+        f.write(output)
+    return file_name
+
+
+def generate_readme(output_dir: str) -> str:
+    """Use the JINJA Template to generate the README file.
+
+    Args:
+        output_dir (str): Output directory
+    Returns:
+        str: File name of the generated README file
+    """
+    # Load the template
+    env = Environment(loader=FileSystemLoader(README_TEMPLATES))
+    service_template = env.get_template("README.jinja")
+
+    # Generate the service
+    output = service_template.render()
+
+    # Write the service to the output directory
+    file_name = f"{output_dir}/README.md"
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    with open(file_name, "w") as f:
+        f.write(output)
+    return file_name
+
+
 def clear_output(output_dir: str) -> None:
     """Delete the entire output directory, then recreate it
 
@@ -189,6 +253,14 @@ def generate(output_dir: str, input_file: str) -> Dict:
     )
     mongo_file = generate_database(output_dir=output_dir, db_config=config.database)
 
+    # Generate the poetry toml file
+    poetry_file = generate_poetry_toml(
+        output_dir=output_dir, dependencies=config.dependencies
+    )
+
+    # Generate the README file
+    readme_file = generate_readme(output_dir=output_dir)
+
     # Write new version to the versions directory
     new_version = ServiceVersion(
         version=new_version,
@@ -206,4 +278,6 @@ def generate(output_dir: str, input_file: str) -> Dict:
         "service": service_file,
         "managers": manager_files,
         "mongo": mongo_file,
+        "poetry": poetry_file,
+        "readme": readme_file,
     }
