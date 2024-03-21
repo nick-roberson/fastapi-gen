@@ -4,12 +4,20 @@ from typing import Dict, List
 
 from jinja2 import Environment, FileSystemLoader
 
-from generate.constants import (MANAGER_TEMPLATES, MODEL_TEMPLATES,
-                                MONGO_TEMPLATES, SAMPLE_INPUT,
-                                SERVICE_TEMPLATES)
-from generate.models import ModelDefinition, ServiceVersion
-from generate.utils import (diff_model_definitions, load_config,
-                            parse_model_definition, validate_config)
+from generate.constants import (
+    MANAGER_TEMPLATES,
+    MODEL_TEMPLATES,
+    MONGO_TEMPLATES,
+    SAMPLE_INPUT,
+    SERVICE_TEMPLATES,
+)
+from generate.models import (
+    ModelDefinition,
+    ServiceVersion,
+    DatabaseConfig,
+    DatabaseTypes,
+)
+from generate.utils import load_config, parse_model_definition, validate_config
 from generate.versions.utils import load_versions, save_version
 
 
@@ -59,48 +67,63 @@ def generate_services(output_dir: str, models: List[ModelDefinition]) -> str:
     return file_name
 
 
-def generate_managers(output_dir: str, models: List[ModelDefinition]) -> List[str]:
+def generate_managers(
+    output_dir: str, db_config: DatabaseConfig, models: List[ModelDefinition]
+) -> List[str]:
     """Use the JINJA Template to generate the service"""
     manager_file_names = []
 
     # Load the template
-    env = Environment(loader=FileSystemLoader(MANAGER_TEMPLATES))
-    service_template = env.get_template("manager.jinja")
+    if db_config.db_type == DatabaseTypes.MONGO.value:
+        env = Environment(loader=FileSystemLoader(MANAGER_TEMPLATES))
+        service_template = env.get_template("manager.jinja")
 
-    # Get list of model names for imports
-    for model in models:
-        # Generate the service
-        output = service_template.render(model=model, manager_name=model.manager_name)
+        # Get list of model names for imports
+        for model in models:
+            # Generate the service
+            output = service_template.render(
+                model=model, manager_name=model.manager_name
+            )
 
-        # Create the file name
-        file_name = f"{output_dir}/{model.manager_var_name}.py"
-        if not os.path.exists(file_name):
-            os.makedirs(os.path.dirname(file_name), exist_ok=True)
+            # Create the file name
+            file_name = f"{output_dir}/{model.manager_var_name}.py"
+            if not os.path.exists(file_name):
+                os.makedirs(os.path.dirname(file_name), exist_ok=True)
 
-        # Write the service to the output directory
-        with open(file_name, "w") as f:
-            f.write(output)
+            # Write the service to the output directory
+            with open(file_name, "w") as f:
+                f.write(output)
 
-        manager_file_names.append(file_name)
+            manager_file_names.append(file_name)
+    else:
+        raise ValueError(
+            f"Invalid db_type `{db_config.db_type}`, allowed types are {DatabaseTypes.choices()}"
+        )
 
     return manager_file_names
 
 
-def generate_mongo(output_dir: str) -> str:
+def generate_database(output_dir: str, db_config: DatabaseConfig) -> str:
     """Use the JINJA Template to generate the service"""
-    # Load the template
-    env = Environment(loader=FileSystemLoader(MONGO_TEMPLATES))
-    service_template = env.get_template("mongo.jinja")
 
-    # Generate the service
-    output = service_template.render()
+    if db_config.db_type == DatabaseTypes.MONGO.value:
+        # Load the template
+        env = Environment(loader=FileSystemLoader(MONGO_TEMPLATES))
+        service_template = env.get_template("mongo.jinja")
 
-    # Write the service to the output directory
-    file_name = f"{output_dir}/mongo.py"
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    with open(file_name, "w") as f:
-        f.write(output)
+        # Generate the service
+        output = service_template.render()
+
+        # Write the service to the output directory
+        file_name = f"{output_dir}/mongo.py"
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+        with open(file_name, "w") as f:
+            f.write(output)
+    else:
+        raise ValueError(
+            f"Invalid db_type `{db_config.db_type}`, allowed types are {DatabaseTypes.choices()}"
+        )
     return file_name
 
 
@@ -124,7 +147,7 @@ def generate(output_dir: str, input_file: str) -> Dict:
     # Load, Validate, and Parse the config
     config = load_config(input_file=input_file)
     validate_config(config)
-    models_def = parse_model_definition(config)
+    database_def, models_def = parse_model_definition(config)
 
     # Load previous versions
     new_version = 1
@@ -139,7 +162,7 @@ def generate(output_dir: str, input_file: str) -> Dict:
     model_file = generate_models(output_dir=output_dir, models=models_def.models)
     service_file = generate_services(output_dir=output_dir, models=models_def.models)
     manager_files = generate_managers(output_dir=output_dir, models=models_def.models)
-    mongo_file = generate_mongo(output_dir=output_dir)
+    mongo_file = generate_database(output_dir=output_dir)
 
     # Write new version to the versions directory
     new_version = ServiceVersion(

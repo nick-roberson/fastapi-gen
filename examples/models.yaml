@@ -1,3 +1,9 @@
+# Database Config
+database:
+  db_type: mongo
+  db_uri_env_var: MONGO_DB_URI
+
+# Model Definitions
 models:
 
   # User model

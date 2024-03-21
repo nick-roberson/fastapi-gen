@@ -1,12 +1,16 @@
 import os
-from collections import defaultdict
-from typing import Dict
+from typing import Dict, Tuple
 
 import yaml
 from pydantic.fields import FieldInfo
 
-from generate.models import (DependencyDefinition, FieldDefinition,
-                             ModelDefinition, ModelDefinitionList)
+from generate.models import (
+    DependencyDefinition,
+    FieldDefinition,
+    ModelDefinition,
+    ModelDefinitionList,
+    DatabaseConfig,
+)
 
 # Pull output the fields from the models
 FIELD_DEFINITION_FIELDS: dict[str, FieldInfo] = FieldDefinition.model_fields
@@ -52,7 +56,7 @@ def validate_dependencies(dependency: DependencyDefinition) -> None:
             )
 
 
-def validate_config(config) -> None:
+def validate_config(config: Dict) -> None:
     """Validate the config to ensure it has the correct fields.
 
     Args:
@@ -63,13 +67,15 @@ def validate_config(config) -> None:
         ValueError: If the config is invalid
     """
     # Confirm top level keys in the ModelDefinitionList
+    required_top_level_keys = ["database", "models", "dependencies"]
     for field_name in config.keys():
-        if field_name not in ModelDefinitionList.model_fields.keys():
+        if field_name not in required_top_level_keys:
             raise ValueError(f"Invalid field name {field_name} in config")
 
     # For each ModelDefinition confirm fields are valid
-    model_names = [model["name"] for model in config["models"]]
-    for model in config["models"]:
+    models = config["models"]
+    model_names = [model["name"] for model in models]
+    for model in models:
         if any(
             field_name not in ModelDefinition.model_fields.keys()
             for field_name in model.keys()
@@ -111,7 +117,7 @@ def validate_config(config) -> None:
 ########################################
 
 
-def parse_model_definition(config) -> ModelDefinitionList:
+def parse_model_definition(config) -> Tuple[DatabaseConfig, ModelDefinitionList]:
     """Parse the model definition from the config.
     Args:
         config: Dict
@@ -121,6 +127,13 @@ def parse_model_definition(config) -> ModelDefinitionList:
     """
     models = []
     dependencies = []
+
+    # Parse the DB connection
+    db_config_dict = config["database"]
+    db_config = DatabaseConfig(
+        db_type=db_config_dict["db_type"],
+        db_uri_env_var=db_config_dict["db_uri_env_var"],
+    )
 
     # Parse the models
     for model in config["models"]:
@@ -143,48 +156,5 @@ def parse_model_definition(config) -> ModelDefinitionList:
     for dependency in config["dependencies"]:
         dependencies.append(DependencyDefinition(**dependency))
 
-    return ModelDefinitionList(models=models, dependencies=dependencies)
-
-
-########################################
-# Model Differences                    #
-########################################
-
-
-def diff_model_definitions(
-    model_definitions: ModelDefinitionList, other: ModelDefinitionList
-):
-    """Gets the differences in the model definitions. Returns a Dict
-    that contains sections for the "model", "fields", and "dependencies".
-
-    Args:
-        model_definitions: ModelDefinitionList
-        other: ModelDefinitionList
-    Returns:
-        Dict
-    """
-    diffs = defaultdict(list)
-
-    # Diff the models
-    for model in model_definitions.models:
-        other_model = next((m for m in other.models if m.name == model.name), None)
-        if other_model is None:
-            diffs["models"].append(f"Model {model.name} not found in other")
-        else:
-            diffs["models"].extend(ModelDefinition.diff(model, other_model))
-
-    # Diff the dependencies
-    for dependency in model_definitions.dependencies:
-        other_dependency = next(
-            (d for d in other.dependencies if d.base == dependency.base), None
-        )
-        if other_dependency is None:
-            diffs["dependencies"].append(
-                f"Dependency {dependency.base} not found in other"
-            )
-        else:
-            diffs["dependencies"].extend(
-                DependencyDefinition.diff(dependency, other_dependency)
-            )
-
-    return diffs
+    models_def = ModelDefinitionList(models=models, dependencies=dependencies)
+    return db_config, models_def

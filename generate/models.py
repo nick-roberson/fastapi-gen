@@ -1,7 +1,7 @@
 from typing import Any, List, Optional, Tuple
-
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from pydantic.fields import FieldInfo
+import enum
 
 
 class FieldDefinition(BaseModel):
@@ -119,3 +119,29 @@ class ServiceVersion(BaseModel):
 
     def __str__(self):
         return f"ServiceVersion(version={self.version}, models={self.models}, dependencies={self.dependencies})"
+
+
+class DatabaseTypes(enum.Enum):
+    """Database types"""
+
+    MONGO: str = "mongo"
+
+    @classmethod
+    def choices(cls):
+        return [choice.value for choice in cls]
+
+
+class DatabaseConfig(BaseModel):
+    """Database configuration"""
+
+    db_type: str
+    db_uri_env_var: str
+
+    @field_validator("db_type")
+    def validate_db_type(cls, v):
+        if v not in DatabaseTypes.choices():
+            raise ValueError(f"db_type must be one of {cls.ALLOWED_DB_TYPES}")
+        return v
+
+    class Config:
+        extra = "ignore"
