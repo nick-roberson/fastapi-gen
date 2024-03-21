@@ -7,18 +7,18 @@ from jinja2 import Environment, FileSystemLoader
 from generate.constants import (MANAGER_TEMPLATES, MODEL_TEMPLATES,
                                 MONGO_TEMPLATES, SAMPLE_INPUT,
                                 SERVICE_TEMPLATES)
-from generate.models import (DatabaseConfig, DatabaseTypes, ModelDefinition,
+from generate.models import (DatabaseConfig, DatabaseTypes, ModelConfig,
                              ServiceVersion)
-from generate.utils import load_config, parse_model_definition, validate_config
+from generate.utils import load_config, parse_config, validate_config
 from generate.versions.utils import load_versions, save_version
 
 
-def generate_models(output_dir: str, models: List[ModelDefinition]) -> str:
+def generate_models(output_dir: str, models: List[ModelConfig]) -> str:
     """Use the JINJA Template to generate the models
 
     Args:
         output_dir (str): Output directory
-        models (List[ModelDefinition]): List of model definitions
+        models (List[ModelConfig]): List of model definitions
     Returns:
         str: File name of the generated models
     """
@@ -40,12 +40,12 @@ def generate_models(output_dir: str, models: List[ModelDefinition]) -> str:
     return file_name
 
 
-def generate_services(output_dir: str, models: List[ModelDefinition]) -> str:
+def generate_services(output_dir: str, models: List[ModelConfig]) -> str:
     """Use the JINJA Template to generate the service
 
     Args:
         output_dir (str): Output directory
-        models (List[ModelDefinition]): List of model definitions
+        models (List[ModelConfig]): List of model definitions
     Returns:
         str: File name of the generated service
     """
@@ -74,14 +74,14 @@ def generate_services(output_dir: str, models: List[ModelDefinition]) -> str:
 
 
 def generate_managers(
-    output_dir: str, db_config: DatabaseConfig, models: List[ModelDefinition]
+    output_dir: str, db_config: DatabaseConfig, models: List[ModelConfig]
 ) -> List[str]:
     """Use the JINJA Template to generate the service
 
     Args:
         output_dir (str): Output directory
         db_config (DatabaseConfig): Database configuration
-        models (List[ModelDefinition]): List of model definitions
+        models (List[ModelConfig]): List of model definitions
     Returns:
         List[str]: List of file names of the generated managers
     """
@@ -170,7 +170,7 @@ def generate(output_dir: str, input_file: str) -> Dict:
     # Load, Validate, and Parse the config
     config = load_config(input_file=input_file)
     validate_config(config)
-    db_config, models_config = parse_model_definition(config)
+    config = parse_config(config)
 
     # Load previous versions
     new_version = 1
@@ -182,21 +182,21 @@ def generate(output_dir: str, input_file: str) -> Dict:
     clear_output(output_dir)
 
     # Generate the models and other code
-    model_file = generate_models(output_dir=output_dir, models=models_config.models)
-    service_file = generate_services(output_dir=output_dir, models=models_config.models)
+    model_file = generate_models(output_dir=output_dir, models=config.models)
+    service_file = generate_services(output_dir=output_dir, models=config.models)
     manager_files = generate_managers(
-        output_dir=output_dir, models=models_config.models, db_config=database_def
+        output_dir=output_dir, models=config.models, db_config=config.database
     )
-    mongo_file = generate_database(output_dir=output_dir, db_config=db_config)
+    mongo_file = generate_database(output_dir=output_dir, db_config=config.database)
 
     # Write new version to the versions directory
     new_version = ServiceVersion(
         version=new_version,
         name="Service Version",
         created_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        db_config=db_config,
-        models=models_config.models,
-        dependencies=models_config.dependencies,
+        db_config=config.database,
+        models=config.models,
+        dependencies=config.dependencies,
     )
     save_version(new_version)
 

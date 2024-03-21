@@ -4,15 +4,14 @@ from typing import Dict, Tuple
 import yaml
 from pydantic.fields import FieldInfo
 
-from generate.models import (DatabaseConfig, DependencyDefinition,
-                             FieldDefinition, ModelDefinition,
-                             ModelDefinitionList)
+from generate.models import (Config, DatabaseConfig, DependencyConfig,
+                             FieldDefinition, ModelConfig)
 
 # Pull output the fields from the models
 FIELD_DEFINITION_FIELDS: dict[str, FieldInfo] = FieldDefinition.model_fields
-MODEL_DEFINITION_FIELDS: dict[str, FieldInfo] = ModelDefinition.model_fields
-DEPENDENCY_DEFINITION_FIELDS: dict[str, FieldInfo] = DependencyDefinition.model_fields
-MODEL_DEFINITION_LIST_FIELDS: dict[str, FieldInfo] = ModelDefinitionList.model_fields
+MODEL_DEFINITION_FIELDS: dict[str, FieldInfo] = ModelConfig.model_fields
+DEPENDENCY_DEFINITION_FIELDS: dict[str, FieldInfo] = DependencyConfig.model_fields
+MODEL_DEFINITION_LIST_FIELDS: dict[str, FieldInfo] = Config.model_fields
 
 
 ########################################
@@ -44,11 +43,11 @@ def validate_field(field: FieldDefinition) -> None:
         raise ValueError(f"Invalid field name `{field.name}` in FieldDefinition")
 
 
-def validate_dependencies(dependency: DependencyDefinition) -> None:
+def validate_dependencies(dependency: DependencyConfig) -> None:
     for field_name in dependency:
         if field_name not in DEPENDENCY_DEFINITION_FIELDS.keys():
             raise ValueError(
-                f"Invalid field name `{field_name}` in DependencyDefinition {dependency['base']}"
+                f"Invalid field name `{field_name}` in DependencyConfig {dependency['base']}"
             )
 
 
@@ -62,21 +61,21 @@ def validate_config(config: Dict) -> None:
     Raises:
         ValueError: If the config is invalid
     """
-    # Confirm top level keys in the ModelDefinitionList
+    # Confirm top level keys in the Config
     required_top_level_keys = ["database", "models", "dependencies"]
     for field_name in config.keys():
         if field_name not in required_top_level_keys:
             raise ValueError(f"Invalid field name {field_name} in config")
 
-    # For each ModelDefinition confirm fields are valid
+    # For each ModelConfig confirm fields are valid
     models = config["models"]
     model_names = [model["name"] for model in models]
     for model in models:
         if any(
-            field_name not in ModelDefinition.model_fields.keys()
+            field_name not in ModelConfig.model_fields.keys()
             for field_name in model.keys()
         ):
-            raise ValueError(f"Invalid field name in ModelDefinition `{model['name']}`")
+            raise ValueError(f"Invalid field name in ModelConfig `{model['name']}`")
         for field in model["fields"]:
             # Validate the field
             if any(
@@ -96,15 +95,15 @@ def validate_config(config: Dict) -> None:
                         f"{model_names}"
                     )
 
-    # For each DependencyDefinition confirm fields are valid (optional so we can sub with empty list)
+    # For each DependencyConfig confirm fields are valid (optional so we can sub with empty list)
     dependency_defs = config.get("dependencies", [])
     for dependency in dependency_defs:
         if any(
-            field_name not in DependencyDefinition.model_fields.keys()
+            field_name not in DependencyConfig.model_fields.keys()
             for field_name in dependency.keys()
         ):
             raise ValueError(
-                f"Invalid field name in DependencyDefinition `{dependency['base']}`"
+                f"Invalid field name in DependencyConfig `{dependency['base']}`"
             )
 
 
@@ -113,26 +112,19 @@ def validate_config(config: Dict) -> None:
 ########################################
 
 
-def parse_model_definition(config) -> Tuple[DatabaseConfig, ModelDefinitionList]:
+def parse_config(config) -> Config:
     """Parse the model definition from the config.
     Args:
         config: Dict
     Returns:
-        ModelDefinitionList
-
+        Config
     """
-    models = []
-    dependencies = []
+    # (1) Parse the DB connection
+    database_config = DatabaseConfig(**config["database"])
 
-    # Parse the DB connection
-    db_config_dict = config["database"]
-    db_config = DatabaseConfig(
-        db_type=db_config_dict["db_type"],
-        db_uri_env_var=db_config_dict["db_uri_env_var"],
-    )
-
-    # Parse the models
-    for model in config["models"]:
+    # (2) Parse the models
+    models_config = []
+    for model in config.get("models", []):
         fields = []
 
         # Parse the fields
@@ -146,13 +138,13 @@ def parse_model_definition(config) -> Tuple[DatabaseConfig, ModelDefinitionList]
                 FieldDefinition(name="id", type="str", required=False, default=None)
             )
 
-        models.append(ModelDefinition(name=model["name"], fields=fields))
+        models_config.append(ModelConfig(name=model["name"], fields=fields))
 
-    # Parse the dependencies (optional, yet to be implemented)
-    dependencies = []
-    dependency_defs = config.get("dependencies", [])
-    for dependency in dependency_defs:
-        dependencies.append(DependencyDefinition(**dependency))
+    # (3) Parse the dependencies (optional, yet to be implemented)
+    dependencies_config = []
+    for dependency in config.get("dependencies", []):
+        dependencies_config.append(DependencyConfig(**dependency))
 
-    models_def = ModelDefinitionList(models=models, dependencies=dependencies)
-    return db_config, models_def
+    return Config(
+        database=database_config, models=models_config, dependencies=dependencies_config
+    )

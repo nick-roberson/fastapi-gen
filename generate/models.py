@@ -53,7 +53,7 @@ class FieldDefinition(BaseModel):
                 )
 
 
-class ModelDefinition(BaseModel):
+class ModelConfig(BaseModel):
     """Model definition"""
 
     name: str
@@ -75,10 +75,10 @@ class ModelDefinition(BaseModel):
         extra = "ignore"
 
     def __str__(self):
-        return f"ModelDefinition(name={self.name}, fields={self.fields})"
+        return f"ModelConfig(name={self.name}, fields={self.fields})"
 
 
-class DependencyDefinition(BaseModel):
+class DependencyConfig(BaseModel):
     """Dependency definition"""
 
     base: str
@@ -88,20 +88,7 @@ class DependencyDefinition(BaseModel):
         extra = "ignore"
 
     def __str__(self):
-        return f"DependencyDefinition(base={self.base}, imports={self.imports})"
-
-
-class ModelDefinitionList(BaseModel):
-    """List of model definitions"""
-
-    models: List[ModelDefinition]
-    dependencies: List[DependencyDefinition]
-
-    class Config:
-        extra = "ignore"
-
-    def __str__(self):
-        return f"ModelDefinitionList(models={self.models}, dependencies={self.dependencies})"
+        return f"DependencyConfig(base={self.base}, imports={self.imports})"
 
 
 class DatabaseTypes(enum.Enum):
@@ -130,6 +117,20 @@ class DatabaseConfig(BaseModel):
         extra = "ignore"
 
 
+class Config(BaseModel):
+    """List of model definitions"""
+
+    database: DatabaseConfig
+    models: List[ModelConfig]
+    dependencies: List[DependencyConfig]
+
+    class Config:
+        extra = "ignore"
+
+    def __str__(self):
+        return f"Config(models={self.models}, dependencies={self.dependencies})"
+
+
 class ServiceVersion(BaseModel):
     """Service version. Used to export and import the previous states of the service that
     has been generated. This will be useful later for versioning the service and models, and for
@@ -139,8 +140,8 @@ class ServiceVersion(BaseModel):
     version: int
     created_at: str
     db_config: DatabaseConfig = None
-    models: List[ModelDefinition] = []
-    dependencies: List[DependencyDefinition] = []
+    models: List[ModelConfig] = []
+    dependencies: List[DependencyConfig] = []
 
     class Config:
         extra = "ignore"

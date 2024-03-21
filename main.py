@@ -4,7 +4,7 @@ import os
 from rich import print
 
 from generate.generate import generate
-from generate.models import ModelDefinitionList
+from generate.models import Config
 
 DEFAULT_INPUT: str = "examples/models.yaml"
 DEFAULT_OUTPUT: str = f"{os.getcwd()}/output"

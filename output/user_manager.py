@@ -17,6 +17,7 @@ def get_user_manager():
 
 
 class UserManager:
+
     collection_name: str = "user"
 
     def __init__(self):
