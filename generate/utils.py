@@ -97,8 +97,8 @@ def validate_config(config: Dict) -> None:
                     )
 
     # For each DependencyDefinition confirm fields are valid (optional so we can sub with empty list)
-    config["dependencies"] = config.get("dependencies", [])
-    for dependency in config["dependencies"]:
+    dependency_defs = config.get("dependencies", [])
+    for dependency in dependency_defs:
         if any(
             field_name not in DependencyDefinition.model_fields.keys()
             for field_name in dependency.keys()
@@ -149,7 +149,9 @@ def parse_model_definition(config) -> Tuple[DatabaseConfig, ModelDefinitionList]
         models.append(ModelDefinition(name=model["name"], fields=fields))
 
     # Parse the dependencies (optional, yet to be implemented)
-    for dependency in config["dependencies"]:
+    dependencies = []
+    dependency_defs = config.get("dependencies", [])
+    for dependency in dependency_defs:
         dependencies.append(DependencyDefinition(**dependency))
 
     models_def = ModelDefinitionList(models=models, dependencies=dependencies)
