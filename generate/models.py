@@ -81,14 +81,14 @@ class ModelConfig(BaseModel):
 class DependencyConfig(BaseModel):
     """Dependency definition"""
 
-    base: str
-    imports: List[str]
+    name: str
+    version: Optional[str] = None
 
     class Config:
         extra = "ignore"
 
     def __str__(self):
-        return f"DependencyConfig(base={self.base}, imports={self.imports})"
+        return f"DependencyConfig(name={self.name}, version={self.version})"
 
 
 class DatabaseTypes(enum.Enum):

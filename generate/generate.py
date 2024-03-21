@@ -9,7 +9,7 @@ from generate.constants import (MANAGER_TEMPLATES, MODEL_TEMPLATES,
                                 SERVICE_TEMPLATES)
 from generate.models import (DatabaseConfig, DatabaseTypes, ModelConfig,
                              ServiceVersion)
-from generate.utils import load_config, parse_config, validate_config
+from generate.parse import load_config, parse_config, validate_config
 from generate.versions.utils import load_versions, save_version
 
 

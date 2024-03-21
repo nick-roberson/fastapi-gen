@@ -4,8 +4,8 @@ from typing import Dict, Tuple
 import yaml
 from pydantic.fields import FieldInfo
 
-from generate.models import (Config, DatabaseConfig, DependencyConfig,
-                             FieldDefinition, ModelConfig)
+from generate.models import (Config, DatabaseConfig, DatabaseTypes,
+                             DependencyConfig, FieldDefinition, ModelConfig)
 
 # Pull output the fields from the models
 FIELD_DEFINITION_FIELDS: dict[str, FieldInfo] = FieldDefinition.model_fields
@@ -61,15 +61,29 @@ def validate_config(config: Dict) -> None:
     Raises:
         ValueError: If the config is invalid
     """
-    # Confirm top level keys in the Config
+    # (1) Confirm top level keys in the Config
     required_top_level_keys = ["database", "models", "dependencies"]
-    for field_name in config.keys():
-        if field_name not in required_top_level_keys:
-            raise ValueError(f"Invalid field name {field_name} in config")
+    if not all(key in config.keys() for key in required_top_level_keys):
+        raise ValueError(
+            f"Invalid top level keys in config, required keys are {required_top_level_keys}"
+        )
 
-    # For each ModelConfig confirm fields are valid
+    # (2) For each DatabaseConfig confirm fields are valid
+    database = config["database"]
+    for field_name in database:
+        if field_name not in DatabaseConfig.model_fields.keys():
+            raise ValueError(f"Invalid field name in DatabaseConfig `{field_name}`")
+        if (
+            field_name == "db_type"
+            and database[field_name] not in DatabaseTypes.choices()
+        ):
+            raise ValueError(
+                f"Invalid db_type `{database[field_name]}`, allowed types are {DatabaseConfig.db_type_choices}"
+            )
+
+    # (3) For each ModelConfig confirm fields are valid
     models = config["models"]
-    model_names = [model["name"] for model in models]
+    model_names = [model["name"] for model in config["models"]]
     for model in models:
         if any(
             field_name not in ModelConfig.model_fields.keys()
@@ -95,7 +109,7 @@ def validate_config(config: Dict) -> None:
                         f"{model_names}"
                     )
 
-    # For each DependencyConfig confirm fields are valid (optional so we can sub with empty list)
+    # (4) For each DependencyConfig confirm fields are valid (optional so we can sub with empty list)
     dependency_defs = config.get("dependencies", [])
     for dependency in dependency_defs:
         if any(

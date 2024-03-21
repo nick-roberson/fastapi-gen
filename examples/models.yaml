@@ -54,3 +54,10 @@ models:
         type: list
         required: true
         description: The users in the group
+
+dependencies:
+  - name: pymongo
+  - name: pydantic
+  - name: fastapi
+  - name: uvicorn
+  - name: rich
