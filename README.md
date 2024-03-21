@@ -48,9 +48,31 @@ To add new dependencies
 
 Define a YAML file anywhere that you would like to, it only has to match the format of the example below.
 
+This is the CLI interface for the service generator:
+```bash
+usage: main.py [-h] [--config CONFIG] [--output-dir OUTPUT_DIR] [--auto-install]
+
+Simple CLI to generate models and services from a yaml config.
+
+options:
+  -h, --help            show this help message and exit
+  --config CONFIG, -c CONFIG
+                        Path to the input yaml config.
+  --output-dir OUTPUT_DIR, -o OUTPUT_DIR
+                        Path to the output directory.
+  --auto-install, -a    Automatically install the dependencies using poetry.
+```
+
 This will create a service that manages two simple objects `User` and `Group` with the following fields:
 ```yaml
+# Database Config
+database:
+  db_type: mongo
+  db_uri_env_var: MONGO_DB_URI
+
+# Model Definitions
 models:
+
   # User model
   - name: User
     fields:
@@ -67,6 +89,22 @@ models:
         type: str
         required: true
         description: The email of the user
+      - name: location
+        type: str
+        required: false
+        default: null
+        description: The location of the user
+      - name: age
+        type: int
+        required: false
+        default: null
+        description: The age of the user
+      - name: team
+        type: str
+        required: false
+        default: null
+        description: The team name of the user
+
   # Group model
   - name: Group
     fields:
@@ -83,6 +121,23 @@ models:
         type: list
         required: true
         description: The users in the group
+
+# Dependencies
+dependencies:
+  - name: "python"
+    version: "3.11.7"
+  - name: "pydantic"
+    version: "^2.6.4"
+  - name: "fastapi"
+    version: "^0.110.0"
+  - name: "uvicorn"
+    version: "^0.28.0"
+  - name: "pymongo"
+    version: "^4.6.2"
+  - name: "certifi"
+    version: "^2024.2.2"
+  - name: "rich"
+    version: "^13.7.1"
 ```
 
 Automatically generate the service using the following command:

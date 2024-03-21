@@ -29,6 +29,12 @@ def parse_args():
         default=DEFAULT_OUTPUT,
         help="Path to the output directory.",
     )
+    parser.add_argument(
+        "--auto-install",
+        "-a",
+        action="store_true",
+        help="Automatically install the dependencies using poetry.",
+    )
     return parser.parse_args()
 
 
@@ -63,6 +69,17 @@ def generate_files(args: argparse.Namespace):
     print(f"\nRun the following commands to run the service:")
     print(f"  % cd {args.output_dir}")
     print(f"  % poetry run uvicorn service:app --reload --port 8000")
+
+    # Auto install the dependencies using poetry
+    if args.auto_install:
+        # Navigate into the output directory after getting full path of the output directory
+        full_path = os.path.abspath(args.output_dir)
+        os.chdir(full_path)
+        # Install poetry dependencies
+        os.system("poetry install")
+        os.system("poetry update")
+        # Run the service
+        os.system("poetry run uvicorn service:app --reload --port 8000")
 
 
 if __name__ == "__main__":
