@@ -9,7 +9,7 @@ from generate.utils import load_config, parse_model_definition, validate_config
 
 
 @pytest.mark.parametrize("config", [SAMPLE_INPUT])
-def test_validate(config):
+def test_generate(config):
     """Simple test to validate the example config"""
     with tempfile.TemporaryDirectory() as output_dir:
         # Parse the model definition
