@@ -50,17 +50,18 @@ Define a YAML file anywhere that you would like to, it only has to match the for
 
 This is the CLI interface for the service generator:
 ```bash
-usage: main.py [-h] [--config CONFIG] [--output-dir OUTPUT_DIR] [--auto-install]
-
-Simple CLI to generate models and services from a yaml config.
-
-options:
-  -h, --help            show this help message and exit
-  --config CONFIG, -c CONFIG
-                        Path to the input yaml config.
-  --output-dir OUTPUT_DIR, -o OUTPUT_DIR
-                        Path to the output directory.
-  --auto-install, -a    Automatically install the dependencies using poetry.
+ Usage: main.py [OPTIONS] COMMAND [ARGS]...                                                                                                                                                                
+                                                                                                                                                                                                           
+╭─ Options ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ --install-completion        [bash|zsh|fish|powershell|pwsh]  Install completion for the specified shell. [default: None]                                                                                │
+│ --show-completion           [bash|zsh|fish|powershell|pwsh]  Show completion for the specified shell, to copy it or customize the installation. [default: None]                                         │
+│ --help                                                       Show this message and exit.                                                                                                                │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ generate                   Generate the models and services from the input yaml config.                                                                                                                 │
+│ revert                     Revert the service to a previous version.                                                                                                                                    │
+│ versions                   List all versions of the service that have been generated.                                                                                                                   │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 This will create a service that manages two simple objects `User` and `Group` with the following fields:
