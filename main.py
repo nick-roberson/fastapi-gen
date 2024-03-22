@@ -1,5 +1,5 @@
 import os
-from typing import Optional
+from typing import Dict, Optional
 
 import typer
 from rich import print
@@ -16,6 +16,32 @@ app = typer.Typer()
 CWD: str = os.getcwd()
 DEFAULT_INPUT: str = "examples/models.yaml"
 DEFAULT_OUTPUT: str = f"{CWD}/output"
+
+
+def process_close(result: Dict, output_dir: str):
+    """Show the results and close the application.
+
+    Args:
+        result (Dict): The result of the generation
+        output_dir (str): The output directory
+    """
+    # Display the generated files
+    print(f"Generated files:")
+    for key, value in result.items():
+        print(f"\t{key}: {value}")
+
+    # Auto install the dependencies using poetry
+    print(f"\nInstalling dependencies using poetry ...")
+    full_path = os.path.abspath(output_dir)
+    os.chdir(full_path)
+    os.system("poetry install")
+    os.system("poetry update")
+    print("Installed dependencies!")
+
+    # Display commands for users to go and run the generated files
+    print("\nRun the following commands to run the service:")
+    print(f"  % cd {output_dir}")
+    print(f"  % poetry run uvicorn service:app --reload --port {DEFAULT_PORT}")
 
 
 @app.command()
@@ -43,7 +69,6 @@ def generate(
     # Get the absolute paths
     config_path = os.path.abspath(config)
     output_directory = os.path.abspath(output_dir)
-
     print(
         f"""Generating models and services with the following inputs
     Input:  {config_path}
@@ -51,24 +76,9 @@ def generate(
     """
     )
 
-    # Generate those files in that directory
+    # Generate the files and close out
     result = generate_service(output_dir=output_directory, input_file=config_path)
-    print(f"Generated files:")
-    for key, value in result.items():
-        print(f"\t{key}: {value}")
-
-    # Auto install the dependencies using poetry
-    print(f"\nInstalling dependencies using poetry ...")
-    full_path = os.path.abspath(output_dir)
-    os.chdir(full_path)
-    os.system("poetry install")
-    os.system("poetry update")
-    print("Installed dependencies!")
-
-    # Display commands for users to go and run the generated files
-    print("\nRun the following commands to run the service:")
-    print(f"  % cd {output_dir}")
-    print(f"  % poetry run uvicorn service:app --reload --port {DEFAULT_PORT}")
+    process_close(result=result, output_dir=output_directory)
 
 
 @app.command()
@@ -82,12 +92,14 @@ def revert(
 ):
     """Revert the service to a previous version."""
     print(f"""Reverting the service to version {version}, outputting to {output_dir}""")
+
     # Load all versions
     all_versions = load_versions()
     if not all_versions:
         print("No versions found")
         typer.Exit(code=1)
 
+    # Check if the version exists
     version_names = [v.version for v in all_versions]
     if not version:
         print("Please specify a version to revert to")
@@ -100,23 +112,10 @@ def revert(
     version_to_revert = [v for v in all_versions if v.version == version][0]
     config = ServiceVersion(**version_to_revert.dict()).config
 
-    result = generate_files(output_dir=output_dir, config=config, is_revert=True)
-    print(f"Generated files:")
-    for key, value in result.items():
-        print(f"\t{key}: {value}")
-
-    # Auto install the dependencies using poetry
-    print(f"\nInstalling dependencies using poetry ...")
-    full_path = os.path.abspath(output_dir)
-    os.chdir(full_path)
-    os.system("poetry install")
-    os.system("poetry update")
-    print("Installed dependencies!")
-
-    # Display commands for users to go and run the generated files
-    print("\nRun the following commands to run the service:")
-    print(f"  % cd {output_dir}")
-    print(f"  % poetry run uvicorn service:app --reload --port {DEFAULT_PORT}")
+    # Generate the files and close out
+    output_directory = os.path.abspath(output_dir)
+    result = generate_files(output_dir=output_directory, config=config, is_revert=True)
+    process_close(result=result, output_dir=output_directory)
 
 
 @app.command()
