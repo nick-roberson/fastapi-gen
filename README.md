@@ -143,7 +143,7 @@ dependencies:
 Automatically generate the service using the following command:
 ```bash
 % poetry install && poetry update
-% poetry run python main.py --config examples/models.yaml --output-dir output
+% poetry run python main.py generate --config examples/models.yaml --output-dir output
 
 ...
 
@@ -152,15 +152,30 @@ Generating models and services with the following inputs
     Output: /Users/nicholas/Code/service-builder/output
     
 Generated files:
-  Models:  /Users/nicholas/Code/service-builder/output/models/models.py
-  Service: /Users/nicholas/Code/service-builder/output/service.py
-  Manager: ['/Users/nicholas/Code/service-builder/output/user_manager.py', '/Users/nicholas/Code/service-builder/output/group_manager.py']
-  Mongo:   /Users/nicholas/Code/service-builder/output/mongo.py
+  models:  /Users/nicholas/Code/service-builder/output/models/models.py
+  service: /Users/nicholas/Code/service-builder/output/service.py
+  manager: ['/Users/nicholas/Code/service-builder/output/user_manager.py', '/Users/nicholas/Code/service-builder/output/group_manager.py']
+  mongo:   /Users/nicholas/Code/service-builder/output/mongo.py
+  poetry:  /Users/nicholas/Code/service-builder/output/pyproject.toml
+  readme:  /Users/nicholas/Code/service-builder/output/README.md
+  
+Installing dependencies using poetry ...
+Installed dependencies!
 
 Run the following commands to run the service:
   % cd /Users/nicholas/Code/service-builder/output
   % poetry run uvicorn service:app --reload --port 8000
 ```
+
+See the version history of the service:
+```bash
+% poetry run python main.py versions
+
+Loaded 2 versions:
+        Version: 2 - 2024-03-22 10:54:14
+        Version: 1 - 2024-03-22 10:51:32
+``` 
+
 
 To lint the code just to make it more readable you can use `black` and `isort`:
 ```bash

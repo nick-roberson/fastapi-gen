@@ -17,6 +17,7 @@ certifi = "^2024.2.2"
 rich = "^13.7.1"
 isort = "^5.13.2"
 black = "^24.2.0"
+typer = "^0.9.0"
 
 
 [build-system]

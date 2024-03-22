@@ -143,6 +143,12 @@ class ServiceVersion(BaseModel):
     models: List[ModelConfig] = []
     dependencies: List[DependencyConfig] = []
 
+    @property
+    def config(self):
+        return Config(
+            database=self.db_config, models=self.models, dependencies=self.dependencies
+        )
+
     class Config:
         extra = "ignore"
 

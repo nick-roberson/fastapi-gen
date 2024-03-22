@@ -7,8 +7,8 @@ from jinja2 import Environment, FileSystemLoader
 from generate.constants import (MANAGER_TEMPLATES, MODEL_TEMPLATES,
                                 MONGO_TEMPLATES, POETRY_TEMPLATES,
                                 README_TEMPLATES, SERVICE_TEMPLATES)
-from generate.models import (DatabaseConfig, DatabaseTypes, DependencyConfig,
-                             ModelConfig, ServiceVersion)
+from generate.models import (Config, DatabaseConfig, DatabaseTypes,
+                             DependencyConfig, ModelConfig, ServiceVersion)
 from generate.parse import load_config, parse_config, validate_config
 from generate.versions.utils import load_versions, save_version
 
@@ -161,7 +161,6 @@ def generate_poetry_toml(output_dir: str, dependencies: List[DependencyConfig]) 
     # Create a list of dependencies
     dependency_rows = []
     for dep in dependencies:
-        print(f"dep: {dep}")
         if dep.version:
             dependency_rows.append(f'{dep.name} = "{dep.version}"')
         else:
@@ -221,27 +220,16 @@ def clear_output(output_dir: str) -> None:
     os.makedirs(output_dir)
 
 
-def generate(output_dir: str, input_file: str) -> Dict:
+def generate_files(output_dir: str, config: Config, is_revert: bool = False) -> Dict:
     """Generate the models and services from the input yaml config.
 
     Args:
         output_dir (str): Output directory
-        input_file (str): Path to the input yaml config.
-
+        config (Config): Configuration object
+        is_revert (bool): Flag to indicate if this is a revert operation
     Returns:
         Dict: Dictionary of the generated files
     """
-    # Load, Validate, and Parse the config
-    config = load_config(input_file=input_file)
-    validate_config(config)
-    config = parse_config(config)
-
-    # Load previous versions
-    new_version = 1
-    service_versions = load_versions()
-    if service_versions:
-        new_version = len(service_versions) + 1
-
     # Clear the output directory
     clear_output(output_dir)
 
@@ -262,15 +250,22 @@ def generate(output_dir: str, input_file: str) -> Dict:
     readme_file = generate_readme(output_dir=output_dir)
 
     # Write new version to the versions directory
-    new_version = ServiceVersion(
-        version=new_version,
-        name="Service Version",
-        created_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        db_config=config.database,
-        models=config.models,
-        dependencies=config.dependencies,
-    )
-    save_version(new_version)
+    # Load previous versions
+    if not is_revert:
+        new_version = 1
+        service_versions = load_versions()
+        if service_versions:
+            new_version = len(service_versions) + 1
+
+        new_version = ServiceVersion(
+            version=new_version,
+            name="Service Version",
+            created_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            db_config=config.database,
+            models=config.models,
+            dependencies=config.dependencies,
+        )
+        save_version(new_version)
 
     # Return the generated files
     return {
@@ -281,3 +276,19 @@ def generate(output_dir: str, input_file: str) -> Dict:
         "poetry": poetry_file,
         "readme": readme_file,
     }
+
+
+def generate(output_dir: str, input_file: str) -> Dict:
+    """Generate the models and services from the input yaml config.
+
+    Args:
+        output_dir (str): Output directory
+        input_file (str): Path to the input yaml config.
+
+    Returns:
+        Dict: Dictionary of the generated files
+    """
+    loaded_config = load_config(input_file=input_file)
+    validate_config(loaded_config)
+    config = parse_config(loaded_config)
+    return generate_files(output_dir, config, is_revert=False)

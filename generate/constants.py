@@ -15,3 +15,6 @@ README_TEMPLATES: str = f"{TEMPLATE_DIR}/readme/"
 
 # Versions Directory
 VERSIONS_DIR: str = "versions"
+
+# Default port
+DEFAULT_PORT: int = 8000
