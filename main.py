@@ -4,11 +4,11 @@ from typing import Dict, Optional
 import typer
 from rich import print
 
-from generate.constants import DEFAULT_PORT
-from generate.generate import generate as generate_service
-from generate.generate import generate_files
+from generate.backend.constants import DEFAULT_PORT
+from generate.backend.generate import generate_files
+from generate.backend.versions.utils import load_versions
 from generate.models import ServiceVersion
-from generate.versions.utils import load_versions
+from generate.run import generate as generate_service
 
 app = typer.Typer()
 
@@ -29,14 +29,6 @@ def process_close(result: Dict, output_dir: str):
     print(f"Generated files:")
     for key, value in result.items():
         print(f"\t{key}: {value}")
-
-    # Auto install the dependencies using poetry
-    print(f"\nInstalling dependencies using poetry ...")
-    full_path = os.path.abspath(output_dir)
-    os.chdir(full_path)
-    os.system("poetry install")
-    os.system("poetry update")
-    print("Installed dependencies!")
 
     # Display commands for users to go and run the generated files
     print("\nRun the following commands to run the service:")
