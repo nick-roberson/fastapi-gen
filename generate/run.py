@@ -6,9 +6,12 @@ from rich import print
 from generate.backend.generate import generate_files, lint_backend
 from generate.backend.openapi.export_openapi import export_openapi
 from generate.backend.parse import load_config, parse_config, validate_config
-from generate.frontend.generate import (create_application,
-                                        create_application_client,
-                                        install_dependencies, lint_frontend)
+from generate.frontend.generate import (
+    create_application,
+    create_application_client,
+    install_dependencies,
+    lint_frontend,
+)
 from generate.models import Config
 from generate.utils import run_command
 
