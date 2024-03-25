@@ -44,6 +44,9 @@ def generate(
     output_dir: Optional[str] = typer.Option(
         DEFAULT_OUTPUT, "--output-dir", "-o", help="Path to the output directory."
     ),
+    service_name: Optional[str] = typer.Option(
+        None, "--service-name", "-s", help="Name of the service."
+    ),
 ):
     """Generate the models and services from the input yaml config."""
     # Simple validation on the input
@@ -53,6 +56,15 @@ def generate(
     if not os.path.exists(config):
         print(f"Input file {config} does not exist")
         typer.Exit(code=1)
+
+    # Confirm the service name
+    if not service_name:
+        print("Please specify a service name")
+        typer.Exit(code=1)
+
+    # Clean the service name
+    service_name = service_name.lower()
+    service_name = "".join(e for e in service_name if e.isalnum())
 
     # Create the output directory if it doesn't exist
     if not os.path.exists(output_dir):
@@ -69,7 +81,9 @@ def generate(
     )
 
     # Generate the files and close out
-    result = generate_service(output_dir=output_directory, input_file=config_path)
+    result = generate_service(
+        output_dir=output_directory, input_file=config_path, service_name=service_name
+    )
     process_close(result=result, output_dir=output_directory)
 
 

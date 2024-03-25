@@ -12,6 +12,7 @@ from generate.backend.parse import load_config, parse_config, validate_config
 from generate.backend.versions.utils import load_versions, save_version
 from generate.models import (Config, DatabaseConfig, DatabaseTypes,
                              DependencyConfig, ModelConfig, ServiceVersion)
+from generate.utils import run_command
 
 
 def lint_code(output_dir: str) -> None:
@@ -20,8 +21,8 @@ def lint_code(output_dir: str) -> None:
     Args:
         output_dir (str): Output directory
     """
-    os.system(f"poetry run black {output_dir}")
-    os.system(f"poetry run isort {output_dir}")
+    run_command(f"poetry run black {output_dir}")
+    run_command(f"poetry run isort {output_dir}")
 
 
 def generate_models(output_dir: str, models: List[ModelConfig]) -> str:
@@ -227,7 +228,7 @@ def clear_output(output_dir: str) -> None:
         output_dir (str): Output directory
     """
     if os.path.exists(output_dir):
-        os.system(f"rm -rf {output_dir}")
+        run_command(f"rm -rf {output_dir}")
     os.makedirs(output_dir)
 
 
