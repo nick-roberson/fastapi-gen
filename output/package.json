@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "@mui/icons-material": "^5.15.14",
-    "@mui/lab": "^5.0.0-alpha.169",
-    "@mui/material": "^5.15.14",
-    "axios": "^1.6.8"
-  }
-}

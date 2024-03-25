@@ -1,6 +1,8 @@
 import os
 from string import Template
 
+from rich import print
+
 from generate.utils import run_command
 
 OPENAPI_SPEC_FN: str = "openapi.json"
@@ -38,36 +40,31 @@ def create_application(output_dir: str, service_name: str):
         - Generate the typescript models
         - Generate the react components
     """
-    # (1) navigate to the output directory
-    full_path = os.path.abspath(output_dir)
-    cd_to_output_dir(full_path)
-
-    # (2) Generate the application
     print("Generating the frontend application...")
+    full_path = os.path.abspath(output_dir)
     command = CREATE_SERVICE_CMD.substitute(service_name=service_name)
-    run_command(command)
+    run_command(cmd=command, cwd=full_path)
     print("Done!")
 
 
-def install_dependencies(output_dir: str):
+def install_dependencies(output_dir: str, service_name: str):
     """Install node dependencies using npm"""
-    # (1) navigate to the output directory
+    print("Installing node dependencies...")
     full_path = os.path.abspath(output_dir)
-    cd_to_output_dir(full_path)
-
-    # (2) Install the dependencies
+    app_path = f"{full_path}/{service_name}"
     for dep in NODE_DEPENDENCIES:
-        run_command(f"npm install {dep}")
+        run_command(cmd=f"npm install {dep}", cwd=app_path)
+    print("Done!")
 
 
 def create_application_client(output_dir: str, service_name: str):
     """Generate the frontend service client code"""
-    # (1) Generate the front end service code
     print("Generating the frontend service client code...")
     full_path = os.path.abspath(output_dir)
     client_code_dir = f"{full_path}/{service_name}/src/api"
+
     command = CREATE_MODEL_CMD.substitute(
         openapi_spec=OPENAPI_SPEC_FN, output_dir=client_code_dir
     )
-    run_command(command)
+    run_command(cmd=command, cwd=full_path)
     print("Done!")

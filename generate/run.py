@@ -1,6 +1,8 @@
 import os
 from typing import Dict
 
+from rich import print
+
 from generate.backend.generate import generate_files, lint_code
 from generate.backend.openapi.export_openapi import export_openapi
 from generate.backend.parse import load_config, parse_config, validate_config
@@ -63,7 +65,7 @@ def generate_front(output_dir: str, service_name: str) -> None:
     # (1) Create the application
     create_application(output_dir=output_dir, service_name=service_name)
     # (2) Install the dependencies
-    install_dependencies(output_dir=output_dir)
+    install_dependencies(output_dir=output_dir, service_name=service_name)
     # (3) Create the application client
     create_application_client(output_dir=output_dir, service_name=service_name)
 
