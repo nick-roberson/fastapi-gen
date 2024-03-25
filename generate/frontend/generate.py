@@ -14,6 +14,7 @@ CREATE_SERVICE_CMD: Template = Template(
 CREATE_MODEL_CMD: Template = Template(
     "openapi-generator generate -i $openapi_spec -g python -o $output_dir"
 )
+INSTALL_DEPENDENCIES_CMD: Template = Template("npm install $dependency")
 
 # Node Dependencies
 NODE_DEPENDENCIES = [
@@ -24,42 +25,39 @@ NODE_DEPENDENCIES = [
 ]
 
 
-def cd_to_output_dir(output_dir: str):
-    """Change to the output directory."""
-    full_path = os.path.abspath(output_dir)
-    if not os.path.exists(full_path):
-        os.makedirs(full_path, exist_ok=True)
-    os.chdir(full_path)
-
-
 def create_application(output_dir: str, service_name: str):
     """Generates a typescript / react front end from scratch.
 
-    TODO:
-        - Import the openapi schema
-        - Generate the typescript models
-        - Generate the react components
+    Args:
+        output_dir (str): Output directory
+        service_name (str): Name of the service
     """
-    print("Generating the frontend application...")
     full_path = os.path.abspath(output_dir)
     command = CREATE_SERVICE_CMD.substitute(service_name=service_name)
     run_command(cmd=command, cwd=full_path)
-    print("Done!")
 
 
 def install_dependencies(output_dir: str, service_name: str):
-    """Install node dependencies using npm"""
-    print("Installing node dependencies...")
+    """Install node dependencies using npm
+
+    Args:
+        output_dir (str): Output directory
+        service_name (str): Name of the service
+    """
     full_path = os.path.abspath(output_dir)
     app_path = f"{full_path}/{service_name}"
-    for dep in NODE_DEPENDENCIES:
-        run_command(cmd=f"npm install {dep}", cwd=app_path)
-    print("Done!")
+    for dependency in NODE_DEPENDENCIES:
+        command = INSTALL_DEPENDENCIES_CMD.substitute(dependency=dependency)
+        run_command(cmd=command, cwd=app_path)
 
 
 def create_application_client(output_dir: str, service_name: str):
-    """Generate the frontend service client code"""
-    print("Generating the frontend service client code...")
+    """Generate the frontend service client code
+
+    Args:
+        output_dir (str): Output directory
+        service_name (str): Name of the service
+    """
     full_path = os.path.abspath(output_dir)
     client_code_dir = f"{full_path}/{service_name}/src/api"
 
@@ -67,4 +65,3 @@ def create_application_client(output_dir: str, service_name: str):
         openapi_spec=OPENAPI_SPEC_FN, output_dir=client_code_dir
     )
     run_command(cmd=command, cwd=full_path)
-    print("Done!")
