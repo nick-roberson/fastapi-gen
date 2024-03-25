@@ -3,12 +3,12 @@ from typing import Dict
 
 from rich import print
 
-from generate.backend.generate import generate_files, lint_code
+from generate.backend.generate import generate_files, lint_backend
 from generate.backend.openapi.export_openapi import export_openapi
 from generate.backend.parse import load_config, parse_config, validate_config
 from generate.frontend.generate import (create_application,
                                         create_application_client,
-                                        install_dependencies)
+                                        install_dependencies, lint_frontend)
 from generate.models import Config
 from generate.utils import run_command
 
@@ -54,7 +54,7 @@ def generate_back(output_dir: str, input_file: str) -> Dict:
 
     # (5) Lint the code
     print(f"\nLinting the code ...")
-    lint_code(output_dir)
+    lint_backend(output_dir=output_dir)
     print("Linted the code!")
 
     return result
@@ -75,6 +75,11 @@ def generate_front(output_dir: str, service_name: str) -> None:
     # (3) Create the application client
     print("Generating the frontend service client code...")
     create_application_client(output_dir=output_dir, service_name=service_name)
+    print("Done!")
+
+    # (4) Lint the code
+    print("Linting the code...")
+    lint_frontend(output_dir=output_dir, service_name=service_name)
     print("Done!")
 
 
