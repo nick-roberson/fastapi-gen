@@ -8,16 +8,25 @@ This is a simple FastAPI service that can be used as a starting point for a new 
 
 --- 
 
+### Backend Generation
 - [x] Generate FastAPI service from a YAML file
-- [x] Generate MongoDB models from a YAML file
+- [x] Generate Pydantic base models from a YAML file
 - [x] Generate MongoDB manager from a YAML file
 - [x] Generate CRUD operations for each model in the YAML
+- [x] Generate Poetry file and install dependencies
+- 
+### Frontend Generation
+
+- [x] Generate a React frontend as Sample Application
+- [x] Generate frontend React API Client for the FastAPI service using openapi-generator
+- [x] Install some basic dependencies for the frontend
 
 ### Planned Features
 
 - [ ] Allow support for multiple database types (Postgres, MySQL, etc.)
 - [ ] Generate a Dockerfile for the service
-- [ ] Generate Poetry files for the service based on the dependencies in the YAML file
+- [ ] Allow for more complex relationships between models
+- [ ] Generate a more complex frontend application for the service with some basic features
 
 
 ## Requirements
