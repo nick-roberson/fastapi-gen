@@ -63,11 +63,19 @@ def generate_back(output_dir: str, input_file: str) -> Dict:
 def generate_front(output_dir: str, service_name: str) -> None:
     """Generates a typescript / react front end from scratch."""
     # (1) Create the application
+    print("Generating the frontend application...")
     create_application(output_dir=output_dir, service_name=service_name)
+    print("Done!")
+
     # (2) Install the dependencies
+    print("Installing node dependencies...")
     install_dependencies(output_dir=output_dir, service_name=service_name)
+    print("Done!")
+
     # (3) Create the application client
+    print("Generating the frontend service client code...")
     create_application_client(output_dir=output_dir, service_name=service_name)
+    print("Done!")
 
 
 def generate(input_file: str, output_dir: str, service_name: str) -> Dict:
