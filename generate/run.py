@@ -38,17 +38,18 @@ def generate_back(output_dir: str, input_file: str) -> Dict:
     # (3) Install the dependencies
     print(f"\nInstalling dependencies using poetry ...")
     full_path = os.path.abspath(output_dir)
-    os.chdir(full_path)
-    run_command("poetry install")
-    run_command("poetry update")
+    cmd = "poetry install"
+    run_command(cmd=cmd, cwd=full_path)
     print("Installed dependencies!")
 
     # (4) Export the OpenAPI JSON
     print(f"\nExporting OpenAPI JSON ...")
+    application_name = "service:app"
+    openapi_json_file = f"{output_dir}/openapi.json"
     export_openapi(
-        application_name="service:app",
+        application_name=application_name,
         application_dir=output_dir,
-        output_file=f"{output_dir}/openapi.json",
+        output_file=openapi_json_file,
     )
     print("Exported OpenAPI JSON!")
 
@@ -83,8 +84,33 @@ def generate_front(output_dir: str, service_name: str) -> None:
     print("Done!")
 
 
-def generate(input_file: str, output_dir: str, service_name: str) -> Dict:
-    """Generate the models and services from the input yaml config."""
-    created_files = generate_back(output_dir=output_dir, input_file=input_file)
-    generate_front(output_dir=output_dir, service_name=service_name)
-    return created_files
+def generate(
+    input_file: str,
+    output_dir: str,
+    service_name: str,
+    backend_only: bool = False,
+    frontend_only: bool = False,
+) -> Dict:
+    """Generate the models and services from the input yaml config.
+
+    Args:
+        input_file (str): Path to the input yaml config.
+        output_dir (str): Output directory
+        service_name (str): Name of the service.
+        backend_only (bool): Only regenerate the backend
+        frontend_only (bool): Only regenerate the frontend
+    Returns:
+        Dict: Dictionary of the generated files
+    """
+    # Only regenerate the backend
+    if backend_only:
+        return generate_back(output_dir=output_dir, input_file=input_file)
+    # Only regenerate the frontend
+    if frontend_only:
+        generate_front(output_dir=output_dir, service_name=service_name)
+        return {}
+    # Regenerate both the backend and frontend
+    else:
+        created_files = generate_back(output_dir=output_dir, input_file=input_file)
+        generate_front(output_dir=output_dir, service_name=service_name)
+        return created_files
