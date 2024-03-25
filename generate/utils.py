@@ -1,6 +1,10 @@
+import os
 import subprocess
 
 from rich import print
+
+# Constants
+VERBOSE: bool = os.environ.get("VERBOSE", False)
 
 
 def run_command(cmd: str, cwd: str = None) -> subprocess.CompletedProcess:
@@ -13,12 +17,22 @@ def run_command(cmd: str, cwd: str = None) -> subprocess.CompletedProcess:
         subprocess.CompletedProcess: The completed process
     """
     try:
-        print(f"Running command '{cmd}'...")
+        # Print and run the command
+        print(f"Running command: {cmd}")
         if cwd:
-            completed_process = subprocess.run(cmd, shell=True, check=True, cwd=cwd)
+            completed_process = subprocess.run(
+                cmd, shell=True, check=True, cwd=cwd, capture_output=True
+            )
         else:
-            completed_process = subprocess.run(cmd, shell=True, check=True)
+            completed_process = subprocess.run(
+                cmd, shell=True, check=True, capture_output=True
+            )
+
+        # Show output conditionally
+        if VERBOSE:
+            print(f"Output: {completed_process.stdout.decode()}")
         return completed_process
+
     except Exception as e:
         print(f"Error running command: {cmd}, {e}")
         raise e

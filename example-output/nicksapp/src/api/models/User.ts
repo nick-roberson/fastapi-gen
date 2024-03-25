@@ -42,19 +42,19 @@ export interface User {
    * @type {any}
    * @memberof User
    */
-  location: any | null;
+  location?: any | null;
   /**
    * The age of the user
    * @type {any}
    * @memberof User
    */
-  age: any | null;
+  age?: any | null;
   /**
    * The team name of the user
    * @type {any}
    * @memberof User
    */
-  team: any | null;
+  team?: any | null;
 }
 
 /**
@@ -64,9 +64,6 @@ export function instanceOfUser(value: object): boolean {
   let isInstance = true;
   isInstance = isInstance && "username" in value;
   isInstance = isInstance && "email" in value;
-  isInstance = isInstance && "location" in value;
-  isInstance = isInstance && "age" in value;
-  isInstance = isInstance && "team" in value;
 
   return isInstance;
 }
@@ -86,9 +83,9 @@ export function UserFromJSONTyped(
     id: !exists(json, "id") ? undefined : json["id"],
     username: json["username"],
     email: json["email"],
-    location: json["location"],
-    age: json["age"],
-    team: json["team"],
+    location: !exists(json, "location") ? undefined : json["location"],
+    age: !exists(json, "age") ? undefined : json["age"],
+    team: !exists(json, "team") ? undefined : json["team"],
   };
 }
 

@@ -4,26 +4,21 @@ from typing import Dict, List
 
 from jinja2 import Environment, FileSystemLoader
 
-from generate.backend.constants import (
-    MANAGER_TEMPLATES,
-    MODEL_TEMPLATES,
-    MONGO_TEMPLATES,
-    POETRY_TEMPLATES,
-    README_TEMPLATES,
-    SERVICE_TEMPLATES,
-)
 from generate.backend.openapi.export_openapi import export_openapi
 from generate.backend.parse import load_config, parse_config, validate_config
 from generate.backend.versions.utils import load_versions, save_version
-from generate.models import (
-    Config,
-    DatabaseConfig,
-    DatabaseTypes,
-    DependencyConfig,
-    ModelConfig,
-    ServiceVersion,
-)
+from generate.constants import (MANAGER_TEMPLATES, MODEL_TEMPLATES,
+                                MONGO_TEMPLATES, POETRY_TEMPLATES,
+                                PYTHON_DEPENDENCIES, README_TEMPLATES,
+                                SERVICE_TEMPLATES)
+from generate.models import (Config, DatabaseConfig, DatabaseTypes,
+                             DependencyConfig, ModelConfig, ServiceVersion)
 from generate.utils import run_command
+
+# If none of the templates are provided, use the default templates
+DEFAULT_DEPENDENCIES = [
+    DependencyConfig(name=dep[0], version=dep[1]) for dep in PYTHON_DEPENDENCIES
+]
 
 
 def lint_backend(output_dir: str) -> None:
@@ -181,7 +176,11 @@ def generate_poetry_toml(output_dir: str, dependencies: List[DependencyConfig]) 
     env = Environment(loader=FileSystemLoader(POETRY_TEMPLATES))
     service_template = env.get_template("toml.jinja")
 
-    # Create a list of dependencies
+    # If none of the dependencies are provided, use the default dependencies
+    if not dependencies:
+        dependencies = DEFAULT_DEPENDENCIES
+
+    # Generate the dependency rows
     dependency_rows = []
     for dep in dependencies:
         if dep.version:

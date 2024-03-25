@@ -131,77 +131,97 @@ models:
         type: list
         required: true
         description: The users in the group
-
-# Dependencies
-dependencies:
-  - name: "python"
-    version: "3.11.7"
-  - name: "pydantic"
-    version: "^2.6.4"
-  - name: "fastapi"
-    version: "^0.110.0"
-  - name: "uvicorn"
-    version: "^0.28.0"
-  - name: "pymongo"
-    version: "^4.6.2"
-  - name: "certifi"
-    version: "^2024.2.2"
-  - name: "rich"
-    version: "^13.7.1"
 ```
 
 Automatically generate the service using the following command:
 ```bash
 % poetry install && poetry update
-%  poetry run python main.py generate \
+% VERBOSE=0 && poetry run python main.py generate \
   --config examples/models.yaml \
-  --output-dir example-output 
+  --output-dir example-output \
   --service-name nicks-app
 
-...
-
-Generating models and services with the following inputs
-    Input:  examples/models.yaml
-    Output: /Users/nicholas/Code/service-builder/output
+Generating models and services with the following inputs:
+    Input:  /Users/nicholas/Code/service-builder/examples/models.yaml
+    Output: /Users/nicholas/Code/service-builder/example-output
+    Service Name: nicksapp
+    Frontend Only: False
+    Backend Only: False
     
-Generated files:
-  models:  /Users/nicholas/Code/service-builder/output/models/models.py
-  service: /Users/nicholas/Code/service-builder/output/service.py
-  manager: ['/Users/nicholas/Code/service-builder/output/user_manager.py', '/Users/nicholas/Code/service-builder/output/group_manager.py']
-  mongo:   /Users/nicholas/Code/service-builder/output/mongo.py
-  poetry:  /Users/nicholas/Code/service-builder/output/pyproject.toml
-  readme:  /Users/nicholas/Code/service-builder/output/README.md
-  
+Generating models and services ...
+Running command: rm -rf /Users/nicholas/Code/service-builder/example-output
+Done!
+
 Installing dependencies using poetry ...
-Installed dependencies!
+Running command: poetry install
+Done!
+
+Exporting OpenAPI JSON ...
+adding /Users/nicholas/Code/service-builder/example-output to sys.path
+importing app from service:app
+Writing openapi spec v3.1.0
+OpenAPI spec written to /Users/nicholas/Code/service-builder/example-output/openapi.json
+Done!
+
+Linting the code ...
+Running command: poetry run black /Users/nicholas/Code/service-builder/example-output
+Running command: poetry run isort /Users/nicholas/Code/service-builder/example-output
+Done!
+
+Clearing the output directory ...
+Done!
+
+Generating the frontend application...
+Running command: npx create-react-app nicksapp --template typescript
+Done!
+
+Installing node dependencies...
+Running command: npm install axios @mui/material @mui/icons-material @mui/x-data-grid @mui/styled-engine @mui/lab @emotion/react @emotion/styled prettier eslint
+Done!
+
+Generating the frontend service client code...
+Running command: openapi-generator generate -i openapi.json -g typescript-fetch -o /Users/nicholas/Code/service-builder/example-output/nicksapp/src/api
+Done!
+
+Generating the main page...
+Done!
+
+Linting the code...
+Running command: npx prettier --write .
+Running command: npx eslint --fix .
+Done!
+
+Generated files:
+        models: /Users/nicholas/Code/service-builder/example-output/models/models.py
+        service: /Users/nicholas/Code/service-builder/example-output/service.py
+        managers: ['/Users/nicholas/Code/service-builder/example-output/user_manager.py', '/Users/nicholas/Code/service-builder/example-output/group_manager.py']
+        mongo: /Users/nicholas/Code/service-builder/example-output/mongo.py
+        poetry: /Users/nicholas/Code/service-builder/example-output/pyproject.toml
+        readme: /Users/nicholas/Code/service-builder/example-output/README.md
 
 Run the following commands to run the service:
-  % cd /Users/nicholas/Code/service-builder/output
+  % cd /Users/nicholas/Code/service-builder/example-output
   % poetry run uvicorn service:app --reload --port 8000
+
+Run the following commands to run the frontend:
+  % cd /Users/nicholas/Code/service-builder/example-output/nicksapp
+  % npm start
 ```
 
-See the version history of the service:
-```bash
-% poetry run python main.py versions
+### Running
 
-Loaded 2 versions:
-        Version: 2 - 2024-03-22 10:54:14
-        Version: 1 - 2024-03-22 10:51:32
+Back End 
 ``` 
-
-
-To lint the code just to make it more readable you can use `black` and `isort`:
-```bash
-% poetry run black . && poetry run isort .
-```
-
-To run the new service 
-```bash
-% cd /Users/nicholas/Code/service-builder/output
+% cd /Users/nicholas/Code/service-builder/example-output  
 % poetry run uvicorn service:app --reload --port 8000
 ```
-
 To view the generated OpenAPI documentation, navigate to [http://localhost:8000/docs](http://localhost:8000/docs).
+
+### Front End
+```
+% cd /Users/nicholas/Code/service-builder/example-output/nicksapp
+% npm start
+```
 
 ## API Examples
 
