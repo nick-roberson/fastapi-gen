@@ -15,7 +15,7 @@ from generate.models import (Config, DatabaseConfig, DatabaseTypes,
 from generate.utils import run_command
 
 
-def lint_code(output_dir: str) -> None:
+def lint_backend(output_dir: str) -> None:
     """Lint the code using black and isort
 
     Args:

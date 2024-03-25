@@ -12,7 +12,7 @@ CREATE_SERVICE_CMD: Template = Template(
     "npx create-react-app $service_name --template typescript"
 )
 CREATE_MODEL_CMD: Template = Template(
-    "openapi-generator generate -i $openapi_spec -g python -o $output_dir"
+    "openapi-generator generate -i $openapi_spec -g typescript-fetch -o $output_dir"
 )
 INSTALL_DEPENDENCIES_CMD: Template = Template("npm install $dependency")
 
@@ -22,6 +22,8 @@ NODE_DEPENDENCIES = [
     "@mui/material",
     "@mui/icons-material",
     "@mui/lab",
+    "prettier",
+    "eslint",
 ]
 
 
@@ -65,3 +67,16 @@ def create_application_client(output_dir: str, service_name: str):
         openapi_spec=OPENAPI_SPEC_FN, output_dir=client_code_dir
     )
     run_command(cmd=command, cwd=full_path)
+
+
+def lint_frontend(output_dir: str, service_name: str):
+    """Lint the code using prettier
+
+    Args:
+        output_dir (str): Output directory
+        service_name (str): Name of the service
+    """
+    full_path = os.path.abspath(output_dir)
+    code_path = f"{full_path}/{service_name}/src"
+    run_command("npx prettier --write .", cwd=code_path)
+    run_command("npx eslint --fix .", cwd=code_path)
