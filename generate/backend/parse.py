@@ -4,8 +4,14 @@ from typing import Dict, Tuple
 import yaml
 from pydantic.fields import FieldInfo
 
-from generate.models import (Config, DatabaseConfig, DatabaseTypes,
-                             DependencyConfig, FieldDefinition, ModelConfig)
+from generate.models import (
+    Config,
+    DatabaseConfig,
+    DatabaseTypes,
+    DependencyConfig,
+    FieldDefinition,
+    ModelConfig,
+)
 
 # Pull output the fields from the models
 FIELD_DEFINITION_FIELDS: dict[str, FieldInfo] = FieldDefinition.model_fields

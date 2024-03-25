@@ -4,14 +4,25 @@ from typing import Dict, List
 
 from jinja2 import Environment, FileSystemLoader
 
-from generate.backend.constants import (MANAGER_TEMPLATES, MODEL_TEMPLATES,
-                                        MONGO_TEMPLATES, POETRY_TEMPLATES,
-                                        README_TEMPLATES, SERVICE_TEMPLATES)
+from generate.backend.constants import (
+    MANAGER_TEMPLATES,
+    MODEL_TEMPLATES,
+    MONGO_TEMPLATES,
+    POETRY_TEMPLATES,
+    README_TEMPLATES,
+    SERVICE_TEMPLATES,
+)
 from generate.backend.openapi.export_openapi import export_openapi
 from generate.backend.parse import load_config, parse_config, validate_config
 from generate.backend.versions.utils import load_versions, save_version
-from generate.models import (Config, DatabaseConfig, DatabaseTypes,
-                             DependencyConfig, ModelConfig, ServiceVersion)
+from generate.models import (
+    Config,
+    DatabaseConfig,
+    DatabaseTypes,
+    DependencyConfig,
+    ModelConfig,
+    ServiceVersion,
+)
 from generate.utils import run_command
 
 

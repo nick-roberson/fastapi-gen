@@ -47,6 +47,12 @@ def generate(
     service_name: Optional[str] = typer.Option(
         None, "--service-name", "-s", help="Name of the service."
     ),
+    frontend_only: Optional[bool] = typer.Option(
+        False, "--frontend-only", "-f", help="Generate only the front end."
+    ),
+    backend_only: Optional[bool] = typer.Option(
+        False, "--backend-only", "-b", help="Generate only the back end."
+    ),
 ):
     """Generate the models and services from the input yaml config."""
     # Simple validation on the input
@@ -77,12 +83,19 @@ def generate(
         f"""Generating models and services with the following inputs
     Input:  {config_path}
     Output: {output_directory}
+    Service Name: {service_name}
+    Frontend Only: {frontend_only}
+    Backend Only: {backend_only}
     """
     )
 
     # Generate the files and close out
     result = generate_service(
-        output_dir=output_directory, input_file=config_path, service_name=service_name
+        output_dir=output_directory,
+        input_file=config_path,
+        service_name=service_name,
+        frontend_only=frontend_only,
+        backend_only=backend_only,
     )
     process_close(result=result, output_dir=output_directory)
 
