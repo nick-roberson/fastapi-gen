@@ -2,9 +2,7 @@ import tempfile
 
 import pytest
 
-from generate.constants import SAMPLE_INPUT
-from generate.generate import (generate_database, generate_managers,
-                               generate_models, generate_services)
+from generate.backend.constants import SAMPLE_INPUT
 from generate.parse import load_config, parse_config, validate_config
 
 

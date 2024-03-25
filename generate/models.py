@@ -120,6 +120,7 @@ class DatabaseConfig(BaseModel):
 class Config(BaseModel):
     """List of model definitions"""
 
+    service_name: str = "MyService"
     database: DatabaseConfig
     models: List[ModelConfig]
     dependencies: List[DependencyConfig]

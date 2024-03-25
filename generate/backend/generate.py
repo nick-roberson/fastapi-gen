@@ -4,13 +4,25 @@ from typing import Dict, List
 
 from jinja2 import Environment, FileSystemLoader
 
-from generate.constants import (MANAGER_TEMPLATES, MODEL_TEMPLATES,
-                                MONGO_TEMPLATES, POETRY_TEMPLATES,
-                                README_TEMPLATES, SERVICE_TEMPLATES)
+from generate.backend.constants import (MANAGER_TEMPLATES, MODEL_TEMPLATES,
+                                        MONGO_TEMPLATES, POETRY_TEMPLATES,
+                                        README_TEMPLATES, SERVICE_TEMPLATES)
+from generate.backend.openapi.export_openapi import export_openapi
+from generate.backend.parse import load_config, parse_config, validate_config
+from generate.backend.versions.utils import load_versions, save_version
 from generate.models import (Config, DatabaseConfig, DatabaseTypes,
                              DependencyConfig, ModelConfig, ServiceVersion)
-from generate.parse import load_config, parse_config, validate_config
-from generate.versions.utils import load_versions, save_version
+from generate.utils import run_command
+
+
+def lint_code(output_dir: str) -> None:
+    """Lint the code using black and isort
+
+    Args:
+        output_dir (str): Output directory
+    """
+    run_command(f"poetry run black {output_dir}")
+    run_command(f"poetry run isort {output_dir}")
 
 
 def generate_models(output_dir: str, models: List[ModelConfig]) -> str:
@@ -216,7 +228,7 @@ def clear_output(output_dir: str) -> None:
         output_dir (str): Output directory
     """
     if os.path.exists(output_dir):
-        os.system(f"rm -rf {output_dir}")
+        run_command(f"rm -rf {output_dir}")
     os.makedirs(output_dir)
 
 
@@ -276,19 +288,3 @@ def generate_files(output_dir: str, config: Config, is_revert: bool = False) -> 
         "poetry": poetry_file,
         "readme": readme_file,
     }
-
-
-def generate(output_dir: str, input_file: str) -> Dict:
-    """Generate the models and services from the input yaml config.
-
-    Args:
-        output_dir (str): Output directory
-        input_file (str): Path to the input yaml config.
-
-    Returns:
-        Dict: Dictionary of the generated files
-    """
-    loaded_config = load_config(input_file=input_file)
-    validate_config(loaded_config)
-    config = parse_config(loaded_config)
-    return generate_files(output_dir, config, is_revert=False)

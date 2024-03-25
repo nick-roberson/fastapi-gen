@@ -144,7 +144,10 @@ dependencies:
 Automatically generate the service using the following command:
 ```bash
 % poetry install && poetry update
-% poetry run python main.py generate --config examples/models.yaml --output-dir output
+%  poetry run python main.py generate \
+  --config examples/models.yaml \
+  --output-dir example-output 
+  --service-name nicks-app
 
 ...
 
