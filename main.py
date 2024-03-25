@@ -4,9 +4,9 @@ from typing import Dict, Optional
 import typer
 from rich import print
 
-from generate.backend.constants import DEFAULT_PORT
 from generate.backend.generate import generate_files
 from generate.backend.versions.utils import load_versions
+from generate.constants import DEFAULT_PORT
 from generate.models import ServiceVersion
 from generate.run import generate as generate_service
 
@@ -18,7 +18,7 @@ DEFAULT_INPUT: str = "examples/models.yaml"
 DEFAULT_OUTPUT: str = f"{CWD}/output"
 
 
-def process_close(result: Dict, output_dir: str):
+def process_close(result: Dict, output_dir: str, service_name: str = None):
     """Show the results and close the application.
 
     Args:
@@ -34,6 +34,12 @@ def process_close(result: Dict, output_dir: str):
     print("\nRun the following commands to run the service:")
     print(f"  % cd {output_dir}")
     print(f"  % poetry run uvicorn service:app --reload --port {DEFAULT_PORT}")
+
+    # Display the frontend commands
+    if service_name:
+        print("\nRun the following commands to run the frontend:")
+        print(f"  % cd {output_dir}/{service_name}")
+        print(f"  % npm start")
 
 
 @app.command()
@@ -97,7 +103,7 @@ def generate(
         frontend_only=frontend_only,
         backend_only=backend_only,
     )
-    process_close(result=result, output_dir=output_directory)
+    process_close(result=result, output_dir=output_directory, service_name=service_name)
 
 
 @app.command()

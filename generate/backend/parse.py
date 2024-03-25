@@ -4,14 +4,8 @@ from typing import Dict, Tuple
 import yaml
 from pydantic.fields import FieldInfo
 
-from generate.models import (
-    Config,
-    DatabaseConfig,
-    DatabaseTypes,
-    DependencyConfig,
-    FieldDefinition,
-    ModelConfig,
-)
+from generate.models import (Config, DatabaseConfig, DatabaseTypes,
+                             DependencyConfig, FieldDefinition, ModelConfig)
 
 # Pull output the fields from the models
 FIELD_DEFINITION_FIELDS: dict[str, FieldInfo] = FieldDefinition.model_fields
@@ -68,7 +62,7 @@ def validate_config(config: Dict) -> None:
         ValueError: If the config is invalid
     """
     # (1) Confirm top level keys in the Config
-    required_top_level_keys = ["database", "models", "dependencies"]
+    required_top_level_keys = ["database", "models"]
     if not all(key in config.keys() for key in required_top_level_keys):
         raise ValueError(
             f"Invalid top level keys in config, required keys are {required_top_level_keys}"

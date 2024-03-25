@@ -701,10 +701,7 @@
         "type": "object",
         "required": [
           "username",
-          "email",
-          "location",
-          "age",
-          "team"
+          "email"
         ],
         "title": "User"
       },

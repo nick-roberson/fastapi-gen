@@ -45,7 +45,7 @@ class FieldDefinition(BaseModel):
         # If not required, include default  (if present)
         else:
             if self.default is None:
-                return f"{self.name}: {self.type} = FieldInfo(description='{self.description}', required={self.required})"
+                return f"{self.name}: {self.type} = FieldInfo(default=None,description='{self.description}', required={self.required})"
             else:
                 return (
                     f"{self.name}: {self.type} = FieldInfo(default={self.default}, description='{self.description}', "

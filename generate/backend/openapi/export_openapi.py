@@ -21,11 +21,11 @@ def export_openapi(
     """
     # Add the application directory to the path
     if application_dir is not None:
-        print(f"adding {application_dir} to sys.path")
+        print(f"Adding {application_dir} to sys.path")
         sys.path.insert(0, application_dir)
 
     # Import the app
-    print(f"importing app from {application_name}")
+    print(f"Importing app from {application_name}")
     app = import_from_string(application_name)
     openapi = app.openapi()
 

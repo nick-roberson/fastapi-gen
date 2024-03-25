@@ -17,7 +17,6 @@ def get_group_manager():
 
 
 class GroupManager:
-
     collection_name: str = "group"
 
     def __init__(self):

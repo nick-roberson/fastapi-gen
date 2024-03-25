@@ -6,17 +6,30 @@ from rich import print
 from generate.backend.generate import generate_files, lint_backend
 from generate.backend.openapi.export_openapi import export_openapi
 from generate.backend.parse import load_config, parse_config, validate_config
-from generate.frontend.generate import (
-    create_application,
-    create_application_client,
-    install_dependencies,
-    lint_frontend,
-)
+from generate.frontend.generate import clear_output as clear_frontend_output
+from generate.frontend.generate import (create_application,
+                                        create_application_client,
+                                        generate_app_main_page,
+                                        install_dependencies, lint_frontend)
 from generate.models import Config
 from generate.utils import run_command
 
 
-def generate_back(output_dir: str, input_file: str) -> Dict:
+def load_and_validate_config(input_file: str) -> Dict:
+    """Load the input yaml config file.
+
+    Args:
+        input_file (str): Path to the input yaml config.
+
+    Returns:
+        Dict: Dictionary of the loaded yaml config
+    """
+    loaded_config: Dict = load_config(input_file=input_file)
+    validate_config(loaded_config)
+    return parse_config(loaded_config)
+
+
+def generate_back(config: Config, output_dir: str, input_file: str) -> Dict:
     """Generate the models and services from the input yaml config.
 
     Args:
@@ -26,27 +39,20 @@ def generate_back(output_dir: str, input_file: str) -> Dict:
     Returns:
         Dict: Dictionary of the generated files
     """
-    # (1) Load and validate the config
-    print(f"Loading and validating the config ...")
-    loaded_config: Dict = load_config(input_file=input_file)
-    validate_config(loaded_config)
-    config: Config = parse_config(loaded_config)
-    print("Loaded and validated the config!")
-
-    # (2) Generate the files
-    print(f"\nGenerating models and services ...")
+    # (1) Generate the files
+    print(f"Generating models and services ...")
     result = generate_files(output_dir, config, is_revert=False)
-    print("Generated models and services!")
+    print("Done!\n")
 
-    # (3) Install the dependencies
-    print(f"\nInstalling dependencies using poetry ...")
+    # (2) Install the dependencies
+    print(f"Installing dependencies using poetry ...")
     full_path = os.path.abspath(output_dir)
     cmd = "poetry install"
     run_command(cmd=cmd, cwd=full_path)
-    print("Installed dependencies!")
+    print("Done!\n")
 
-    # (4) Export the OpenAPI JSON
-    print(f"\nExporting OpenAPI JSON ...")
+    # (3) Export the OpenAPI JSON
+    print(f"Exporting OpenAPI JSON ...")
     application_name = "service:app"
     openapi_json_file = f"{output_dir}/openapi.json"
     export_openapi(
@@ -54,37 +60,49 @@ def generate_back(output_dir: str, input_file: str) -> Dict:
         application_dir=output_dir,
         output_file=openapi_json_file,
     )
-    print("Exported OpenAPI JSON!")
+    print("Done!\n")
 
-    # (5) Lint the code
-    print(f"\nLinting the code ...")
+    # (4) Lint the code
+    print(f"Linting the code ...")
     lint_backend(output_dir=output_dir)
-    print("Linted the code!")
+    print("Done!\n")
 
     return result
 
 
-def generate_front(output_dir: str, service_name: str) -> None:
+def generate_front(config: Config, output_dir: str, service_name: str) -> None:
     """Generates a typescript / react front end from scratch."""
+    # (0) Clear the output directory
+    print("Clearing the output directory ...")
+    clear_frontend_output(output_dir=output_dir, service_name=service_name)
+    print("Done!\n")
+
     # (1) Create the application
     print("Generating the frontend application...")
     create_application(output_dir=output_dir, service_name=service_name)
-    print("Done!")
+    print("Done!\n")
 
     # (2) Install the dependencies
     print("Installing node dependencies...")
     install_dependencies(output_dir=output_dir, service_name=service_name)
-    print("Done!")
+    print("Done!\n")
 
     # (3) Create the application client
     print("Generating the frontend service client code...")
     create_application_client(output_dir=output_dir, service_name=service_name)
-    print("Done!")
+    print("Done!\n")
 
-    # (4) Lint the code
+    # (4) Generate the main page
+    print("Generating the main page...")
+    generate_app_main_page(
+        output_dir=output_dir, service_name=service_name, models=config.models
+    )
+    print("Done!\n")
+
+    # (5) Lint the code
     print("Linting the code...")
     lint_frontend(output_dir=output_dir, service_name=service_name)
-    print("Done!")
+    print("Done!\n")
 
 
 def generate(
@@ -105,15 +123,20 @@ def generate(
     Returns:
         Dict: Dictionary of the generated files
     """
+    config = load_and_validate_config(input_file)
     # Only regenerate the backend
     if backend_only:
-        return generate_back(output_dir=output_dir, input_file=input_file)
+        return generate_back(
+            config=config, output_dir=output_dir, input_file=input_file
+        )
     # Only regenerate the frontend
     if frontend_only:
-        generate_front(output_dir=output_dir, service_name=service_name)
+        generate_front(config=config, output_dir=output_dir, service_name=service_name)
         return {}
     # Regenerate both the backend and frontend
     else:
-        created_files = generate_back(output_dir=output_dir, input_file=input_file)
-        generate_front(output_dir=output_dir, service_name=service_name)
+        created_files = generate_back(
+            config=config, output_dir=output_dir, input_file=input_file
+        )
+        generate_front(config=config, output_dir=output_dir, service_name=service_name)
         return created_files
