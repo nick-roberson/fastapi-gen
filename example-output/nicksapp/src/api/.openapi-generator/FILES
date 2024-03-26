@@ -1,0 +1,10 @@
+.openapi-generator-ignore
+apis/DefaultApi.ts
+apis/index.ts
+index.ts
+models/Group.ts
+models/HTTPValidationError.ts
+models/User.ts
+models/ValidationError.ts
+models/index.ts
+runtime.ts
