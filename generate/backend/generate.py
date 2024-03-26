@@ -242,6 +242,16 @@ def clear_output(output_dir: str) -> None:
     os.makedirs(output_dir)
 
 
+def install_backend_deps(output_dir: str) -> None:
+    """Install the backend dependencies using poetry
+
+    Args:
+        output_dir (str): Output directory
+    """
+    full_path = os.path.abspath(output_dir)
+    run_command(f"poetry install", cwd=full_path)
+
+
 def generate_files(output_dir: str, config: Config, is_revert: bool = False) -> Dict:
     """Generate the models and services from the input yaml config.
 
