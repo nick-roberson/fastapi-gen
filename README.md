@@ -140,32 +140,32 @@ Automatically generate the service using the following command:
   --config data/example_configs/user_groups.yaml \
   --output-dir data/example_output \
   --service-name nicks-app
-
-Generating models and services with the following inputs:
-    Input:  /Users/nicholas/Code/service-builder/example_configs/user_groups.yaml
-    Output: /Users/nicholas/Code/service-builder/example_output
+Generating models and services with the following inputs
+    Input:  /Users/nicholas/Code/service-builder/data/example_configs/user_groups.yaml
+    Output: /Users/nicholas/Code/service-builder/data/example_output
     Service Name: nicksapp
     Frontend Only: False
     Backend Only: False
     
 Generating models and services ...
-Running command: rm -rf /Users/nicholas/Code/service-builder/example-output
+Running command: rm -rf /Users/nicholas/Code/service-builder/data/example_output
 Done!
 
 Installing dependencies using poetry ...
+Running command: poetry env use 3.12.1
 Running command: poetry install
 Done!
 
 Exporting OpenAPI JSON ...
-adding /Users/nicholas/Code/service-builder/example-output to sys.path
-importing app from service:app
+Adding /Users/nicholas/Code/service-builder/data/example_output to sys.path
+Importing app from service:app
 Writing openapi spec v3.1.0
-OpenAPI spec written to /Users/nicholas/Code/service-builder/example-output/openapi.json
+OpenAPI spec written to /Users/nicholas/Code/service-builder/data/example_output/openapi.json
 Done!
 
 Linting the code ...
-Running command: poetry run black /Users/nicholas/Code/service-builder/example-output
-Running command: poetry run isort /Users/nicholas/Code/service-builder/example-output
+Running command: poetry run black /Users/nicholas/Code/service-builder/data/example_output
+Running command: poetry run isort /Users/nicholas/Code/service-builder/data/example_output
 Done!
 
 Clearing the output directory ...
@@ -180,7 +180,7 @@ Running command: npm install axios @mui/material @mui/icons-material @mui/x-data
 Done!
 
 Generating the frontend service client code...
-Running command: openapi-generator generate -i openapi.json -g typescript-fetch -o /Users/nicholas/Code/service-builder/example-output/nicksapp/src/api
+Running command: openapi-generator generate -i openapi.json -g typescript-fetch -o /Users/nicholas/Code/service-builder/data/example_output/nicksapp/src/api
 Done!
 
 Generating the main page...
@@ -192,19 +192,19 @@ Running command: npx eslint --fix .
 Done!
 
 Generated files:
-        models: /Users/nicholas/Code/service-builder/example-output/models/models.py
-        service: /Users/nicholas/Code/service-builder/example-output/service.py
-        managers: ['/Users/nicholas/Code/service-builder/example-output/user_manager.py', '/Users/nicholas/Code/service-builder/example-output/group_manager.py']
-        mongo: /Users/nicholas/Code/service-builder/example-output/mongo.py
-        poetry: /Users/nicholas/Code/service-builder/example-output/pyproject.toml
-        readme: /Users/nicholas/Code/service-builder/example-output/README.md
+        models: /Users/nicholas/Code/service-builder/data/example_output/models/models.py
+        service: /Users/nicholas/Code/service-builder/data/example_output/service.py
+        managers: ['/Users/nicholas/Code/service-builder/data/example_output/user_manager.py', '/Users/nicholas/Code/service-builder/data/example_output/group_manager.py']
+        mongo: /Users/nicholas/Code/service-builder/data/example_output/mongo.py
+        poetry: /Users/nicholas/Code/service-builder/data/example_output/pyproject.toml
+        readme: /Users/nicholas/Code/service-builder/data/example_output/README.md
 
 Run the following commands to run the service:
-  % cd /Users/nicholas/Code/service-builder/example-output
+  % cd /Users/nicholas/Code/service-builder/data/example_output
   % poetry run uvicorn service:app --reload --port 8000
 
 Run the following commands to run the frontend:
-  % cd /Users/nicholas/Code/service-builder/example-output/nicksapp
+  % cd /Users/nicholas/Code/service-builder/data/example_output/nicksapp
   % npm start
 ```
 
