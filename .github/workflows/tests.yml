@@ -6,27 +6,37 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Checkout the code
       - uses: actions/checkout@v4
-      - name: Set up Python
-        # This is the version of the action for setting up Python, not the Python version.
+
+      # Setup Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          # Semantic version range syntax or exact version of a Python version
           python-version: '3.12.1'
-          # Optional - x64 or x86 architecture, defaults to x64
           architecture: 'x64'
-      # You can test your matrix by printing the current Python version
+
+      # Setup Node
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # Run tests
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
-      - name: Install Poetry
+      - name: Install Backend Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install poetry
-      - name: Install dependencies
-        run: |
           poetry install
           poetry update
-      - name: Run tests
+      - name: Run Backend Tests
         run: |
           export VERBOSE=1
-          poetry run pytest 
+          poetry run pytest generate/backend
+      - name: Run Frontend Tests
+        run: |
+          export VERBOSE=1
+          poetry run pytest generate/frontend
+
