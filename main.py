@@ -6,8 +6,8 @@ from rich import print
 
 from generate.backend.generate import generate_files
 from generate.backend.versions.utils import load_versions
-from generate.constants import (DEFAULT_PORT, SAMPLE__OUTPUT_DIR,
-                                SAMPLE_INPUT_FILE)
+from generate.constants import (DEFAULT_PORT, SAMPLE_INPUT_FILE,
+                                SAMPLE_OUTPUT_DIR)
 from generate.models import ServiceVersion
 from generate.run import generate as generate_service
 
@@ -44,7 +44,7 @@ def generate(
         SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
     ),
     output_dir: Optional[str] = typer.Option(
-        SAMPLE__OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
+        SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
     ),
     service_name: Optional[str] = typer.Option(
         None, "--service-name", "-s", help="Name of the service."
@@ -108,7 +108,7 @@ def revert(
         None, "--version", "-v", help="The version number to revert to."
     ),
     output_dir: Optional[str] = typer.Option(
-        DEFAULT_OUTPUT, "--output-dir", "-o", help="Path to the output directory."
+        SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
     ),
 ):
     """Revert the service to a previous version."""
