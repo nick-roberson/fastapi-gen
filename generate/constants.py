@@ -50,3 +50,8 @@ OPENAPI_SPEC_FN: str = "openapi.json"
 
 # Service name
 SERVICE_NAME: str = "service:app"
+
+# FRONTEND
+
+# Default service name
+DEFAULT_SERVICE_NAME: str = "my-service"

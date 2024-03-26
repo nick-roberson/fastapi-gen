@@ -59,6 +59,11 @@ def test_generate(config):
             output_dir=output_dir,
         )
 
+        # TODO: Generate Open API Spec Json, currently commented out because the function cannot find the `fastapi` import for some reason
+        # export_openapi(
+        #     output_dir=output_dir,
+        # )
+
         # Lint the code
         lint_backend(
             output_dir=output_dir,

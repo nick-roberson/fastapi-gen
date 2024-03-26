@@ -4,6 +4,8 @@ from typing import Any, List, Optional, Tuple
 from pydantic import BaseModel, field_validator
 from pydantic.fields import FieldInfo
 
+from generate.constants import DEFAULT_SERVICE_NAME
+
 
 class FieldDefinition(BaseModel):
     """Field definition for a model"""
@@ -120,7 +122,7 @@ class DatabaseConfig(BaseModel):
 class Config(BaseModel):
     """List of model definitions"""
 
-    service_name: str = "MyService"
+    service_name: str = DEFAULT_SERVICE_NAME
     database: DatabaseConfig
     models: List[ModelConfig]
     dependencies: List[DependencyConfig]
