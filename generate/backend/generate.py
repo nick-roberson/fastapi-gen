@@ -9,8 +9,8 @@ from generate.backend.parse import load_config, parse_config, validate_config
 from generate.backend.versions.utils import load_versions, save_version
 from generate.constants import (MANAGER_TEMPLATES, MODEL_TEMPLATES,
                                 MONGO_TEMPLATES, POETRY_TEMPLATES,
-                                PYTHON_DEPENDENCIES, README_TEMPLATES,
-                                SERVICE_TEMPLATES)
+                                PYTHON_DEPENDENCIES, PYTHON_VERSION,
+                                README_TEMPLATES, SERVICE_TEMPLATES)
 from generate.models import (Config, DatabaseConfig, DatabaseTypes,
                              DependencyConfig, ModelConfig, ServiceVersion)
 from generate.utils import run_command
@@ -248,6 +248,10 @@ def install_backend_deps(output_dir: str) -> None:
     Args:
         output_dir (str): Output directory
     """
+    # Select the python version
+    run_command(f"poetry env use {PYTHON_VERSION}", cwd=output_dir)
+
+    # Install the dependencies
     full_path = os.path.abspath(output_dir)
     run_command(f"poetry install", cwd=full_path)
 

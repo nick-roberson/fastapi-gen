@@ -20,9 +20,10 @@ VERSIONS_DIR: str = "versions"
 # Default port
 DEFAULT_PORT: int = 8000
 
-# Python Dependencies
+# Service Python Dependencies
+PYTHON_VERSION = "3.12.1"
 PYTHON_DEPENDENCIES = [
-    ("python", "3.11.7"),
+    ("python", PYTHON_VERSION),
     ("pydantic", "^2.6.4"),
     ("fastapi", "^0.110.0"),
     ("uvicorn", "^0.28.0"),
