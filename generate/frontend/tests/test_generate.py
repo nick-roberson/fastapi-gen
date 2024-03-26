@@ -3,14 +3,14 @@ import tempfile
 import pytest
 
 from generate.backend.parse import load_config, parse_config
-from generate.constants import SAMPLE_INPUT
+from generate.constants import SAMPLE_INPUT_FILE
 from generate.frontend.generate import (create_application,
                                         create_application_client,
                                         generate_app_main_page,
                                         install_dependencies, lint_frontend)
 
 
-@pytest.mark.parametrize("config", [SAMPLE_INPUT])
+@pytest.mark.parametrize("config", [SAMPLE_INPUT_FILE])
 def test_generate(config):
     """Simple test to validate the example config"""
     with tempfile.TemporaryDirectory() as output_dir:
