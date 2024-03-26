@@ -1,9 +1,9 @@
-INPUT_DIR: str = "examples"
+# Directory containing the templates
 TEMPLATE_DIR: str = "templates"
-OUTPUT_DIR: str = "output"
 
-# Sample input file
-SAMPLE_INPUT: str = "data/example_configs/user_groups.yaml"
+# Sample input file and output dir
+SAMPLE_INPUT_FILE: str = "data/example_configs/user_groups.yaml"
+SAMPLE__OUTPUT_DIR: str = "data/example_output"
 
 # Template directories
 MODEL_TEMPLATES: str = f"{TEMPLATE_DIR}/models/"
@@ -51,8 +51,6 @@ OPENAPI_SPEC_FN: str = "openapi.json"
 
 # Service name
 SERVICE_NAME: str = "service:app"
-
-# FRONTEND
 
 # Default service name
 DEFAULT_SERVICE_NAME: str = "my-service"

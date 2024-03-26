@@ -6,16 +6,12 @@ from rich import print
 
 from generate.backend.generate import generate_files
 from generate.backend.versions.utils import load_versions
-from generate.constants import DEFAULT_PORT
+from generate.constants import (DEFAULT_PORT, SAMPLE__OUTPUT_DIR,
+                                SAMPLE_INPUT_FILE)
 from generate.models import ServiceVersion
 from generate.run import generate as generate_service
 
 app = typer.Typer()
-
-# Constants
-CWD: str = os.getcwd()
-DEFAULT_INPUT: str = "examples/models.yaml"
-DEFAULT_OUTPUT: str = f"{CWD}/output"
 
 
 def process_close(result: Dict, output_dir: str, service_name: str = None):
@@ -45,10 +41,10 @@ def process_close(result: Dict, output_dir: str, service_name: str = None):
 @app.command()
 def generate(
     config: Optional[str] = typer.Option(
-        DEFAULT_INPUT, "--config", "-c", help="Path to the input yaml config."
+        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
     ),
     output_dir: Optional[str] = typer.Option(
-        DEFAULT_OUTPUT, "--output-dir", "-o", help="Path to the output directory."
+        SAMPLE__OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
     ),
     service_name: Optional[str] = typer.Option(
         None, "--service-name", "-s", help="Name of the service."
