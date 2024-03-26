@@ -34,9 +34,11 @@ jobs:
       - name: Run Backend Tests
         run: |
           export VERBOSE=1
-          poetry run pytest generate/backend
+          poetry run coverage run pytest generate/backend
+          poetry run coverage report -m
       - name: Run Frontend Tests
         run: |
           export VERBOSE=1
-          poetry run pytest generate/frontend
+          poetry run coverage run pytest generate/frontend
+          poetry run coverage report -m
 
