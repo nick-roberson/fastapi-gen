@@ -320,7 +320,10 @@ BODY:
     {
       "id": "45e4ad8a-9186-4c57-8daa-bf2f0876759c",
       "name": "test_group",
-      "users": ["0f91623b-7f17-41bf-b54d-c068dd8a7191", "ea5ec257-8414-4572-a017-a01b0a36e3a7"]
+      "users": [
+        "0f91623b-7f17-41bf-b54d-c068dd8a7191", 
+        "ea5ec257-8414-4572-a017-a01b0a36e3a7"
+      ]
     }
 RESPONSE:
     None

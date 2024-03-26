@@ -2,17 +2,19 @@ import tempfile
 
 import pytest
 
+from generate.backend.generate import (generate_database, generate_managers,
+                                       generate_models, generate_poetry_toml,
+                                       generate_readme, generate_services,
+                                       install_backend_deps, lint_backend)
+from generate.backend.parse import load_config, parse_config
 from generate.constants import SAMPLE_INPUT
-from generate.generate import (generate_database, generate_managers,
-                               generate_models, generate_services)
-from generate.parse import load_config, parse_config, validate_config
 
 
 @pytest.mark.parametrize("config", [SAMPLE_INPUT])
 def test_generate(config):
     """Simple test to validate the example config"""
     with tempfile.TemporaryDirectory() as output_dir:
-        # Parse the model definition
+        # Parse the model definitions
         config_def = load_config(config)
         config_model = parse_config(config_def)
 
@@ -39,4 +41,25 @@ def test_generate(config):
         generate_database(
             output_dir=output_dir,
             db_config=config_model.database,
+        )
+
+        # Generate the poetry.toml
+        generate_poetry_toml(
+            output_dir=output_dir,
+            dependencies=config_model.dependencies,
+        )
+
+        # Generate the README
+        generate_readme(
+            output_dir=output_dir,
+        )
+
+        # Install the dependencies
+        install_backend_deps(
+            output_dir=output_dir,
+        )
+
+        # Lint the code
+        lint_backend(
+            output_dir=output_dir,
         )

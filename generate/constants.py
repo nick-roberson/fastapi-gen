@@ -47,3 +47,6 @@ NODE_DEPENDENCIES = [
 
 # OpenAPI Spec filename
 OPENAPI_SPEC_FN: str = "openapi.json"
+
+# Service name
+SERVICE_NAME: str = "service:app"
