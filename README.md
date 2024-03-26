@@ -137,13 +137,13 @@ Automatically generate the service using the following command:
 ```bash
 % poetry install && poetry update
 % VERBOSE=0 && poetry run python main.py generate \
-  --config examples/models.yaml \
-  --output-dir example-output \
+  --config data/example_configs/user_groups.yaml \
+  --output-dir data/example_output \
   --service-name nicks-app
 
 Generating models and services with the following inputs:
-    Input:  /Users/nicholas/Code/service-builder/examples/models.yaml
-    Output: /Users/nicholas/Code/service-builder/example-output
+    Input:  /Users/nicholas/Code/service-builder/example_configs/user_groups.yaml
+    Output: /Users/nicholas/Code/service-builder/example_output
     Service Name: nicksapp
     Frontend Only: False
     Backend Only: False

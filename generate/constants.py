@@ -3,7 +3,7 @@ TEMPLATE_DIR: str = "templates"
 OUTPUT_DIR: str = "output"
 
 # Sample input file
-SAMPLE_INPUT: str = "examples/models.yaml"
+SAMPLE_INPUT: str = "data/example_configs/user_groups.yaml"
 
 # Template directories
 MODEL_TEMPLATES: str = f"{TEMPLATE_DIR}/models/"

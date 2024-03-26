@@ -27,17 +27,24 @@ jobs:
         run: python -c "import sys; print(sys.version)"
       - name: Install Backend Dependencies
         run: |
+          echo "Installing Backend Dependencies"
           python -m pip install --upgrade pip
           pip install poetry
           poetry install
           poetry update
+
+      # Install frontend dependencies
       - name: Run Backend Tests
         run: |
+          echo "Running Backend Tests"
           export VERBOSE=1
           poetry run coverage run -m pytest generate/backend
           poetry run coverage report -m
+
+      # Run frontend tests
       - name: Run Frontend Tests
         run: |
+          echo "Running Frontend Tests"
           export VERBOSE=1
           poetry run coverage run -m pytest generate/frontend
           poetry run coverage report -m
