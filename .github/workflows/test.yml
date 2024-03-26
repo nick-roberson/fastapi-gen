@@ -28,4 +28,5 @@ jobs:
           poetry update
       - name: Run tests
         run: |
+          export VERBOSE=1
           poetry run pytest 
