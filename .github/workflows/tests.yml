@@ -48,5 +48,5 @@ jobs:
           export VERBOSE=1
           cd bash/python_client/client 
           poetry install
-          poetry run coverage run -m pytest
+          poetry run coverage run -m pytest test/
           poetry run coverage report -m
