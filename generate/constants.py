@@ -47,6 +47,7 @@ NODE_DEPENDENCIES = [
 ]
 
 # OpenAPI Spec filename
+SAMPLE_OPENAPI_DIR: str = "data/openapi/"
 OPENAPI_SPEC_FN: str = "openapi.json"
 
 # Service name

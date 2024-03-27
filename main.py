@@ -5,9 +5,10 @@ import typer
 from rich import print
 
 from generate.backend.generate import generate_files
+from generate.backend.openapi.export_openapi import export_openapi
 from generate.backend.versions.utils import load_versions
-from generate.constants import (DEFAULT_PORT, SAMPLE_INPUT_FILE,
-                                SAMPLE_OUTPUT_DIR)
+from generate.constants import (DEFAULT_PORT, OPENAPI_SPEC_FN,
+                                SAMPLE_INPUT_FILE, SAMPLE_OUTPUT_DIR)
 from generate.models import ServiceVersion
 from generate.run import generate as generate_service
 
@@ -151,6 +152,22 @@ def versions():
         return
     for version in all_versions:
         print(f"\tVersion: {version.version} - {version.created_at}")
+
+
+@app.command()
+def generate_openapi(
+    service_dir: Optional[str] = typer.Option(
+        SAMPLE_OUTPUT_DIR, "--service-dir", "-o", help="Path to the input yaml config."
+    ),
+):
+    """Generate the openapi file from the input yaml config."""
+    print(
+        f"""Generating OpenAPI file:
+    Output: {service_dir}
+    """
+    )
+    export_openapi(output_dir=service_dir, file_name=OPENAPI_SPEC_FN)
+    print("Done!")
 
 
 if __name__ == "__main__":
