@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from "../runtime";
+import { mapValues } from "../runtime";
 /**
  *
  * @export
@@ -21,33 +21,31 @@ import { exists, mapValues } from "../runtime";
 export interface Group {
   /**
    * The unique identifier of the group
-   * @type {any}
+   * @type {string}
    * @memberof Group
    */
-  id?: any | null;
+  id?: string;
   /**
    * The name of the group
-   * @type {any}
+   * @type {string}
    * @memberof Group
    */
-  name: any | null;
+  name: string;
   /**
    * The users in the group
-   * @type {any}
+   * @type {Array<any>}
    * @memberof Group
    */
-  users: any | null;
+  users: Array<any>;
 }
 
 /**
  * Check if a given object implements the Group interface.
  */
 export function instanceOfGroup(value: object): boolean {
-  let isInstance = true;
-  isInstance = isInstance && "name" in value;
-  isInstance = isInstance && "users" in value;
-
-  return isInstance;
+  if (!("name" in value)) return false;
+  if (!("users" in value)) return false;
+  return true;
 }
 
 export function GroupFromJSON(json: any): Group {
@@ -58,26 +56,23 @@ export function GroupFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
 ): Group {
-  if (json === undefined || json === null) {
+  if (json == null) {
     return json;
   }
   return {
-    id: !exists(json, "id") ? undefined : json["id"],
+    id: json["id"] == null ? undefined : json["id"],
     name: json["name"],
     users: json["users"],
   };
 }
 
 export function GroupToJSON(value?: Group | null): any {
-  if (value === undefined) {
-    return undefined;
-  }
-  if (value === null) {
-    return null;
+  if (value == null) {
+    return value;
   }
   return {
-    id: value.id,
-    name: value.name,
-    users: value.users,
+    id: value["id"],
+    name: value["name"],
+    users: value["users"],
   };
 }

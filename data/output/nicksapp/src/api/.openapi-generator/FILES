@@ -6,5 +6,6 @@ models/Group.ts
 models/HTTPValidationError.ts
 models/User.ts
 models/ValidationError.ts
+models/ValidationErrorLocInner.ts
 models/index.ts
 runtime.ts

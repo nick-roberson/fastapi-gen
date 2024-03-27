@@ -6,7 +6,7 @@ import sys
 import yaml
 from uvicorn.importer import import_from_string
 
-from generate.constants import OPENAPI_SPEC_FN, SERVICE_NAME
+from generate.constants import CODEGEN_DIR, OPENAPI_SPEC_FN, SERVICE_NAME
 
 
 def export_openapi(
@@ -21,18 +21,16 @@ def export_openapi(
         str: The output file
     """
     # Add the application directory to the path
-    if output_dir is not None:
-        print(f"Adding {output_dir} to sys.path")
-        sys.path.insert(0, output_dir)
+    codegen_dir = os.path.join(output_dir, CODEGEN_DIR)
+    if codegen_dir is not None:
+        sys.path.insert(0, codegen_dir)
 
     # Import the app
-    print(f"Importing app from {SERVICE_NAME}")
     app = import_from_string(SERVICE_NAME)
     openapi = app.openapi()
 
     # Log the version of the openapi spec
     version = openapi.get("openapi", "unknown version")
-    print(f"Writing openapi spec v{version}")
 
     # Write the spec to a file
     openapi_spec_file = os.path.join(output_dir, file_name)
@@ -43,5 +41,4 @@ def export_openapi(
             yaml.dump(openapi, f, sort_keys=False)
 
     # Return the output file
-    print(f"OpenAPI spec written to {openapi_spec_file}")
     return openapi_spec_file

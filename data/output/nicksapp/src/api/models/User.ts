@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from "../runtime";
+import { mapValues } from "../runtime";
 /**
  *
  * @export
@@ -21,51 +21,49 @@ import { exists, mapValues } from "../runtime";
 export interface User {
   /**
    * The unique identifier of the user
-   * @type {any}
+   * @type {string}
    * @memberof User
    */
-  id?: any | null;
+  id?: string;
   /**
    * The username of the user
-   * @type {any}
+   * @type {string}
    * @memberof User
    */
-  username: any | null;
+  username: string;
   /**
    * The email of the user
-   * @type {any}
+   * @type {string}
    * @memberof User
    */
-  email: any | null;
+  email: string;
   /**
    * The location of the user
-   * @type {any}
+   * @type {string}
    * @memberof User
    */
-  location?: any | null;
+  location?: string;
   /**
    * The age of the user
-   * @type {any}
+   * @type {number}
    * @memberof User
    */
-  age?: any | null;
+  age?: number;
   /**
    * The team name of the user
-   * @type {any}
+   * @type {string}
    * @memberof User
    */
-  team?: any | null;
+  team?: string;
 }
 
 /**
  * Check if a given object implements the User interface.
  */
 export function instanceOfUser(value: object): boolean {
-  let isInstance = true;
-  isInstance = isInstance && "username" in value;
-  isInstance = isInstance && "email" in value;
-
-  return isInstance;
+  if (!("username" in value)) return false;
+  if (!("email" in value)) return false;
+  return true;
 }
 
 export function UserFromJSON(json: any): User {
@@ -76,32 +74,29 @@ export function UserFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
 ): User {
-  if (json === undefined || json === null) {
+  if (json == null) {
     return json;
   }
   return {
-    id: !exists(json, "id") ? undefined : json["id"],
+    id: json["id"] == null ? undefined : json["id"],
     username: json["username"],
     email: json["email"],
-    location: !exists(json, "location") ? undefined : json["location"],
-    age: !exists(json, "age") ? undefined : json["age"],
-    team: !exists(json, "team") ? undefined : json["team"],
+    location: json["location"] == null ? undefined : json["location"],
+    age: json["age"] == null ? undefined : json["age"],
+    team: json["team"] == null ? undefined : json["team"],
   };
 }
 
 export function UserToJSON(value?: User | null): any {
-  if (value === undefined) {
-    return undefined;
-  }
-  if (value === null) {
-    return null;
+  if (value == null) {
+    return value;
   }
   return {
-    id: value.id,
-    username: value.username,
-    email: value.email,
-    location: value.location,
-    age: value.age,
-    team: value.team,
+    id: value["id"],
+    username: value["username"],
+    email: value["email"],
+    location: value["location"],
+    age: value["age"],
+    team: value["team"],
   };
 }

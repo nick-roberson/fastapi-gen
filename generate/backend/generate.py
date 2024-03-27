@@ -5,10 +5,11 @@ from typing import Dict, List
 from jinja2 import Environment, FileSystemLoader
 
 from generate.backend.versions.utils import load_versions, save_version
-from generate.constants import (MANAGER_TEMPLATES, MODEL_TEMPLATES,
-                                MONGO_TEMPLATES, POETRY_TEMPLATES,
-                                PYTHON_DEPENDENCIES, PYTHON_VERSION,
-                                README_TEMPLATES, SERVICE_TEMPLATES)
+from generate.constants import (DOCKER_TEMPLATES, MANAGER_TEMPLATES,
+                                MODEL_TEMPLATES, MONGO_TEMPLATES,
+                                POETRY_TEMPLATES, PYTHON_DEPENDENCIES,
+                                PYTHON_VERSION, README_TEMPLATES,
+                                SERVICE_TEMPLATES)
 from generate.models import (Config, DatabaseConfig, DatabaseTypes,
                              DependencyConfig, ModelConfig, ServiceVersion)
 from generate.utils import run_command
@@ -19,6 +20,47 @@ DEFAULT_DEPENDENCIES = [
 ]
 
 
+############################################
+# Clearing
+############################################
+
+
+def clear_backend_output(output_dir: str) -> None:
+    """Delete the entire output directory, then recreate it
+
+    Args:
+        output_dir (str): Output directory
+    """
+    code_dir = f"{output_dir}/src"
+    if os.path.exists(code_dir):
+        run_command(f"rm -rf {code_dir}")
+    os.makedirs(code_dir)
+
+
+############################################
+# Install Dependencies
+############################################
+
+
+def install_backend_deps(output_dir: str) -> None:
+    """Install the backend dependencies using poetry
+
+    Args:
+        output_dir (str): Output directory
+    """
+    # Select the python version
+    run_command(f"poetry env use {PYTHON_VERSION}", cwd=output_dir)
+
+    # Install the dependencies
+    full_path = os.path.abspath(output_dir)
+    run_command(f"poetry install", cwd=full_path)
+
+
+############################################
+# Linting
+############################################
+
+
 def lint_backend(output_dir: str) -> None:
     """Lint the code using black and isort
 
@@ -27,6 +69,11 @@ def lint_backend(output_dir: str) -> None:
     """
     run_command(f"poetry run black {output_dir}")
     run_command(f"poetry run isort {output_dir}")
+
+
+############################################
+# Generation
+############################################
 
 
 def generate_models(output_dir: str, models: List[ModelConfig]) -> str:
@@ -229,62 +276,36 @@ def generate_readme(output_dir: str) -> str:
     return file_name
 
 
-def clear_output(output_dir: str) -> None:
-    """Delete the entire output directory, then recreate it
+############################################
+# Dockerfile Generation
+############################################
+
+
+def copy_dockerfiles(output_dir: str) -> str:
+    """Use the JINJA Template to generate the Dockerfile.
 
     Args:
         output_dir (str): Output directory
-    """
-    if os.path.exists(output_dir):
-        run_command(f"rm -rf {output_dir}")
-    os.makedirs(output_dir)
-
-
-def install_backend_deps(output_dir: str) -> None:
-    """Install the backend dependencies using poetry
-
-    Args:
-        output_dir (str): Output directory
-    """
-    # Select the python version
-    run_command(f"poetry env use {PYTHON_VERSION}", cwd=output_dir)
-
-    # Install the dependencies
-    full_path = os.path.abspath(output_dir)
-    run_command(f"poetry install", cwd=full_path)
-
-
-def generate_files(output_dir: str, config: Config, is_revert: bool = False) -> Dict:
-    """Generate the models and services from the input yaml config.
-
-    Args:
-        output_dir (str): Output directory
-        config (Config): Configuration object
-        is_revert (bool): Flag to indicate if this is a revert operation
     Returns:
-        Dict: Dictionary of the generated files
+        str: File name of the generated Dockerfile
     """
-    # Clear the output directory
-    clear_output(output_dir)
+    # Simple copy of the Dockerfile
+    dockerfile_path = f"{DOCKER_TEMPLATES}/Dockerfile"
+    compose_path = f"{DOCKER_TEMPLATES}/docker-compose.yml"
+    os.system(f"cp {dockerfile_path} {output_dir}/Dockerfile")
+    os.system(f"cp {compose_path} {output_dir}/docker-compose.yml")
 
-    # Generate the models and other code
-    model_file = generate_models(output_dir=output_dir, models=config.models)
-    service_file = generate_services(output_dir=output_dir, models=config.models)
-    manager_files = generate_managers(
-        output_dir=output_dir, models=config.models, db_config=config.database
-    )
-    mongo_file = generate_database(output_dir=output_dir, db_config=config.database)
 
-    # Generate the poetry toml file
-    poetry_file = generate_poetry_toml(
-        output_dir=output_dir, dependencies=config.dependencies
-    )
+############################################
+# Utility Functions
+############################################
 
-    # Generate the README file
-    readme_file = generate_readme(output_dir=output_dir)
 
-    # Write new version to the versions directory
-    # Load previous versions
+def update_versions(
+    config: Config,
+    is_revert: bool = False,
+) -> None:
+    """Update the versions directory with the new version"""
     if not is_revert:
         new_version = 1
         service_versions = load_versions()
@@ -300,6 +321,49 @@ def generate_files(output_dir: str, config: Config, is_revert: bool = False) -> 
             dependencies=config.dependencies,
         )
         save_version(new_version)
+
+
+############################################
+# Generate Files Main Function
+############################################
+
+
+def generate_files(output_dir: str, config: Config, is_revert: bool = False) -> Dict:
+    """Generate the models and services from the input yaml config.
+
+    Args:
+        output_dir (str): Output directory
+        config (Config): Configuration object
+        is_revert (bool): Flag to indicate if this is a revert operation
+    Returns:
+        Dict: Dictionary of the generated files
+    """
+
+    # Generate the models and other code
+    code_dir = f"{output_dir}/src"
+    model_file = generate_models(output_dir=code_dir, models=config.models)
+    service_file = generate_services(output_dir=code_dir, models=config.models)
+    manager_files = generate_managers(
+        output_dir=code_dir, models=config.models, db_config=config.database
+    )
+    mongo_file = generate_database(output_dir=code_dir, db_config=config.database)
+
+    # Generate the poetry toml file
+    poetry_file = generate_poetry_toml(
+        output_dir=output_dir, dependencies=config.dependencies
+    )
+
+    # Generate the README file
+    readme_file = generate_readme(output_dir=output_dir)
+
+    # Copy over docker files
+    copy_dockerfiles(output_dir=output_dir)
+
+    # Write new version to the versions directory
+    update_versions(
+        config=config,
+        is_revert=is_revert,
+    )
 
     # Return the generated files
     return {
