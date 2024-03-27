@@ -5,7 +5,7 @@ TEMPLATE_DIR: str = "templates"
 CODEGEN_DIR: str = "src"
 
 # Sample input file and output dir
-SAMPLE_INPUT_FILE: str = "data/example_configs/user_groups.yaml"
+SAMPLE_INPUT_FILE: str = "data/configs/user_groups.yaml"
 SAMPLE_OUTPUT_DIR: str = "data/example_output"
 
 # Template directories
