@@ -46,7 +46,6 @@ jobs:
         run: |
           echo "Running Generated Tests"
           export VERBOSE=1
-          cd bash/python_client/client 
-          poetry install
+          cd bash/python_client/client && poetry add coverage && poetry install
           poetry run coverage run -m pytest test/
           poetry run coverage report -m
