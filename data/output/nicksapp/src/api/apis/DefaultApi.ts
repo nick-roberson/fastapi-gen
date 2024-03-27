@@ -28,7 +28,7 @@ export interface CreateGroupGroupPostRequest {
 }
 
 export interface CreateGroupsGroupsPostRequest {
-  body: any | null;
+  group: Array<Group>;
 }
 
 export interface CreateUserUserPostRequest {
@@ -40,11 +40,11 @@ export interface CreateUsersUsersPostRequest {
 }
 
 export interface DeleteGroupGroupDeleteRequest {
-  groupId: any;
+  groupId: string;
 }
 
 export interface DeleteGroupsGroupsDeleteRequest {
-  body: any | null;
+  requestBody: Array<string>;
 }
 
 export interface DeleteUserUserDeleteRequest {
@@ -56,7 +56,7 @@ export interface DeleteUsersUsersDeleteRequest {
 }
 
 export interface GetGroupGroupGetRequest {
-  groupId: any;
+  groupId: string;
 }
 
 export interface GetUserUserGetRequest {
@@ -68,7 +68,7 @@ export interface UpdateGroupGroupPutRequest {
 }
 
 export interface UpdateGroupsGroupsPutRequest {
-  body: any | null;
+  group: Array<Group>;
 }
 
 export interface UpdateUserUserPutRequest {
@@ -91,13 +91,10 @@ export class DefaultApi extends runtime.BaseAPI {
     requestParameters: CreateGroupGroupPostRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Group>> {
-    if (
-      requestParameters.group === null ||
-      requestParameters.group === undefined
-    ) {
+    if (requestParameters["group"] == null) {
       throw new runtime.RequiredError(
         "group",
-        "Required parameter requestParameters.group was null or undefined when calling createGroupGroupPost.",
+        'Required parameter "group" was null or undefined when calling createGroupGroupPost().',
       );
     }
 
@@ -113,7 +110,7 @@ export class DefaultApi extends runtime.BaseAPI {
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
-        body: GroupToJSON(requestParameters.group),
+        body: GroupToJSON(requestParameters["group"]),
       },
       initOverrides,
     );
@@ -145,14 +142,11 @@ export class DefaultApi extends runtime.BaseAPI {
   async createGroupsGroupsPostRaw(
     requestParameters: CreateGroupsGroupsPostRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<any>> {
-    if (
-      requestParameters.body === null ||
-      requestParameters.body === undefined
-    ) {
+  ): Promise<runtime.ApiResponse<Array<Group>>> {
+    if (requestParameters["group"] == null) {
       throw new runtime.RequiredError(
-        "body",
-        "Required parameter requestParameters.body was null or undefined when calling createGroupsGroupsPost.",
+        "group",
+        'Required parameter "group" was null or undefined when calling createGroupsGroupsPost().',
       );
     }
 
@@ -168,16 +162,14 @@ export class DefaultApi extends runtime.BaseAPI {
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
-        body: requestParameters.body as any,
+        body: requestParameters["group"]!.map(GroupToJSON),
       },
       initOverrides,
     );
 
-    if (this.isJsonMime(response.headers.get("content-type"))) {
-      return new runtime.JSONApiResponse<any>(response);
-    } else {
-      return new runtime.TextApiResponse(response) as any;
-    }
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(GroupFromJSON),
+    );
   }
 
   /**
@@ -187,7 +179,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async createGroupsGroupsPost(
     requestParameters: CreateGroupsGroupsPostRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<any> {
+  ): Promise<Array<Group>> {
     const response = await this.createGroupsGroupsPostRaw(
       requestParameters,
       initOverrides,
@@ -203,13 +195,10 @@ export class DefaultApi extends runtime.BaseAPI {
     requestParameters: CreateUserUserPostRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<User>> {
-    if (
-      requestParameters.user === null ||
-      requestParameters.user === undefined
-    ) {
+    if (requestParameters["user"] == null) {
       throw new runtime.RequiredError(
         "user",
-        "Required parameter requestParameters.user was null or undefined when calling createUserUserPost.",
+        'Required parameter "user" was null or undefined when calling createUserUserPost().',
       );
     }
 
@@ -225,7 +214,7 @@ export class DefaultApi extends runtime.BaseAPI {
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
-        body: UserToJSON(requestParameters.user),
+        body: UserToJSON(requestParameters["user"]),
       },
       initOverrides,
     );
@@ -258,13 +247,10 @@ export class DefaultApi extends runtime.BaseAPI {
     requestParameters: CreateUsersUsersPostRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Array<User>>> {
-    if (
-      requestParameters.user === null ||
-      requestParameters.user === undefined
-    ) {
+    if (requestParameters["user"] == null) {
       throw new runtime.RequiredError(
         "user",
-        "Required parameter requestParameters.user was null or undefined when calling createUsersUsersPost.",
+        'Required parameter "user" was null or undefined when calling createUsersUsersPost().',
       );
     }
 
@@ -280,7 +266,7 @@ export class DefaultApi extends runtime.BaseAPI {
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
-        body: requestParameters.user.map(UserToJSON),
+        body: requestParameters["user"]!.map(UserToJSON),
       },
       initOverrides,
     );
@@ -313,20 +299,17 @@ export class DefaultApi extends runtime.BaseAPI {
     requestParameters: DeleteGroupGroupDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<any>> {
-    if (
-      requestParameters.groupId === null ||
-      requestParameters.groupId === undefined
-    ) {
+    if (requestParameters["groupId"] == null) {
       throw new runtime.RequiredError(
         "groupId",
-        "Required parameter requestParameters.groupId was null or undefined when calling deleteGroupGroupDelete.",
+        'Required parameter "groupId" was null or undefined when calling deleteGroupGroupDelete().',
       );
     }
 
     const queryParameters: any = {};
 
-    if (requestParameters.groupId !== undefined) {
-      queryParameters["group_id"] = requestParameters.groupId;
+    if (requestParameters["groupId"] != null) {
+      queryParameters["group_id"] = requestParameters["groupId"];
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -371,13 +354,10 @@ export class DefaultApi extends runtime.BaseAPI {
     requestParameters: DeleteGroupsGroupsDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<any>> {
-    if (
-      requestParameters.body === null ||
-      requestParameters.body === undefined
-    ) {
+    if (requestParameters["requestBody"] == null) {
       throw new runtime.RequiredError(
-        "body",
-        "Required parameter requestParameters.body was null or undefined when calling deleteGroupsGroupsDelete.",
+        "requestBody",
+        'Required parameter "requestBody" was null or undefined when calling deleteGroupsGroupsDelete().',
       );
     }
 
@@ -393,7 +373,7 @@ export class DefaultApi extends runtime.BaseAPI {
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
-        body: requestParameters.body as any,
+        body: requestParameters["requestBody"],
       },
       initOverrides,
     );
@@ -428,20 +408,17 @@ export class DefaultApi extends runtime.BaseAPI {
     requestParameters: DeleteUserUserDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<any>> {
-    if (
-      requestParameters.userId === null ||
-      requestParameters.userId === undefined
-    ) {
+    if (requestParameters["userId"] == null) {
       throw new runtime.RequiredError(
         "userId",
-        "Required parameter requestParameters.userId was null or undefined when calling deleteUserUserDelete.",
+        'Required parameter "userId" was null or undefined when calling deleteUserUserDelete().',
       );
     }
 
     const queryParameters: any = {};
 
-    if (requestParameters.userId !== undefined) {
-      queryParameters["user_id"] = requestParameters.userId;
+    if (requestParameters["userId"] != null) {
+      queryParameters["user_id"] = requestParameters["userId"];
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -486,13 +463,10 @@ export class DefaultApi extends runtime.BaseAPI {
     requestParameters: DeleteUsersUsersDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<any>> {
-    if (
-      requestParameters.requestBody === null ||
-      requestParameters.requestBody === undefined
-    ) {
+    if (requestParameters["requestBody"] == null) {
       throw new runtime.RequiredError(
         "requestBody",
-        "Required parameter requestParameters.requestBody was null or undefined when calling deleteUsersUsersDelete.",
+        'Required parameter "requestBody" was null or undefined when calling deleteUsersUsersDelete().',
       );
     }
 
@@ -508,7 +482,7 @@ export class DefaultApi extends runtime.BaseAPI {
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
-        body: requestParameters.requestBody,
+        body: requestParameters["requestBody"],
       },
       initOverrides,
     );
@@ -543,20 +517,17 @@ export class DefaultApi extends runtime.BaseAPI {
     requestParameters: GetGroupGroupGetRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Group>> {
-    if (
-      requestParameters.groupId === null ||
-      requestParameters.groupId === undefined
-    ) {
+    if (requestParameters["groupId"] == null) {
       throw new runtime.RequiredError(
         "groupId",
-        "Required parameter requestParameters.groupId was null or undefined when calling getGroupGroupGet.",
+        'Required parameter "groupId" was null or undefined when calling getGroupGroupGet().',
       );
     }
 
     const queryParameters: any = {};
 
-    if (requestParameters.groupId !== undefined) {
-      queryParameters["group_id"] = requestParameters.groupId;
+    if (requestParameters["groupId"] != null) {
+      queryParameters["group_id"] = requestParameters["groupId"];
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -596,7 +567,7 @@ export class DefaultApi extends runtime.BaseAPI {
    */
   async getGroupsGroupsGetRaw(
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<any>> {
+  ): Promise<runtime.ApiResponse<Array<Group>>> {
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -611,11 +582,9 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    if (this.isJsonMime(response.headers.get("content-type"))) {
-      return new runtime.JSONApiResponse<any>(response);
-    } else {
-      return new runtime.TextApiResponse(response) as any;
-    }
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(GroupFromJSON),
+    );
   }
 
   /**
@@ -623,7 +592,7 @@ export class DefaultApi extends runtime.BaseAPI {
    */
   async getGroupsGroupsGet(
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<any> {
+  ): Promise<Array<Group>> {
     const response = await this.getGroupsGroupsGetRaw(initOverrides);
     return await response.value();
   }
@@ -636,20 +605,17 @@ export class DefaultApi extends runtime.BaseAPI {
     requestParameters: GetUserUserGetRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<User>> {
-    if (
-      requestParameters.userId === null ||
-      requestParameters.userId === undefined
-    ) {
+    if (requestParameters["userId"] == null) {
       throw new runtime.RequiredError(
         "userId",
-        "Required parameter requestParameters.userId was null or undefined when calling getUserUserGet.",
+        'Required parameter "userId" was null or undefined when calling getUserUserGet().',
       );
     }
 
     const queryParameters: any = {};
 
-    if (requestParameters.userId !== undefined) {
-      queryParameters["user_id"] = requestParameters.userId;
+    if (requestParameters["userId"] != null) {
+      queryParameters["user_id"] = requestParameters["userId"];
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -764,13 +730,10 @@ export class DefaultApi extends runtime.BaseAPI {
     requestParameters: UpdateGroupGroupPutRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Group>> {
-    if (
-      requestParameters.group === null ||
-      requestParameters.group === undefined
-    ) {
+    if (requestParameters["group"] == null) {
       throw new runtime.RequiredError(
         "group",
-        "Required parameter requestParameters.group was null or undefined when calling updateGroupGroupPut.",
+        'Required parameter "group" was null or undefined when calling updateGroupGroupPut().',
       );
     }
 
@@ -786,7 +749,7 @@ export class DefaultApi extends runtime.BaseAPI {
         method: "PUT",
         headers: headerParameters,
         query: queryParameters,
-        body: GroupToJSON(requestParameters.group),
+        body: GroupToJSON(requestParameters["group"]),
       },
       initOverrides,
     );
@@ -818,14 +781,11 @@ export class DefaultApi extends runtime.BaseAPI {
   async updateGroupsGroupsPutRaw(
     requestParameters: UpdateGroupsGroupsPutRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<any>> {
-    if (
-      requestParameters.body === null ||
-      requestParameters.body === undefined
-    ) {
+  ): Promise<runtime.ApiResponse<Array<Group>>> {
+    if (requestParameters["group"] == null) {
       throw new runtime.RequiredError(
-        "body",
-        "Required parameter requestParameters.body was null or undefined when calling updateGroupsGroupsPut.",
+        "group",
+        'Required parameter "group" was null or undefined when calling updateGroupsGroupsPut().',
       );
     }
 
@@ -841,16 +801,14 @@ export class DefaultApi extends runtime.BaseAPI {
         method: "PUT",
         headers: headerParameters,
         query: queryParameters,
-        body: requestParameters.body as any,
+        body: requestParameters["group"]!.map(GroupToJSON),
       },
       initOverrides,
     );
 
-    if (this.isJsonMime(response.headers.get("content-type"))) {
-      return new runtime.JSONApiResponse<any>(response);
-    } else {
-      return new runtime.TextApiResponse(response) as any;
-    }
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(GroupFromJSON),
+    );
   }
 
   /**
@@ -860,7 +818,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async updateGroupsGroupsPut(
     requestParameters: UpdateGroupsGroupsPutRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<any> {
+  ): Promise<Array<Group>> {
     const response = await this.updateGroupsGroupsPutRaw(
       requestParameters,
       initOverrides,
@@ -876,13 +834,10 @@ export class DefaultApi extends runtime.BaseAPI {
     requestParameters: UpdateUserUserPutRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<User>> {
-    if (
-      requestParameters.user === null ||
-      requestParameters.user === undefined
-    ) {
+    if (requestParameters["user"] == null) {
       throw new runtime.RequiredError(
         "user",
-        "Required parameter requestParameters.user was null or undefined when calling updateUserUserPut.",
+        'Required parameter "user" was null or undefined when calling updateUserUserPut().',
       );
     }
 
@@ -898,7 +853,7 @@ export class DefaultApi extends runtime.BaseAPI {
         method: "PUT",
         headers: headerParameters,
         query: queryParameters,
-        body: UserToJSON(requestParameters.user),
+        body: UserToJSON(requestParameters["user"]),
       },
       initOverrides,
     );
@@ -931,13 +886,10 @@ export class DefaultApi extends runtime.BaseAPI {
     requestParameters: UpdateUsersUsersPutRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Array<User>>> {
-    if (
-      requestParameters.user === null ||
-      requestParameters.user === undefined
-    ) {
+    if (requestParameters["user"] == null) {
       throw new runtime.RequiredError(
         "user",
-        "Required parameter requestParameters.user was null or undefined when calling updateUsersUsersPut.",
+        'Required parameter "user" was null or undefined when calling updateUsersUsersPut().',
       );
     }
 
@@ -953,7 +905,7 @@ export class DefaultApi extends runtime.BaseAPI {
         method: "PUT",
         headers: headerParameters,
         query: queryParameters,
-        body: requestParameters.user.map(UserToJSON),
+        body: requestParameters["user"]!.map(UserToJSON),
       },
       initOverrides,
     );

@@ -1,6 +1,9 @@
 # Directory containing the templates
 TEMPLATE_DIR: str = "templates"
 
+# Directory containing the generated code within the output directory
+CODEGEN_DIR: str = "src"
+
 # Sample input file and output dir
 SAMPLE_INPUT_FILE: str = "data/example_configs/user_groups.yaml"
 SAMPLE_OUTPUT_DIR: str = "data/example_output"
@@ -13,6 +16,7 @@ MONGO_TEMPLATES: str = f"{TEMPLATE_DIR}/mongo/"
 POETRY_TEMPLATES: str = f"{TEMPLATE_DIR}/poetry/"
 README_TEMPLATES: str = f"{TEMPLATE_DIR}/readme/"
 FRONTEND_TEMPLATES: str = f"{TEMPLATE_DIR}/frontend/"
+DOCKER_TEMPLATES: str = f"{TEMPLATE_DIR}/docker/"
 
 # Versions Directory
 VERSIONS_DIR: str = "versions"

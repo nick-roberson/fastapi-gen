@@ -18,7 +18,10 @@ def run_command(cmd: str, cwd: str = None) -> subprocess.CompletedProcess:
     """
     try:
         # Print and run the command
-        print(f"Running command: {cmd}")
+        if VERBOSE:
+            print(f"Running command: {cmd}")
+
+        # Run the command
         if cwd:
             completed_process = subprocess.run(
                 cmd, shell=True, check=True, cwd=cwd, capture_output=True

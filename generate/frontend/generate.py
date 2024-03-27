@@ -20,7 +20,7 @@ CREATE_MODEL_CMD: Template = Template(
 INSTALL_DEPENDENCIES_CMD: Template = Template("npm install $dependencies")
 
 
-def clear_output(output_dir: str, service_name: str) -> None:
+def clear_frontend_output(output_dir: str, service_name: str) -> None:
     """Delete the entire output directory, then recreate it
 
     Args:
