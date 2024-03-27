@@ -33,12 +33,13 @@ jobs:
           poetry install
           poetry update
 
-      # Install frontend dependencies
+      # Run backend tests
       - name: Run Backend Tests
         run: |
           echo "Running Backend Tests"
           export VERBOSE=1
           poetry run coverage run -m pytest generate/backend
+          poetry run coverage run -m pytest bash/python_client
           poetry run coverage report -m
 
       # Run frontend tests
