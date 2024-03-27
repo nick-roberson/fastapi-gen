@@ -7,13 +7,13 @@ from generate.backend.generate import (generate_files, install_backend_deps,
                                        lint_backend)
 from generate.backend.openapi.export_openapi import export_openapi
 from generate.backend.parse import load_config, parse_config, validate_config
+from generate.constants import OPENAPI_SPEC_FN
 from generate.frontend.generate import clear_output as clear_frontend_output
 from generate.frontend.generate import (create_application,
                                         create_application_client,
                                         generate_app_main_page,
                                         install_dependencies, lint_frontend)
 from generate.models import Config
-from generate.utils import run_command
 
 
 def load_and_validate_config(input_file: str) -> Dict:
@@ -51,7 +51,7 @@ def generate_back(config: Config, output_dir: str) -> Dict:
 
     # (3) Export the OpenAPI JSON
     print(f"Exporting OpenAPI JSON ...")
-    export_openapi(output_dir=output_dir)
+    export_openapi(output_dir=output_dir, file_name=OPENAPI_SPEC_FN)
     print("Done!\n")
 
     # (4) Lint the code
