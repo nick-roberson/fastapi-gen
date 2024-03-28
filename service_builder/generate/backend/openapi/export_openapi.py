@@ -8,14 +8,10 @@ from constants import CODEGEN_DIR_NAME, OPENAPI_SPEC_FN, SERVICE_NAME
 from uvicorn.importer import import_from_string
 
 
-def export_openapi(
-    output_dir: str = None,
-    file_name: str = OPENAPI_SPEC_FN,
-) -> str:
+def export_openapi(output_dir: str) -> str:
     """Export the OpenAPI spec from a FastAPI app
     Args:
         output_dir (str): The app directory
-
     Returns:
         str: The output file
     """
@@ -29,7 +25,7 @@ def export_openapi(
     openapi = app.openapi()
 
     # Write the spec to a file
-    openapi_spec_file = os.path.join(output_dir, file_name)
+    openapi_spec_file = os.path.join(output_dir, OPENAPI_SPEC_FN)
     with open(openapi_spec_file, "w") as f:
         if openapi_spec_file.endswith(".json"):
             json.dump(openapi, f, indent=2)

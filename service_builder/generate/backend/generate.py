@@ -99,6 +99,7 @@ def generate_services(output_dir: str, config: Config) -> str:
     model_names = ", ".join([model.name for model in config.models])
     manager_names = [f"{model.name}Manager" for model in config.models]
     context = {
+        "models": config.models,
         "model_names": model_names,
         "manager_names": manager_names,
     }
