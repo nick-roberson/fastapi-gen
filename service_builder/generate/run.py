@@ -14,7 +14,7 @@ from service_builder.generate.frontend.generate import (create_application,
                                                         install_dependencies,
                                                         lint_frontend)
 from service_builder.generate.utils import clear_directory
-from service_builder.models import Config
+from service_builder.models import ServiceConfig
 from service_builder.openapi.export import export_openapi
 
 
@@ -74,7 +74,7 @@ def clear_typescript_client(output_dir: str, service_name: str):
     clear_directory(client_code_dir)
 
 
-def generate_back(config: Config, output_dir: str) -> Dict:
+def generate_back(config: ServiceConfig, output_dir: str) -> Dict:
     """Generate the models and services from the input yaml config.
 
     Args:
@@ -104,7 +104,7 @@ def generate_back(config: Config, output_dir: str) -> Dict:
     return created_files
 
 
-def generate_front(config: Config, output_dir: str, service_name: str) -> None:
+def generate_front(config: ServiceConfig, output_dir: str, service_name: str) -> None:
     """Generates a typescript / react front end from scratch."""
     print("Starting generating the frontend code...\n")
 

@@ -8,8 +8,8 @@ from service_builder.constants import (DOCKER_TEMPLATES, MANAGER_TEMPLATES,
                                        PYTHON_VERSION, README_TEMPLATES,
                                        SERVICE_TEMPLATES)
 from service_builder.generate.utils import populate_template, run_command
-from service_builder.models import (Config, DatabaseTypes, DependencyConfig,
-                                    ServiceVersion)
+from service_builder.models import (DatabaseTypes, DependencyConfig,
+                                    ServiceConfig, ServiceVersion)
 from service_builder.versions.utils import load_versions, save_version
 
 # If none of the templates are provided, use the default templates
@@ -56,7 +56,7 @@ def lint_backend(output_dir: str) -> None:
 ############################################
 
 
-def generate_models(output_dir: str, config: Config) -> str:
+def generate_models(output_dir: str, config: ServiceConfig) -> str:
     """Use the JINJA Template to generate the models
 
     Args:
@@ -79,7 +79,7 @@ def generate_models(output_dir: str, config: Config) -> str:
     )
 
 
-def generate_services(output_dir: str, config: Config) -> str:
+def generate_services(output_dir: str, config: ServiceConfig) -> str:
     """Use the JINJA Template to generate the service
 
     Args:
@@ -108,7 +108,7 @@ def generate_services(output_dir: str, config: Config) -> str:
     )
 
 
-def generate_managers(output_dir: str, config: Config) -> List[str]:
+def generate_managers(output_dir: str, config: ServiceConfig) -> List[str]:
     """Use the JINJA Template to generate the service
 
     Args:
@@ -147,7 +147,7 @@ def generate_managers(output_dir: str, config: Config) -> List[str]:
         )
 
 
-def generate_database(output_dir: str, config: Config) -> str:
+def generate_database(output_dir: str, config: ServiceConfig) -> str:
     """Use the JINJA Template to generate the database.
 
     Args:
@@ -174,7 +174,7 @@ def generate_database(output_dir: str, config: Config) -> str:
         )
 
 
-def generate_poetry_toml(output_dir: str, config: Config) -> str:
+def generate_poetry_toml(output_dir: str, config: ServiceConfig) -> str:
     """Use the JINJA Template to generate the poetry toml file.
 
     Args:
@@ -268,7 +268,7 @@ def copy_dockerfiles(output_dir: str) -> List[str]:
 
 
 def update_versions(
-    config: Config,
+    config: ServiceConfig,
     is_revert: bool = False,
 ) -> None:
     """Update the versions directory with the new version"""
@@ -294,7 +294,9 @@ def update_versions(
 ############################################
 
 
-def generate_files(output_dir: str, config: Config, is_revert: bool = False) -> Dict:
+def generate_files(
+    output_dir: str, config: ServiceConfig, is_revert: bool = False
+) -> Dict:
     """Generate the models and services from the input yaml config.
 
     Args:
