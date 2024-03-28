@@ -1,18 +1,23 @@
 import os
 from typing import Dict
 
-from config.parse import load_config, parse_config, validate_config
-from generate.backend.generate import (generate_files, install_backend_deps,
-                                       lint_backend)
-from generate.backend.openapi.export_openapi import export_openapi
-from generate.clients.generate import (create_python_client,
-                                       create_typescript_client)
-from generate.frontend.generate import (create_application,
-                                        generate_app_main_page,
-                                        install_dependencies, lint_frontend)
-from generate.models import Config
-from generate.utils import clear_directory
 from rich import print
+
+from service_builder.config.parse import (load_config, parse_config,
+                                          validate_config)
+from service_builder.generate.backend.generate import (generate_files,
+                                                       install_backend_deps,
+                                                       lint_backend)
+from service_builder.generate.backend.openapi.export_openapi import \
+    export_openapi
+from service_builder.generate.clients.generate import (
+    create_python_client, create_typescript_client)
+from service_builder.generate.frontend.generate import (create_application,
+                                                        generate_app_main_page,
+                                                        install_dependencies,
+                                                        lint_frontend)
+from service_builder.generate.models import Config
+from service_builder.generate.utils import clear_directory
 
 
 def load_and_validate_config(input_file: str) -> Dict:

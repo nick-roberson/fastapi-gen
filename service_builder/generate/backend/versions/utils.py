@@ -1,9 +1,9 @@
 import os
-from typing import List
 
 import yaml
-from constants import VERSIONS_DIR
-from generate.models import ServiceVersion
+
+from service_builder.constants import VERSIONS_DIR
+from service_builder.generate.models import ServiceVersion
 
 
 def load_versions() -> list[ServiceVersion]:

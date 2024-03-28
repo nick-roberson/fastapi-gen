@@ -1,12 +1,13 @@
 import logging
-from typing import List
-
 import uvicorn
+from typing import List
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from group_manager import get_group_manager
-from models.models import Group, User
+from models.models import User, Group
+
 from user_manager import get_user_manager
+from group_manager import get_group_manager
+
 
 # Create instances of managers for each model
 
@@ -25,11 +26,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
-
 
 ##############################################
 # Get Endpoints for User, Group
@@ -38,7 +37,7 @@ async def root():
 
 @app.get("/user")
 def get_user(user_id: str) -> User:
-    """Get a User"""
+    """ Get a User """
     logging.info(f"Getting User with id: {id}")
     return user_manager.get(user_id=user_id)
 
@@ -49,9 +48,10 @@ def get_users() -> List[User]:
     return user_manager.get_all()
 
 
+
 @app.get("/group")
 def get_group(group_id: str) -> Group:
-    """Get a Group"""
+    """ Get a Group """
     logging.info(f"Getting Group with id: {id}")
     return group_manager.get(group_id=group_id)
 
@@ -62,6 +62,8 @@ def get_groups() -> List[Group]:
     return group_manager.get_all()
 
 
+
+
 ##############################################
 # Create Endpoints for User, Group
 ##############################################
@@ -69,30 +71,31 @@ def get_groups() -> List[Group]:
 
 @app.post("/user")
 def create_user(user: User) -> User:
-    """Create a User"""
+    """ Create a User """
     logging.info(f"Creating User: {str(user)}")
     return user_manager.create(user)
 
 
 @app.post("/users")
 def create_users(users: List[User]) -> List[User]:
-    """Create multiple Users"""
+    """ Create multiple Users """
     logging.info(f"Creating Users: {str(users)}")
     return user_manager.create_many(users)
 
 
 @app.post("/group")
 def create_group(group: Group) -> Group:
-    """Create a Group"""
+    """ Create a Group """
     logging.info(f"Creating Group: {str(group)}")
     return group_manager.create(group)
 
 
 @app.post("/groups")
 def create_groups(groups: List[Group]) -> List[Group]:
-    """Create multiple Groups"""
+    """ Create multiple Groups """
     logging.info(f"Creating Groups: {str(groups)}")
     return group_manager.create_many(groups)
+
 
 
 ##############################################
@@ -102,30 +105,31 @@ def create_groups(groups: List[Group]) -> List[Group]:
 
 @app.put("/user")
 def update_user(user: User) -> User:
-    """Update a User"""
+    """ Update a User """
     logging.info(f"Updating User: {str(user)}")
     return user_manager.update(user)
 
 
 @app.put("/users")
 def update_users(users: List[User]) -> List[User]:
-    """Update multiple Users"""
+    """ Update multiple Users """
     logging.info(f"Updating Users: {str(users)}")
     return user_manager.udpate_many(users)
 
 
 @app.put("/group")
 def update_group(group: Group) -> Group:
-    """Update a Group"""
+    """ Update a Group """
     logging.info(f"Updating Group: {str(group)}")
     return group_manager.update(group)
 
 
 @app.put("/groups")
 def update_groups(groups: List[Group]) -> List[Group]:
-    """Update multiple Groups"""
+    """ Update multiple Groups """
     logging.info(f"Updating Groups: {str(groups)}")
     return group_manager.udpate_many(groups)
+
 
 
 ##############################################
@@ -135,39 +139,39 @@ def update_groups(groups: List[Group]) -> List[Group]:
 
 @app.delete("/user")
 def delete_user(user_id: str):
-    """Delete a User"""
+    """ Delete a User """
     logging.info(f"Deleting User with id: {id}")
     return user_manager.delete(user_id=user_id)
 
 
 @app.delete("/users")
 def delete_users(user_ids: List[str]):
-    """Delete multiple Users"""
+    """ Delete multiple Users """
     logging.info(f"Deleting Users: {str(user_ids)}")
     return user_manager.delete_many(user_ids=user_ids)
 
 
 @app.delete("/group")
 def delete_group(group_id: str):
-    """Delete a Group"""
+    """ Delete a Group """
     logging.info(f"Deleting Group with id: {id}")
     return group_manager.delete(group_id=group_id)
 
 
 @app.delete("/groups")
 def delete_groups(group_ids: List[str]):
-    """Delete multiple Groups"""
+    """ Delete multiple Groups """
     logging.info(f"Deleting Groups: {str(group_ids)}")
     return group_manager.delete_many(group_ids=group_ids)
 
 
+
 def init_logging():
-    """Initialize Logging"""
+    """ Initialize Logging """
     logging.basicConfig(level=logging.INFO)
     logging.getLogger("uvicorn").setLevel(logging.INFO)
     logging.getLogger("uvicorn.error").setLevel(logging.INFO)
     logging.getLogger("uvicorn.access").setLevel(logging.INFO)
-
 
 if __name__ == "__main__":
     # Initialize Logging

@@ -2,13 +2,16 @@ import datetime
 import os
 from typing import Dict, List
 
-from constants import (DOCKER_TEMPLATES, MANAGER_TEMPLATES, MODEL_TEMPLATES,
-                       MONGO_TEMPLATES, POETRY_TEMPLATES, PYTHON_DEPENDENCIES,
-                       PYTHON_VERSION, README_TEMPLATES, SERVICE_TEMPLATES)
-from generate.backend.versions.utils import load_versions, save_version
-from generate.models import (Config, DatabaseTypes, DependencyConfig,
-                             ServiceVersion)
-from generate.utils import populate_template, run_command
+from service_builder.constants import (DOCKER_TEMPLATES, MANAGER_TEMPLATES,
+                                       MODEL_TEMPLATES, MONGO_TEMPLATES,
+                                       POETRY_TEMPLATES, PYTHON_DEPENDENCIES,
+                                       PYTHON_VERSION, README_TEMPLATES,
+                                       SERVICE_TEMPLATES)
+from service_builder.generate.backend.versions.utils import (load_versions,
+                                                             save_version)
+from service_builder.generate.models import (Config, DatabaseTypes,
+                                             DependencyConfig, ServiceVersion)
+from service_builder.generate.utils import populate_template, run_command
 
 # If none of the templates are provided, use the default templates
 DEFAULT_DEPENDENCIES = [

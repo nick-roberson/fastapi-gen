@@ -1,12 +1,17 @@
 import tempfile
 
 import pytest
-from config.parse import load_config, parse_config
-from constants import SAMPLE_INPUT_FILE
-from generate.backend.generate import (generate_database, generate_managers,
-                                       generate_models, generate_poetry_toml,
-                                       generate_readme, generate_services,
-                                       install_backend_deps, lint_backend)
+
+from service_builder.config.parse import load_config, parse_config
+from service_builder.constants import SAMPLE_INPUT_FILE
+from service_builder.generate.backend.generate import (generate_database,
+                                                       generate_managers,
+                                                       generate_models,
+                                                       generate_poetry_toml,
+                                                       generate_readme,
+                                                       generate_services,
+                                                       install_backend_deps,
+                                                       lint_backend)
 
 
 @pytest.mark.parametrize("config", [SAMPLE_INPUT_FILE])

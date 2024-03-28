@@ -2,10 +2,12 @@ import os
 from string import Template
 from typing import List
 
-from constants import FRONTEND_TEMPLATES, NODE_DEPENDENCIES, OPENAPI_SPEC_FN
-from generate.models import ModelConfig
-from generate.utils import run_command
 from jinja2 import Environment, FileSystemLoader
+
+from service_builder.constants import (FRONTEND_TEMPLATES, NODE_DEPENDENCIES,
+                                       OPENAPI_SPEC_FN)
+from service_builder.generate.models import ModelConfig
+from service_builder.generate.utils import run_command
 
 # Commands
 CREATE_SERVICE_CMD: Template = Template(

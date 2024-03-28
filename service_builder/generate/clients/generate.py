@@ -1,8 +1,8 @@
 import os
 from string import Template
 
-from constants import OPENAPI_SPEC_FN
-from generate.utils import run_command
+from service_builder.constants import OPENAPI_SPEC_FN
+from service_builder.generate.utils import run_command
 
 # Commands
 TYPESCRIPT_CLIENT_CMD: Template = Template(

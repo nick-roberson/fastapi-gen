@@ -64,7 +64,7 @@ models:
     required: true
 dependencies:
 - name: python
-  version: 3.12.1
+  version: 3.12.2
 - name: pydantic
   version: ^2.6.4
 - name: fastapi
