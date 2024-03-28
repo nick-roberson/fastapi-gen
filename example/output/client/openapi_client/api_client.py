@@ -28,15 +28,10 @@ from openapi_client import rest
 from openapi_client.api_response import ApiResponse
 from openapi_client.api_response import T as ApiResponseT
 from openapi_client.configuration import Configuration
-from openapi_client.exceptions import (
-    ApiException,
-    ApiValueError,
-    BadRequestException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceException,
-    UnauthorizedException,
-)
+from openapi_client.exceptions import (ApiException, ApiValueError,
+                                       BadRequestException, ForbiddenException,
+                                       NotFoundException, ServiceException,
+                                       UnauthorizedException)
 
 RequestSerialized = Tuple[str, str, Dict[str, str], Optional[str], List[str]]
 
