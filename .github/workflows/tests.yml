@@ -34,18 +34,17 @@ jobs:
           poetry update
 
       # Run backend + frontend tests
-      - name: Run Backend + Frontend Tests
+      - name: Run Backend Tests
         run: |
           echo "Running Backend Tests"
           export VERBOSE=1
-          poetry run coverage run -m pytest generate/
+          poetry run coverage run -m pytest service-builder/generate/backend/tests
           poetry run coverage report -m
 
-      # Run generated tests
-      - name: Run Generated Tests
+      # Run frontend tests
+      - name: Run Frontend Tests
         run: |
-          echo "Running Generated Tests"
+          echo "Running Frontend Tests"
           export VERBOSE=1
-          cd bash/python_client/client
-          poetry install
-          poetry run pytest test/
+          poetry run coverage run -m pytest service-builder/generate/frontend/tests
+          poetry run coverage report -m
