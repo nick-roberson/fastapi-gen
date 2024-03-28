@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, Template
 from rich import print
 
 # Constants
@@ -26,7 +26,7 @@ def clear_directory(directory: str) -> None:
         raise e
 
 
-def load_template(template_path: str, template_name: str) -> str:
+def load_template(template_path: str, template_name: str) -> Template:
     """Load a template file.
 
     Args:
@@ -49,16 +49,17 @@ def load_template(template_path: str, template_name: str) -> str:
         raise e
 
 
-def write_template(template: str, output_path: str, context: dict) -> None:
+def write_template(template: Template, output_path: str, context: dict) -> None:
     """Write a template to a file.
 
     Args:
-        template (str): The template content
+        template (Template): The template content
         output_path (str): The output file path
         context (dict): The context for the template
     """
     try:
         # Render the template
+        context = context or {}
         rendered_template = template.render(**context)
 
         # Write the rendered template to the output path
@@ -70,7 +71,7 @@ def write_template(template: str, output_path: str, context: dict) -> None:
 
 
 def populate_template(
-    template_dir: str, template_name: str, output_path: str, context: dict = {}
+    template_dir: str, template_name: str, output_path: str, context: dict = None
 ) -> str:
     """Populate a template file.
 

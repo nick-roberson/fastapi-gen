@@ -4,8 +4,10 @@ import os
 import sys
 
 import yaml
-from constants import CODEGEN_DIR_NAME, OPENAPI_SPEC_FN, SERVICE_NAME
 from uvicorn.importer import import_from_string
+
+from service_builder.constants import (CODEGEN_DIR_NAME, OPENAPI_SPEC_FN,
+                                       SERVICE_NAME)
 
 
 def export_openapi(output_dir: str) -> str:

@@ -234,6 +234,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {}
@@ -485,6 +486,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {
@@ -738,6 +740,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {}
@@ -989,6 +992,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {
@@ -1242,6 +1246,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {}
@@ -1256,6 +1261,7 @@ class DefaultApi:
         # process the path parameters
         # process the query parameters
         if group_id is not None:
+
             _query_params.append(("group_id", group_id))
 
         # process the header parameters
@@ -1484,6 +1490,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {
@@ -1737,6 +1744,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {}
@@ -1751,6 +1759,7 @@ class DefaultApi:
         # process the path parameters
         # process the query parameters
         if user_id is not None:
+
             _query_params.append(("user_id", user_id))
 
         # process the header parameters
@@ -1979,6 +1988,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {
@@ -2232,6 +2242,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {}
@@ -2246,6 +2257,7 @@ class DefaultApi:
         # process the path parameters
         # process the query parameters
         if group_id is not None:
+
             _query_params.append(("group_id", group_id))
 
         # process the header parameters
@@ -2455,6 +2467,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {}
@@ -2694,6 +2707,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {}
@@ -2708,6 +2722,7 @@ class DefaultApi:
         # process the path parameters
         # process the query parameters
         if user_id is not None:
+
             _query_params.append(("user_id", user_id))
 
         # process the header parameters
@@ -2917,6 +2932,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {}
@@ -3137,6 +3153,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {}
@@ -3376,6 +3393,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {}
@@ -3627,6 +3645,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {
@@ -3880,6 +3899,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {}
@@ -4131,6 +4151,7 @@ class DefaultApi:
         _headers,
         _host_index,
     ) -> RequestSerialized:
+
         _host = None
 
         _collection_formats: Dict[str, str] = {
