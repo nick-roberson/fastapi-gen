@@ -8,7 +8,7 @@ FROM python:3.12.1-slim
 # Set the working directory in the container
 WORKDIR /code
 
-# Install poetry 
+# Install poetry
 RUN pip install poetry
 
 # Install poetry requirements

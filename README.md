@@ -24,20 +24,26 @@ This is a simple FastAPI service that can be used as a starting point for a new 
 ## Features
 
 ### Backend Generation
-- [x] Generate FastAPI service from a YAML file
-- [x] Generate Pydantic base models from a YAML file
-- [x] Generate MongoDB manager from a YAML file
-- [x] Generate CRUD operations for each model in the YAML
+- [x] Generate FastAPI service
+- [x] Generate Pydantic base models
+- [x] Generate MongoDB manager
+- [x] Generate CRUD+ API Endpoints operations for each model
 - [x] Generate Poetry file and install dependencies
+- [x] Generate OpenAPI JSON file
+- [x] Generate Python API Client for the FastAPI service using openapi-generator
+
 ### Frontend Generation
 - [x] Generate a React frontend as Sample Application
 - [x] Generate frontend React API Client for the FastAPI service using openapi-generator
 - [x] Install some basic dependencies for the frontend
-### Planned Features
+
+### Planned Backend Features
 - [ ] Allow support for multiple database types (Postgres, MySQL, etc.)
-- [ ] Generate a Dockerfile for the service
+- [ ] (IN PROGRESS) Generate a Dockerfile for the service
 - [ ] Allow for more complex relationships between models
-- [ ] Generate a more complex frontend application for the service with some basic features
+
+### Planned Frontend Features
+- [ ] Generate a more comprehensive frontend application supporting basic CRUD operations
 
 ## Requirements
 
@@ -56,8 +62,8 @@ Define a YAML file anywhere that you would like to, it only has to match the for
 
 This is the CLI interface for the service generator:
 ```bash
- Usage: main.py [OPTIONS] COMMAND [ARGS]...                                                                                                                                                                
-                                                                                                                                                                                                           
+ Usage: main.py [OPTIONS] COMMAND [ARGS]...
+
 ╭─ Options ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │ --install-completion        [bash|zsh|fish|powershell|pwsh]  Install completion for the specified shell. [default: None]                                                                                │
 │ --show-completion           [bash|zsh|fish|powershell|pwsh]  Show completion for the specified shell, to copy it or customize the installation. [default: None]                                         │
@@ -86,7 +92,7 @@ Generating models and services with the following inputs
     Service Name: nicksapp
     Frontend Only: False
     Backend Only: False
-    
+
 Starting generating the backend code...
 
         BACKEND: Completed clearing the output directory.
@@ -131,13 +137,13 @@ Run the following commands to run the frontend:
 
 ## Running
 
-### Back End 
+### Back End
 
 Two options, you can either run from your local environment or from the docker container.
 
 Local:
-``` 
-% cd /Users/nicholas/Code/service-builder/output  
+```
+% cd /Users/nicholas/Code/service-builder/output
 % poetry run uvicorn service:app --reload --port 8000
 ```
 
@@ -160,5 +166,5 @@ To view the generated OpenAPI documentation, navigate to [http://localhost:8000/
 
 You can import the API into Postman by following the steps in the following link: [Importing a Collection Using OpenAPI](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/)
 
-The OpenAPI documentation can be found at [http://localhost:8000/docs](http://localhost:8000/docs). The raw JSON 
+The OpenAPI documentation can be found at [http://localhost:8000/docs](http://localhost:8000/docs). The raw JSON
 for the OpenAPI documentation can be found at [http://localhost:8000/openapi.json](http://localhost:8000/openapi.json).

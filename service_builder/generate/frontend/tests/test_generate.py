@@ -3,9 +3,12 @@ import tempfile
 import pytest
 from generate.backend.parse import load_config, parse_config
 from generate.constants import SAMPLE_INPUT_FILE
-from generate.frontend.generate import (create_application,
-                                        generate_app_main_page,
-                                        install_dependencies, lint_frontend)
+from generate.frontend.generate import (
+    create_application,
+    generate_app_main_page,
+    install_dependencies,
+    lint_frontend,
+)
 
 # TODO: Uncomment the following imports when the generate_clients functionality is implemented
 # from generate.clients.generate import create_typescript_client, create_python_clients

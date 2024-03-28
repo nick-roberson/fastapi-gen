@@ -19,8 +19,7 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from openapi_client.models.validation_error_loc_inner import \
-    ValidationErrorLocInner
+from openapi_client.models.validation_error_loc_inner import ValidationErrorLocInner
 from pydantic import BaseModel, ConfigDict, StrictStr
 from typing_extensions import Self
 

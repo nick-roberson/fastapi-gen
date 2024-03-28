@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** | The unique identifier of the group | [optional] 
-**name** | **str** | The name of the group | 
-**users** | **List[object]** | The users in the group | 
+**id** | **str** | The unique identifier of the group | [optional]
+**name** | **str** | The name of the group |
+**users** | **List[object]** | The users in the group |
 
 ## Example
 
@@ -27,5 +27,3 @@ group_dict = group_instance.to_dict()
 group_form_dict = group.from_dict(group_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-
