@@ -58,7 +58,7 @@ def install_dependencies(output_dir: str, service_name: str):
     run_command(cmd=command, cwd=app_path)
 
 
-def create_application_client(output_dir: str, service_name: str):
+def create_typescript_client(output_dir: str, service_name: str):
     """Generate the frontend service client code
 
     Args:
