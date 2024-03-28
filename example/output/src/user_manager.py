@@ -1,20 +1,24 @@
-import uuid
 import logging
+import uuid
 from typing import List
+
 from models.models import User
-from mongo import get_collection, get_client
+from mongo import get_client, get_collection
 
 # Singleton Manager for User
 __USER_MANAGER = None
+
+
 def get_user_manager():
     global __USER_MANAGER
     if not __USER_MANAGER:
         __USER_MANAGER = UserManager()
     return __USER_MANAGER
 
+
 class UserManager:
 
-    collection_name: str = 'user'
+    collection_name: str = "user"
 
     def __init__(self):
         self.client = get_client()
@@ -25,7 +29,7 @@ class UserManager:
     ########################################################
 
     def create(self, user: User) -> User:
-        """ Create a new User """
+        """Create a new User"""
         logging.info("Creating User: {}".format(user))
         try:
             # Generate id for the model
@@ -41,7 +45,7 @@ class UserManager:
             raise e
 
     def create_many(self, user_list: List[User]) -> List[User]:
-        """ Create a list of User """
+        """Create a list of User"""
         logging.info("Creating User: {}".format(user_list))
         try:
             # Generate ids for the models
@@ -50,39 +54,37 @@ class UserManager:
                     model.id = str(uuid.uuid4())
 
             # Insert into database
-            self.collection.insert_many([user.model_dump(mode="json") for user in user_list])
+            self.collection.insert_many(
+                [user.model_dump(mode="json") for user in user_list]
+            )
 
             # Return the User list
             return user_list
         except Exception as e:
             raise e
 
-
     ########################################################
     # Read Operations                                      #
     ########################################################
 
-
     def get(self, user_id: str) -> User:
-        """ Get a User by its id """
+        """Get a User by its id"""
         logging.info("Getting User: {}.format(user_id)")
         try:
-            return self.collection.find_one({'id': user_id})
+            return self.collection.find_one({"id": user_id})
         except Exception as e:
             raise e
-
 
     def get_many(self, user_ids: List[str]) -> List[User]:
-        """ Get a list of User by their ids """
+        """Get a list of User by their ids"""
         logging.info("Getting User: {}".format(user_ids))
         try:
-            return list(self.collection.find({'id': {'$in': user_ids}}))
+            return list(self.collection.find({"id": {"$in": user_ids}}))
         except Exception as e:
             raise e
 
-
     def get_all(self) -> List[User]:
-        """ Get all User """
+        """Get all User"""
         logging.info(f"Getting all User")
         try:
             return list(self.collection.find())
@@ -93,9 +95,8 @@ class UserManager:
     # Update Operations                                    #
     ########################################################
 
-
     def update(self, user: User) -> User:
-        """ Update a User """
+        """Update a User"""
         logging.info("Updating User: {}".format(user))
         try:
             # Raise error if id is not present on the model
@@ -104,8 +105,7 @@ class UserManager:
 
             # Update
             self.collection.update_one(
-                {'id': user.id},
-                {'$set': user.model_dump(mode="json")}
+                {"id": user.id}, {"$set": user.model_dump(mode="json")}
             )
 
             # Return new copy
@@ -113,9 +113,8 @@ class UserManager:
         except Exception as e:
             raise e
 
-
     def update_many(self, user_list: List[User]) -> List[User]:
-        """ Update a list of User """
+        """Update a list of User"""
         logging.info("Updating User: {}".format(user_list))
         try:
             # Update
@@ -127,14 +126,12 @@ class UserManager:
         except Exception as e:
             raise e
 
-
     ########################################################
     # Delete Operations                                    #
     ########################################################
 
-
     def delete(self, user_id: str) -> User:
-        """ Delete a User """
+        """Delete a User"""
         logging.info("Deleting User: {}".format(user_id))
         try:
             # Find in database
@@ -143,16 +140,15 @@ class UserManager:
                 raise Exception("User not found")
 
             # Delete if found
-            self.collection.delete_one({'id': user_id})
+            self.collection.delete_one({"id": user_id})
 
             # Return the deleted object
             return obj
         except Exception as e:
             raise e
 
-
     def delete_many(self, user_ids: List[str]) -> List[User]:
-        """ Delete a list of User """
+        """Delete a list of User"""
         logging.info("Deleting User: {}".format(user_ids))
         try:
             # Find in database
@@ -163,7 +159,7 @@ class UserManager:
                 raise Exception("Some Users not found")
 
             # Delete if found
-            self.collection.delete_many({'id': {'$in': user_ids}})
+            self.collection.delete_many({"id": {"$in": user_ids}})
 
             # Return the deleted objects
             return objs

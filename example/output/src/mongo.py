@@ -1,9 +1,9 @@
-import sys
 import os
-import certifi
+import sys
 
-from pymongo.mongo_client import MongoClient
+import certifi
 from pymongo.errors import ConfigurationError
+from pymongo.mongo_client import MongoClient
 
 MONGO_URI: str = os.environ.get("MONGO_URI")
 

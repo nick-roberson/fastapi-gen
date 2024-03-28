@@ -3,7 +3,7 @@ import os
 import yaml
 
 from service_builder.constants import VERSIONS_DIR
-from service_builder.generate.models import ServiceVersion
+from service_builder.models import ServiceVersion
 
 
 def load_versions() -> list[ServiceVersion]:

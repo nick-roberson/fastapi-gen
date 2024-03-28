@@ -4,9 +4,9 @@ from typing import Dict, Tuple
 import yaml
 from pydantic.fields import FieldInfo
 
-from service_builder.generate.models import (Config, DatabaseConfig,
-                                             DatabaseTypes, DependencyConfig,
-                                             FieldDefinition, ModelConfig)
+from service_builder.models import (Config, DatabaseConfig, DatabaseTypes,
+                                    DependencyConfig, FieldDefinition,
+                                    ModelConfig)
 
 # Pull output the fields from the models
 FIELD_DEFINITION_FIELDS: dict[str, FieldInfo] = FieldDefinition.model_fields

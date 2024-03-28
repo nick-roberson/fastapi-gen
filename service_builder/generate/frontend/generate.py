@@ -6,8 +6,8 @@ from jinja2 import Environment, FileSystemLoader
 
 from service_builder.constants import (FRONTEND_TEMPLATES, NODE_DEPENDENCIES,
                                        OPENAPI_SPEC_FN)
-from service_builder.generate.models import ModelConfig
 from service_builder.generate.utils import run_command
+from service_builder.models import ModelConfig
 
 # Commands
 CREATE_SERVICE_CMD: Template = Template(

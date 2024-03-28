@@ -4,13 +4,13 @@ from typing import Dict, Optional
 import typer
 from rich import print
 
-from service_builder.constants import SAMPLE_INPUT_FILE, SAMPLE_OUTPUT_DIR
+from service_builder.constants import (DEFAULT_PORT, SAMPLE_INPUT_FILE,
+                                       SAMPLE_OUTPUT_DIR)
 from service_builder.generate.backend.generate import generate_files
-from service_builder.generate.backend.openapi.export_openapi import \
-    export_openapi
-from service_builder.generate.backend.versions.utils import load_versions
-from service_builder.generate.models import ServiceVersion
 from service_builder.generate.run import generate as generate_service
+from service_builder.models import ServiceVersion
+from service_builder.openapi.export import export_openapi
+from service_builder.versions.utils import load_versions
 
 app = typer.Typer()
 
@@ -21,6 +21,7 @@ def process_close(result: Dict, output_dir: str, service_name: str = None):
     Args:
         result (Dict): The result of the generation
         output_dir (str): The output directory
+        service_name (str): The service name
     """
     # Display the generated files
     print(f"Generated files:")
