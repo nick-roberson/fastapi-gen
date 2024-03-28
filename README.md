@@ -70,72 +70,14 @@ This is the CLI interface for the service generator:
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
-This will create a service that manages two simple objects `User` and `Group` with the following fields:
-```yaml
-# Database Config
-database:
-  db_type: mongo
-  db_uri_env_var: MONGO_DB_URI
+For an example of a config that you can use to generate a service, see the `example/configs/user_groups.yaml` file.
 
-# Model Definitions
-models:
-
-  # User model
-  - name: User
-    fields:
-      - name: id
-        type: str
-        required: false
-        default: None
-        description: The unique identifier of the user
-      - name: username
-        type: str
-        required: true
-        description: The username of the user
-      - name: email
-        type: str
-        required: true
-        description: The email of the user
-      - name: location
-        type: str
-        required: false
-        default: null
-        description: The location of the user
-      - name: age
-        type: int
-        required: false
-        default: null
-        description: The age of the user
-      - name: team
-        type: str
-        required: false
-        default: null
-        description: The team name of the user
-
-  # Group model
-  - name: Group
-    fields:
-      - name: id
-        type: str
-        required: false
-        default: None
-        description: The unique identifier of the group
-      - name: name
-        type: str
-        required: true
-        description: The name of the group
-      - name: users
-        type: list
-        required: true
-        description: The users in the group
-```
-
-Automatically generate the service using the following command:
+Here is an example of the output that you will see when you run the service generator:
 ```bash
 % poetry install && poetry update
 % VERBOSE=0 && poetry run python service_builder/main.py generate \
-    --config data/configs/user_groups.yaml \
-    --output-dir data/output \
+    --config example/configs/user_groups.yaml \
+    --output-dir example/output \
     --service-name nicks-app
 
 Generating models and services with the following inputs
@@ -145,36 +87,45 @@ Generating models and services with the following inputs
     Frontend Only: False
     Backend Only: False
     
-BACKEND: Completed clearing the output directory.
-BACKEND: Completed generating models and services.
-BACKEND: Completed installing dependencies.
-BACKEND: Completed exporting OpenAPI JSON.
+Starting generating the backend code...
 
-FRONTEND: Completed clearing the output directory.
-FRONTEND: Completed creating the application.
-FRONTEND: Completed installing dependencies.
-FRONTEND: Completed generating the main page.
+        BACKEND: Completed clearing the output directory.
+        BACKEND: Completed generating models and services.
+        BACKEND: Completed installing dependencies.
+        BACKEND: Completed exporting OpenAPI JSON.
 
-CLIENTS: Completed generating the typescript client code.
-CLIENTS: Completed generating the python client code.
+Starting generating the frontend code...
 
-LINT: Completed linting frontend the code.
-LINT: Completed linting backend the code.
+        FRONTEND: Completed clearing the output directory.
+        FRONTEND: Completed creating the application.
+        FRONTEND: Completed installing dependencies.
+        FRONTEND: Completed generating the main page.
+
+Starting generating the client code...
+
+        CLIENTS: Completed generating the typescript client code.
+        CLIENTS: Completed generating the python client code.
+
+Starting linting the generated code...
+
+        LINT: Completed linting frontend the code.
+        LINT: Completed linting backend the code.
 
 Generated files:
-        models: /Users/nicholas/Code/service-builder/data/output/src/models/models.py
-        service: /Users/nicholas/Code/service-builder/data/output/src/service.py
-        managers: ['/Users/nicholas/Code/service-builder/data/output/src/user_manager.py', '/Users/nicholas/Code/service-builder/data/output/src/group_manager.py']
-        mongo: /Users/nicholas/Code/service-builder/data/output/src/mongo.py
-        poetry: /Users/nicholas/Code/service-builder/data/output/pyproject.toml
-        readme: /Users/nicholas/Code/service-builder/data/output/README.md
+        models: None
+        service: /Users/nicholas/Code/service-builder/example/output/src/service.py
+        managers: ['/Users/nicholas/Code/service-builder/example/output/src/user_manager.py', '/Users/nicholas/Code/service-builder/example/output/src/group_manager.py']
+        mongo: /Users/nicholas/Code/service-builder/example/output/src/mongo.py
+        poetry: /Users/nicholas/Code/service-builder/example/output/pyproject.toml
+        readme: /Users/nicholas/Code/service-builder/example/output/README.md
+        docker: ['/Users/nicholas/Code/service-builder/service_builder/templates/docker//Dockerfile', '/Users/nicholas/Code/service-builder/service_builder/templates/docker//docker-compose.yml']
 
 Run the following commands to run the service:
-  % cd /Users/nicholas/Code/service-builder/data/output
+  % cd /Users/nicholas/Code/service-builder/example/output
   % poetry run uvicorn service:app --reload --port 8000
 
 Run the following commands to run the frontend:
-  % cd /Users/nicholas/Code/service-builder/data/output/nicksapp
+  % cd /Users/nicholas/Code/service-builder/example/output/nicksapp
   % npm start
 ```
 
