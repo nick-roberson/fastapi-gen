@@ -1,14 +1,14 @@
-# Directory containing the templates
-TEMPLATE_DIR: str = "templates"
+import os
 
 # Directory containing the generated code within the output directory
-CODEGEN_DIR: str = "src"
+CODEGEN_DIR_NAME: str = "src"
 
 # Sample input file and output dir
-SAMPLE_INPUT_FILE: str = "data/configs/user_groups.yaml"
-SAMPLE_OUTPUT_DIR: str = "data/example_output"
+SAMPLE_INPUT_FILE: str = os.path.abspath("data/configs/user_groups.yaml")
+SAMPLE_OUTPUT_DIR: str = os.path.abspath("data/example_output")
 
 # Template directories
+TEMPLATE_DIR: str = os.path.abspath("service_builder/templates")
 MODEL_TEMPLATES: str = f"{TEMPLATE_DIR}/models/"
 SERVICE_TEMPLATES: str = f"{TEMPLATE_DIR}/service/"
 MANAGER_TEMPLATES: str = f"{TEMPLATE_DIR}/manager/"

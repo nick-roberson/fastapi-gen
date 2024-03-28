@@ -2,8 +2,6 @@ import os
 from typing import Dict, Optional
 
 import typer
-from rich import print
-
 from generate.backend.generate import generate_files
 from generate.backend.openapi.export_openapi import export_openapi
 from generate.backend.versions.utils import load_versions
@@ -11,6 +9,7 @@ from generate.constants import (DEFAULT_PORT, OPENAPI_SPEC_FN,
                                 SAMPLE_INPUT_FILE, SAMPLE_OUTPUT_DIR)
 from generate.models import ServiceVersion
 from generate.run import generate as generate_service
+from rich import print
 
 app = typer.Typer()
 

@@ -1,5 +1,22 @@
-# FastAPI Service Generator
+<h1 align="center"> FastAPI + React Service Generator </h1>
+<p align="center" markdown=1>
+  <i>Command line tool for generating POC FastAPI services and UI Templates!</i>
+</p>
 
+<p align="center">
+  <a href="">
+      <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  </a>
+  <a href="https://fastapi.tiangolo.com">
+      <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi" alt="FastAPI">
+  </a>
+  <a href="https://docs.pydantic.dev/2.4/">
+      <img src="https://img.shields.io/badge/Pydantic-E92063?logo=pydantic&logoColor=fff&style=for-the-badge" alt="Pydantic">
+  </a>
+  <a href="https://www.mongodb.com/">
+      <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB">
+  </a>
+</p>
 
 
 This is a simple FastAPI service that can be used as a starting point for a new project.
@@ -116,7 +133,7 @@ models:
 Automatically generate the service using the following command:
 ```bash
 % poetry install && poetry update
-% VERBOSE=0 && poetry run python main.py generate \
+% VERBOSE=0 && poetry run python service_builder/main.py generate \
     --config data/configs/user_groups.yaml \
     --output-dir data/output \
     --service-name nicks-app
@@ -169,13 +186,13 @@ Two options, you can either run from your local environment or from the docker c
 
 Local:
 ``` 
-% cd /Users/nicholas/Code/service-builder/example-output  
+% cd /Users/nicholas/Code/service-builder/output  
 % poetry run uvicorn service:app --reload --port 8000
 ```
 
 Docker:
 ```
-% cd /Users/nicholas/Code/service-builder/example-output
+% cd /Users/nicholas/Code/service-builder/output
 % docker build -t myfastapiapp .
 % docker run -p 8000:8000 myfastapiapp
 ```

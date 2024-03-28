@@ -2,8 +2,6 @@ import datetime
 import os
 from typing import Dict, List
 
-from jinja2 import Environment, FileSystemLoader
-
 from generate.backend.versions.utils import load_versions, save_version
 from generate.constants import (DOCKER_TEMPLATES, MANAGER_TEMPLATES,
                                 MODEL_TEMPLATES, MONGO_TEMPLATES,
@@ -12,7 +10,7 @@ from generate.constants import (DOCKER_TEMPLATES, MANAGER_TEMPLATES,
                                 SERVICE_TEMPLATES)
 from generate.models import (Config, DatabaseConfig, DatabaseTypes,
                              DependencyConfig, ModelConfig, ServiceVersion)
-from generate.utils import run_command
+from generate.utils import load_template, populate_template, run_command
 
 # If none of the templates are provided, use the default templates
 DEFAULT_DEPENDENCIES = [
@@ -76,180 +74,164 @@ def lint_backend(output_dir: str) -> None:
 ############################################
 
 
-def generate_models(output_dir: str, models: List[ModelConfig]) -> str:
+def generate_models(output_dir: str, config: Config) -> str:
     """Use the JINJA Template to generate the models
 
     Args:
         output_dir (str): Output directory
-        models (List[ModelConfig]): List of model definitions
+        config (Config): Configuration object
     Returns:
         str: File name of the generated models
     """
-    # Load the template
-    env = Environment(loader=FileSystemLoader(MODEL_TEMPLATES))
-    model_template = env.get_template("model.jinja")
+    # Create inputs for the model template
+    template_name = "model.jinja"
+    output_file = f"{output_dir}/models/models.py"
+    context = {"models": config.models}
 
-    # Generate the models
-    output = model_template.render(models=models)
-
-    # Write the models to the output directory
-    file_name = f"{output_dir}/models/models.py"
-    if not os.path.exists(file_name):
-        os.makedirs(os.path.dirname(file_name), exist_ok=True)
-
-    # Write the models to the output directory
-    with open(file_name, "w") as f:
-        f.write(output)
-    return file_name
+    # Populate the model file and return the file name
+    output_file = populate_template(
+        template_dir=MODEL_TEMPLATES,
+        template_name=template_name,
+        output_path=output_file,
+        context=context,
+    )
 
 
-def generate_services(output_dir: str, models: List[ModelConfig]) -> str:
+def generate_services(output_dir: str, config: Config) -> str:
     """Use the JINJA Template to generate the service
 
     Args:
         output_dir (str): Output directory
-        models (List[ModelConfig]): List of model definitions
+        config (Config): Configuration object
     Returns:
         str: File name of the generated service
     """
-    # Load the template
-    env = Environment(loader=FileSystemLoader(SERVICE_TEMPLATES))
-    service_template = env.get_template("service.jinja")
-
     # Get list of model names for imports
-    model_names = ", ".join([model.name for model in models])
-    manager_names = [f"{model.name}Manager" for model in models]
+    template_name = "service.jinja"
+    output_path = f"{output_dir}/service.py"
+    model_names = ", ".join([model.name for model in config.models])
+    manager_names = [f"{model.name}Manager" for model in config.models]
+    context = {
+        "model_names": model_names,
+        "manager_names": manager_names,
+    }
 
-    # Generate the service
-    output = service_template.render(
-        model_names=model_names, manager_names=manager_names, models=models
+    # Generate the service file and return the file name
+    return populate_template(
+        template_dir=SERVICE_TEMPLATES,
+        template_name=template_name,
+        output_path=output_path,
+        context=context,
     )
 
-    # Write the service to the output directory
-    file_name = f"{output_dir}/service.py"
-    if not os.path.exists(file_name):
-        os.makedirs(os.path.dirname(file_name), exist_ok=True)
 
-    # Write the service to the output directory
-    with open(file_name, "w") as f:
-        f.write(output)
-    return file_name
-
-
-def generate_managers(
-    output_dir: str, db_config: DatabaseConfig, models: List[ModelConfig]
-) -> List[str]:
+def generate_managers(output_dir: str, config: Config) -> List[str]:
     """Use the JINJA Template to generate the service
 
     Args:
         output_dir (str): Output directory
-        db_config (DatabaseConfig): Database configuration
-        models (List[ModelConfig]): List of model definitions
+        config (Config): Configuration object
     Returns:
         List[str]: List of file names of the generated managers
     """
+    template_name = "manager.jinja"
+
     # If the db_type is MONGO, generate the manager
-    if db_config.db_type == DatabaseTypes.MONGO.value:
+    if config.database.db_type == DatabaseTypes.MONGO.value:
         manager_file_names = []
-        env = Environment(loader=FileSystemLoader(MANAGER_TEMPLATES))
-        service_template = env.get_template("manager.jinja")
 
-        # Get list of model names for imports
-        for model in models:
-            # Generate the service
-            output = service_template.render(
-                model=model, manager_name=model.manager_name
+        for model in config.models:
+            # Create inputs for the model template
+            output_path = f"{output_dir}/{model.manager_var_name}.py"
+            context = {
+                "model": model,
+                "db_config": config.database,
+            }
+
+            # Populate the manager template and append the file name
+            output_file = populate_template(
+                template_dir=MANAGER_TEMPLATES,
+                template_name=template_name,
+                output_path=output_path,
+                context=context,
             )
+            manager_file_names.append(output_file)
 
-            # Create the file name
-            file_name = f"{output_dir}/{model.manager_var_name}.py"
-            if not os.path.exists(file_name):
-                os.makedirs(os.path.dirname(file_name), exist_ok=True)
-
-            # Write the service to the output directory
-            with open(file_name, "w") as f:
-                f.write(output)
-
-            manager_file_names.append(file_name)
         return manager_file_names
     else:
         raise ValueError(
-            f"Invalid db_type `{db_config.db_type}`, allowed types are {DatabaseTypes.choices()}"
+            f"Invalid db_type `{config.database.db_type}`, allowed types are {DatabaseTypes.choices()}"
         )
 
 
-def generate_database(output_dir: str, db_config: DatabaseConfig) -> str:
+def generate_database(output_dir: str, config: Config) -> str:
     """Use the JINJA Template to generate the database.
 
     Args:
         output_dir (str): Output directory
-        db_config (DatabaseConfig): Database configuration
+        config (Config): Configuration object
     Returns:
         str: File name of the generated database
     """
     # If the db_type is MONGO, generate the db utils
-    if db_config.db_type == DatabaseTypes.MONGO.value:
-        # Load the template
-        env = Environment(loader=FileSystemLoader(MONGO_TEMPLATES))
-        service_template = env.get_template("mongo.jinja")
+    if config.database.db_type == DatabaseTypes.MONGO.value:
+        # Create inputs for the model template
+        output_file = f"{output_dir}/mongo.py"
+        template_name = "mongo.jinja"
 
-        # Generate the service
-        output = service_template.render()
-
-        # Write the service to the output directory
-        file_name = f"{output_dir}/mongo.py"
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-        with open(file_name, "w") as f:
-            f.write(output)
+        # Generate the mongo file and return the file name
+        return populate_template(
+            template_dir=MONGO_TEMPLATES,
+            template_name=template_name,
+            output_path=output_file,
+        )
     else:
         raise ValueError(
-            f"Invalid db_type `{db_config.db_type}`, allowed types are {DatabaseTypes.choices()}"
+            f"Invalid db_type `{config.database.db_type}`, allowed types are {DatabaseTypes.choices()}"
         )
-    return file_name
 
 
-def generate_poetry_toml(output_dir: str, dependencies: List[DependencyConfig]) -> str:
+def generate_poetry_toml(output_dir: str, config: Config) -> str:
     """Use the JINJA Template to generate the poetry toml file.
 
     Args:
         output_dir (str): Output directory
+        config (Config): Configuration object
     Returns:
         str: File name of the generated poetry toml file
     """
-    # Load the template
-    env = Environment(loader=FileSystemLoader(POETRY_TEMPLATES))
-    service_template = env.get_template("toml.jinja")
-
     # If none of the dependencies are provided, use the default dependencies
-    if not dependencies:
-        dependencies = DEFAULT_DEPENDENCIES
+    if not config.dependencies:
+        config.dependencies = DEFAULT_DEPENDENCIES
 
-    # Generate the dependency rows
+    # Create inputs for the model template
+    template_name = "toml.jinja"
+    output_path = f"{output_dir}/pyproject.toml"
+
     dependency_rows = []
-    for dep in dependencies:
+    for dep in config.dependencies:
         if dep.version:
             dependency_rows.append(f'{dep.name} = "{dep.version}"')
         else:
             dependency_rows.append(f'{dep.name} = "*"')
     dependency_rows = "\n".join(dependency_rows)
 
-    # Generate the service
-    output = service_template.render(
-        name="service",
-        version="0.1.0",
-        description="My Generated Service",
-        email="TODO",
-        dependency_rows=dependency_rows,
-    )
+    # TODO: Extend the context with additional fields from config object
+    context = {
+        "name": "service",
+        "version": "0.1.0",
+        "description": "My Generated Service",
+        "email": "TODO",
+        "dependency_rows": dependency_rows,
+    }
 
-    # Write the service to the output directory
-    file_name = f"{output_dir}/pyproject.toml"
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    with open(file_name, "w") as f:
-        f.write(output)
-    return file_name
+    # Generate the poetry toml file and return the file name
+    return populate_template(
+        template_dir=POETRY_TEMPLATES,
+        template_name=template_name,
+        output_path=output_path,
+        context=context,
+    )
 
 
 def generate_readme(output_dir: str) -> str:
@@ -260,20 +242,16 @@ def generate_readme(output_dir: str) -> str:
     Returns:
         str: File name of the generated README file
     """
-    # Load the template
-    env = Environment(loader=FileSystemLoader(README_TEMPLATES))
-    service_template = env.get_template("README.jinja")
+    # Populate the README template
+    template_name = "README.jinja"
+    output_path = f"{output_dir}/README.md"
 
-    # Generate the service
-    output = service_template.render()
-
-    # Write the service to the output directory
-    file_name = f"{output_dir}/README.md"
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    with open(file_name, "w") as f:
-        f.write(output)
-    return file_name
+    # Generate the README file and return the file name
+    return populate_template(
+        template_dir=README_TEMPLATES,
+        template_name=template_name,
+        output_path=output_path,
+    )
 
 
 ############################################
@@ -281,7 +259,7 @@ def generate_readme(output_dir: str) -> str:
 ############################################
 
 
-def copy_dockerfiles(output_dir: str) -> str:
+def copy_dockerfiles(output_dir: str) -> List[str]:
     """Use the JINJA Template to generate the Dockerfile.
 
     Args:
@@ -289,11 +267,16 @@ def copy_dockerfiles(output_dir: str) -> str:
     Returns:
         str: File name of the generated Dockerfile
     """
-    # Simple copy of the Dockerfile
+    # New paths for the dockerfile and docker-compose
     dockerfile_path = f"{DOCKER_TEMPLATES}/Dockerfile"
     compose_path = f"{DOCKER_TEMPLATES}/docker-compose.yml"
+
+    # Copy the dockerfile and docker-compose to the output directory
     os.system(f"cp {dockerfile_path} {output_dir}/Dockerfile")
     os.system(f"cp {compose_path} {output_dir}/docker-compose.yml")
+
+    # Return the file names
+    return [dockerfile_path, compose_path]
 
 
 ############################################
@@ -338,32 +321,24 @@ def generate_files(output_dir: str, config: Config, is_revert: bool = False) -> 
     Returns:
         Dict: Dictionary of the generated files
     """
+    # Ensure that the output directory is fully qualified
+    output_dir = os.path.abspath(output_dir)
+    # Ensure the python code directory is fully qualified
+    code_dir = os.path.abspath(f"{output_dir}/src")
 
-    # Generate the models and other code
-    code_dir = f"{output_dir}/src"
-    model_file = generate_models(output_dir=code_dir, models=config.models)
-    service_file = generate_services(output_dir=code_dir, models=config.models)
-    manager_files = generate_managers(
-        output_dir=code_dir, models=config.models, db_config=config.database
-    )
-    mongo_file = generate_database(output_dir=code_dir, db_config=config.database)
+    # Generate the models, services, managers, and mongo files
+    model_file = generate_models(output_dir=code_dir, config=config)
+    service_file = generate_services(output_dir=code_dir, config=config)
+    manager_files = generate_managers(output_dir=code_dir, config=config)
+    mongo_file = generate_database(output_dir=code_dir, config=config)
 
-    # Generate the poetry toml file
-    poetry_file = generate_poetry_toml(
-        output_dir=output_dir, dependencies=config.dependencies
-    )
-
-    # Generate the README file
+    # Generate non code files
+    poetry_file = generate_poetry_toml(output_dir=output_dir, config=config)
     readme_file = generate_readme(output_dir=output_dir)
-
-    # Copy over docker files
-    copy_dockerfiles(output_dir=output_dir)
+    docker_files = copy_dockerfiles(output_dir=output_dir)
 
     # Write new version to the versions directory
-    update_versions(
-        config=config,
-        is_revert=is_revert,
-    )
+    update_versions(config=config, is_revert=is_revert)
 
     # Return the generated files
     return {
@@ -373,4 +348,5 @@ def generate_files(output_dir: str, config: Config, is_revert: bool = False) -> 
         "mongo": mongo_file,
         "poetry": poetry_file,
         "readme": readme_file,
+        "docker": docker_files,
     }

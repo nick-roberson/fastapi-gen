@@ -4,9 +4,8 @@ import os
 import sys
 
 import yaml
+from generate.constants import CODEGEN_DIR_NAME, OPENAPI_SPEC_FN, SERVICE_NAME
 from uvicorn.importer import import_from_string
-
-from generate.constants import CODEGEN_DIR, OPENAPI_SPEC_FN, SERVICE_NAME
 
 
 def export_openapi(
@@ -21,7 +20,7 @@ def export_openapi(
         str: The output file
     """
     # Add the application directory to the path
-    codegen_dir = os.path.join(output_dir, CODEGEN_DIR)
+    codegen_dir = os.path.join(output_dir, CODEGEN_DIR_NAME)
     if codegen_dir is not None:
         sys.path.insert(0, codegen_dir)
 

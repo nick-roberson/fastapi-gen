@@ -1,8 +1,6 @@
 import os
 from typing import Dict
 
-from rich import print
-
 from generate.backend.generate import (clear_backend_output, generate_files,
                                        install_backend_deps, lint_backend)
 from generate.backend.openapi.export_openapi import export_openapi
@@ -15,6 +13,7 @@ from generate.frontend.generate import (clear_frontend_output,
                                         generate_app_main_page,
                                         install_dependencies, lint_frontend)
 from generate.models import Config
+from rich import print
 
 
 def load_and_validate_config(input_file: str) -> Dict:

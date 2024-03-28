@@ -1,7 +1,6 @@
 import tempfile
 
 import pytest
-
 from generate.backend.generate import (generate_database, generate_managers,
                                        generate_models, generate_poetry_toml,
                                        generate_readme, generate_services,
@@ -21,32 +20,31 @@ def test_generate(config):
         # Generate the models
         generate_models(
             output_dir=output_dir,
-            models=config_model.models,
+            config=config_model,
         )
 
         # Generate the services
         generate_services(
             output_dir=output_dir,
-            models=config_model.models,
+            config=config_model,
         )
 
         # Generate the managers
         generate_managers(
             output_dir=output_dir,
-            db_config=config_model.database,
-            models=config_model.models,
+            config=config_model,
         )
 
         # Generate the mongo
         generate_database(
             output_dir=output_dir,
-            db_config=config_model.database,
+            config=config_model,
         )
 
         # Generate the poetry.toml
         generate_poetry_toml(
             output_dir=output_dir,
-            dependencies=config_model.dependencies,
+            config=config_model,
         )
 
         # Generate the README
