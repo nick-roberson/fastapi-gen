@@ -81,7 +81,7 @@ For an example of a config that you can use to generate a service, see the `exam
 Here is an example of the output that you will see when you run the service generator:
 ```bash
 % poetry install && poetry update
-% VERBOSE=0 && poetry run python service_builder/main.py generate \
+% VERBOSE=0 && poetry run python main.py generate \
     --config example/configs/user_groups.yaml \
     --output-dir example/output \
     --service-name nicks-app
