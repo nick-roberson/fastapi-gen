@@ -2,15 +2,17 @@ import os
 from typing import Dict, Tuple
 
 import yaml
-from generate.models import (Config, DatabaseConfig, DatabaseTypes,
-                             DependencyConfig, FieldDefinition, ModelConfig)
 from pydantic.fields import FieldInfo
+
+from service_builder.models import (DatabaseConfig, DatabaseTypes,
+                                    DependencyConfig, FieldDefinition,
+                                    ModelConfig, ServiceConfig)
 
 # Pull output the fields from the models
 FIELD_DEFINITION_FIELDS: dict[str, FieldInfo] = FieldDefinition.model_fields
 MODEL_DEFINITION_FIELDS: dict[str, FieldInfo] = ModelConfig.model_fields
 DEPENDENCY_DEFINITION_FIELDS: dict[str, FieldInfo] = DependencyConfig.model_fields
-MODEL_DEFINITION_LIST_FIELDS: dict[str, FieldInfo] = Config.model_fields
+MODEL_DEFINITION_LIST_FIELDS: dict[str, FieldInfo] = ServiceConfig.model_fields
 
 
 ########################################
@@ -125,7 +127,7 @@ def validate_config(config: Dict) -> None:
 ########################################
 
 
-def parse_config(config) -> Config:
+def parse_config(config) -> ServiceConfig:
     """Parse the model definition from the config.
     Args:
         config: Dict
@@ -158,6 +160,6 @@ def parse_config(config) -> Config:
     for dependency in config.get("dependencies", []):
         dependencies_config.append(DependencyConfig(**dependency))
 
-    return Config(
+    return ServiceConfig(
         database=database_config, models=models_config, dependencies=dependencies_config
     )

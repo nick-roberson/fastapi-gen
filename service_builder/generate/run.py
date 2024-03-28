@@ -1,18 +1,21 @@
-import os
 from typing import Dict
 
-from config.parse import load_config, parse_config, validate_config
-from generate.backend.generate import (generate_files, install_backend_deps,
-                                       lint_backend)
-from generate.backend.openapi.export_openapi import export_openapi
-from generate.clients.generate import (create_python_client,
-                                       create_typescript_client)
-from generate.frontend.generate import (create_application,
-                                        generate_app_main_page,
-                                        install_dependencies, lint_frontend)
-from generate.models import Config
-from generate.utils import clear_directory
 from rich import print
+
+from service_builder.config.parse import (load_config, parse_config,
+                                          validate_config)
+from service_builder.generate.backend.generate import (generate_files,
+                                                       install_backend_deps,
+                                                       lint_backend)
+from service_builder.generate.clients.generate import (
+    create_python_client, create_typescript_client)
+from service_builder.generate.frontend.generate import (create_application,
+                                                        generate_app_main_page,
+                                                        install_dependencies,
+                                                        lint_frontend)
+from service_builder.generate.utils import clear_directory
+from service_builder.models import ServiceConfig
+from service_builder.openapi.export import export_openapi
 
 
 def load_and_validate_config(input_file: str) -> Dict:
@@ -71,7 +74,7 @@ def clear_typescript_client(output_dir: str, service_name: str):
     clear_directory(client_code_dir)
 
 
-def generate_back(config: Config, output_dir: str) -> Dict:
+def generate_back(config: ServiceConfig, output_dir: str) -> Dict:
     """Generate the models and services from the input yaml config.
 
     Args:
@@ -101,7 +104,7 @@ def generate_back(config: Config, output_dir: str) -> Dict:
     return created_files
 
 
-def generate_front(config: Config, output_dir: str, service_name: str) -> None:
+def generate_front(config: ServiceConfig, output_dir: str, service_name: str) -> None:
     """Generates a typescript / react front end from scratch."""
     print("Starting generating the frontend code...\n")
 

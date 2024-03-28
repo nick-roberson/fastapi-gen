@@ -67,7 +67,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    group = openapi_client.Group() # Group |
+    group = openapi_client.Group() # Group | 
 
     try:
         # Create Group
@@ -120,3 +120,7 @@ Endpoints do not require authorization.
 
 
 ## Author
+
+
+
+
