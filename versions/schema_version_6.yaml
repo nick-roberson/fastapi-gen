@@ -1,0 +1,79 @@
+version: 6
+created_at: '2024-03-28 15:54:36'
+db_config:
+  db_type: mongo
+  db_uri_env_var: MONGO_DB_URI
+models:
+- name: User
+  fields:
+  - name: id
+    type: str
+    of_type: null
+    description: The unique identifier of the user
+    default: None
+    required: false
+  - name: username
+    type: str
+    of_type: null
+    description: The username of the user
+    default: null
+    required: true
+  - name: email
+    type: str
+    of_type: null
+    description: The email of the user
+    default: null
+    required: true
+  - name: location
+    type: str
+    of_type: null
+    description: The location of the user
+    default: null
+    required: false
+  - name: age
+    type: int
+    of_type: null
+    description: The age of the user
+    default: null
+    required: false
+  - name: team
+    type: str
+    of_type: null
+    description: The team name of the user
+    default: null
+    required: false
+- name: Group
+  fields:
+  - name: id
+    type: str
+    of_type: null
+    description: The unique identifier of the group
+    default: None
+    required: false
+  - name: name
+    type: str
+    of_type: null
+    description: The name of the group
+    default: null
+    required: true
+  - name: users
+    type: list
+    of_type: null
+    description: The users in the group
+    default: null
+    required: true
+dependencies:
+- name: python
+  version: 3.12.1
+- name: pydantic
+  version: ^2.6.4
+- name: fastapi
+  version: ^0.110.0
+- name: uvicorn
+  version: ^0.28.0
+- name: pymongo
+  version: ^4.6.2
+- name: certifi
+  version: ^2024.2.2
+- name: rich
+  version: ^13.7.1

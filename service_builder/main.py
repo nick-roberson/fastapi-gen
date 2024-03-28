@@ -164,12 +164,21 @@ def generate_openapi(
     ),
 ):
     """Generate the openapi file from the input yaml config."""
+    # Simple verification
+    if not os.path.exists(service_dir):
+        print(f"Output root directory {service_dir} does not exist")
+        typer.Exit(code=1)
+
+    # Get the absolute path and log args
+    service_dir_abs = os.path.abspath(service_dir)
     print(
         f"""Generating OpenAPI file:
-    Output: {service_dir}
+    Output: {service_dir_abs}
     """
     )
-    export_openapi(output_dir=service_dir)
+
+    # Export the openapi file
+    export_openapi(output_dir=service_dir_abs)
     print("Done!")
 
 
