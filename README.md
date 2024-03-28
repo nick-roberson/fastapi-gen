@@ -132,14 +132,17 @@ BACKEND: Completed clearing the output directory.
 BACKEND: Completed generating models and services.
 BACKEND: Completed installing dependencies.
 BACKEND: Completed exporting OpenAPI JSON.
-BACKEND: Completed linting the code.
 
 FRONTEND: Completed clearing the output directory.
 FRONTEND: Completed creating the application.
 FRONTEND: Completed installing dependencies.
-FRONTEND: Completed creating the application client.
 FRONTEND: Completed generating the main page.
-FRONTEND: Completed linting the code.
+
+CLIENTS: Completed generating the typescript client code.
+CLIENTS: Completed generating the python client code.
+
+LINT: Completed linting frontend the code.
+LINT: Completed linting backend the code.
 
 Generated files:
         models: /Users/nicholas/Code/service-builder/data/output/src/models/models.py

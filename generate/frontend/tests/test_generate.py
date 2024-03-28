@@ -5,9 +5,11 @@ import pytest
 from generate.backend.parse import load_config, parse_config
 from generate.constants import SAMPLE_INPUT_FILE
 from generate.frontend.generate import (create_application,
-                                        create_application_client,
                                         generate_app_main_page,
                                         install_dependencies, lint_frontend)
+
+# TODO: Uncomment the following imports when the generate_clients functionality is implemented
+# from generate.clients.generate import create_typescript_client, create_python_clients
 
 
 @pytest.mark.parametrize("config", [SAMPLE_INPUT_FILE])
@@ -29,7 +31,8 @@ def test_generate(config):
         )
 
         # TODO: Generate the application client, currently commented out because of the missing OPENAPI_SPEC_FN
-        # create_application_client(output_dir=output_dir, service_name=config_model.service_name)
+        # create_typescript_client(output_dir=output_dir, service_name=config_model.service_name)
+        # create_python_clients(output_dir=output_dir, service_name=config_model.service_name)
 
         # Generate the main page
         generate_app_main_page(

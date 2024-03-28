@@ -7,10 +7,11 @@ from generate.backend.generate import (clear_backend_output, generate_files,
                                        install_backend_deps, lint_backend)
 from generate.backend.openapi.export_openapi import export_openapi
 from generate.backend.parse import load_config, parse_config, validate_config
-from generate.constants import CODEGEN_DIR, OPENAPI_SPEC_FN
+from generate.clients.generate import (create_python_client,
+                                       create_typescript_client)
+from generate.constants import OPENAPI_SPEC_FN
 from generate.frontend.generate import (clear_frontend_output,
                                         create_application,
-                                        create_application_client,
                                         generate_app_main_page,
                                         install_dependencies, lint_frontend)
 from generate.models import Config
@@ -53,11 +54,7 @@ def generate_back(config: Config, output_dir: str) -> Dict:
 
     # (4) Export the OpenAPI JSON
     export_openapi(output_dir=output_dir, file_name=OPENAPI_SPEC_FN)
-    print("BACKEND: Completed exporting OpenAPI JSON.")
-
-    # (5) Lint the code
-    lint_backend(output_dir=output_dir)
-    print("BACKEND: Completed linting the code.\n")
+    print("BACKEND: Completed exporting OpenAPI JSON.\n")
 
     return created_files
 
@@ -76,19 +73,40 @@ def generate_front(config: Config, output_dir: str, service_name: str) -> None:
     install_dependencies(output_dir=output_dir, service_name=service_name)
     print("FRONTEND: Completed installing dependencies.")
 
-    # (3) Create the application client
-    create_application_client(output_dir=output_dir, service_name=service_name)
-    print("FRONTEND: Completed creating the application client.")
-
-    # (4) Generate the main page
+    # (3) Generate the main page
     generate_app_main_page(
         output_dir=output_dir, service_name=service_name, models=config.models
     )
-    print("FRONTEND: Completed generating the main page.")
+    print("FRONTEND: Completed generating the main page.\n")
 
-    # (5) Lint the code
+
+def generate_clients(output_dir: str, service_name: str):
+    """Generate the frontend service client code
+
+    Args:
+        output_dir (str): Output directory
+        service_name (str): Name of the service
+        models (List[ModelConfig]): List of model configurations
+    """
+    create_typescript_client(output_dir=output_dir, service_name=service_name)
+    print("CLIENTS: Completed generating the typescript client code.")
+
+    create_python_client(output_dir=output_dir)
+    print("CLIENTS: Completed generating the python client code.\n")
+
+
+def lint_generated_code(output_dir: str, service_name: str):
+    """Lint the generated code.
+
+    Args:
+        output_dir (str): Output directory
+        service_name (str): Name of the service
+    """
     lint_frontend(output_dir=output_dir, service_name=service_name)
-    print("FRONTEND: Completed linting the code.")
+    print("LINT: Completed linting frontend the code.")
+
+    lint_backend(output_dir=output_dir)
+    print("LINT: Completed linting backend the code.\n")
 
 
 def generate(
@@ -113,15 +131,21 @@ def generate(
 
     # Only regenerate the backend
     if backend_only:
-        return generate_back(config=config, output_dir=output_dir)
+        created_files = generate_back(config=config, output_dir=output_dir)
+        generate_clients(output_dir=output_dir, service_name=service_name)
+        lint_backend(output_dir=output_dir)
+        return created_files
 
     # Only regenerate the frontend
     if frontend_only:
         generate_front(config=config, output_dir=output_dir, service_name=service_name)
+        lint_frontend(output_dir=output_dir, service_name=service_name)
         return {}
 
     # Regenerate both the backend and frontend
     else:
         created_files = generate_back(config=config, output_dir=output_dir)
         generate_front(config=config, output_dir=output_dir, service_name=service_name)
+        generate_clients(output_dir=output_dir, service_name=service_name)
+        lint_generated_code(output_dir=output_dir, service_name=service_name)
         return created_files
