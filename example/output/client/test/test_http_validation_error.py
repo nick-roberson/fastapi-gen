@@ -40,8 +40,8 @@ class TestHTTPValidationError(unittest.TestCase):
                     openapi_client.models.validation_error.ValidationError(
                         loc = [
                             null
-                            ], 
-                        msg = '', 
+                            ],
+                        msg = '',
                         type = '', )
                     ]
             )

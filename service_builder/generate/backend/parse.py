@@ -2,8 +2,14 @@ import os
 from typing import Dict, Tuple
 
 import yaml
-from generate.models import (Config, DatabaseConfig, DatabaseTypes,
-                             DependencyConfig, FieldDefinition, ModelConfig)
+from generate.models import (
+    Config,
+    DatabaseConfig,
+    DatabaseTypes,
+    DependencyConfig,
+    FieldDefinition,
+    ModelConfig,
+)
 from pydantic.fields import FieldInfo
 
 # Pull output the fields from the models

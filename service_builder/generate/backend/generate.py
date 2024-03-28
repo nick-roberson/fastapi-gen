@@ -3,13 +3,25 @@ import os
 from typing import Dict, List
 
 from generate.backend.versions.utils import load_versions, save_version
-from generate.constants import (DOCKER_TEMPLATES, MANAGER_TEMPLATES,
-                                MODEL_TEMPLATES, MONGO_TEMPLATES,
-                                POETRY_TEMPLATES, PYTHON_DEPENDENCIES,
-                                PYTHON_VERSION, README_TEMPLATES,
-                                SERVICE_TEMPLATES)
-from generate.models import (Config, DatabaseConfig, DatabaseTypes,
-                             DependencyConfig, ModelConfig, ServiceVersion)
+from generate.constants import (
+    DOCKER_TEMPLATES,
+    MANAGER_TEMPLATES,
+    MODEL_TEMPLATES,
+    MONGO_TEMPLATES,
+    POETRY_TEMPLATES,
+    PYTHON_DEPENDENCIES,
+    PYTHON_VERSION,
+    README_TEMPLATES,
+    SERVICE_TEMPLATES,
+)
+from generate.models import (
+    Config,
+    DatabaseConfig,
+    DatabaseTypes,
+    DependencyConfig,
+    ModelConfig,
+    ServiceVersion,
+)
 from generate.utils import load_template, populate_template, run_command
 
 # If none of the templates are provided, use the default templates

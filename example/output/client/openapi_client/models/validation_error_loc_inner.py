@@ -20,8 +20,15 @@ import re  # noqa: F401
 from inspect import getfullargspec
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
-from pydantic import (BaseModel, ConfigDict, Field, StrictInt, StrictStr,
-                      ValidationError, field_validator)
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictInt,
+    StrictStr,
+    ValidationError,
+    field_validator,
+)
 from typing_extensions import Literal, Self
 
 VALIDATIONERRORLOCINNER_ANY_OF_SCHEMAS = ["int", "str"]

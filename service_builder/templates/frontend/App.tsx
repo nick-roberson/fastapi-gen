@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import "./App.css";
 
-// Import MUI Components 
+// Import MUI Components
 import { Container, Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
-// Import Client 
+// Import Client
 import { DefaultApi } from "./api";
 import { Configuration } from "./api";
 
@@ -49,7 +49,7 @@ function App() {
         fetch{{ model.name }}();
         {% endfor %}
     }, []);
-  
+
     return (
         <div>
             <Container>

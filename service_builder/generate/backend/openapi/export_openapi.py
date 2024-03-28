@@ -28,9 +28,6 @@ def export_openapi(
     app = import_from_string(SERVICE_NAME)
     openapi = app.openapi()
 
-    # Log the version of the openapi spec
-    version = openapi.get("openapi", "unknown version")
-
     # Write the spec to a file
     openapi_spec_file = os.path.join(output_dir, file_name)
     with open(openapi_spec_file, "w") as f:

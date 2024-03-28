@@ -1,17 +1,23 @@
 import os
 from typing import Dict
 
-from generate.backend.generate import (clear_backend_output, generate_files,
-                                       install_backend_deps, lint_backend)
+from generate.backend.generate import (
+    clear_backend_output,
+    generate_files,
+    install_backend_deps,
+    lint_backend,
+)
 from generate.backend.openapi.export_openapi import export_openapi
 from generate.backend.parse import load_config, parse_config, validate_config
-from generate.clients.generate import (create_python_client,
-                                       create_typescript_client)
+from generate.clients.generate import create_python_client, create_typescript_client
 from generate.constants import OPENAPI_SPEC_FN
-from generate.frontend.generate import (clear_frontend_output,
-                                        create_application,
-                                        generate_app_main_page,
-                                        install_dependencies, lint_frontend)
+from generate.frontend.generate import (
+    clear_frontend_output,
+    create_application,
+    generate_app_main_page,
+    install_dependencies,
+    lint_frontend,
+)
 from generate.models import Config
 from rich import print
 
@@ -54,7 +60,7 @@ def generate_back(config: Config, output_dir: str) -> Dict:
     print("\tBACKEND: Completed installing dependencies.")
 
     # (4) Export the OpenAPI JSON
-    export_openapi(output_dir=output_dir, file_name=OPENAPI_SPEC_FN)
+    export_openapi(output_dir=output_dir)
     print("\tBACKEND: Completed exporting OpenAPI JSON.\n")
 
     return created_files

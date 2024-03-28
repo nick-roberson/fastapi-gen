@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**detail** | [**List[ValidationError]**](ValidationError.md) |  | [optional] 
+**detail** | [**List[ValidationError]**](ValidationError.md) |  | [optional]
 
 ## Example
 
@@ -25,5 +25,3 @@ http_validation_error_dict = http_validation_error_instance.to_dict()
 http_validation_error_form_dict = http_validation_error.from_dict(http_validation_error_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

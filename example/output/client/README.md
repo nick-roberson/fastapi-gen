@@ -98,7 +98,3 @@ Endpoints do not require authorization.
 
 
 ## Author
-
-
-
-

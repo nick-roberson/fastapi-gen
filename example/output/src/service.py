@@ -4,6 +4,7 @@ from typing import List
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+
 from models.models import Group, User
 
 # Create instances of managers for each model

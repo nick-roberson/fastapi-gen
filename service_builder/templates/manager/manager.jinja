@@ -48,10 +48,10 @@ class {{ model.name }}Manager:
             for model in {{ model.name.lower() }}_list:
                 if not model.id:
                     model.id = str(uuid.uuid4())
-            
+
             # Insert into database
             self.collection.insert_many([{{ model.name.lower() }}.model_dump(mode="json") for {{ model.name.lower() }} in {{ model.name.lower() }}_list])
-            
+
             # Return the {{ model.name }} list
             return {{ model.name.lower() }}_list
         except Exception as e:
@@ -79,7 +79,7 @@ class {{ model.name }}Manager:
             return list(self.collection.find({'id': {'$in': {{ model.name.lower() }}_ids}}))
         except Exception as e:
             raise e
-    
+
 
     def get_all(self) -> List[{{ model.name }}]:
         """ Get all {{ model.name }} """
@@ -88,12 +88,12 @@ class {{ model.name }}Manager:
             return list(self.collection.find())
         except Exception as e:
             raise e
-    
+
     ########################################################
     # Update Operations                                    #
     ########################################################
 
-    
+
     def update(self, {{ model.name.lower() }}: {{ model.name }}) -> {{ model.name }}:
         """ Update a {{ model.name }} """
         logging.info("Updating {{ model.name }}: {}".format({{ model.name.lower() }}))
@@ -169,4 +169,3 @@ class {{ model.name }}Manager:
             return objs
         except Exception as e:
             raise e
-

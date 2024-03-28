@@ -2,8 +2,7 @@ import os
 from string import Template
 from typing import List
 
-from generate.constants import (FRONTEND_TEMPLATES, NODE_DEPENDENCIES,
-                                OPENAPI_SPEC_FN)
+from generate.constants import FRONTEND_TEMPLATES, NODE_DEPENDENCIES, OPENAPI_SPEC_FN
 from generate.models import FieldDefinition, ModelConfig
 from generate.utils import run_command
 from jinja2 import Environment, FileSystemLoader
