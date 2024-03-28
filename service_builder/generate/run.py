@@ -2,15 +2,14 @@ import os
 from typing import Dict
 
 from config.parse import load_config, parse_config, validate_config
-from generate.backend.generate import generate_files, install_backend_deps, lint_backend
+from generate.backend.generate import (generate_files, install_backend_deps,
+                                       lint_backend)
 from generate.backend.openapi.export_openapi import export_openapi
-from generate.clients.generate import create_python_client, create_typescript_client
-from generate.frontend.generate import (
-    create_application,
-    generate_app_main_page,
-    install_dependencies,
-    lint_frontend,
-)
+from generate.clients.generate import (create_python_client,
+                                       create_typescript_client)
+from generate.frontend.generate import (create_application,
+                                        generate_app_main_page,
+                                        install_dependencies, lint_frontend)
 from generate.models import Config
 from generate.utils import clear_directory
 from rich import print

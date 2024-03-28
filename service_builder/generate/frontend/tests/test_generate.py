@@ -3,12 +3,9 @@ import tempfile
 import pytest
 from config.parse import load_config, parse_config
 from constants import SAMPLE_INPUT_FILE
-from generate.frontend.generate import (
-    create_application,
-    generate_app_main_page,
-    install_dependencies,
-    lint_frontend,
-)
+from generate.frontend.generate import (create_application,
+                                        generate_app_main_page,
+                                        install_dependencies, lint_frontend)
 
 
 @pytest.mark.parametrize("config", [SAMPLE_INPUT_FILE])
