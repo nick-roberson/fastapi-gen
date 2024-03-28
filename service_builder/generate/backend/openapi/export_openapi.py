@@ -4,7 +4,7 @@ import os
 import sys
 
 import yaml
-from generate.constants import CODEGEN_DIR_NAME, OPENAPI_SPEC_FN, SERVICE_NAME
+from constants import CODEGEN_DIR_NAME, OPENAPI_SPEC_FN, SERVICE_NAME
 from uvicorn.importer import import_from_string
 
 

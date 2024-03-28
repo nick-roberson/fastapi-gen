@@ -8,6 +8,24 @@ from rich import print
 VERBOSE: bool = os.environ.get("VERBOSE", False)
 
 
+def clear_directory(directory: str) -> None:
+    """Clear a directory.
+
+    Args:
+        directory (str): The directory to clear
+    """
+    try:
+        # If the directory exists, clear it
+        if os.path.exists(directory):
+            subprocess.run(f"rm -rf {directory}", shell=True, check=True)
+
+        # Create the directory
+        os.makedirs(directory, exist_ok=True)
+    except Exception as e:
+        print(f"Error clearing directory: {directory}, {e}")
+        raise e
+
+
 def load_template(template_path: str, template_name: str) -> str:
     """Load a template file.
 

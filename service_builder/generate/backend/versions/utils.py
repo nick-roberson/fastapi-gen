@@ -2,7 +2,7 @@ import os
 from typing import List
 
 import yaml
-from generate.constants import VERSIONS_DIR
+from constants import VERSIONS_DIR
 from generate.models import ServiceVersion
 
 

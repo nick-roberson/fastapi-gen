@@ -72,7 +72,7 @@ function App() {
 
   return (
     <div>
-      <Box m={3}>
+      <Container>
         <Box>
           <Typography variant="h4">Django React App</Typography>
         </Box>
@@ -90,7 +90,7 @@ function App() {
             <DataGrid rows={group} columns={group_columns} />
           </Box>
         </Box>
-      </Box>
+      </Container>
     </div>
   );
 }

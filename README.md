@@ -87,35 +87,36 @@ Here is an example of the output that you will see when you run the service gene
     --service-name nicks-app
 
 Generating models and services with the following inputs
-    Input:  /Users/nicholas/Code/service-builder/data/configs/user_groups.yaml
-    Output: /Users/nicholas/Code/service-builder/data/output
+    Input:  /Users/nicholas/Code/service-builder/example/configs/user_groups.yaml
+    Output: /Users/nicholas/Code/service-builder/example/output
     Service Name: nicksapp
     Frontend Only: False
     Backend Only: False
 
 Starting generating the backend code...
 
-        BACKEND: Completed clearing the output directory.
+        BACKEND: Completed clearing the backend code directory.
         BACKEND: Completed generating models and services.
         BACKEND: Completed installing dependencies.
         BACKEND: Completed exporting OpenAPI JSON.
 
 Starting generating the frontend code...
 
-        FRONTEND: Completed clearing the output directory.
+        FRONTEND: Completed clearing the frontend code directory.
         FRONTEND: Completed creating the application.
         FRONTEND: Completed installing dependencies.
         FRONTEND: Completed generating the main page.
 
 Starting generating the client code...
 
+        CLIENTS: Completed clearing the typescript and python client code directories.
         CLIENTS: Completed generating the typescript client code.
         CLIENTS: Completed generating the python client code.
 
 Starting linting the generated code...
 
-        LINT: Completed linting frontend the code.
-        LINT: Completed linting backend the code.
+        LINT: Completed linting frontend code.
+        LINT: Completed linting backend code.
 
 Generated files:
         models: None

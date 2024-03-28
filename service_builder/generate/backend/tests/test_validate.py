@@ -1,8 +1,8 @@
 import tempfile
 
 import pytest
-from generate.backend.parse import load_config, parse_config, validate_config
-from generate.constants import SAMPLE_INPUT_FILE
+from config.parse import load_config, parse_config, validate_config
+from constants import SAMPLE_INPUT_FILE
 
 
 @pytest.mark.parametrize("config", [SAMPLE_INPUT_FILE])

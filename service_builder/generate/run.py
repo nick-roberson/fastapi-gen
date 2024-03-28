@@ -1,24 +1,18 @@
 import os
 from typing import Dict
 
-from generate.backend.generate import (
-    clear_backend_output,
-    generate_files,
-    install_backend_deps,
-    lint_backend,
-)
+from config.parse import load_config, parse_config, validate_config
+from generate.backend.generate import generate_files, install_backend_deps, lint_backend
 from generate.backend.openapi.export_openapi import export_openapi
-from generate.backend.parse import load_config, parse_config, validate_config
 from generate.clients.generate import create_python_client, create_typescript_client
-from generate.constants import OPENAPI_SPEC_FN
 from generate.frontend.generate import (
-    clear_frontend_output,
     create_application,
     generate_app_main_page,
     install_dependencies,
     lint_frontend,
 )
 from generate.models import Config
+from generate.utils import clear_directory
 from rich import print
 
 
@@ -36,6 +30,48 @@ def load_and_validate_config(input_file: str) -> Dict:
     return parse_config(loaded_config)
 
 
+def clear_backend_output(output_dir: str):
+    """Clear the backend code directory
+
+    Args:
+        output_dir (str): Output directory
+    """
+    backend_code_dir = f"{output_dir}/src"
+    clear_directory(backend_code_dir)
+
+
+def clear_frontend_output(output_dir: str, service_name: str):
+    """Clear the frontend code directory
+
+    Args:
+        output_dir (str): Output directory
+        service_name (str): Name of the service
+    """
+    frontend_code_dir = f"{output_dir}/{service_name}"
+    clear_directory(frontend_code_dir)
+
+
+def clear_python_client(output_dir: str):
+    """Clear the python client code directory
+
+    Args:
+        output_dir (str): Output directory
+    """
+    client_code_dir = f"{output_dir}/client"
+    clear_directory(client_code_dir)
+
+
+def clear_typescript_client(output_dir: str, service_name: str):
+    """Clear the client code directory
+
+    Args:
+        output_dir (str): Output directory
+        service_name (str): Name of the service
+    """
+    client_code_dir = f"{output_dir}/{service_name}/src/api"
+    clear_directory(client_code_dir)
+
+
 def generate_back(config: Config, output_dir: str) -> Dict:
     """Generate the models and services from the input yaml config.
 
@@ -49,7 +85,7 @@ def generate_back(config: Config, output_dir: str) -> Dict:
 
     # (1) Clear the output directory
     clear_backend_output(output_dir=output_dir)
-    print("\tBACKEND: Completed clearing the output directory.")
+    print("\tBACKEND: Completed clearing the backend code directory.")
 
     # (2) Generate the files
     created_files = generate_files(output_dir=output_dir, config=config)
@@ -72,7 +108,7 @@ def generate_front(config: Config, output_dir: str, service_name: str) -> None:
 
     # (0) Clear the output directory
     clear_frontend_output(output_dir=output_dir, service_name=service_name)
-    print("\tFRONTEND: Completed clearing the output directory.")
+    print("\tFRONTEND: Completed clearing the frontend code directory.")
 
     # (1) Create the application
     create_application(output_dir=output_dir, service_name=service_name)
@@ -99,6 +135,12 @@ def generate_clients(output_dir: str, service_name: str):
     """
     print("Starting generating the client code...\n")
 
+    clear_typescript_client(output_dir=output_dir, service_name=service_name)
+    clear_typescript_client(output_dir=output_dir, service_name=service_name)
+    print(
+        "\tCLIENTS: Completed clearing the typescript and python client code directories."
+    )
+
     create_typescript_client(output_dir=output_dir, service_name=service_name)
     print("\tCLIENTS: Completed generating the typescript client code.")
 
@@ -116,10 +158,10 @@ def lint_generated_code(output_dir: str, service_name: str):
     print("Starting linting the generated code...\n")
 
     lint_frontend(output_dir=output_dir, service_name=service_name)
-    print("\tLINT: Completed linting frontend the code.")
+    print("\tLINT: Completed linting frontend code.")
 
     lint_backend(output_dir=output_dir)
-    print("\tLINT: Completed linting backend the code.\n")
+    print("\tLINT: Completed linting backend code.\n")
 
 
 def generate(

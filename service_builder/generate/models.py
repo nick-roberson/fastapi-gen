@@ -1,7 +1,7 @@
 import enum
 from typing import Any, List, Optional, Tuple
 
-from generate.constants import DEFAULT_SERVICE_NAME
+from constants import DEFAULT_SERVICE_NAME
 from pydantic import BaseModel, field_validator
 from pydantic.fields import FieldInfo
 
