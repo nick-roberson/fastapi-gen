@@ -67,15 +67,14 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    group = openapi_client.Group() # Group | 
 
     try:
-        # Create Group
-        api_response = api_instance.create_group_group_post(group)
-        print("The response of DefaultApi->create_group_group_post:\n")
+        # Root
+        api_response = api_instance.root_get()
+        print("The response of DefaultApi->root_get:\n")
         pprint(api_response)
     except ApiException as e:
-        print("Exception when calling DefaultApi->create_group_group_post: %s\n" % e)
+        print("Exception when calling DefaultApi->root_get: %s\n" % e)
 
 ```
 
@@ -85,32 +84,11 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DefaultApi* | [**create_group_group_post**](docs/DefaultApi.md#create_group_group_post) | **POST** /group | Create Group
-*DefaultApi* | [**create_groups_groups_post**](docs/DefaultApi.md#create_groups_groups_post) | **POST** /groups | Create Groups
-*DefaultApi* | [**create_user_user_post**](docs/DefaultApi.md#create_user_user_post) | **POST** /user | Create User
-*DefaultApi* | [**create_users_users_post**](docs/DefaultApi.md#create_users_users_post) | **POST** /users | Create Users
-*DefaultApi* | [**delete_group_group_delete**](docs/DefaultApi.md#delete_group_group_delete) | **DELETE** /group | Delete Group
-*DefaultApi* | [**delete_groups_groups_delete**](docs/DefaultApi.md#delete_groups_groups_delete) | **DELETE** /groups | Delete Groups
-*DefaultApi* | [**delete_user_user_delete**](docs/DefaultApi.md#delete_user_user_delete) | **DELETE** /user | Delete User
-*DefaultApi* | [**delete_users_users_delete**](docs/DefaultApi.md#delete_users_users_delete) | **DELETE** /users | Delete Users
-*DefaultApi* | [**get_group_group_get**](docs/DefaultApi.md#get_group_group_get) | **GET** /group | Get Group
-*DefaultApi* | [**get_groups_groups_get**](docs/DefaultApi.md#get_groups_groups_get) | **GET** /groups | Get Groups
-*DefaultApi* | [**get_user_user_get**](docs/DefaultApi.md#get_user_user_get) | **GET** /user | Get User
-*DefaultApi* | [**get_users_users_get**](docs/DefaultApi.md#get_users_users_get) | **GET** /users | Get Users
 *DefaultApi* | [**root_get**](docs/DefaultApi.md#root_get) | **GET** / | Root
-*DefaultApi* | [**update_group_group_put**](docs/DefaultApi.md#update_group_group_put) | **PUT** /group | Update Group
-*DefaultApi* | [**update_groups_groups_put**](docs/DefaultApi.md#update_groups_groups_put) | **PUT** /groups | Update Groups
-*DefaultApi* | [**update_user_user_put**](docs/DefaultApi.md#update_user_user_put) | **PUT** /user | Update User
-*DefaultApi* | [**update_users_users_put**](docs/DefaultApi.md#update_users_users_put) | **PUT** /users | Update Users
 
 
 ## Documentation For Models
 
- - [Group](docs/Group.md)
- - [HTTPValidationError](docs/HTTPValidationError.md)
- - [User](docs/User.md)
- - [ValidationError](docs/ValidationError.md)
- - [ValidationErrorLocInner](docs/ValidationErrorLocInner.md)
 
 
 <a id="documentation-for-authorization"></a>

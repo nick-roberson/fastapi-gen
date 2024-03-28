@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "service-builder"
 version = "0.1.0"
-description = ""
+description = "A service builder for creating RESTful APIs and React frontends"
 authors = ["nick-roberson <nicholas.roberson.95@gmail.com>"]
 readme = "README.md"
 
