@@ -1,5 +1,5 @@
 version: 2
-created_at: '2024-03-28 10:28:26'
+created_at: '2024-03-28 14:00:07'
 db_config:
   db_type: mongo
   db_uri_env_var: MONGO_DB_URI
@@ -62,4 +62,18 @@ models:
     description: The users in the group
     default: null
     required: true
-dependencies: []
+dependencies:
+- name: python
+  version: 3.12.1
+- name: pydantic
+  version: ^2.6.4
+- name: fastapi
+  version: ^0.110.0
+- name: uvicorn
+  version: ^0.28.0
+- name: pymongo
+  version: ^4.6.2
+- name: certifi
+  version: ^2024.2.2
+- name: rich
+  version: ^13.7.1

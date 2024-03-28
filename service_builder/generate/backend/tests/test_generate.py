@@ -1,6 +1,8 @@
 import tempfile
 
 import pytest
+from config.parse import load_config, parse_config
+from constants import SAMPLE_INPUT_FILE
 from generate.backend.generate import (
     generate_database,
     generate_managers,
@@ -11,8 +13,6 @@ from generate.backend.generate import (
     install_backend_deps,
     lint_backend,
 )
-from generate.backend.parse import load_config, parse_config
-from generate.constants import SAMPLE_INPUT_FILE
 
 
 @pytest.mark.parametrize("config", [SAMPLE_INPUT_FILE])

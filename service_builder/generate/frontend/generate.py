@@ -2,11 +2,10 @@ import os
 from string import Template
 from typing import List
 
-from generate.constants import FRONTEND_TEMPLATES, NODE_DEPENDENCIES, OPENAPI_SPEC_FN
-from generate.models import FieldDefinition, ModelConfig
+from constants import FRONTEND_TEMPLATES, NODE_DEPENDENCIES, OPENAPI_SPEC_FN
+from generate.models import ModelConfig
 from generate.utils import run_command
 from jinja2 import Environment, FileSystemLoader
-from rich import print
 
 # Commands
 CREATE_SERVICE_CMD: Template = Template(
@@ -16,18 +15,6 @@ CREATE_MODEL_CMD: Template = Template(
     "openapi-generator generate -i $openapi_spec -g typescript-fetch -o $output_dir"
 )
 INSTALL_DEPENDENCIES_CMD: Template = Template("npm install $dependencies")
-
-
-def clear_frontend_output(output_dir: str, service_name: str) -> None:
-    """Delete the entire output directory, then recreate it
-
-    Args:
-        output_dir (str): Output directory
-    """
-    application_dir = f"{output_dir}/{service_name}"
-    if os.path.exists(application_dir):
-        run_command(f"rm -rf {application_dir}")
-    os.makedirs(application_dir)
 
 
 def create_application(output_dir: str, service_name: str):

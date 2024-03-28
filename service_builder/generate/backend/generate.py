@@ -2,8 +2,7 @@ import datetime
 import os
 from typing import Dict, List
 
-from generate.backend.versions.utils import load_versions, save_version
-from generate.constants import (
+from constants import (
     DOCKER_TEMPLATES,
     MANAGER_TEMPLATES,
     MODEL_TEMPLATES,
@@ -14,38 +13,14 @@ from generate.constants import (
     README_TEMPLATES,
     SERVICE_TEMPLATES,
 )
-from generate.models import (
-    Config,
-    DatabaseConfig,
-    DatabaseTypes,
-    DependencyConfig,
-    ModelConfig,
-    ServiceVersion,
-)
-from generate.utils import load_template, populate_template, run_command
+from generate.backend.versions.utils import load_versions, save_version
+from generate.models import Config, DatabaseTypes, DependencyConfig, ServiceVersion
+from generate.utils import populate_template, run_command
 
 # If none of the templates are provided, use the default templates
 DEFAULT_DEPENDENCIES = [
     DependencyConfig(name=dep[0], version=dep[1]) for dep in PYTHON_DEPENDENCIES
 ]
-
-
-############################################
-# Clearing
-############################################
-
-
-def clear_backend_output(output_dir: str) -> None:
-    """Delete the entire output directory, then recreate it
-
-    Args:
-        output_dir (str): Output directory
-    """
-    code_dir = f"{output_dir}/src"
-    if os.path.exists(code_dir):
-        run_command(f"rm -rf {code_dir}")
-    os.makedirs(code_dir)
-
 
 ############################################
 # Install Dependencies

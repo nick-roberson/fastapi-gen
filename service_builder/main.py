@@ -2,15 +2,15 @@ import os
 from typing import Dict, Optional
 
 import typer
-from generate.backend.generate import generate_files
-from generate.backend.openapi.export_openapi import export_openapi
-from generate.backend.versions.utils import load_versions
-from generate.constants import (
+from constants import (
     DEFAULT_PORT,
     OPENAPI_SPEC_FN,
     SAMPLE_INPUT_FILE,
     SAMPLE_OUTPUT_DIR,
 )
+from generate.backend.generate import generate_files
+from generate.backend.openapi.export_openapi import export_openapi
+from generate.backend.versions.utils import load_versions
 from generate.models import ServiceVersion
 from generate.run import generate as generate_service
 from rich import print

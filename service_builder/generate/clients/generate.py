@@ -1,7 +1,7 @@
 import os
 from string import Template
 
-from generate.constants import OPENAPI_SPEC_FN
+from constants import OPENAPI_SPEC_FN
 from generate.utils import run_command
 
 # Commands
