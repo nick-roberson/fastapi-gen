@@ -87,8 +87,8 @@ Here is an example of the output that you will see when you run the service gene
     --service-name nicks-app
 
 Generating models and services with the following inputs
-    Input:  /Users/nicholas/Code/service-builder/example/configs/user_groups.yaml
-    Output: /Users/nicholas/Code/service-builder/example/output
+    Input:  /Users/nicholas/Code/fastapi-gen/example/configs/user_groups.yaml
+    Output: /Users/nicholas/Code/fastapi-gen/example/output
     Service Name: nicksapp
     Frontend Only: False
     Backend Only: False
@@ -120,19 +120,19 @@ Starting linting the generated code...
 
 Generated files:
         models: None
-        service: /Users/nicholas/Code/service-builder/example/output/src/service.py
-        managers: ['/Users/nicholas/Code/service-builder/example/output/src/user_manager.py', '/Users/nicholas/Code/service-builder/example/output/src/group_manager.py']
-        mongo: /Users/nicholas/Code/service-builder/example/output/src/mongo.py
-        poetry: /Users/nicholas/Code/service-builder/example/output/pyproject.toml
-        readme: /Users/nicholas/Code/service-builder/example/output/README.md
-        docker: ['/Users/nicholas/Code/service-builder/service_builder/templates/docker//Dockerfile', '/Users/nicholas/Code/service-builder/service_builder/templates/docker//docker-compose.yml']
+        service: /Users/nicholas/Code/fastapi-gen/example/output/src/service.py
+        managers: ['/Users/nicholas/Code/fastapi-gen/example/output/src/user_manager.py', '/Users/nicholas/Code/fastapi-gen/example/output/src/group_manager.py']
+        mongo: /Users/nicholas/Code/fastapi-gen/example/output/src/mongo.py
+        poetry: /Users/nicholas/Code/fastapi-gen/example/output/pyproject.toml
+        readme: /Users/nicholas/Code/fastapi-gen/example/output/README.md
+        docker: ['/Users/nicholas/Code/fastapi-gen/service_builder/templates/docker//Dockerfile', '/Users/nicholas/Code/fastapi-gen/service_builder/templates/docker//docker-compose.yml']
 
 Run the following commands to run the service:
-  % cd /Users/nicholas/Code/service-builder/example/output
+  % cd /Users/nicholas/Code/fastapi-gen/example/output
   % poetry run uvicorn service:app --reload --port 8000
 
 Run the following commands to run the frontend:
-  % cd /Users/nicholas/Code/service-builder/example/output/nicksapp
+  % cd /Users/nicholas/Code/fastapi-gen/example/output/nicksapp
   % npm start
 ```
 
@@ -144,13 +144,13 @@ Two options, you can either run from your local environment or from the docker c
 
 Local:
 ```
-% cd /Users/nicholas/Code/service-builder/output
+% cd /Users/nicholas/Code/fastapi-gen/output
 % poetry run uvicorn service:app --reload --port 8000
 ```
 
 Docker:
 ```
-% cd /Users/nicholas/Code/service-builder/output
+% cd /Users/nicholas/Code/fastapi-gen/output
 % docker build -t myfastapiapp .
 % docker run -p 8000:8000 myfastapiapp
 ```
@@ -159,7 +159,7 @@ To view the generated OpenAPI documentation, navigate to [http://localhost:8000/
 
 ### Front End
 ```
-% cd /Users/nicholas/Code/service-builder/example-output/nicksapp
+% cd /Users/nicholas/Code/fastapi-gen/example-output/nicksapp
 % npm start
 ```
 
