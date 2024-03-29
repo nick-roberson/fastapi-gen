@@ -27,21 +27,27 @@ def process_close(result: Dict, output_dir: str, service_name: str = None):
         output_dir (str): The output directory
         service_name (str): The service name
     """
+    # Subtract the current working dir from all files in result for easier reading
+    result = {
+        key: [v.replace(f"{output_dir}/", "") for v in values]
+        for key, values in result.items()
+    }
+
     # Display the generated files
     logging.info(f"Generated files:")
     for key, value in result.items():
         logging.info(f"\t{key}: {value}")
 
     # Display commands for users to go and run the generated files
-    logging.info("\nRun the following commands to run the service:")
-    logging.info(f"  % cd {output_dir}")
-    logging.info(f"  % poetry run uvicorn service:app --reload --port {DEFAULT_PORT}")
+    logging.info("Run the following commands to run the service:")
+    logging.info(f"\t% cd {output_dir}")
+    logging.info(f"\t% poetry run uvicorn service:app --reload --port {DEFAULT_PORT}")
 
     # Display the frontend commands
     if service_name:
-        logging.info("\nRun the following commands to run the frontend:")
-        logging.info(f"  % cd {output_dir}/{service_name}")
-        logging.info(f"  % npm start")
+        logging.info("Run the following commands to run the frontend:")
+        logging.info(f"\t% cd {output_dir}/{service_name}")
+        logging.info(f"\t% npm start")
 
 
 @app.command()

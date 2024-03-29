@@ -3,7 +3,8 @@ from typing import Dict
 
 from service_builder.config.parse import (load_config, parse_config,
                                           validate_config)
-from service_builder.generate.backend.generate import (generate_files,
+from service_builder.generate.backend.generate import (copy_dockerfiles,
+                                                       generate_files,
                                                        install_backend_deps,
                                                        lint_backend)
 from service_builder.generate.clients.generate import (
@@ -85,20 +86,26 @@ def generate_back(config: ServiceConfig, output_dir: str) -> Dict:
     logging.info("Starting generating the backend code...\n")
 
     # (1) Clear the output directory
+    logging.info("\tBACKEND: Clearing the backend code directory.")
     clear_backend_output(output_dir=output_dir)
-    logging.info("\tBACKEND: Completed clearing the backend code directory.")
 
     # (2) Generate the files
+    logging.info("\tBACKEND: Generating models and services.")
     created_files = generate_files(output_dir=output_dir, config=config)
-    logging.info("\tBACKEND: Completed generating models and services.")
 
     # (3) Install the dependencies
+    logging.info("\tBACKEND: Installing dependencies...")
     install_backend_deps(output_dir=output_dir)
-    logging.info("\tBACKEND: Completed installing dependencies.")
 
-    # (4) Export the OpenAPI JSON
-    export_openapi(output_dir=output_dir)
-    logging.info("\tBACKEND: Completed exporting OpenAPI JSON.\n")
+    # (4) Copy Dockerfiles
+    logging.info("\tBACKEND: Copying Dockerfiles...")
+    docker_files = copy_dockerfiles(output_dir=output_dir)
+    created_files["docker"] = docker_files
+
+    # (5) Export the OpenAPI JSON
+    logging.info("\tBACKEND: Exporting OpenAPI JSON...")
+    openapi_file = export_openapi(output_dir=output_dir)
+    created_files["openapi"] = [openapi_file]
 
     return created_files
 
@@ -108,22 +115,22 @@ def generate_front(config: ServiceConfig, output_dir: str, service_name: str) ->
     logging.info("Starting generating the frontend code...\n")
 
     # (0) Clear the output directory
+    logging.info("\tFRONTEND: Clearing the frontend code directory.")
     clear_frontend_output(output_dir=output_dir, service_name=service_name)
-    logging.info("\tFRONTEND: Completed clearing the frontend code directory.")
 
     # (1) Create the application
+    logging.info("\tFRONTEND: Creating the application.")
     create_application(output_dir=output_dir, service_name=service_name)
-    logging.info("\tFRONTEND: Completed creating the application.")
 
     # (2) Install the dependencies
+    logging.info("\tFRONTEND: Installing dependencies.")
     install_dependencies(output_dir=output_dir, service_name=service_name)
-    logging.info("\tFRONTEND: Completed installing dependencies.")
 
     # (3) Generate the main page
+    logging.info("\tFRONTEND: Generating the main page.")
     generate_app_main_page(
         output_dir=output_dir, service_name=service_name, models=config.models
     )
-    logging.info("\tFRONTEND: Completed generating the main page.\n")
 
 
 def generate_clients(output_dir: str, service_name: str):
@@ -136,17 +143,15 @@ def generate_clients(output_dir: str, service_name: str):
     """
     logging.info("Starting generating the client code...\n")
 
+    logging.info("\tCLIENTS: Completed clearing the typescript / python client dirs.")
     clear_typescript_client(output_dir=output_dir, service_name=service_name)
     clear_typescript_client(output_dir=output_dir, service_name=service_name)
-    logging.info(
-        "\tCLIENTS: Completed clearing the typescript and python client code directories."
-    )
 
+    logging.info("\tCLIENTS: Generating the typescript / python client code.")
     create_typescript_client(output_dir=output_dir, service_name=service_name)
-    logging.info("\tCLIENTS: Completed generating the typescript client code.")
 
+    logging.info("\tCLIENTS: Generating the python client code.")
     create_python_client(output_dir=output_dir)
-    logging.info("\tCLIENTS: Completed generating the python client code.\n")
 
 
 def lint_generated_code(output_dir: str, service_name: str):
@@ -158,11 +163,11 @@ def lint_generated_code(output_dir: str, service_name: str):
     """
     logging.info("Starting linting the generated code...\n")
 
+    logging.info("\tLINT: Linting frontend code.")
     lint_frontend(output_dir=output_dir, service_name=service_name)
-    logging.info("\tLINT: Completed linting frontend code.")
 
+    logging.info("\tLINT: Linting backend code.")
     lint_backend(output_dir=output_dir)
-    logging.info("\tLINT: Completed linting backend code.\n")
 
 
 def generate(

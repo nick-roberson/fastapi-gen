@@ -2,7 +2,7 @@ import os
 from string import Template
 
 from service_builder.constants import OPENAPI_SPEC_FN
-from service_builder.jinja.templates import run_command
+from service_builder.utils import run_command
 
 # Commands
 TYPESCRIPT_CLIENT_CMD: Template = Template(

@@ -12,11 +12,18 @@ def load_versions() -> list[ServiceVersion]:
     Returns:
         list[ServiceVersion]: A list of ServiceVersion objects
     """
-    # Load versions files from the versions directory
     versions = []
+
+    # If versions dir does not exist, create it and return empty list
+    if not os.path.exists(VERSIONS_DIR):
+        os.makedirs(VERSIONS_DIR, exist_ok=True)
+        return []
+
+    # Load each version in
     for file in os.listdir(VERSIONS_DIR):
         if file.endswith(".yaml"):
-            with open(f"{VERSIONS_DIR}/{file}", "r") as f:
+            version_file = os.path.join(VERSIONS_DIR, file)
+            with open(version_file, "r") as f:
                 versions.append(yaml.safe_load(f))
 
     # Load thm into ServiceVersion objects

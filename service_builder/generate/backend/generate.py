@@ -6,8 +6,9 @@ from service_builder.constants import (DOCKER_TEMPLATES, MANAGER_TEMPLATES,
                                        MODEL_TEMPLATES, MONGO_TEMPLATES,
                                        POETRY_TEMPLATES, PYTHON_VERSION,
                                        README_TEMPLATES, SERVICE_TEMPLATES)
-from service_builder.jinja.templates import populate_template, run_command
+from service_builder.jinja.templates import populate_template
 from service_builder.models import DatabaseTypes, ServiceConfig, ServiceVersion
+from service_builder.utils import run_command
 from service_builder.versions.utils import load_versions, save_version
 
 ############################################
@@ -23,10 +24,23 @@ def install_backend_deps(output_dir: str) -> None:
     """
     # Select the python version
     run_command(f"poetry env use {PYTHON_VERSION}", cwd=output_dir)
-
     # Install the dependencies
-    full_path = os.path.abspath(output_dir)
-    run_command(f"poetry install", cwd=full_path)
+    run_command("poetry install", cwd=output_dir)
+
+    # Check that all files are created
+    toml_file = os.path.join(output_dir, "pyproject.toml")
+    lock_file = os.path.join(output_dir, "poetry.lock")
+    if not os.path.exists(toml_file) or not os.path.exists(lock_file):
+        raise ValueError(
+            f"""Poetry files not found in {output_dir}
+        pyproject.toml: {toml_file}
+        poetry.lock: {lock_file}
+        """
+        )
+
+    # Generate the requirements file
+    req_file = "requirements.txt"
+    run_command(f"poetry export -f {req_file} --output {req_file}", cwd=output_dir)
 
 
 ############################################
@@ -240,15 +254,21 @@ def copy_dockerfiles(output_dir: str) -> List[str]:
         str: File name of the generated Dockerfile
     """
     # New paths for the dockerfile and docker-compose
-    dockerfile_path = f"{DOCKER_TEMPLATES}/Dockerfile"
-    compose_path = f"{DOCKER_TEMPLATES}/docker-compose.yml"
+    files = [
+        "Dockerfile",
+        "compose.yml",
+        ".dockerignore",
+        "README.Docker.md",
+    ]
 
-    # Copy the dockerfile and docker-compose to the output directory
-    os.system(f"cp {dockerfile_path} {output_dir}/Dockerfile")
-    os.system(f"cp {compose_path} {output_dir}/docker-compose.yml")
+    # Copt all files into the output directory
+    for file in files:
+        src = os.path.join(DOCKER_TEMPLATES, file)
+        dst = os.path.join(output_dir, file)
+        run_command(f"cp {src} {dst}", cwd=output_dir)
 
     # Return the file names
-    return [dockerfile_path, compose_path]
+    return files
 
 
 ############################################
@@ -309,18 +329,16 @@ def generate_files(
     # Generate non code files
     poetry_file = generate_poetry_toml(output_dir=output_dir, config=config)
     readme_file = generate_readme(output_dir=output_dir)
-    docker_files = copy_dockerfiles(output_dir=output_dir)
 
     # Write new version to the versions directory
     update_versions(config=config, is_revert=is_revert)
 
     # Return the generated files
     return {
-        "models": model_file,
-        "service": service_file,
+        "models": [model_file],
+        "service": [service_file],
         "managers": manager_files,
-        "mongo": mongo_file,
-        "poetry": poetry_file,
-        "readme": readme_file,
-        "docker": docker_files,
+        "mongo": [mongo_file],
+        "poetry": [poetry_file],
+        "readme": [readme_file],
     }

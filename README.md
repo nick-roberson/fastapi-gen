@@ -3,23 +3,45 @@
   <i>Command line tool for generating POC FastAPI services and UI Templates!</i>
 </p>
 
+<h3>Currently Supported Features:</h3>
 <p align="center">
-  <a href="">
+    <a href="">
       <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  </a>
-  <a href="https://fastapi.tiangolo.com">
+    </a>
+    <a href="https://fastapi.tiangolo.com">
       <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi" alt="FastAPI">
-  </a>
-  <a href="https://docs.pydantic.dev/2.4/">
+    </a>
+    <a href="https://docs.pydantic.dev/2.4/">
       <img src="https://img.shields.io/badge/Pydantic-E92063?logo=pydantic&logoColor=fff&style=for-the-badge" alt="Pydantic">
-  </a>
-  <a href="https://www.mongodb.com/">
+    </a>
+    <a href="https://www.mongodb.com/">
       <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB">
-  </a>
+    </a>
     <a href="https://reactjs.org/">
-        <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React">
+    <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React">
+    </a>
+    <a href="https://www.typescriptlang.org/">
+    <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
     </a>
 </p>
+
+<h3>Planned Supported Features:</h3>
+
+<p align="center">
+    <a href="https://www.docker.com/">
+      <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+    </a>
+    <a href="https://docs.celeryq.dev/en/stable/">
+      <img src="https://img.shields.io/badge/Celery-b0cc54?style=for-the-badge&logo=celery&logoColor=white" alt="Celery">
+    </a>
+    <a href="https://redis.com/">
+      <img src="https://img.shields.io/badge/Redis-E92063?style=for-the-badge&logo=redis&logoColor=white" alt="Redis">
+    </a>
+    <a href="https://www.mysql.com/">
+      <img src="https://img.shields.io/badge/MySQL-336791?style=for-the-badge&logo=MySQL&logoColor=white" alt="MySQL">
+    </a>
+</a>
+
 
 
 This is a simple FastAPI service that can be used as a starting point for a new project.
@@ -98,6 +120,7 @@ Here is an example of the output that you will see when you run the service gene
     --config example/configs/restaurant_reservations.yaml \
     --output-dir example/output \
     --service-name nicks-app
+
 Generating models and services with the following inputs
     Input:  /Users/nicholas/Code/fastapi-gen/example/configs/restaurant_reservations.yaml
     Output: /Users/nicholas/Code/fastapi-gen/example/output
@@ -107,54 +130,65 @@ Generating models and services with the following inputs
 
 Starting generating the backend code...
 
-        BACKEND: Completed clearing the backend code directory.
-        BACKEND: Completed generating models and services.
-        BACKEND: Completed installing dependencies.
-        BACKEND: Completed exporting OpenAPI JSON.
+      BACKEND: Clearing the backend code directory.
+              > rm -rf /Users/nicholas/Code/fastapi-gen/example/output/src
+      BACKEND: Generating models and services.
+      BACKEND: Installing dependencies...
+              > poetry env use 3.12.2
+              > poetry install
+              > poetry export -f requirements.txt --output requirements.txt
+      BACKEND: Copying Dockerfiles...
+              > cp /Users/nicholas/Code/fastapi-gen/service_builder/templates/docker/Dockerfile /Users/nicholas/Code/fastapi-gen/example/output/Dockerfile
+              > cp /Users/nicholas/Code/fastapi-gen/service_builder/templates/docker/compose.yml /Users/nicholas/Code/fastapi-gen/example/output/compose.yml
+              > cp /Users/nicholas/Code/fastapi-gen/service_builder/templates/docker/.dockerignore /Users/nicholas/Code/fastapi-gen/example/output/.dockerignore
+              > cp /Users/nicholas/Code/fastapi-gen/service_builder/templates/docker/README.Docker.md /Users/nicholas/Code/fastapi-gen/example/output/README.Docker.md
+      BACKEND: Exporting OpenAPI JSON...
 
 Starting generating the frontend code...
 
-        FRONTEND: Completed clearing the frontend code directory.
-        FRONTEND: Completed creating the application.
-        FRONTEND: Completed installing dependencies.
-        FRONTEND: Completed generating the main page.
+      FRONTEND: Clearing the frontend code directory.
+              > rm -rf /Users/nicholas/Code/fastapi-gen/example/output/nicksapp
+      FRONTEND: Creating the application.
+              > npx create-react-app nicksapp --template typescript
+      FRONTEND: Installing dependencies.
+              > npm install axios @mui/material @mui/icons-material @mui/x-data-grid @mui/styled-engine @mui/lab @emotion/react @emotion/styled prettier eslint web-vitals
+      FRONTEND: Generating the main page.
 
 Starting generating the client code...
 
-        CLIENTS: Completed clearing the typescript and python client code directories.
-        CLIENTS: Completed generating the typescript client code.
-        CLIENTS: Completed generating the python client code.
+      CLIENTS: Completed clearing the typescript / python client dirs.
+              > rm -rf /Users/nicholas/Code/fastapi-gen/example/output/nicksapp/src/api
+      CLIENTS: Generating the typescript / python client code.
+              > openapi-generator generate -i openapi.json -g typescript-fetch -o /Users/nicholas/Code/fastapi-gen/example/output/nicksapp/src/api
+      CLIENTS: Generating the python client code.
+              > openapi-generator generate -i openapi.json -g python -o /Users/nicholas/Code/fastapi-gen/example/output/client
 
 Starting linting the generated code...
 
-        LINT: Completed linting frontend code.
-        LINT: Completed linting backend code.
+      LINT: Linting frontend code.
+              > npx prettier --write .
+              > npx eslint --fix .
+      LINT: Linting backend code.
+              > poetry run black /Users/nicholas/Code/fastapi-gen/example/output
+              > poetry run isort /Users/nicholas/Code/fastapi-gen/example/output
 
 Generated files:
-        models: /Users/nicholas/Code/fastapi-gen/example/output/src/models/models.py
-        service: /Users/nicholas/Code/fastapi-gen/example/output/src/service.py
-        managers: [
-          '/Users/nicholas/Code/fastapi-gen/example/output/src/user_manager.py',
-          '/Users/nicholas/Code/fastapi-gen/example/output/src/restaurant_manager.py',
-          '/Users/nicholas/Code/fastapi-gen/example/output/src/reservation_manager.py',
-          '/Users/nicholas/Code/fastapi-gen/example/output/src/review_manager.py'
-        ]
-        mongo: /Users/nicholas/Code/fastapi-gen/example/output/src/mongo.py
-        poetry: /Users/nicholas/Code/fastapi-gen/example/output/pyproject.toml
-        readme: /Users/nicholas/Code/fastapi-gen/example/output/README.md
-        docker: [
-          '/Users/nicholas/Code/fastapi-gen/service_builder/templates/docker//Dockerfile',
-          '/Users/nicholas/Code/fastapi-gen/service_builder/templates/docker//docker-compose.yml'
-        ]
+      models: ['src/models/models.py']
+      service: ['src/service.py']
+      managers: ['src/user_manager.py', 'src/restaurant_manager.py', 'src/reservation_manager.py', 'src/review_manager.py']
+      mongo: ['src/mongo.py']
+      poetry: ['pyproject.toml']
+      readme: ['README.md']
+      docker: ['Dockerfile', 'compose.yml', '.dockerignore', 'README.Docker.md']
+      openapi: ['openapi.json']
 
 Run the following commands to run the service:
-  % cd /Users/nicholas/Code/fastapi-gen/example/output
-  % poetry run uvicorn service:app --reload --port 8000
+      % cd /Users/nicholas/Code/fastapi-gen/example/output
+      % poetry run uvicorn service:app --reload --port 8000
 
 Run the following commands to run the frontend:
-  % cd /Users/nicholas/Code/fastapi-gen/example/output/nicksapp
-  % npm start
-
+      % cd /Users/nicholas/Code/fastapi-gen/example/output/nicksapp
+      % npm start
 ```
 
 ## Running
