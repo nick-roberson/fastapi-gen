@@ -16,6 +16,9 @@
   <a href="https://www.mongodb.com/">
       <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB">
   </a>
+    <a href="https://reactjs.org/">
+        <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React">
+    </a>
 </p>
 
 
@@ -47,13 +50,19 @@ This is a simple FastAPI service that can be used as a starting point for a new 
 
 ## Requirements
 
-- MongoDB Atlas free tier account setup and the `MONGO_URI` environment variable set
+- Poetry installed
+- Python 3.12.2 installed (can install via poetry)
+- MongoDB Atlas database and the `MONGO_URI` environment variable set
+
+To learn more about how to set up a free tier MongoDB Atlas database,
+see the following link: [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+- Click "Try Free" and follow the instructions to set up a free tier database
 
 ## Setup
 
 This project runs using poetry and should have all the basic imports declared in the `pyproject.toml` file.
 ```bash
-% poetry install && poetry update
+% poetry install
 ```
 
 ## Usage
@@ -77,17 +86,20 @@ This is the CLI interface for the service generator:
 ```
 
 For an example of a config that you can use to generate a service, see the `example/configs/user_groups.yaml` file.
+You can also declare your own config file, but it must match the format of the example.
+
+I plan on adding a more interactive way to generate the config file in the future, via some command line prompts such as `build-config`, but that is yet to come.
+
 
 Here is an example of the output that you will see when you run the service generator:
 ```bash
 % poetry install && poetry update
 % VERBOSE=0 && poetry run python main.py generate \
-    --config example/configs/user_groups.yaml \
+    --config example/configs/restaurant_reservations.yaml \
     --output-dir example/output \
     --service-name nicks-app
-
 Generating models and services with the following inputs
-    Input:  /Users/nicholas/Code/fastapi-gen/example/configs/user_groups.yaml
+    Input:  /Users/nicholas/Code/fastapi-gen/example/configs/restaurant_reservations.yaml
     Output: /Users/nicholas/Code/fastapi-gen/example/output
     Service Name: nicksapp
     Frontend Only: False
@@ -119,13 +131,21 @@ Starting linting the generated code...
         LINT: Completed linting backend code.
 
 Generated files:
-        models: None
+        models: /Users/nicholas/Code/fastapi-gen/example/output/src/models/models.py
         service: /Users/nicholas/Code/fastapi-gen/example/output/src/service.py
-        managers: ['/Users/nicholas/Code/fastapi-gen/example/output/src/user_manager.py', '/Users/nicholas/Code/fastapi-gen/example/output/src/group_manager.py']
+        managers: [
+          '/Users/nicholas/Code/fastapi-gen/example/output/src/user_manager.py',
+          '/Users/nicholas/Code/fastapi-gen/example/output/src/restaurant_manager.py',
+          '/Users/nicholas/Code/fastapi-gen/example/output/src/reservation_manager.py',
+          '/Users/nicholas/Code/fastapi-gen/example/output/src/review_manager.py'
+        ]
         mongo: /Users/nicholas/Code/fastapi-gen/example/output/src/mongo.py
         poetry: /Users/nicholas/Code/fastapi-gen/example/output/pyproject.toml
         readme: /Users/nicholas/Code/fastapi-gen/example/output/README.md
-        docker: ['/Users/nicholas/Code/fastapi-gen/service_builder/templates/docker//Dockerfile', '/Users/nicholas/Code/fastapi-gen/service_builder/templates/docker//docker-compose.yml']
+        docker: [
+          '/Users/nicholas/Code/fastapi-gen/service_builder/templates/docker//Dockerfile',
+          '/Users/nicholas/Code/fastapi-gen/service_builder/templates/docker//docker-compose.yml'
+        ]
 
 Run the following commands to run the service:
   % cd /Users/nicholas/Code/fastapi-gen/example/output
@@ -134,6 +154,7 @@ Run the following commands to run the service:
 Run the following commands to run the frontend:
   % cd /Users/nicholas/Code/fastapi-gen/example/output/nicksapp
   % npm start
+
 ```
 
 ## Running

@@ -4,6 +4,7 @@ import "./App.css";
 // Import MUI Components
 import { Container, Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { Divider } from "@mui/material";
 
 // Import Client
 import { DefaultApi } from "./api";
@@ -53,17 +54,21 @@ function App() {
     return (
         <div>
             <Container>
-                <Box>
-                    <Typography variant="h4">Django React App</Typography>
-                </Box>
-                {% for model in models %}
-                <Box>
-                    <Typography variant="h5">{{ model.name }}</Typography>
-                    <Box m={3}>
-                        <DataGrid rows={ {{ model.name.lower() }} } columns={ {{ model.name.lower() }}_columns}/>
+                <Box m={3}>
+                    <Box>
+                        <Typography variant="h4">My Application</Typography>
+                        <p>Generated with FastAPI-React-Generator</p>
+                        <p>At the moment the frontend template is very basic, but you can customize it as you wish. Any objects present in the database will be pulled into the tables here and visualized. </p>
                     </Box>
+                    {% for model in models %}
+                    <Box m={3}>
+                        <Divider> {{ model.name }}s </Divider>
+                        <Box m={3}>
+                            <DataGrid rows={ {{ model.name.lower() }} } columns={ {{ model.name.lower() }}_columns}/>
+                        </Box>
+                    </Box>
+                    {% endfor %}
                 </Box>
-                {% endfor %}
             </Container>
         </div>
     );

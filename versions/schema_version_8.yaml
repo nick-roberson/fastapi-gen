@@ -1,0 +1,167 @@
+version: 8
+created_at: '2024-03-29 13:19:11'
+db_config:
+  db_type: mongo
+  db_uri_env_var: MONGO_DB_URI
+models:
+- name: User
+  fields:
+  - name: id
+    type: str
+    of_type: null
+    description: The unique identifier of the user
+    default: null
+    required: false
+  - name: username
+    type: str
+    of_type: null
+    description: The username of the user
+    default: null
+    required: true
+  - name: email
+    type: str
+    of_type: null
+    description: The email address of the user
+    default: null
+    required: true
+  - name: phone_number
+    type: str
+    of_type: null
+    description: The phone number of the user
+    default: null
+    required: false
+  - name: preferences
+    type: list
+    of_type: null
+    description: The dining preferences of the user
+    default: []
+    required: false
+  - name: role
+    type: str
+    of_type: null
+    description: The role of the user (e.g., admin, user, restaurant_owner)
+    default: user
+    required: true
+- name: Restaurant
+  fields:
+  - name: id
+    type: str
+    of_type: null
+    description: The unique identifier of the restaurant
+    default: null
+    required: false
+  - name: name
+    type: str
+    of_type: null
+    description: The name of the restaurant
+    default: null
+    required: true
+  - name: location
+    type: str
+    of_type: null
+    description: The physical location of the restaurant
+    default: null
+    required: true
+  - name: cuisine
+    type: str
+    of_type: null
+    description: The type of cuisine the restaurant offers
+    default: null
+    required: false
+  - name: rating
+    type: float
+    of_type: null
+    description: The average rating of the restaurant
+    default: null
+    required: false
+  - name: price_range
+    type: str
+    of_type: null
+    description: The price range of the restaurant
+    default: null
+    required: false
+- name: Reservation
+  fields:
+  - name: id
+    type: str
+    of_type: null
+    description: The unique identifier of the reservation
+    default: null
+    required: false
+  - name: restaurant_id
+    type: str
+    of_type: null
+    description: The ID of the restaurant where the reservation is made
+    default: null
+    required: true
+  - name: user_id
+    type: str
+    of_type: null
+    description: The ID of the user who made the reservation
+    default: null
+    required: true
+  - name: reservation_time
+    type: datetime
+    of_type: null
+    description: The date and time of the reservation
+    default: null
+    required: true
+  - name: party_size
+    type: int
+    of_type: null
+    description: The size of the party for the reservation
+    default: null
+    required: true
+  - name: special_requests
+    type: str
+    of_type: null
+    description: Any special requests made by the user
+    default: null
+    required: false
+- name: Review
+  fields:
+  - name: id
+    type: str
+    of_type: null
+    description: The unique identifier of the review
+    default: null
+    required: false
+  - name: restaurant_id
+    type: str
+    of_type: null
+    description: The ID of the restaurant being reviewed
+    default: null
+    required: true
+  - name: user_id
+    type: str
+    of_type: null
+    description: The ID of the user who wrote the review
+    default: null
+    required: true
+  - name: rating
+    type: float
+    of_type: null
+    description: The rating given by the user
+    default: null
+    required: true
+  - name: comment
+    type: str
+    of_type: null
+    description: The textual comment of the review
+    default: null
+    required: false
+dependencies:
+- name: python
+  version: 3.12.2
+- name: pydantic
+  version: ^2.6.4
+- name: fastapi
+  version: ^0.110.0
+- name: uvicorn
+  version: ^0.28.0
+- name: pymongo
+  version: ^4.6.2
+- name: certifi
+  version: ^2024.2.2
+- name: rich
+  version: ^13.7.1

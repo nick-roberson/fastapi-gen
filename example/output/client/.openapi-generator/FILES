@@ -4,8 +4,10 @@
 .travis.yml
 README.md
 docs/DefaultApi.md
-docs/Group.md
 docs/HTTPValidationError.md
+docs/Reservation.md
+docs/Restaurant.md
+docs/Review.md
 docs/User.md
 docs/ValidationError.md
 docs/ValidationErrorLocInner.md
@@ -18,8 +20,10 @@ openapi_client/api_response.py
 openapi_client/configuration.py
 openapi_client/exceptions.py
 openapi_client/models/__init__.py
-openapi_client/models/group.py
 openapi_client/models/http_validation_error.py
+openapi_client/models/reservation.py
+openapi_client/models/restaurant.py
+openapi_client/models/review.py
 openapi_client/models/user.py
 openapi_client/models/validation_error.py
 openapi_client/models/validation_error_loc_inner.py

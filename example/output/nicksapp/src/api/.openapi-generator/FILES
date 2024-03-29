@@ -2,8 +2,10 @@
 apis/DefaultApi.ts
 apis/index.ts
 index.ts
-models/Group.ts
 models/HTTPValidationError.ts
+models/Reservation.ts
+models/Restaurant.ts
+models/Review.ts
 models/User.ts
 models/ValidationError.ts
 models/ValidationErrorLocInner.ts

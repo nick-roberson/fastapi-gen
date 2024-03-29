@@ -322,19 +322,19 @@
         }
       }
     },
-    "/group": {
+    "/restaurant": {
       "get": {
-        "summary": "Get Group",
-        "description": "Get a Group",
-        "operationId": "get_group_group_get",
+        "summary": "Get Restaurant",
+        "description": "Get a Restaurant",
+        "operationId": "get_restaurant_restaurant_get",
         "parameters": [
           {
-            "name": "group_id",
+            "name": "restaurant_id",
             "in": "query",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Group Id"
+              "title": "Restaurant Id"
             }
           }
         ],
@@ -344,7 +344,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Group"
+                  "$ref": "#/components/schemas/Restaurant"
                 }
               }
             }
@@ -362,15 +362,15 @@
         }
       },
       "post": {
-        "summary": "Create Group",
-        "description": "Create a Group",
-        "operationId": "create_group_group_post",
+        "summary": "Create Restaurant",
+        "description": "Create a Restaurant",
+        "operationId": "create_restaurant_restaurant_post",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Group"
+                "$ref": "#/components/schemas/Restaurant"
               }
             }
           }
@@ -381,7 +381,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Group"
+                  "$ref": "#/components/schemas/Restaurant"
                 }
               }
             }
@@ -399,15 +399,15 @@
         }
       },
       "put": {
-        "summary": "Update Group",
-        "description": "Update a Group",
-        "operationId": "update_group_group_put",
+        "summary": "Update Restaurant",
+        "description": "Update a Restaurant",
+        "operationId": "update_restaurant_restaurant_put",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Group"
+                "$ref": "#/components/schemas/Restaurant"
               }
             }
           }
@@ -418,7 +418,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Group"
+                  "$ref": "#/components/schemas/Restaurant"
                 }
               }
             }
@@ -436,17 +436,17 @@
         }
       },
       "delete": {
-        "summary": "Delete Group",
-        "description": "Delete a Group",
-        "operationId": "delete_group_group_delete",
+        "summary": "Delete Restaurant",
+        "description": "Delete a Restaurant",
+        "operationId": "delete_restaurant_restaurant_delete",
         "parameters": [
           {
-            "name": "group_id",
+            "name": "restaurant_id",
             "in": "query",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Group Id"
+              "title": "Restaurant Id"
             }
           }
         ],
@@ -472,10 +472,10 @@
         }
       }
     },
-    "/groups": {
+    "/restaurants": {
       "get": {
-        "summary": "Get Groups",
-        "operationId": "get_groups_groups_get",
+        "summary": "Get Restaurants",
+        "operationId": "get_restaurants_restaurants_get",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -483,10 +483,10 @@
               "application/json": {
                 "schema": {
                   "items": {
-                    "$ref": "#/components/schemas/Group"
+                    "$ref": "#/components/schemas/Restaurant"
                   },
                   "type": "array",
-                  "title": "Response Get Groups Groups Get"
+                  "title": "Response Get Restaurants Restaurants Get"
                 }
               }
             }
@@ -494,18 +494,18 @@
         }
       },
       "put": {
-        "summary": "Update Groups",
-        "description": "Update multiple Groups",
-        "operationId": "update_groups_groups_put",
+        "summary": "Update Restaurants",
+        "description": "Update multiple Restaurants",
+        "operationId": "update_restaurants_restaurants_put",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "items": {
-                  "$ref": "#/components/schemas/Group"
+                  "$ref": "#/components/schemas/Restaurant"
                 },
                 "type": "array",
-                "title": "Groups"
+                "title": "Restaurants"
               }
             }
           },
@@ -518,10 +518,10 @@
               "application/json": {
                 "schema": {
                   "items": {
-                    "$ref": "#/components/schemas/Group"
+                    "$ref": "#/components/schemas/Restaurant"
                   },
                   "type": "array",
-                  "title": "Response Update Groups Groups Put"
+                  "title": "Response Update Restaurants Restaurants Put"
                 }
               }
             }
@@ -539,18 +539,18 @@
         }
       },
       "post": {
-        "summary": "Create Groups",
-        "description": "Create multiple Groups",
-        "operationId": "create_groups_groups_post",
+        "summary": "Create Restaurants",
+        "description": "Create multiple Restaurants",
+        "operationId": "create_restaurants_restaurants_post",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "items": {
-                  "$ref": "#/components/schemas/Group"
+                  "$ref": "#/components/schemas/Restaurant"
                 },
                 "type": "array",
-                "title": "Groups"
+                "title": "Restaurants"
               }
             }
           },
@@ -563,10 +563,10 @@
               "application/json": {
                 "schema": {
                   "items": {
-                    "$ref": "#/components/schemas/Group"
+                    "$ref": "#/components/schemas/Restaurant"
                   },
                   "type": "array",
-                  "title": "Response Create Groups Groups Post"
+                  "title": "Response Create Restaurants Restaurants Post"
                 }
               }
             }
@@ -584,9 +584,9 @@
         }
       },
       "delete": {
-        "summary": "Delete Groups",
-        "description": "Delete multiple Groups",
-        "operationId": "delete_groups_groups_delete",
+        "summary": "Delete Restaurants",
+        "description": "Delete multiple Restaurants",
+        "operationId": "delete_restaurants_restaurants_delete",
         "requestBody": {
           "content": {
             "application/json": {
@@ -595,7 +595,609 @@
                   "type": "string"
                 },
                 "type": "array",
-                "title": "Group Ids"
+                "title": "Restaurant Ids"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reservation": {
+      "get": {
+        "summary": "Get Reservation",
+        "description": "Get a Reservation",
+        "operationId": "get_reservation_reservation_get",
+        "parameters": [
+          {
+            "name": "reservation_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Reservation Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reservation"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Reservation",
+        "description": "Create a Reservation",
+        "operationId": "create_reservation_reservation_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reservation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reservation"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Reservation",
+        "description": "Update a Reservation",
+        "operationId": "update_reservation_reservation_put",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reservation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reservation"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Reservation",
+        "description": "Delete a Reservation",
+        "operationId": "delete_reservation_reservation_delete",
+        "parameters": [
+          {
+            "name": "reservation_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Reservation Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reservations": {
+      "get": {
+        "summary": "Get Reservations",
+        "operationId": "get_reservations_reservations_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Reservation"
+                  },
+                  "type": "array",
+                  "title": "Response Get Reservations Reservations Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Reservations",
+        "description": "Update multiple Reservations",
+        "operationId": "update_reservations_reservations_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/Reservation"
+                },
+                "type": "array",
+                "title": "Reservations"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Reservation"
+                  },
+                  "type": "array",
+                  "title": "Response Update Reservations Reservations Put"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Reservations",
+        "description": "Create multiple Reservations",
+        "operationId": "create_reservations_reservations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/Reservation"
+                },
+                "type": "array",
+                "title": "Reservations"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Reservation"
+                  },
+                  "type": "array",
+                  "title": "Response Create Reservations Reservations Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Reservations",
+        "description": "Delete multiple Reservations",
+        "operationId": "delete_reservations_reservations_delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "title": "Reservation Ids"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/review": {
+      "get": {
+        "summary": "Get Review",
+        "description": "Get a Review",
+        "operationId": "get_review_review_get",
+        "parameters": [
+          {
+            "name": "review_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Review Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Review",
+        "description": "Create a Review",
+        "operationId": "create_review_review_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Review"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Review",
+        "description": "Update a Review",
+        "operationId": "update_review_review_put",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Review"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Review",
+        "description": "Delete a Review",
+        "operationId": "delete_review_review_delete",
+        "parameters": [
+          {
+            "name": "review_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Review Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reviews": {
+      "get": {
+        "summary": "Get Reviews",
+        "operationId": "get_reviews_reviews_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  },
+                  "type": "array",
+                  "title": "Response Get Reviews Reviews Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Reviews",
+        "description": "Update multiple Reviews",
+        "operationId": "update_reviews_reviews_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/Review"
+                },
+                "type": "array",
+                "title": "Reviews"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  },
+                  "type": "array",
+                  "title": "Response Update Reviews Reviews Put"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Reviews",
+        "description": "Create multiple Reviews",
+        "operationId": "create_reviews_reviews_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/Review"
+                },
+                "type": "array",
+                "title": "Reviews"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  },
+                  "type": "array",
+                  "title": "Response Create Reviews Reviews Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Reviews",
+        "description": "Delete multiple Reviews",
+        "operationId": "delete_reviews_reviews_delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "title": "Review Ids"
               }
             }
           },
@@ -626,32 +1228,6 @@
   },
   "components": {
     "schemas": {
-      "Group": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id",
-            "description": "The unique identifier of the group"
-          },
-          "name": {
-            "type": "string",
-            "title": "Name",
-            "description": "The name of the group"
-          },
-          "users": {
-            "items": {},
-            "type": "array",
-            "title": "Users",
-            "description": "The users in the group"
-          }
-        },
-        "type": "object",
-        "required": [
-          "name",
-          "users"
-        ],
-        "title": "Group"
-      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -664,6 +1240,125 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "Reservation": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The unique identifier of the reservation"
+          },
+          "restaurant_id": {
+            "type": "string",
+            "title": "Restaurant Id",
+            "description": "The ID of the restaurant where the reservation is made"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id",
+            "description": "The ID of the user who made the reservation"
+          },
+          "reservation_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Reservation Time",
+            "description": "The date and time of the reservation"
+          },
+          "party_size": {
+            "type": "integer",
+            "title": "Party Size",
+            "description": "The size of the party for the reservation"
+          },
+          "special_requests": {
+            "type": "string",
+            "title": "Special Requests",
+            "description": "Any special requests made by the user"
+          }
+        },
+        "type": "object",
+        "required": [
+          "restaurant_id",
+          "user_id",
+          "reservation_time",
+          "party_size"
+        ],
+        "title": "Reservation"
+      },
+      "Restaurant": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The unique identifier of the restaurant"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "The name of the restaurant"
+          },
+          "location": {
+            "type": "string",
+            "title": "Location",
+            "description": "The physical location of the restaurant"
+          },
+          "cuisine": {
+            "type": "string",
+            "title": "Cuisine",
+            "description": "The type of cuisine the restaurant offers"
+          },
+          "rating": {
+            "type": "number",
+            "title": "Rating",
+            "description": "The average rating of the restaurant"
+          },
+          "price_range": {
+            "type": "string",
+            "title": "Price Range",
+            "description": "The price range of the restaurant"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "location"
+        ],
+        "title": "Restaurant"
+      },
+      "Review": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The unique identifier of the review"
+          },
+          "restaurant_id": {
+            "type": "string",
+            "title": "Restaurant Id",
+            "description": "The ID of the restaurant being reviewed"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id",
+            "description": "The ID of the user who wrote the review"
+          },
+          "rating": {
+            "type": "number",
+            "title": "Rating",
+            "description": "The rating given by the user"
+          },
+          "comment": {
+            "type": "string",
+            "title": "Comment",
+            "description": "The textual comment of the review"
+          }
+        },
+        "type": "object",
+        "required": [
+          "restaurant_id",
+          "user_id",
+          "rating"
+        ],
+        "title": "Review"
       },
       "User": {
         "properties": {
@@ -680,22 +1375,25 @@
           "email": {
             "type": "string",
             "title": "Email",
-            "description": "The email of the user"
+            "description": "The email address of the user"
           },
-          "location": {
+          "phone_number": {
             "type": "string",
-            "title": "Location",
-            "description": "The location of the user"
+            "title": "Phone Number",
+            "description": "The phone number of the user"
           },
-          "age": {
-            "type": "integer",
-            "title": "Age",
-            "description": "The age of the user"
+          "preferences": {
+            "items": {},
+            "type": "array",
+            "title": "Preferences",
+            "description": "The dining preferences of the user",
+            "default": []
           },
-          "team": {
+          "role": {
             "type": "string",
-            "title": "Team",
-            "description": "The team name of the user"
+            "title": "Role",
+            "description": "The role of the user (e.g., admin, user, restaurant_owner)",
+            "default": "user"
           }
         },
         "type": "object",

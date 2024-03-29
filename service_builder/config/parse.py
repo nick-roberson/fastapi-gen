@@ -4,6 +4,7 @@ from typing import Dict, Tuple
 import yaml
 from pydantic.fields import FieldInfo
 
+from service_builder.constants import PYTHON_DEPENDENCIES
 from service_builder.models import (DatabaseConfig, DatabaseTypes,
                                     DependencyConfig, FieldDefinition,
                                     ModelConfig, ServiceConfig)
@@ -157,8 +158,14 @@ def parse_config(config) -> ServiceConfig:
 
     # (3) Parse the dependencies (optional, yet to be implemented)
     dependencies_config = []
-    for dependency in config.get("dependencies", []):
-        dependencies_config.append(DependencyConfig(**dependency))
+    if "dependencies" not in config:
+        dependencies_config = [
+            DependencyConfig(name=name, version=version)
+            for name, version in PYTHON_DEPENDENCIES
+        ]
+    else:
+        for dependency in config.get("dependencies", []):
+            dependencies_config.append(DependencyConfig(**dependency))
 
     return ServiceConfig(
         database=database_config, models=models_config, dependencies=dependencies_config
