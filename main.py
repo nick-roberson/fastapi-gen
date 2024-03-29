@@ -1,17 +1,21 @@
+import logging
 import os
 from typing import Dict, Optional
 
 import typer
-from rich import print
 
 from service_builder.constants import (DEFAULT_PORT, SAMPLE_INPUT_FILE,
                                        SAMPLE_OUTPUT_DIR)
 from service_builder.generate.backend.generate import generate_files
-from service_builder.generate.run import generate as generate_service
+from service_builder.log import setup_logging
 from service_builder.models import ServiceVersion
 from service_builder.openapi.export import export_openapi
+from service_builder.run import generate as generate_service
 from service_builder.versions.utils import load_versions
 
+# Initialize the logger
+setup_logging()
+# Initialize the typer app
 app = typer.Typer()
 
 
@@ -24,20 +28,20 @@ def process_close(result: Dict, output_dir: str, service_name: str = None):
         service_name (str): The service name
     """
     # Display the generated files
-    print(f"Generated files:")
+    logging.info(f"Generated files:")
     for key, value in result.items():
-        print(f"\t{key}: {value}")
+        logging.info(f"\t{key}: {value}")
 
     # Display commands for users to go and run the generated files
-    print("\nRun the following commands to run the service:")
-    print(f"  % cd {output_dir}")
-    print(f"  % poetry run uvicorn service:app --reload --port {DEFAULT_PORT}")
+    logging.info("\nRun the following commands to run the service:")
+    logging.info(f"  % cd {output_dir}")
+    logging.info(f"  % poetry run uvicorn service:app --reload --port {DEFAULT_PORT}")
 
     # Display the frontend commands
     if service_name:
-        print("\nRun the following commands to run the frontend:")
-        print(f"  % cd {output_dir}/{service_name}")
-        print(f"  % npm start")
+        logging.info("\nRun the following commands to run the frontend:")
+        logging.info(f"  % cd {output_dir}/{service_name}")
+        logging.info(f"  % npm start")
 
 
 @app.command()
@@ -61,15 +65,15 @@ def generate(
     """Generate the models and services from the input yaml config."""
     # Simple validation on the input
     if not config.endswith(".yaml"):
-        print(f"Input file {config} must be a yaml file")
+        logging.info(f"Input file {config} must be a yaml file")
         typer.Exit(code=1)
     if not os.path.exists(config):
-        print(f"Input file {config} does not exist")
+        logging.info(f"Input file {config} does not exist")
         typer.Exit(code=1)
 
     # Confirm the service name
     if not service_name:
-        print("Please specify a service name")
+        logging.info("Please specify a service name")
         typer.Exit(code=1)
 
     # Clean the service name
@@ -83,7 +87,7 @@ def generate(
     # Get the absolute paths
     config_path = os.path.abspath(config)
     output_directory = os.path.abspath(output_dir)
-    print(
+    logging.info(
         f"""Generating models and services with the following inputs
     Input:  {config_path}
     Output: {output_directory}
@@ -114,21 +118,23 @@ def revert(
     ),
 ):
     """Revert the service to a previous version."""
-    print(f"""Reverting the service to version {version}, outputting to {output_dir}""")
+    logging.info(
+        f"""Reverting the service to version {version}, outputting to {output_dir}"""
+    )
 
     # Load all versions
     all_versions = load_versions()
     if not all_versions:
-        print("No versions found")
+        logging.info("No versions found")
         typer.Exit(code=1)
 
     # Check if the version exists
     version_names = [v.version for v in all_versions]
     if not version:
-        print("Please specify a version to revert to")
+        logging.info("Please specify a version to revert to")
         typer.Exit(code=1)
     if version not in version_names:
-        print(f"Version {version} not found in {version_names}")
+        logging.info(f"Version {version} not found in {version_names}")
         typer.Exit(code=1)
 
     # Get the version to revert to
@@ -147,12 +153,12 @@ def versions():
     # Load all versions
     all_versions = load_versions()
     # Display the versions
-    print(f"Loaded {len(all_versions)} versions:")
+    logging.info(f"Loaded {len(all_versions)} versions:")
     if not all_versions:
-        print("\tNo versions found")
+        logging.info("\tNo versions found")
         return
     for version in all_versions:
-        print(f"\tVersion: {version.version} - {version.created_at}")
+        logging.info(f"\tVersion: {version.version} - {version.created_at}")
 
 
 @app.command()
@@ -164,12 +170,12 @@ def generate_openapi(
     """Generate the openapi file from the input yaml config."""
     # Simple verification
     if not os.path.exists(service_dir):
-        print(f"Output root directory {service_dir} does not exist")
+        logging.info(f"Output root directory {service_dir} does not exist")
         typer.Exit(code=1)
 
     # Get the absolute path and log args
     service_dir_abs = os.path.abspath(service_dir)
-    print(
+    logging.info(
         f"""Generating OpenAPI file:
     Output: {service_dir_abs}
     """
@@ -177,7 +183,7 @@ def generate_openapi(
 
     # Export the openapi file
     export_openapi(output_dir=service_dir_abs)
-    print("Done!")
+    logging.info("Done!")
 
 
 if __name__ == "__main__":

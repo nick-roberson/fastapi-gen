@@ -149,7 +149,7 @@ def parse_config(config) -> ServiceConfig:
 
         # If no `id` field is present, add it
         if not any(field.name == "id" for field in fields):
-            print("During parsing found no id field, adding one automatically")
+            logging.info("During parsing found no id field, adding one automatically")
             fields.append(
                 FieldDefinition(name="id", type="str", required=False, default=None)
             )
