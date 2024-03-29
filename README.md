@@ -184,6 +184,11 @@ To view the generated OpenAPI documentation, navigate to [http://localhost:8000/
 % npm start
 ```
 
+Once you have run the above command, you can navigate to [http://localhost:3000](http://localhost:3000) to view the generated React application. And it should look something like this:
+<p align="center">
+  <img src="images/nicksapp.png" alt="React App">
+</p>
+
 ## Import Config to Postman
 
 You can import the API into Postman by following the steps in the following link: [Importing a Collection Using OpenAPI](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/)
