@@ -79,37 +79,3 @@ def populate_template(
     except Exception as e:
         logging.info(f"Error populating template: {output_path}, {e}")
         raise e
-
-
-def run_command(cmd: str, cwd: str = None) -> subprocess.CompletedProcess:
-    """Run a shell command and print the output.
-
-    Args:
-        cmd (str): The shell command to run
-        cwd (str): The current working directory
-    Returns:
-        subprocess.CompletedProcess: The completed process
-    """
-    try:
-        # Print and run the command
-        if VERBOSE:
-            logging.info(f"Running command: {cmd}")
-
-        # Run the command
-        if cwd:
-            completed_process = subprocess.run(
-                cmd, shell=True, check=True, cwd=cwd, capture_output=True
-            )
-        else:
-            completed_process = subprocess.run(
-                cmd, shell=True, check=True, capture_output=True
-            )
-
-        # Show output conditionally
-        if VERBOSE:
-            logging.info(f"Output: {completed_process.stdout.decode()}")
-        return completed_process
-
-    except Exception as e:
-        logging.info(f"Error running command: {cmd}, {e}")
-        raise e

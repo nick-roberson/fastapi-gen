@@ -1,31 +1,55 @@
-# Use an official lightweight Python image.
-# https://hub.docker.com/_/python
+# syntax=docker/dockerfile:1
 
-# Need to have the same version of python as the one used in the generated service
-# if you change this it will break the build
-FROM python:3.12.2-slim
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Dockerfile reference guide at
+# https://docs.docker.com/go/dockerfile-reference/
 
-# Set the working directory in the container
-WORKDIR /code
+# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
-# Install poetry
-RUN pip install poetry
+ARG PYTHON_VERSION=3.12.2
+FROM python:${PYTHON_VERSION}-slim as base
 
-# Install poetry requirements
-COPY poetry.lock pyproject.toml ./
-RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
-RUN pip install --ignore-installed --no-cache-dir --upgrade -r requirements.txt
+# Prevents Python from writing pyc files.
+ENV PYTHONDONTWRITEBYTECODE=1
 
-# Test that the installation was successful
-RUN python --version
-RUN pip --version
-RUN uvicorn --version
+# Keeps Python from buffering stdout and stderr to avoid situations where
+# the application crashes without emitting any logs due to buffering.
+ENV PYTHONUNBUFFERED=1
 
-# Copy local code to the container
+WORKDIR /app
+
+# Create a non-privileged user that the app will run under.
+# See https://docs.docker.com/go/dockerfile-user-best-practices/
+ARG UID=10001
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --home "/nonexistent" \
+    --shell "/sbin/nologin" \
+    --no-create-home \
+    --uid "${UID}" \
+    appuser
+
+# Copy over the poetry files and install the dependencies.
+COPY pyproject.toml poetry.lock ./
+COPY requirements.txt ./
+
+# Download dependencies as a separate step to take advantage of Docker's caching.
+# Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
+# Leverage a bind mount to requirements.txt to avoid having to copy them into
+# into this layer.
+RUN --mount=type=cache,target=/root/.cache/pip \
+    --mount=type=bind,source=requirements.txt,target=requirements.txt \
+    python -m pip install -r requirements.txt
+
+# Switch to the non-privileged user to run the application.
+USER appuser
+
+# Copy the source code into the container.
 COPY . .
 
-# Make sure to expose the port the app runs on
+# Expose the port that the application listens on.
 EXPOSE 8000
 
-# Command to run the application
-CMD ["uvicorn", "service:app", "--port", "8000", "--reload"]
+# Run the application.
+CMD uvicorn "src.service:app" --reload --port 8000

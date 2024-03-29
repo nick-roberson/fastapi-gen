@@ -7,6 +7,9 @@ CODEGEN_DIR_NAME: str = "src"
 SAMPLE_INPUT_FILE: str = os.path.abspath("example/configs/user_groups.yaml")
 SAMPLE_OUTPUT_DIR: str = os.path.abspath("data/example_output")
 
+# Version directory
+VERSIONS_DIR: str = os.path.abspath("versions")
+
 # Template directories
 TEMPLATE_DIR: str = os.path.abspath("service_builder/templates")
 MODEL_TEMPLATES: str = f"{TEMPLATE_DIR}/models/"
@@ -17,9 +20,6 @@ POETRY_TEMPLATES: str = f"{TEMPLATE_DIR}/poetry/"
 README_TEMPLATES: str = f"{TEMPLATE_DIR}/readme/"
 FRONTEND_TEMPLATES: str = f"{TEMPLATE_DIR}/frontend/"
 DOCKER_TEMPLATES: str = f"{TEMPLATE_DIR}/docker/"
-
-# Versions Directory
-VERSIONS_DIR: str = "versions"
 
 # Default port
 DEFAULT_PORT: int = 8000
@@ -60,3 +60,6 @@ SERVICE_NAME: str = "service:app"
 
 # Default service name
 DEFAULT_SERVICE_NAME: str = "my-service"
+
+# Verbose logging
+VERBOSE: bool = True if os.getenv("VERBOSE") else False
