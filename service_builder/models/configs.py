@@ -10,6 +10,10 @@ from service_builder.models.enum import DatabaseTypes, FieldDataType
 class FieldDefinition(BaseModel):
     """Field definition for a model"""
 
+    def __init__(self, **data):
+        super().__init__(**data)
+        self.verify_default()
+
     name: str = FieldInfo(description="Name of the field", required=True)
     type: str = FieldInfo(description="Type of the field", required=True)
     of_type: Optional[str] = FieldInfo(
@@ -31,31 +35,58 @@ class FieldDefinition(BaseModel):
             raise ValueError(f"type must be one of {FieldDataType.choices()}")
         return v
 
-    @field_validator("default")
-    def validate_default(cls, v):
-        if v is not None:
+    def verify_default(self):
+        """We want to check here that if there is a default value, it is of the correct type"""
+        if self.default is not None:
 
-            # Infer type of default value
-            if isinstance(v, str):
-                if v.lower() == "none":
-                    return None
-                elif v.lower() == "true":
-                    return True
-                elif v.lower() == "false":
-                    return False
-            elif isinstance(v, int):
-                return int(v)
-            elif isinstance(v, float):
-                return float(v)
-            elif isinstance(v, bool):
-                return bool(v)
-            elif isinstance(v, list):
-                return list(v)
-            elif isinstance(v, dict):
-                return dict(v)
+            # check none cases
+            if self.default == "None" or self.default == "none":
+                self.default = None
+                return
+
+            # check bool cases
+            if self.type == "bool":
+                if (
+                    self.default == "True"
+                    or self.default == "true"
+                    or self.default is True
+                ):
+                    self.default = True
+                elif (
+                    self.default == "False"
+                    or self.default == "false"
+                    or self.default is False
+                ):
+                    self.default = False
+                return
+
+            # check if the type is a valid type
+            if self.type == "str":
+                expected_type = str
+            elif self.type == "int":
+                expected_type = int
+            elif self.type == "float":
+                expected_type = float
+            elif self.type == "list":
+                expected_type = list
+            elif self.type == "dict":
+                expected_type = dict
             else:
-                return v
-        return v
+                raise ValueError(f"Invalid type {self.type}")
+
+            # try to cast the default value to the expected type
+            try:
+                self.default = expected_type(self.default)
+            except ValueError:
+                raise ValueError(
+                    f"Default value {self.default} is not of type {self.type}"
+                )
+
+            # check if the default value is of the expected type
+            if not isinstance(self.default, expected_type):
+                raise ValueError(
+                    f"Default value {self.default} is not of type {self.type}"
+                )
 
     class Config:
         extra = "ignore"
@@ -134,7 +165,7 @@ class DatabaseConfig(BaseModel):
     @field_validator("db_type")
     def validate_db_type(cls, v):
         if v not in DatabaseTypes.choices():
-            raise ValueError(f"db_type must be one of {cls.ALLOWED_DB_TYPES}")
+            raise ValueError(f"db_type must be one of {DatabaseTypes.choices()}")
         return v
 
     class Config:
