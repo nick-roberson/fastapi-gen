@@ -1,29 +1,11 @@
+import logging
 import os
 import subprocess
 
 from jinja2 import Environment, FileSystemLoader, Template
-from rich import print
 
 # Constants
 VERBOSE: bool = os.environ.get("VERBOSE", False)
-
-
-def clear_directory(directory: str) -> None:
-    """Clear a directory.
-
-    Args:
-        directory (str): The directory to clear
-    """
-    try:
-        # If the directory exists, clear it
-        if os.path.exists(directory):
-            subprocess.run(f"rm -rf {directory}", shell=True, check=True)
-
-        # Create the directory
-        os.makedirs(directory, exist_ok=True)
-    except Exception as e:
-        print(f"Error clearing directory: {directory}, {e}")
-        raise e
 
 
 def load_template(template_path: str, template_name: str) -> Template:
@@ -45,7 +27,7 @@ def load_template(template_path: str, template_name: str) -> Template:
         env = Environment(loader=FileSystemLoader(template_path))
         return env.get_template(template_name)
     except Exception as e:
-        print(f"Error loading template: {template_path}, {e}")
+        logging.info(f"Error loading template: {template_path}, {e}")
         raise e
 
 
@@ -66,7 +48,7 @@ def write_template(template: Template, output_path: str, context: dict) -> None:
         with open(output_path, "w") as f:
             f.write(rendered_template)
     except Exception as e:
-        print(f"Error writing template: {output_path}, {e}")
+        logging.info(f"Error writing template: {output_path}, {e}")
         raise e
 
 
@@ -95,7 +77,7 @@ def populate_template(
         return output_path
 
     except Exception as e:
-        print(f"Error populating template: {output_path}, {e}")
+        logging.info(f"Error populating template: {output_path}, {e}")
         raise e
 
 
@@ -111,7 +93,7 @@ def run_command(cmd: str, cwd: str = None) -> subprocess.CompletedProcess:
     try:
         # Print and run the command
         if VERBOSE:
-            print(f"Running command: {cmd}")
+            logging.info(f"Running command: {cmd}")
 
         # Run the command
         if cwd:
@@ -125,9 +107,9 @@ def run_command(cmd: str, cwd: str = None) -> subprocess.CompletedProcess:
 
         # Show output conditionally
         if VERBOSE:
-            print(f"Output: {completed_process.stdout.decode()}")
+            logging.info(f"Output: {completed_process.stdout.decode()}")
         return completed_process
 
     except Exception as e:
-        print(f"Error running command: {cmd}, {e}")
+        logging.info(f"Error running command: {cmd}, {e}")
         raise e

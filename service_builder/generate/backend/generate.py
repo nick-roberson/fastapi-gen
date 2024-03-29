@@ -4,12 +4,10 @@ from typing import Dict, List
 
 from service_builder.constants import (DOCKER_TEMPLATES, MANAGER_TEMPLATES,
                                        MODEL_TEMPLATES, MONGO_TEMPLATES,
-                                       POETRY_TEMPLATES, PYTHON_DEPENDENCIES,
-                                       PYTHON_VERSION, README_TEMPLATES,
-                                       SERVICE_TEMPLATES)
-from service_builder.generate.utils import populate_template, run_command
-from service_builder.models import (DatabaseTypes, DependencyConfig,
-                                    ServiceConfig, ServiceVersion)
+                                       POETRY_TEMPLATES, PYTHON_VERSION,
+                                       README_TEMPLATES, SERVICE_TEMPLATES)
+from service_builder.jinja.templates import populate_template, run_command
+from service_builder.models import DatabaseTypes, ServiceConfig, ServiceVersion
 from service_builder.versions.utils import load_versions, save_version
 
 ############################################

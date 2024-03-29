@@ -14,7 +14,7 @@ def get_client():
         client = MongoClient(MONGO_URI, tlsCAFile=certifi.where())
         client.admin.command("ping")
     except ConfigurationError:
-        print(
+        logging.info(
             "An Invalid URI host error was received. Is your Atlas host name correct in your connection string?"
         )
         sys.exit(1)
