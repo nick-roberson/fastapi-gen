@@ -20,6 +20,7 @@ class FieldDataType(enum.Enum):
     BOOLEAN: str = "bool"
     LIST: str = "list"
     DICT: str = "dict"
+    DATETIME: str = "datetime"
 
     @classmethod
     def choices(cls):

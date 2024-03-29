@@ -32,29 +32,29 @@ export interface User {
    */
   username: string;
   /**
-   * The email of the user
+   * The email address of the user
    * @type {string}
    * @memberof User
    */
   email: string;
   /**
-   * The location of the user
+   * The phone number of the user
    * @type {string}
    * @memberof User
    */
-  location?: string;
+  phoneNumber?: string;
   /**
-   * The age of the user
-   * @type {number}
+   * The dining preferences of the user
+   * @type {Array<any>}
    * @memberof User
    */
-  age?: number;
+  preferences?: Array<any>;
   /**
-   * The team name of the user
+   * The role of the user (e.g., admin, user, restaurant_owner)
    * @type {string}
    * @memberof User
    */
-  team?: string;
+  role?: string;
 }
 
 /**
@@ -81,9 +81,10 @@ export function UserFromJSONTyped(
     id: json["id"] == null ? undefined : json["id"],
     username: json["username"],
     email: json["email"],
-    location: json["location"] == null ? undefined : json["location"],
-    age: json["age"] == null ? undefined : json["age"],
-    team: json["team"] == null ? undefined : json["team"],
+    phoneNumber:
+      json["phone_number"] == null ? undefined : json["phone_number"],
+    preferences: json["preferences"] == null ? undefined : json["preferences"],
+    role: json["role"] == null ? undefined : json["role"],
   };
 }
 
@@ -95,8 +96,8 @@ export function UserToJSON(value?: User | null): any {
     id: value["id"],
     username: value["username"],
     email: value["email"],
-    location: value["location"],
-    age: value["age"],
-    team: value["team"],
+    phone_number: value["phoneNumber"],
+    preferences: value["preferences"],
+    role: value["role"],
   };
 }

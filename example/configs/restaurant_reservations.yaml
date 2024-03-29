@@ -1,0 +1,127 @@
+# Database Configuration
+database:
+  db_type: mongo
+  db_uri_env_var: MONGO_DB_URI
+
+# Model Definitions
+models:
+
+  # User model
+  - name: User
+    fields:
+      - name: id
+        type: str
+        required: false
+        default: None
+        description: The unique identifier of the user
+      - name: username
+        type: str
+        required: true
+        description: The username of the user
+      - name: email
+        type: str
+        required: true
+        description: The email address of the user
+      - name: phone_number
+        type: str
+        required: false
+        default: None
+        description: The phone number of the user
+      - name: preferences
+        type: list
+        required: false
+        default: []
+        description: The dining preferences of the user
+      - name: role
+        type: str
+        required: false
+        default: "user"
+        description: The role of the user (e.g., admin, user, restaurant_owner)
+
+  # Restaurant model
+  - name: Restaurant
+    fields:
+      - name: id
+        type: str
+        required: false
+        default: None
+        description: The unique identifier of the restaurant
+      - name: name
+        type: str
+        required: true
+        description: The name of the restaurant
+      - name: location
+        type: str
+        required: true
+        description: The physical location of the restaurant
+      - name: cuisine
+        type: str
+        required: false
+        default: None
+        description: The type of cuisine the restaurant offers
+      - name: rating
+        type: float
+        required: false
+        default: None
+        description: The average rating of the restaurant
+      - name: price_range
+        type: str
+        required: false
+        default: None
+        description: The price range of the restaurant
+
+  # Reservation model
+  - name: Reservation
+    fields:
+      - name: id
+        type: str
+        required: false
+        default: None
+        description: The unique identifier of the reservation
+      - name: restaurant_id
+        type: str
+        required: true
+        description: The ID of the restaurant where the reservation is made
+      - name: user_id
+        type: str
+        required: true
+        description: The ID of the user who made the reservation
+      - name: reservation_time
+        type: datetime
+        required: true
+        description: The date and time of the reservation
+      - name: party_size
+        type: int
+        required: true
+        description: The size of the party for the reservation
+      - name: special_requests
+        type: str
+        required: false
+        default: None
+        description: Any special requests made by the user
+
+  # Review model
+  - name: Review
+    fields:
+      - name: id
+        type: str
+        required: false
+        default: None
+        description: The unique identifier of the review
+      - name: restaurant_id
+        type: str
+        required: true
+        description: The ID of the restaurant being reviewed
+      - name: user_id
+        type: str
+        required: true
+        description: The ID of the user who wrote the review
+      - name: rating
+        type: float
+        required: true
+        description: The rating given by the user
+      - name: comment
+        type: str
+        required: false
+        default: None
+        description: The textual comment of the review

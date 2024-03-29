@@ -67,15 +67,15 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    group = openapi_client.Group() # Group | 
+    reservation = openapi_client.Reservation() # Reservation |
 
     try:
-        # Create Group
-        api_response = api_instance.create_group_group_post(group)
-        print("The response of DefaultApi->create_group_group_post:\n")
+        # Create Reservation
+        api_response = api_instance.create_reservation_reservation_post(reservation)
+        print("The response of DefaultApi->create_reservation_reservation_post:\n")
         pprint(api_response)
     except ApiException as e:
-        print("Exception when calling DefaultApi->create_group_group_post: %s\n" % e)
+        print("Exception when calling DefaultApi->create_reservation_reservation_post: %s\n" % e)
 
 ```
 
@@ -85,29 +85,47 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DefaultApi* | [**create_group_group_post**](docs/DefaultApi.md#create_group_group_post) | **POST** /group | Create Group
-*DefaultApi* | [**create_groups_groups_post**](docs/DefaultApi.md#create_groups_groups_post) | **POST** /groups | Create Groups
+*DefaultApi* | [**create_reservation_reservation_post**](docs/DefaultApi.md#create_reservation_reservation_post) | **POST** /reservation | Create Reservation
+*DefaultApi* | [**create_reservations_reservations_post**](docs/DefaultApi.md#create_reservations_reservations_post) | **POST** /reservations | Create Reservations
+*DefaultApi* | [**create_restaurant_restaurant_post**](docs/DefaultApi.md#create_restaurant_restaurant_post) | **POST** /restaurant | Create Restaurant
+*DefaultApi* | [**create_restaurants_restaurants_post**](docs/DefaultApi.md#create_restaurants_restaurants_post) | **POST** /restaurants | Create Restaurants
+*DefaultApi* | [**create_review_review_post**](docs/DefaultApi.md#create_review_review_post) | **POST** /review | Create Review
+*DefaultApi* | [**create_reviews_reviews_post**](docs/DefaultApi.md#create_reviews_reviews_post) | **POST** /reviews | Create Reviews
 *DefaultApi* | [**create_user_user_post**](docs/DefaultApi.md#create_user_user_post) | **POST** /user | Create User
 *DefaultApi* | [**create_users_users_post**](docs/DefaultApi.md#create_users_users_post) | **POST** /users | Create Users
-*DefaultApi* | [**delete_group_group_delete**](docs/DefaultApi.md#delete_group_group_delete) | **DELETE** /group | Delete Group
-*DefaultApi* | [**delete_groups_groups_delete**](docs/DefaultApi.md#delete_groups_groups_delete) | **DELETE** /groups | Delete Groups
+*DefaultApi* | [**delete_reservation_reservation_delete**](docs/DefaultApi.md#delete_reservation_reservation_delete) | **DELETE** /reservation | Delete Reservation
+*DefaultApi* | [**delete_reservations_reservations_delete**](docs/DefaultApi.md#delete_reservations_reservations_delete) | **DELETE** /reservations | Delete Reservations
+*DefaultApi* | [**delete_restaurant_restaurant_delete**](docs/DefaultApi.md#delete_restaurant_restaurant_delete) | **DELETE** /restaurant | Delete Restaurant
+*DefaultApi* | [**delete_restaurants_restaurants_delete**](docs/DefaultApi.md#delete_restaurants_restaurants_delete) | **DELETE** /restaurants | Delete Restaurants
+*DefaultApi* | [**delete_review_review_delete**](docs/DefaultApi.md#delete_review_review_delete) | **DELETE** /review | Delete Review
+*DefaultApi* | [**delete_reviews_reviews_delete**](docs/DefaultApi.md#delete_reviews_reviews_delete) | **DELETE** /reviews | Delete Reviews
 *DefaultApi* | [**delete_user_user_delete**](docs/DefaultApi.md#delete_user_user_delete) | **DELETE** /user | Delete User
 *DefaultApi* | [**delete_users_users_delete**](docs/DefaultApi.md#delete_users_users_delete) | **DELETE** /users | Delete Users
-*DefaultApi* | [**get_group_group_get**](docs/DefaultApi.md#get_group_group_get) | **GET** /group | Get Group
-*DefaultApi* | [**get_groups_groups_get**](docs/DefaultApi.md#get_groups_groups_get) | **GET** /groups | Get Groups
+*DefaultApi* | [**get_reservation_reservation_get**](docs/DefaultApi.md#get_reservation_reservation_get) | **GET** /reservation | Get Reservation
+*DefaultApi* | [**get_reservations_reservations_get**](docs/DefaultApi.md#get_reservations_reservations_get) | **GET** /reservations | Get Reservations
+*DefaultApi* | [**get_restaurant_restaurant_get**](docs/DefaultApi.md#get_restaurant_restaurant_get) | **GET** /restaurant | Get Restaurant
+*DefaultApi* | [**get_restaurants_restaurants_get**](docs/DefaultApi.md#get_restaurants_restaurants_get) | **GET** /restaurants | Get Restaurants
+*DefaultApi* | [**get_review_review_get**](docs/DefaultApi.md#get_review_review_get) | **GET** /review | Get Review
+*DefaultApi* | [**get_reviews_reviews_get**](docs/DefaultApi.md#get_reviews_reviews_get) | **GET** /reviews | Get Reviews
 *DefaultApi* | [**get_user_user_get**](docs/DefaultApi.md#get_user_user_get) | **GET** /user | Get User
 *DefaultApi* | [**get_users_users_get**](docs/DefaultApi.md#get_users_users_get) | **GET** /users | Get Users
 *DefaultApi* | [**root_get**](docs/DefaultApi.md#root_get) | **GET** / | Root
-*DefaultApi* | [**update_group_group_put**](docs/DefaultApi.md#update_group_group_put) | **PUT** /group | Update Group
-*DefaultApi* | [**update_groups_groups_put**](docs/DefaultApi.md#update_groups_groups_put) | **PUT** /groups | Update Groups
+*DefaultApi* | [**update_reservation_reservation_put**](docs/DefaultApi.md#update_reservation_reservation_put) | **PUT** /reservation | Update Reservation
+*DefaultApi* | [**update_reservations_reservations_put**](docs/DefaultApi.md#update_reservations_reservations_put) | **PUT** /reservations | Update Reservations
+*DefaultApi* | [**update_restaurant_restaurant_put**](docs/DefaultApi.md#update_restaurant_restaurant_put) | **PUT** /restaurant | Update Restaurant
+*DefaultApi* | [**update_restaurants_restaurants_put**](docs/DefaultApi.md#update_restaurants_restaurants_put) | **PUT** /restaurants | Update Restaurants
+*DefaultApi* | [**update_review_review_put**](docs/DefaultApi.md#update_review_review_put) | **PUT** /review | Update Review
+*DefaultApi* | [**update_reviews_reviews_put**](docs/DefaultApi.md#update_reviews_reviews_put) | **PUT** /reviews | Update Reviews
 *DefaultApi* | [**update_user_user_put**](docs/DefaultApi.md#update_user_user_put) | **PUT** /user | Update User
 *DefaultApi* | [**update_users_users_put**](docs/DefaultApi.md#update_users_users_put) | **PUT** /users | Update Users
 
 
 ## Documentation For Models
 
- - [Group](docs/Group.md)
  - [HTTPValidationError](docs/HTTPValidationError.md)
+ - [Reservation](docs/Reservation.md)
+ - [Restaurant](docs/Restaurant.md)
+ - [Review](docs/Review.md)
  - [User](docs/User.md)
  - [ValidationError](docs/ValidationError.md)
  - [ValidationErrorLocInner](docs/ValidationErrorLocInner.md)
@@ -120,7 +138,3 @@ Endpoints do not require authorization.
 
 
 ## Author
-
-
-
-

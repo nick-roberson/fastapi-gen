@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Dict, List
 
 from pydantic import BaseModel
@@ -9,15 +10,17 @@ class User(BaseModel):
         default=None, description="The unique identifier of the user", required=False
     )
     username: str = FieldInfo(description="The username of the user", required=True)
-    email: str = FieldInfo(description="The email of the user", required=True)
-    location: str = FieldInfo(
-        default=None, description="The location of the user", required=False
+    email: str = FieldInfo(description="The email address of the user", required=True)
+    phone_number: str = FieldInfo(
+        default=None, description="The phone number of the user", required=False
     )
-    age: int = FieldInfo(
-        default=None, description="The age of the user", required=False
+    preferences: list = FieldInfo(
+        default=[], description="The dining preferences of the user", required=False
     )
-    team: str = FieldInfo(
-        default=None, description="The team name of the user", required=False
+    role: str = FieldInfo(
+        default="user",
+        description="The role of the user (e.g., admin, user, restaurant_owner)",
+        required=False,
     )
 
     class Config:
@@ -27,12 +30,81 @@ class User(BaseModel):
         return self.dict()
 
 
-class Group(BaseModel):
+class Restaurant(BaseModel):
     id: str = FieldInfo(
-        default=None, description="The unique identifier of the group", required=False
+        default=None,
+        description="The unique identifier of the restaurant",
+        required=False,
     )
-    name: str = FieldInfo(description="The name of the group", required=True)
-    users: list = FieldInfo(description="The users in the group", required=True)
+    name: str = FieldInfo(description="The name of the restaurant", required=True)
+    location: str = FieldInfo(
+        description="The physical location of the restaurant", required=True
+    )
+    cuisine: str = FieldInfo(
+        default=None,
+        description="The type of cuisine the restaurant offers",
+        required=False,
+    )
+    rating: float = FieldInfo(
+        default=None, description="The average rating of the restaurant", required=False
+    )
+    price_range: str = FieldInfo(
+        default=None, description="The price range of the restaurant", required=False
+    )
+
+    class Config:
+        extra = "ignore"
+
+    def to_dict(self) -> Dict:
+        return self.dict()
+
+
+class Reservation(BaseModel):
+    id: str = FieldInfo(
+        default=None,
+        description="The unique identifier of the reservation",
+        required=False,
+    )
+    restaurant_id: str = FieldInfo(
+        description="The ID of the restaurant where the reservation is made",
+        required=True,
+    )
+    user_id: str = FieldInfo(
+        description="The ID of the user who made the reservation", required=True
+    )
+    reservation_time: datetime = FieldInfo(
+        description="The date and time of the reservation", required=True
+    )
+    party_size: int = FieldInfo(
+        description="The size of the party for the reservation", required=True
+    )
+    special_requests: str = FieldInfo(
+        default=None,
+        description="Any special requests made by the user",
+        required=False,
+    )
+
+    class Config:
+        extra = "ignore"
+
+    def to_dict(self) -> Dict:
+        return self.dict()
+
+
+class Review(BaseModel):
+    id: str = FieldInfo(
+        default=None, description="The unique identifier of the review", required=False
+    )
+    restaurant_id: str = FieldInfo(
+        description="The ID of the restaurant being reviewed", required=True
+    )
+    user_id: str = FieldInfo(
+        description="The ID of the user who wrote the review", required=True
+    )
+    rating: float = FieldInfo(description="The rating given by the user", required=True)
+    comment: str = FieldInfo(
+        default=None, description="The textual comment of the review", required=False
+    )
 
     class Config:
         extra = "ignore"

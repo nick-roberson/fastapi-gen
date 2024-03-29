@@ -48,6 +48,7 @@ NODE_DEPENDENCIES = [
     "@emotion/styled",
     "prettier",
     "eslint",
+    "web-vitals",
 ]
 
 # OpenAPI Spec filename

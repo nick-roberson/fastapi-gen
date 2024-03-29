@@ -3,7 +3,7 @@ from typing import Any, List, Optional, Tuple
 from pydantic import BaseModel, field_validator
 from pydantic.fields import FieldInfo
 
-from service_builder.constants import DEFAULT_SERVICE_NAME
+from service_builder.constants import DEFAULT_SERVICE_NAME, PYTHON_DEPENDENCIES
 from service_builder.models.enum import DatabaseTypes, FieldDataType
 
 
@@ -40,23 +40,18 @@ class FieldDefinition(BaseModel):
         if self.default is not None:
 
             # check none cases
-            if self.default == "None" or self.default == "none":
+            null_cases = ["None", "none", "null"]
+            if self.default in null_cases:
                 self.default = None
                 return
 
             # check bool cases
+            bool_true_cases = ["True", "true", True]
+            bool_false_cases = ["False", "false", False]
             if self.type == "bool":
-                if (
-                    self.default == "True"
-                    or self.default == "true"
-                    or self.default is True
-                ):
+                if self.default in bool_true_cases:
                     self.default = True
-                elif (
-                    self.default == "False"
-                    or self.default == "false"
-                    or self.default is False
-                ):
+                elif self.default in bool_false_cases:
                     self.default = False
                 return
 
@@ -71,6 +66,8 @@ class FieldDefinition(BaseModel):
                 expected_type = list
             elif self.type == "dict":
                 expected_type = dict
+            elif self.type == "datetime":
+                expected_type = str
             else:
                 raise ValueError(f"Invalid type {self.type}")
 
@@ -112,8 +109,9 @@ class FieldDefinition(BaseModel):
             if self.default is None:
                 return f"{self.name}: {self.type} = FieldInfo(default=None,description='{self.description}', required={self.required})"
             else:
+                default = f"'{self.default}'" if self.type == "str" else self.default
                 return (
-                    f"{self.name}: {self.type} = FieldInfo(default={self.default}, description='{self.description}', "
+                    f"{self.name}: {self.type} = FieldInfo(default={default}, description='{self.description}', "
                     f"required={self.required})"
                 )
 
@@ -176,9 +174,10 @@ class ServiceConfig(BaseModel):
     """List of model definitions"""
 
     service_name: str = DEFAULT_SERVICE_NAME
+
     database: DatabaseConfig
-    models: List[ModelConfig]
-    dependencies: List[DependencyConfig]
+    models: List[ModelConfig] = []
+    dependencies: List[DependencyConfig] = []
 
     class Config:
         extra = "ignore"

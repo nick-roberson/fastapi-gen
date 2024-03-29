@@ -17,39 +17,39 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Dict, List, Optional, Set
+from typing import Any, ClassVar, Dict, List, Optional, Set, Union
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import (BaseModel, ConfigDict, Field, StrictFloat, StrictInt,
+                      StrictStr)
 from typing_extensions import Self
 
 
-class User(BaseModel):
+class Restaurant(BaseModel):
     """
-    User
+    Restaurant
     """  # noqa: E501
 
     id: Optional[StrictStr] = Field(
-        default=None, description="The unique identifier of the user"
+        default=None, description="The unique identifier of the restaurant"
     )
-    username: StrictStr = Field(description="The username of the user")
-    email: StrictStr = Field(description="The email address of the user")
-    phone_number: Optional[StrictStr] = Field(
-        default=None, description="The phone number of the user"
+    name: StrictStr = Field(description="The name of the restaurant")
+    location: StrictStr = Field(description="The physical location of the restaurant")
+    cuisine: Optional[StrictStr] = Field(
+        default=None, description="The type of cuisine the restaurant offers"
     )
-    preferences: Optional[List[Any]] = Field(
-        default=None, description="The dining preferences of the user"
+    rating: Optional[Union[StrictFloat, StrictInt]] = Field(
+        default=None, description="The average rating of the restaurant"
     )
-    role: Optional[StrictStr] = Field(
-        default="user",
-        description="The role of the user (e.g., admin, user, restaurant_owner)",
+    price_range: Optional[StrictStr] = Field(
+        default=None, description="The price range of the restaurant"
     )
     __properties: ClassVar[List[str]] = [
         "id",
-        "username",
-        "email",
-        "phone_number",
-        "preferences",
-        "role",
+        "name",
+        "location",
+        "cuisine",
+        "rating",
+        "price_range",
     ]
 
     model_config = ConfigDict(
@@ -69,7 +69,7 @@ class User(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of User from a JSON string"""
+        """Create an instance of Restaurant from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -93,7 +93,7 @@ class User(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of User from a dict"""
+        """Create an instance of Restaurant from a dict"""
         if obj is None:
             return None
 
@@ -103,11 +103,11 @@ class User(BaseModel):
         _obj = cls.model_validate(
             {
                 "id": obj.get("id"),
-                "username": obj.get("username"),
-                "email": obj.get("email"),
-                "phone_number": obj.get("phone_number"),
-                "preferences": obj.get("preferences"),
-                "role": obj.get("role") if obj.get("role") is not None else "user",
+                "name": obj.get("name"),
+                "location": obj.get("location"),
+                "cuisine": obj.get("cuisine"),
+                "rating": obj.get("rating"),
+                "price_range": obj.get("price_range"),
             }
         )
         return _obj

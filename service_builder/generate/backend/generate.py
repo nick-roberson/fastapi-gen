@@ -12,11 +12,6 @@ from service_builder.models import (DatabaseTypes, DependencyConfig,
                                     ServiceConfig, ServiceVersion)
 from service_builder.versions.utils import load_versions, save_version
 
-# If none of the templates are provided, use the default templates
-DEFAULT_DEPENDENCIES = [
-    DependencyConfig(name=dep[0], version=dep[1]) for dep in PYTHON_DEPENDENCIES
-]
-
 ############################################
 # Install Dependencies
 ############################################
@@ -71,7 +66,7 @@ def generate_models(output_dir: str, config: ServiceConfig) -> str:
     context = {"models": config.models}
 
     # Populate the model file and return the file name
-    output_file = populate_template(
+    return populate_template(
         template_dir=MODEL_TEMPLATES,
         template_name=template_name,
         output_path=output_file,
@@ -183,10 +178,6 @@ def generate_poetry_toml(output_dir: str, config: ServiceConfig) -> str:
     Returns:
         str: File name of the generated poetry toml file
     """
-    # If none of the dependencies are provided, use the default dependencies
-    if not config.dependencies:
-        config.dependencies = DEFAULT_DEPENDENCIES
-
     # Create inputs for the model template
     template_name = "toml.jinja"
     output_path = f"{output_dir}/pyproject.toml"

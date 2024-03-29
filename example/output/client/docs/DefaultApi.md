@@ -4,38 +4,54 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_group_group_post**](DefaultApi.md#create_group_group_post) | **POST** /group | Create Group
-[**create_groups_groups_post**](DefaultApi.md#create_groups_groups_post) | **POST** /groups | Create Groups
+[**create_reservation_reservation_post**](DefaultApi.md#create_reservation_reservation_post) | **POST** /reservation | Create Reservation
+[**create_reservations_reservations_post**](DefaultApi.md#create_reservations_reservations_post) | **POST** /reservations | Create Reservations
+[**create_restaurant_restaurant_post**](DefaultApi.md#create_restaurant_restaurant_post) | **POST** /restaurant | Create Restaurant
+[**create_restaurants_restaurants_post**](DefaultApi.md#create_restaurants_restaurants_post) | **POST** /restaurants | Create Restaurants
+[**create_review_review_post**](DefaultApi.md#create_review_review_post) | **POST** /review | Create Review
+[**create_reviews_reviews_post**](DefaultApi.md#create_reviews_reviews_post) | **POST** /reviews | Create Reviews
 [**create_user_user_post**](DefaultApi.md#create_user_user_post) | **POST** /user | Create User
 [**create_users_users_post**](DefaultApi.md#create_users_users_post) | **POST** /users | Create Users
-[**delete_group_group_delete**](DefaultApi.md#delete_group_group_delete) | **DELETE** /group | Delete Group
-[**delete_groups_groups_delete**](DefaultApi.md#delete_groups_groups_delete) | **DELETE** /groups | Delete Groups
+[**delete_reservation_reservation_delete**](DefaultApi.md#delete_reservation_reservation_delete) | **DELETE** /reservation | Delete Reservation
+[**delete_reservations_reservations_delete**](DefaultApi.md#delete_reservations_reservations_delete) | **DELETE** /reservations | Delete Reservations
+[**delete_restaurant_restaurant_delete**](DefaultApi.md#delete_restaurant_restaurant_delete) | **DELETE** /restaurant | Delete Restaurant
+[**delete_restaurants_restaurants_delete**](DefaultApi.md#delete_restaurants_restaurants_delete) | **DELETE** /restaurants | Delete Restaurants
+[**delete_review_review_delete**](DefaultApi.md#delete_review_review_delete) | **DELETE** /review | Delete Review
+[**delete_reviews_reviews_delete**](DefaultApi.md#delete_reviews_reviews_delete) | **DELETE** /reviews | Delete Reviews
 [**delete_user_user_delete**](DefaultApi.md#delete_user_user_delete) | **DELETE** /user | Delete User
 [**delete_users_users_delete**](DefaultApi.md#delete_users_users_delete) | **DELETE** /users | Delete Users
-[**get_group_group_get**](DefaultApi.md#get_group_group_get) | **GET** /group | Get Group
-[**get_groups_groups_get**](DefaultApi.md#get_groups_groups_get) | **GET** /groups | Get Groups
+[**get_reservation_reservation_get**](DefaultApi.md#get_reservation_reservation_get) | **GET** /reservation | Get Reservation
+[**get_reservations_reservations_get**](DefaultApi.md#get_reservations_reservations_get) | **GET** /reservations | Get Reservations
+[**get_restaurant_restaurant_get**](DefaultApi.md#get_restaurant_restaurant_get) | **GET** /restaurant | Get Restaurant
+[**get_restaurants_restaurants_get**](DefaultApi.md#get_restaurants_restaurants_get) | **GET** /restaurants | Get Restaurants
+[**get_review_review_get**](DefaultApi.md#get_review_review_get) | **GET** /review | Get Review
+[**get_reviews_reviews_get**](DefaultApi.md#get_reviews_reviews_get) | **GET** /reviews | Get Reviews
 [**get_user_user_get**](DefaultApi.md#get_user_user_get) | **GET** /user | Get User
 [**get_users_users_get**](DefaultApi.md#get_users_users_get) | **GET** /users | Get Users
 [**root_get**](DefaultApi.md#root_get) | **GET** / | Root
-[**update_group_group_put**](DefaultApi.md#update_group_group_put) | **PUT** /group | Update Group
-[**update_groups_groups_put**](DefaultApi.md#update_groups_groups_put) | **PUT** /groups | Update Groups
+[**update_reservation_reservation_put**](DefaultApi.md#update_reservation_reservation_put) | **PUT** /reservation | Update Reservation
+[**update_reservations_reservations_put**](DefaultApi.md#update_reservations_reservations_put) | **PUT** /reservations | Update Reservations
+[**update_restaurant_restaurant_put**](DefaultApi.md#update_restaurant_restaurant_put) | **PUT** /restaurant | Update Restaurant
+[**update_restaurants_restaurants_put**](DefaultApi.md#update_restaurants_restaurants_put) | **PUT** /restaurants | Update Restaurants
+[**update_review_review_put**](DefaultApi.md#update_review_review_put) | **PUT** /review | Update Review
+[**update_reviews_reviews_put**](DefaultApi.md#update_reviews_reviews_put) | **PUT** /reviews | Update Reviews
 [**update_user_user_put**](DefaultApi.md#update_user_user_put) | **PUT** /user | Update User
 [**update_users_users_put**](DefaultApi.md#update_users_users_put) | **PUT** /users | Update Users
 
 
-# **create_group_group_post**
-> Group create_group_group_post(group)
+# **create_reservation_reservation_post**
+> Reservation create_reservation_reservation_post(reservation)
 
-Create Group
+Create Reservation
 
-Create a Group
+Create a Reservation
 
 ### Example
 
 
 ```python
 import openapi_client
-from openapi_client.models.group import Group
+from openapi_client.models.reservation import Reservation
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -50,15 +66,15 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    group = openapi_client.Group() # Group | 
+    reservation = openapi_client.Reservation() # Reservation |
 
     try:
-        # Create Group
-        api_response = api_instance.create_group_group_post(group)
-        print("The response of DefaultApi->create_group_group_post:\n")
+        # Create Reservation
+        api_response = api_instance.create_reservation_reservation_post(reservation)
+        print("The response of DefaultApi->create_reservation_reservation_post:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DefaultApi->create_group_group_post: %s\n" % e)
+        print("Exception when calling DefaultApi->create_reservation_reservation_post: %s\n" % e)
 ```
 
 
@@ -68,11 +84,11 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **group** | [**Group**](Group.md)|  | 
+ **reservation** | [**Reservation**](Reservation.md)|  |
 
 ### Return type
 
-[**Group**](Group.md)
+[**Reservation**](Reservation.md)
 
 ### Authorization
 
@@ -92,19 +108,19 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **create_groups_groups_post**
-> List[Group] create_groups_groups_post(group)
+# **create_reservations_reservations_post**
+> List[Reservation] create_reservations_reservations_post(reservation)
 
-Create Groups
+Create Reservations
 
-Create multiple Groups
+Create multiple Reservations
 
 ### Example
 
 
 ```python
 import openapi_client
-from openapi_client.models.group import Group
+from openapi_client.models.reservation import Reservation
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -119,15 +135,15 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    group = [openapi_client.Group()] # List[Group] | 
+    reservation = [openapi_client.Reservation()] # List[Reservation] |
 
     try:
-        # Create Groups
-        api_response = api_instance.create_groups_groups_post(group)
-        print("The response of DefaultApi->create_groups_groups_post:\n")
+        # Create Reservations
+        api_response = api_instance.create_reservations_reservations_post(reservation)
+        print("The response of DefaultApi->create_reservations_reservations_post:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DefaultApi->create_groups_groups_post: %s\n" % e)
+        print("Exception when calling DefaultApi->create_reservations_reservations_post: %s\n" % e)
 ```
 
 
@@ -137,11 +153,287 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **group** | [**List[Group]**](Group.md)|  | 
+ **reservation** | [**List[Reservation]**](Reservation.md)|  |
 
 ### Return type
 
-[**List[Group]**](Group.md)
+[**List[Reservation]**](Reservation.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_restaurant_restaurant_post**
+> Restaurant create_restaurant_restaurant_post(restaurant)
+
+Create Restaurant
+
+Create a Restaurant
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.restaurant import Restaurant
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    restaurant = openapi_client.Restaurant() # Restaurant |
+
+    try:
+        # Create Restaurant
+        api_response = api_instance.create_restaurant_restaurant_post(restaurant)
+        print("The response of DefaultApi->create_restaurant_restaurant_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->create_restaurant_restaurant_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **restaurant** | [**Restaurant**](Restaurant.md)|  |
+
+### Return type
+
+[**Restaurant**](Restaurant.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_restaurants_restaurants_post**
+> List[Restaurant] create_restaurants_restaurants_post(restaurant)
+
+Create Restaurants
+
+Create multiple Restaurants
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.restaurant import Restaurant
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    restaurant = [openapi_client.Restaurant()] # List[Restaurant] |
+
+    try:
+        # Create Restaurants
+        api_response = api_instance.create_restaurants_restaurants_post(restaurant)
+        print("The response of DefaultApi->create_restaurants_restaurants_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->create_restaurants_restaurants_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **restaurant** | [**List[Restaurant]**](Restaurant.md)|  |
+
+### Return type
+
+[**List[Restaurant]**](Restaurant.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_review_review_post**
+> Review create_review_review_post(review)
+
+Create Review
+
+Create a Review
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.review import Review
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    review = openapi_client.Review() # Review |
+
+    try:
+        # Create Review
+        api_response = api_instance.create_review_review_post(review)
+        print("The response of DefaultApi->create_review_review_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->create_review_review_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **review** | [**Review**](Review.md)|  |
+
+### Return type
+
+[**Review**](Review.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_reviews_reviews_post**
+> List[Review] create_reviews_reviews_post(review)
+
+Create Reviews
+
+Create multiple Reviews
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.review import Review
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    review = [openapi_client.Review()] # List[Review] |
+
+    try:
+        # Create Reviews
+        api_response = api_instance.create_reviews_reviews_post(review)
+        print("The response of DefaultApi->create_reviews_reviews_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->create_reviews_reviews_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **review** | [**List[Review]**](Review.md)|  |
+
+### Return type
+
+[**List[Review]**](Review.md)
 
 ### Authorization
 
@@ -188,7 +480,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    user = openapi_client.User() # User | 
+    user = openapi_client.User() # User |
 
     try:
         # Create User
@@ -206,7 +498,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)|  | 
+ **user** | [**User**](User.md)|  |
 
 ### Return type
 
@@ -257,7 +549,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    user = [openapi_client.User()] # List[User] | 
+    user = [openapi_client.User()] # List[User] |
 
     try:
         # Create Users
@@ -275,7 +567,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List[User]**](User.md)|  | 
+ **user** | [**List[User]**](User.md)|  |
 
 ### Return type
 
@@ -299,12 +591,12 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **delete_group_group_delete**
-> object delete_group_group_delete(group_id)
+# **delete_reservation_reservation_delete**
+> object delete_reservation_reservation_delete(reservation_id)
 
-Delete Group
+Delete Reservation
 
-Delete a Group
+Delete a Reservation
 
 ### Example
 
@@ -325,15 +617,15 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    group_id = 'group_id_example' # str | 
+    reservation_id = 'reservation_id_example' # str |
 
     try:
-        # Delete Group
-        api_response = api_instance.delete_group_group_delete(group_id)
-        print("The response of DefaultApi->delete_group_group_delete:\n")
+        # Delete Reservation
+        api_response = api_instance.delete_reservation_reservation_delete(reservation_id)
+        print("The response of DefaultApi->delete_reservation_reservation_delete:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DefaultApi->delete_group_group_delete: %s\n" % e)
+        print("Exception when calling DefaultApi->delete_reservation_reservation_delete: %s\n" % e)
 ```
 
 
@@ -343,7 +635,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **group_id** | **str**|  | 
+ **reservation_id** | **str**|  |
 
 ### Return type
 
@@ -367,12 +659,12 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **delete_groups_groups_delete**
-> object delete_groups_groups_delete(request_body)
+# **delete_reservations_reservations_delete**
+> object delete_reservations_reservations_delete(request_body)
 
-Delete Groups
+Delete Reservations
 
-Delete multiple Groups
+Delete multiple Reservations
 
 ### Example
 
@@ -393,15 +685,15 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    request_body = ['request_body_example'] # List[str] | 
+    request_body = ['request_body_example'] # List[str] |
 
     try:
-        # Delete Groups
-        api_response = api_instance.delete_groups_groups_delete(request_body)
-        print("The response of DefaultApi->delete_groups_groups_delete:\n")
+        # Delete Reservations
+        api_response = api_instance.delete_reservations_reservations_delete(request_body)
+        print("The response of DefaultApi->delete_reservations_reservations_delete:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DefaultApi->delete_groups_groups_delete: %s\n" % e)
+        print("Exception when calling DefaultApi->delete_reservations_reservations_delete: %s\n" % e)
 ```
 
 
@@ -411,7 +703,279 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**List[str]**](str.md)|  | 
+ **request_body** | [**List[str]**](str.md)|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_restaurant_restaurant_delete**
+> object delete_restaurant_restaurant_delete(restaurant_id)
+
+Delete Restaurant
+
+Delete a Restaurant
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    restaurant_id = 'restaurant_id_example' # str |
+
+    try:
+        # Delete Restaurant
+        api_response = api_instance.delete_restaurant_restaurant_delete(restaurant_id)
+        print("The response of DefaultApi->delete_restaurant_restaurant_delete:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->delete_restaurant_restaurant_delete: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **restaurant_id** | **str**|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_restaurants_restaurants_delete**
+> object delete_restaurants_restaurants_delete(request_body)
+
+Delete Restaurants
+
+Delete multiple Restaurants
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    request_body = ['request_body_example'] # List[str] |
+
+    try:
+        # Delete Restaurants
+        api_response = api_instance.delete_restaurants_restaurants_delete(request_body)
+        print("The response of DefaultApi->delete_restaurants_restaurants_delete:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->delete_restaurants_restaurants_delete: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_review_review_delete**
+> object delete_review_review_delete(review_id)
+
+Delete Review
+
+Delete a Review
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    review_id = 'review_id_example' # str |
+
+    try:
+        # Delete Review
+        api_response = api_instance.delete_review_review_delete(review_id)
+        print("The response of DefaultApi->delete_review_review_delete:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->delete_review_review_delete: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **review_id** | **str**|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_reviews_reviews_delete**
+> object delete_reviews_reviews_delete(request_body)
+
+Delete Reviews
+
+Delete multiple Reviews
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    request_body = ['request_body_example'] # List[str] |
+
+    try:
+        # Delete Reviews
+        api_response = api_instance.delete_reviews_reviews_delete(request_body)
+        print("The response of DefaultApi->delete_reviews_reviews_delete:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->delete_reviews_reviews_delete: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  |
 
 ### Return type
 
@@ -461,7 +1025,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    user_id = 'user_id_example' # str | 
+    user_id = 'user_id_example' # str |
 
     try:
         # Delete User
@@ -479,7 +1043,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user_id** | **str**|  | 
+ **user_id** | **str**|  |
 
 ### Return type
 
@@ -529,7 +1093,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    request_body = ['request_body_example'] # List[str] | 
+    request_body = ['request_body_example'] # List[str] |
 
     try:
         # Delete Users
@@ -547,7 +1111,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**List[str]**](str.md)|  | 
+ **request_body** | [**List[str]**](str.md)|  |
 
 ### Return type
 
@@ -571,19 +1135,19 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_group_group_get**
-> Group get_group_group_get(group_id)
+# **get_reservation_reservation_get**
+> Reservation get_reservation_reservation_get(reservation_id)
 
-Get Group
+Get Reservation
 
-Get a Group
+Get a Reservation
 
 ### Example
 
 
 ```python
 import openapi_client
-from openapi_client.models.group import Group
+from openapi_client.models.reservation import Reservation
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -598,15 +1162,15 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    group_id = 'group_id_example' # str | 
+    reservation_id = 'reservation_id_example' # str |
 
     try:
-        # Get Group
-        api_response = api_instance.get_group_group_get(group_id)
-        print("The response of DefaultApi->get_group_group_get:\n")
+        # Get Reservation
+        api_response = api_instance.get_reservation_reservation_get(reservation_id)
+        print("The response of DefaultApi->get_reservation_reservation_get:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DefaultApi->get_group_group_get: %s\n" % e)
+        print("Exception when calling DefaultApi->get_reservation_reservation_get: %s\n" % e)
 ```
 
 
@@ -616,11 +1180,11 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **group_id** | **str**|  | 
+ **reservation_id** | **str**|  |
 
 ### Return type
 
-[**Group**](Group.md)
+[**Reservation**](Reservation.md)
 
 ### Authorization
 
@@ -640,17 +1204,17 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_groups_groups_get**
-> List[Group] get_groups_groups_get()
+# **get_reservations_reservations_get**
+> List[Reservation] get_reservations_reservations_get()
 
-Get Groups
+Get Reservations
 
 ### Example
 
 
 ```python
 import openapi_client
-from openapi_client.models.group import Group
+from openapi_client.models.reservation import Reservation
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -667,12 +1231,12 @@ with openapi_client.ApiClient(configuration) as api_client:
     api_instance = openapi_client.DefaultApi(api_client)
 
     try:
-        # Get Groups
-        api_response = api_instance.get_groups_groups_get()
-        print("The response of DefaultApi->get_groups_groups_get:\n")
+        # Get Reservations
+        api_response = api_instance.get_reservations_reservations_get()
+        print("The response of DefaultApi->get_reservations_reservations_get:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DefaultApi->get_groups_groups_get: %s\n" % e)
+        print("Exception when calling DefaultApi->get_reservations_reservations_get: %s\n" % e)
 ```
 
 
@@ -683,7 +1247,269 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List[Group]**](Group.md)
+[**List[Reservation]**](Reservation.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_restaurant_restaurant_get**
+> Restaurant get_restaurant_restaurant_get(restaurant_id)
+
+Get Restaurant
+
+Get a Restaurant
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.restaurant import Restaurant
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    restaurant_id = 'restaurant_id_example' # str |
+
+    try:
+        # Get Restaurant
+        api_response = api_instance.get_restaurant_restaurant_get(restaurant_id)
+        print("The response of DefaultApi->get_restaurant_restaurant_get:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->get_restaurant_restaurant_get: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **restaurant_id** | **str**|  |
+
+### Return type
+
+[**Restaurant**](Restaurant.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_restaurants_restaurants_get**
+> List[Restaurant] get_restaurants_restaurants_get()
+
+Get Restaurants
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.restaurant import Restaurant
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+
+    try:
+        # Get Restaurants
+        api_response = api_instance.get_restaurants_restaurants_get()
+        print("The response of DefaultApi->get_restaurants_restaurants_get:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->get_restaurants_restaurants_get: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List[Restaurant]**](Restaurant.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_review_review_get**
+> Review get_review_review_get(review_id)
+
+Get Review
+
+Get a Review
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.review import Review
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    review_id = 'review_id_example' # str |
+
+    try:
+        # Get Review
+        api_response = api_instance.get_review_review_get(review_id)
+        print("The response of DefaultApi->get_review_review_get:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->get_review_review_get: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **review_id** | **str**|  |
+
+### Return type
+
+[**Review**](Review.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_reviews_reviews_get**
+> List[Review] get_reviews_reviews_get()
+
+Get Reviews
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.review import Review
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+
+    try:
+        # Get Reviews
+        api_response = api_instance.get_reviews_reviews_get()
+        print("The response of DefaultApi->get_reviews_reviews_get:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->get_reviews_reviews_get: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List[Review]**](Review.md)
 
 ### Authorization
 
@@ -729,7 +1555,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    user_id = 'user_id_example' # str | 
+    user_id = 'user_id_example' # str |
 
     try:
         # Get User
@@ -747,7 +1573,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user_id** | **str**|  | 
+ **user_id** | **str**|  |
 
 ### Return type
 
@@ -894,19 +1720,19 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update_group_group_put**
-> Group update_group_group_put(group)
+# **update_reservation_reservation_put**
+> Reservation update_reservation_reservation_put(reservation)
 
-Update Group
+Update Reservation
 
-Update a Group
+Update a Reservation
 
 ### Example
 
 
 ```python
 import openapi_client
-from openapi_client.models.group import Group
+from openapi_client.models.reservation import Reservation
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -921,15 +1747,15 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    group = openapi_client.Group() # Group | 
+    reservation = openapi_client.Reservation() # Reservation |
 
     try:
-        # Update Group
-        api_response = api_instance.update_group_group_put(group)
-        print("The response of DefaultApi->update_group_group_put:\n")
+        # Update Reservation
+        api_response = api_instance.update_reservation_reservation_put(reservation)
+        print("The response of DefaultApi->update_reservation_reservation_put:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DefaultApi->update_group_group_put: %s\n" % e)
+        print("Exception when calling DefaultApi->update_reservation_reservation_put: %s\n" % e)
 ```
 
 
@@ -939,11 +1765,11 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **group** | [**Group**](Group.md)|  | 
+ **reservation** | [**Reservation**](Reservation.md)|  |
 
 ### Return type
 
-[**Group**](Group.md)
+[**Reservation**](Reservation.md)
 
 ### Authorization
 
@@ -963,19 +1789,19 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update_groups_groups_put**
-> List[Group] update_groups_groups_put(group)
+# **update_reservations_reservations_put**
+> List[Reservation] update_reservations_reservations_put(reservation)
 
-Update Groups
+Update Reservations
 
-Update multiple Groups
+Update multiple Reservations
 
 ### Example
 
 
 ```python
 import openapi_client
-from openapi_client.models.group import Group
+from openapi_client.models.reservation import Reservation
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -990,15 +1816,15 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    group = [openapi_client.Group()] # List[Group] | 
+    reservation = [openapi_client.Reservation()] # List[Reservation] |
 
     try:
-        # Update Groups
-        api_response = api_instance.update_groups_groups_put(group)
-        print("The response of DefaultApi->update_groups_groups_put:\n")
+        # Update Reservations
+        api_response = api_instance.update_reservations_reservations_put(reservation)
+        print("The response of DefaultApi->update_reservations_reservations_put:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DefaultApi->update_groups_groups_put: %s\n" % e)
+        print("Exception when calling DefaultApi->update_reservations_reservations_put: %s\n" % e)
 ```
 
 
@@ -1008,11 +1834,287 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **group** | [**List[Group]**](Group.md)|  | 
+ **reservation** | [**List[Reservation]**](Reservation.md)|  |
 
 ### Return type
 
-[**List[Group]**](Group.md)
+[**List[Reservation]**](Reservation.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_restaurant_restaurant_put**
+> Restaurant update_restaurant_restaurant_put(restaurant)
+
+Update Restaurant
+
+Update a Restaurant
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.restaurant import Restaurant
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    restaurant = openapi_client.Restaurant() # Restaurant |
+
+    try:
+        # Update Restaurant
+        api_response = api_instance.update_restaurant_restaurant_put(restaurant)
+        print("The response of DefaultApi->update_restaurant_restaurant_put:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->update_restaurant_restaurant_put: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **restaurant** | [**Restaurant**](Restaurant.md)|  |
+
+### Return type
+
+[**Restaurant**](Restaurant.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_restaurants_restaurants_put**
+> List[Restaurant] update_restaurants_restaurants_put(restaurant)
+
+Update Restaurants
+
+Update multiple Restaurants
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.restaurant import Restaurant
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    restaurant = [openapi_client.Restaurant()] # List[Restaurant] |
+
+    try:
+        # Update Restaurants
+        api_response = api_instance.update_restaurants_restaurants_put(restaurant)
+        print("The response of DefaultApi->update_restaurants_restaurants_put:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->update_restaurants_restaurants_put: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **restaurant** | [**List[Restaurant]**](Restaurant.md)|  |
+
+### Return type
+
+[**List[Restaurant]**](Restaurant.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_review_review_put**
+> Review update_review_review_put(review)
+
+Update Review
+
+Update a Review
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.review import Review
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    review = openapi_client.Review() # Review |
+
+    try:
+        # Update Review
+        api_response = api_instance.update_review_review_put(review)
+        print("The response of DefaultApi->update_review_review_put:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->update_review_review_put: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **review** | [**Review**](Review.md)|  |
+
+### Return type
+
+[**Review**](Review.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_reviews_reviews_put**
+> List[Review] update_reviews_reviews_put(review)
+
+Update Reviews
+
+Update multiple Reviews
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.review import Review
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    review = [openapi_client.Review()] # List[Review] |
+
+    try:
+        # Update Reviews
+        api_response = api_instance.update_reviews_reviews_put(review)
+        print("The response of DefaultApi->update_reviews_reviews_put:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->update_reviews_reviews_put: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **review** | [**List[Review]**](Review.md)|  |
+
+### Return type
+
+[**List[Review]**](Review.md)
 
 ### Authorization
 
@@ -1059,7 +2161,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    user = openapi_client.User() # User | 
+    user = openapi_client.User() # User |
 
     try:
         # Update User
@@ -1077,7 +2179,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)|  | 
+ **user** | [**User**](User.md)|  |
 
 ### Return type
 
@@ -1128,7 +2230,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    user = [openapi_client.User()] # List[User] | 
+    user = [openapi_client.User()] # List[User] |
 
     try:
         # Update Users
@@ -1146,7 +2248,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List[User]**](User.md)|  | 
+ **user** | [**List[User]**](User.md)|  |
 
 ### Return type
 
@@ -1169,4 +2271,3 @@ No authorization required
 **422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
