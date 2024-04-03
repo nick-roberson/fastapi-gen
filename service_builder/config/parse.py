@@ -170,3 +170,17 @@ def parse_config(config) -> ServiceConfig:
     return ServiceConfig(
         database=database_config, models=models_config, dependencies=dependencies_config
     )
+
+
+def load_and_validate_config(input_file: str) -> ServiceConfig:
+    """Load the input yaml config file.
+
+    Args:
+        input_file (str): Path to the input yaml config.
+
+    Returns:
+        Dict: Dictionary of the loaded yaml config
+    """
+    loaded_config: Dict = load_config(input_file=input_file)
+    validate_config(loaded_config)
+    return parse_config(loaded_config)

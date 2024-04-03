@@ -39,9 +39,11 @@ class TestUser(unittest.TestCase):
                 id = '',
                 username = '',
                 email = '',
-                location = '',
-                age = 56,
-                team = ''
+                phone_number = '',
+                preferences = [
+                    null
+                    ],
+                role = 'user'
             )
         else:
             return User(

@@ -1,8 +1,7 @@
 import logging
 from typing import Dict
 
-from service_builder.config.parse import (load_config, parse_config,
-                                          validate_config)
+from service_builder.config.parse import load_and_validate_config
 from service_builder.generate.backend.generate import (copy_dockerfiles,
                                                        generate_files,
                                                        install_backend_deps,
@@ -16,20 +15,6 @@ from service_builder.generate.frontend.generate import (create_application,
 from service_builder.models import ServiceConfig
 from service_builder.openapi.export import export_openapi
 from service_builder.utils import clear_directory
-
-
-def load_and_validate_config(input_file: str) -> ServiceConfig:
-    """Load the input yaml config file.
-
-    Args:
-        input_file (str): Path to the input yaml config.
-
-    Returns:
-        Dict: Dictionary of the loaded yaml config
-    """
-    loaded_config: Dict = load_config(input_file=input_file)
-    validate_config(loaded_config)
-    return parse_config(loaded_config)
 
 
 def clear_backend_output(output_dir: str):
@@ -143,12 +128,14 @@ def generate_clients(output_dir: str, service_name: str):
     """
     logging.info("Starting generating the client code...\n")
 
-    logging.info("\tCLIENTS: Completed clearing the typescript / python client dirs.")
-    clear_typescript_client(output_dir=output_dir, service_name=service_name)
+    logging.info("\tCLIENTS: Clearing the typescript / python client dirs.")
     clear_typescript_client(output_dir=output_dir, service_name=service_name)
 
     logging.info("\tCLIENTS: Generating the typescript / python client code.")
     create_typescript_client(output_dir=output_dir, service_name=service_name)
+
+    logging.info("\tCLIENTS: Clearing the python client dir.")
+    clear_python_client(output_dir=output_dir)
 
     logging.info("\tCLIENTS: Generating the python client code.")
     create_python_client(output_dir=output_dir)
@@ -171,16 +158,16 @@ def lint_generated_code(output_dir: str, service_name: str):
 
 
 def generate(
-    input_file: str,
+    service_config: ServiceConfig,
     output_dir: str,
-    service_name: str,
+    service_name: str = None,
     backend_only: bool = False,
     frontend_only: bool = False,
 ) -> Dict:
     """Generate the models and services from the input yaml config.
 
     Args:
-        input_file (str): Path to the input yaml config.
+        service_config (ServiceConfig): Service configuration
         output_dir (str): Output directory
         service_name (str): Name of the service.
         backend_only (bool): Only regenerate the backend
@@ -188,25 +175,34 @@ def generate(
     Returns:
         Dict: Dictionary of the generated files
     """
-    config = load_and_validate_config(input_file)
-
     # Only regenerate the backend
     if backend_only:
-        created_files = generate_back(config=config, output_dir=output_dir)
+        created_files = generate_back(config=service_config, output_dir=output_dir)
         generate_clients(output_dir=output_dir, service_name=service_name)
         lint_backend(output_dir=output_dir)
         return created_files
 
     # Only regenerate the frontend
     if frontend_only:
-        generate_front(config=config, output_dir=output_dir, service_name=service_name)
+        if not service_name:
+            raise ValueError(
+                "Service name must be passed when generating the frontend."
+            )
+        generate_front(
+            config=service_config, output_dir=output_dir, service_name=service_name
+        )
         lint_frontend(output_dir=output_dir, service_name=service_name)
         return {}
 
     # Regenerate both the backend and frontend
-    else:
-        created_files = generate_back(config=config, output_dir=output_dir)
-        generate_front(config=config, output_dir=output_dir, service_name=service_name)
-        generate_clients(output_dir=output_dir, service_name=service_name)
-        lint_generated_code(output_dir=output_dir, service_name=service_name)
-        return created_files
+    if not service_name:
+        raise ValueError("Service name must be passed when generating the frontend.")
+
+    # Regenerate both the backend and frontend
+    created_files = generate_back(config=service_config, output_dir=output_dir)
+    generate_front(
+        config=service_config, output_dir=output_dir, service_name=service_name
+    )
+    generate_clients(output_dir=output_dir, service_name=service_name)
+    lint_generated_code(output_dir=output_dir, service_name=service_name)
+    return created_files
