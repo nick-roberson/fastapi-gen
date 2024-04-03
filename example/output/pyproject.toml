@@ -13,6 +13,7 @@ uvicorn = "^0.28.0"
 pymongo = "^4.6.2"
 certifi = "^2024.2.2"
 rich = "^13.7.1"
+alembic = "^1.13.1"
 
 [build-system]
 requires = ["poetry-core"]

@@ -17,18 +17,26 @@ import { {{ model.name }} } from "./api";
 
 // Declare Columns for DataGrid
 {% for model in models %}
+
 const {{ model.name.lower() }}_columns = [
   {% for field in model.fields %}
-  { field: "{{ field.name }}", headerName: "{{ field.name }}", width: 150 },
+    {% if field.name != "id" %}
+        { field: "{{ field.name }}", headerName: "{{ field.name }}", width: 150 },
+    {% endif %}
   {% endfor %}
 ];
+
 {% endfor %}
+
+
+// Replace with your Host and Port
+cost basePath = "http://localhost:8000";
 
 function App() {
 
     // Declare API Client
     const configuration = new Configuration({
-      basePath: "http://localhost:8000",
+      basePath: basePath,
     });
     const api = new DefaultApi(configuration);
 
@@ -63,9 +71,13 @@ function App() {
                     {% for model in models %}
                     <Box m={3}>
                         <Divider> {{ model.name }}s </Divider>
-                        <Box m={3}>
-                            <DataGrid rows={ {{ model.name.lower() }} } columns={ {{ model.name.lower() }}_columns}/>
-                        </Box>
+                        {
+                            {{ model.name.lower() }} && {{ model.name.lower() }}.length > 0 ?
+                             <Box m={3}>
+                                <DataGrid rows={ {{ model.name.lower() }} } columns={ {{ model.name.lower() }}_columns}/>
+                            </Box>
+                            : <p>No {{ model.name }}s found!</p>
+                        }
                     </Box>
                     {% endfor %}
                 </Box>

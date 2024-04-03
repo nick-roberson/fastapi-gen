@@ -4,12 +4,13 @@ from typing import Dict, Optional
 
 import typer
 
+from service_builder.config.parse import load_and_validate_config
 from service_builder.constants import (DEFAULT_PORT, SAMPLE_INPUT_FILE,
                                        SAMPLE_OUTPUT_DIR)
 from service_builder.generate.backend.generate import generate_files
 from service_builder.log import setup_logging
 from service_builder.models import ServiceVersion
-from service_builder.openapi.export import export_openapi
+from service_builder.models.configs import ServiceConfig
 from service_builder.run import generate as generate_service
 from service_builder.versions.utils import load_versions
 
@@ -17,6 +18,62 @@ from service_builder.versions.utils import load_versions
 setup_logging()
 # Initialize the typer app
 app = typer.Typer()
+
+
+def validate_service_name(service_name: str) -> str:
+    """Validate the service name and return the cleaned version.
+
+    Args:
+        service_name (str): The service name
+
+    Returns:
+        str: The cleaned service name
+    """
+    # Check if it is too short or too long
+    if len(service_name) < 3:
+        logging.info("Service name must be at least 3 characters")
+        typer.Exit(code=1)
+    if len(service_name) > 20:
+        logging.info("Service name must be less than 20 characters")
+        typer.Exit(code=1)
+
+    # Clean the service name
+    service_name = service_name.lower()
+    service_name = "".join(e for e in service_name if e.isalnum())
+    return service_name
+
+
+def validate_output_dir(output_dir: str):
+    """Check if the output directory exists and create it if it doesn't.
+
+    Args:
+        output_dir (str): The output directory
+    """
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir, exist_ok=True)
+    return os.path.abspath(output_dir)
+
+
+def validate_config(config_file: str) -> ServiceConfig:
+    """Validate the config file and return the absolute path.
+
+    Args:
+        config_file (str): The config file
+
+    Returns:
+        ServiceConfig: The validated config
+    """
+    # Check if the file exists
+    if not os.path.exists(config_file):
+        logging.info(f"Config file not found at {config_file}")
+        typer.Exit(code=1)
+
+    # Get the absolute path
+    full_path = os.path.abspath(config_file)
+
+    # Load and validate the config
+    config = load_and_validate_config(full_path)
+    return config
 
 
 def process_close(result: Dict, output_dir: str, service_name: str = None):
@@ -51,7 +108,18 @@ def process_close(result: Dict, output_dir: str, service_name: str = None):
 
 
 @app.command()
-def generate(
+def validate_config(
+    config: Optional[str] = typer.Option(
+        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+    ),
+):
+    """Validate the input yaml config."""
+    validate_config(config)
+    logging.info(f"Config file found at {config} is valid!")
+
+
+@app.command()
+def generate_typescript_app(
     config: Optional[str] = typer.Option(
         SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
     ),
@@ -61,59 +129,92 @@ def generate(
     service_name: Optional[str] = typer.Option(
         None, "--service-name", "-s", help="Name of the service."
     ),
-    frontend_only: Optional[bool] = typer.Option(
-        False, "--frontend-only", "-f", help="Generate only the front end."
-    ),
-    backend_only: Optional[bool] = typer.Option(
-        False, "--backend-only", "-b", help="Generate only the back end."
-    ),
 ):
     """Generate the models and services from the input yaml config."""
-    # Simple validation on the input
-    if not config.endswith(".yaml"):
-        logging.info(f"Input file {config} must be a yaml file")
-        typer.Exit(code=1)
-    if not os.path.exists(config):
-        logging.info(f"Input file {config} does not exist")
-        typer.Exit(code=1)
+    # Validate the inputs, get absolute paths, clean the service name, build the context
+    service_config = validate_config(config)
+    output_directory = validate_output_dir(output_dir)
+    service_name = validate_service_name(service_name)
+    context = {
+        "service_config": service_config,
+        "output_dir": output_directory,
+        "service_name": service_name,
+        "frontend_only": True,
+    }
 
-    # Confirm the service name
-    if not service_name:
-        logging.info("Please specify a service name")
-        typer.Exit(code=1)
+    # Log the inputs
+    logging.info(f"""Generating models and services with the following inputs""")
+    for key, value in context.items():
+        logging.info(f"\t{key}: {value}")
 
-    # Clean the service name
-    service_name = service_name.lower()
-    service_name = "".join(e for e in service_name if e.isalnum())
-
-    # Create the output directory if it doesn't exist
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    # Get the absolute paths
-    config_path = os.path.abspath(config)
-    output_directory = os.path.abspath(output_dir)
-    logging.info(
-        f"""Generating models and services with the following inputs
-    Input:  {config_path}
-    Output: {output_directory}
-    Service Name: {service_name}
-    Frontend Only: {frontend_only}
-    Backend Only: {backend_only}
-    """
-    )
-
-    # Generate the files and close out
-    result = generate_service(
-        output_dir=output_directory,
-        input_file=config_path,
-        service_name=service_name,
-        frontend_only=frontend_only,
-        backend_only=backend_only,
-    )
+    # Generate the frontend files and close out
+    result = generate_service(**context)
     process_close(result=result, output_dir=output_directory, service_name=service_name)
 
 
+@app.command()
+def generate_python_app(
+    config: Optional[str] = typer.Option(
+        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+    ),
+    output_dir: Optional[str] = typer.Option(
+        SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
+    ),
+):
+    """ "Generate the models and services from the input yaml config."""
+    # Validate the input and get absolute paths
+    service_config = validate_config(config)
+    output_directory = validate_output_dir(output_dir)
+    context = {
+        "service_config": service_config,
+        "output_dir": output_directory,
+        "backend_only": True,
+    }
+
+    # Log the inputs
+    logging.info(f"""Generating models and services with the following inputs""")
+    for key, value in context.items():
+        logging.info(f"\t{key}: {value}")
+
+    # Generate the backend files and close out
+    result = generate_service(**context)
+    process_close(result=result, output_dir=output_directory)
+
+
+@app.command()
+def generate_app(
+    config: Optional[str] = typer.Option(
+        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+    ),
+    output_dir: Optional[str] = typer.Option(
+        SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
+    ),
+    service_name: Optional[str] = typer.Option(
+        None, "--service-name", "-s", help="Name of the service."
+    ),
+):
+    """Generate the models and services from the input yaml config."""
+    # Validate the inputs, get absolute paths, clean the service name, build the context
+    service_config = validate_config(config)
+    output_directory = validate_output_dir(output_dir)
+    service_name = validate_service_name(service_name)
+    context = {
+        "service_config": service_config,
+        "output_dir": output_directory,
+        "service_name": service_name,
+    }
+
+    # Log the inputs
+    logging.info(f"""Generating models and services with the following inputs""")
+    for key, value in context.items():
+        logging.info(f"\t{key}: {value}")
+
+    # Generate the files and close out
+    result = generate_service(**context)
+    process_close(result=result, output_dir=output_directory, service_name=service_name)
+
+
+# TODO: Rewrite this function
 @app.command()
 def revert(
     version: int = typer.Option(
@@ -165,31 +266,6 @@ def versions():
         return
     for version in all_versions:
         logging.info(f"\tVersion: {version.version} - {version.created_at}")
-
-
-@app.command()
-def generate_openapi(
-    service_dir: Optional[str] = typer.Option(
-        SAMPLE_OUTPUT_DIR, "--service-dir", "-o", help="Path to the input yaml config."
-    ),
-):
-    """Generate the openapi file from the input yaml config."""
-    # Simple verification
-    if not os.path.exists(service_dir):
-        logging.info(f"Output root directory {service_dir} does not exist")
-        typer.Exit(code=1)
-
-    # Get the absolute path and log args
-    service_dir_abs = os.path.abspath(service_dir)
-    logging.info(
-        f"""Generating OpenAPI file:
-    Output: {service_dir_abs}
-    """
-    )
-
-    # Export the openapi file
-    export_openapi(output_dir=service_dir_abs)
-    logging.info("Done!")
 
 
 if __name__ == "__main__":

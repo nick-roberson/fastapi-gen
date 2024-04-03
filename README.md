@@ -1,38 +1,47 @@
-<h1 align="center"> FastAPI + React Service Generator </h1>
+<h1 align="center"> A CLI for FastAPI + React Service Generation </h1>
+
 <p align="center" markdown=1>
-  <i>Command line tool for generating POC FastAPI services and UI Templates!</i>
+    <i>
+        Generate POC FastAPI services with React frontends using a simple CLI tool.
+        Database generation is supported for MongoDB.
+    </i>
 </p>
 
-<h3>Currently Supported Features:</h3>
+<h3 align="center">Backend</h3>
+
 <p align="center">
     <a href="">
-      <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+        <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
     </a>
-    <a href="https://fastapi.tiangolo.com">
-      <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi" alt="FastAPI">
+    <a href="https://fastapi.tiangolo.com"> <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi" alt="FastAPI">
     </a>
     <a href="https://docs.pydantic.dev/2.4/">
-      <img src="https://img.shields.io/badge/Pydantic-E92063?logo=pydantic&logoColor=fff&style=for-the-badge" alt="Pydantic">
+        <img src="https://img.shields.io/badge/Pydantic-E92063?logo=pydantic&logoColor=fff&style=for-the-badge" alt="Pydantic">
     </a>
     <a href="https://www.mongodb.com/">
-      <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB">
+        <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB">
     </a>
-    <a href="https://reactjs.org/">
-    <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React">
-    </a>
-    <a href="https://www.typescriptlang.org/">
-    <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+    <a href="https://www.docker.com/">
+        <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
     </a>
 </p>
 
-<h3>Planned Supported Features:</h3>
+<h3 align="center">Frontend</h3>
 
 <p align="center">
-    <a href="https://www.docker.com/">
-      <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+    <a href="https://www.typescriptlang.org/">
+        <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
     </a>
+    <a href="https://reactjs.org/">
+        <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React">
+    </a>
+</p>
+
+
+<h3 align="center">Future Additions</h3>
+<p align="center">
     <a href="https://docs.celeryq.dev/en/stable/">
-      <img src="https://img.shields.io/badge/Celery-b0cc54?style=for-the-badge&logo=celery&logoColor=white" alt="Celery">
+        <img src="https://img.shields.io/badge/Celery-b0cc54?style=for-the-badge&logo=celery&logoColor=white" alt="Celery">
     </a>
     <a href="https://redis.com/">
       <img src="https://img.shields.io/badge/Redis-E92063?style=for-the-badge&logo=redis&logoColor=white" alt="Redis">
@@ -40,7 +49,7 @@
     <a href="https://www.mysql.com/">
       <img src="https://img.shields.io/badge/MySQL-336791?style=for-the-badge&logo=MySQL&logoColor=white" alt="MySQL">
     </a>
-</a>
+</p>
 
 
 
@@ -48,29 +57,24 @@ This is a simple FastAPI service that can be used as a starting point for a new 
 
 ## Features
 
-### Backend Generation
-- [x] Generate FastAPI service
-- [x] Generate Pydantic base models
-- [x] Generate MongoDB manager
-- [x] Generate CRUD+ API Endpoints operations for each model
-- [x] Generate Poetry file and install dependencies
-- [x] Generate OpenAPI JSON file
-- [x] Generate Python API Client for the FastAPI service using openapi-generator
+#### Python Code Generation
+- Generate FastAPI services with `MongoDB` database support (via model managers)
+- Generate `pydantic` models for the FastAPI services
+- Generate Python client code for the FastAPI service using `openapi-generator`
 
-### Frontend Generation
-- [x] Generate a React frontend as Sample Application
-- [x] Generate frontend React API Client for the FastAPI service using openapi-generator
-- [x] Install some basic dependencies for the frontend
+#### Frontend Code Generation
+- Generate a React frontend with TypeScript
+- Generate TypeScript and Python clients for the FastAPI service using `openapi-generator`
+- Generate homepage to display all the models that have been generated
 
-### Planned Backend Features
-- [ ] Allow support for multiple database types (Postgres, MySQL, etc.)
-- [ ] (IN PROGRESS) Generate a Dockerfile for the service
-- [ ] Allow for more complex relationships between models
+#### Linting
+- Lint the frontend code using `prettier`, `esLint`
+- Lint the backend code using `black`, and `isort`
 
-### Planned Frontend Features
-- [ ] Generate a more comprehensive frontend application supporting basic CRUD operations
+#### Docker
+- Generate Dockerfiles for the FastAPI service and the React frontend
 
-## Requirements
+## Installation
 
 - Poetry installed
 - Python 3.12.2 installed (can install via poetry)
@@ -156,10 +160,11 @@ Starting generating the frontend code...
 
 Starting generating the client code...
 
-      CLIENTS: Completed clearing the typescript / python client dirs.
-              > rm -rf /Users/nicholas/Code/fastapi-gen/example/output/nicksapp/src/api
+      CLIENTS: Clearing the typescript / python client dirs.
       CLIENTS: Generating the typescript / python client code.
               > openapi-generator generate -i openapi.json -g typescript-fetch -o /Users/nicholas/Code/fastapi-gen/example/output/nicksapp/src/api
+      CLIENTS: Clearing the python client dir.
+              > rm -rf /Users/nicholas/Code/fastapi-gen/example/output/client
       CLIENTS: Generating the python client code.
               > openapi-generator generate -i openapi.json -g python -o /Users/nicholas/Code/fastapi-gen/example/output/client
 
@@ -189,6 +194,7 @@ Run the following commands to run the service:
 Run the following commands to run the frontend:
       % cd /Users/nicholas/Code/fastapi-gen/example/output/nicksapp
       % npm start
+
 ```
 
 ## Running

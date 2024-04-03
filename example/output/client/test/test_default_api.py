@@ -26,17 +26,45 @@ class TestDefaultApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_create_group_group_post(self) -> None:
-        """Test case for create_group_group_post
+    def test_create_reservation_reservation_post(self) -> None:
+        """Test case for create_reservation_reservation_post
 
-        Create Group
+        Create Reservation
         """
         pass
 
-    def test_create_groups_groups_post(self) -> None:
-        """Test case for create_groups_groups_post
+    def test_create_reservations_reservations_post(self) -> None:
+        """Test case for create_reservations_reservations_post
 
-        Create Groups
+        Create Reservations
+        """
+        pass
+
+    def test_create_restaurant_restaurant_post(self) -> None:
+        """Test case for create_restaurant_restaurant_post
+
+        Create Restaurant
+        """
+        pass
+
+    def test_create_restaurants_restaurants_post(self) -> None:
+        """Test case for create_restaurants_restaurants_post
+
+        Create Restaurants
+        """
+        pass
+
+    def test_create_review_review_post(self) -> None:
+        """Test case for create_review_review_post
+
+        Create Review
+        """
+        pass
+
+    def test_create_reviews_reviews_post(self) -> None:
+        """Test case for create_reviews_reviews_post
+
+        Create Reviews
         """
         pass
 
@@ -54,17 +82,45 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
-    def test_delete_group_group_delete(self) -> None:
-        """Test case for delete_group_group_delete
+    def test_delete_reservation_reservation_delete(self) -> None:
+        """Test case for delete_reservation_reservation_delete
 
-        Delete Group
+        Delete Reservation
         """
         pass
 
-    def test_delete_groups_groups_delete(self) -> None:
-        """Test case for delete_groups_groups_delete
+    def test_delete_reservations_reservations_delete(self) -> None:
+        """Test case for delete_reservations_reservations_delete
 
-        Delete Groups
+        Delete Reservations
+        """
+        pass
+
+    def test_delete_restaurant_restaurant_delete(self) -> None:
+        """Test case for delete_restaurant_restaurant_delete
+
+        Delete Restaurant
+        """
+        pass
+
+    def test_delete_restaurants_restaurants_delete(self) -> None:
+        """Test case for delete_restaurants_restaurants_delete
+
+        Delete Restaurants
+        """
+        pass
+
+    def test_delete_review_review_delete(self) -> None:
+        """Test case for delete_review_review_delete
+
+        Delete Review
+        """
+        pass
+
+    def test_delete_reviews_reviews_delete(self) -> None:
+        """Test case for delete_reviews_reviews_delete
+
+        Delete Reviews
         """
         pass
 
@@ -82,17 +138,45 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
-    def test_get_group_group_get(self) -> None:
-        """Test case for get_group_group_get
+    def test_get_reservation_reservation_get(self) -> None:
+        """Test case for get_reservation_reservation_get
 
-        Get Group
+        Get Reservation
         """
         pass
 
-    def test_get_groups_groups_get(self) -> None:
-        """Test case for get_groups_groups_get
+    def test_get_reservations_reservations_get(self) -> None:
+        """Test case for get_reservations_reservations_get
 
-        Get Groups
+        Get Reservations
+        """
+        pass
+
+    def test_get_restaurant_restaurant_get(self) -> None:
+        """Test case for get_restaurant_restaurant_get
+
+        Get Restaurant
+        """
+        pass
+
+    def test_get_restaurants_restaurants_get(self) -> None:
+        """Test case for get_restaurants_restaurants_get
+
+        Get Restaurants
+        """
+        pass
+
+    def test_get_review_review_get(self) -> None:
+        """Test case for get_review_review_get
+
+        Get Review
+        """
+        pass
+
+    def test_get_reviews_reviews_get(self) -> None:
+        """Test case for get_reviews_reviews_get
+
+        Get Reviews
         """
         pass
 
@@ -117,17 +201,45 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
-    def test_update_group_group_put(self) -> None:
-        """Test case for update_group_group_put
+    def test_update_reservation_reservation_put(self) -> None:
+        """Test case for update_reservation_reservation_put
 
-        Update Group
+        Update Reservation
         """
         pass
 
-    def test_update_groups_groups_put(self) -> None:
-        """Test case for update_groups_groups_put
+    def test_update_reservations_reservations_put(self) -> None:
+        """Test case for update_reservations_reservations_put
 
-        Update Groups
+        Update Reservations
+        """
+        pass
+
+    def test_update_restaurant_restaurant_put(self) -> None:
+        """Test case for update_restaurant_restaurant_put
+
+        Update Restaurant
+        """
+        pass
+
+    def test_update_restaurants_restaurants_put(self) -> None:
+        """Test case for update_restaurants_restaurants_put
+
+        Update Restaurants
+        """
+        pass
+
+    def test_update_review_review_put(self) -> None:
+        """Test case for update_review_review_put
+
+        Update Review
+        """
+        pass
+
+    def test_update_reviews_reviews_put(self) -> None:
+        """Test case for update_reviews_reviews_put
+
+        Update Reviews
         """
         pass
 
