@@ -1,7 +1,6 @@
 import logging
 from typing import Dict
 
-from service_builder.config.parse import load_and_validate_config
 from service_builder.generate.backend.generate import (copy_dockerfiles,
                                                        generate_files,
                                                        install_backend_deps,
@@ -95,8 +94,9 @@ def generate_back(config: ServiceConfig, output_dir: str) -> Dict:
     return created_files
 
 
-def generate_front(config: ServiceConfig, output_dir: str, service_name: str) -> None:
+def generate_front(config: ServiceConfig, output_dir: str) -> None:
     """Generates a typescript / react front end from scratch."""
+    service_name = config.service_info.name
     logging.info("Starting generating the frontend code...\n")
 
     # (0) Clear the output directory
@@ -105,27 +105,25 @@ def generate_front(config: ServiceConfig, output_dir: str, service_name: str) ->
 
     # (1) Create the application
     logging.info("\tFRONTEND: Creating the application.")
-    create_application(output_dir=output_dir, service_name=service_name)
+    create_application(config=config, output_dir=output_dir)
 
     # (2) Install the dependencies
     logging.info("\tFRONTEND: Installing dependencies.")
-    install_dependencies(output_dir=output_dir, service_name=service_name)
+    install_dependencies(config=config, output_dir=output_dir)
 
     # (3) Generate the main page
     logging.info("\tFRONTEND: Generating the main page.")
-    generate_app_main_page(
-        output_dir=output_dir, service_name=service_name, models=config.models
-    )
+    generate_app_main_page(config=config, output_dir=output_dir)
 
 
-def generate_clients(output_dir: str, service_name: str):
+def generate_clients(config: ServiceConfig, output_dir: str) -> None:
     """Generate the frontend service client code
 
     Args:
+        config (ServiceConfig): Service configuration
         output_dir (str): Output directory
-        service_name (str): Name of the service
-        models (List[ModelConfig]): List of model configurations
     """
+    service_name = config.service_info.name
     logging.info("Starting generating the client code...\n")
 
     logging.info("\tCLIENTS: Clearing the typescript / python client dirs.")
@@ -141,26 +139,25 @@ def generate_clients(output_dir: str, service_name: str):
     create_python_client(output_dir=output_dir)
 
 
-def lint_generated_code(output_dir: str, service_name: str):
+def lint_generated_code(config: ServiceConfig, output_dir: str) -> None:
     """Lint the generated code.
 
     Args:
+        config (ServiceConfig): Service configuration
         output_dir (str): Output directory
-        service_name (str): Name of the service
     """
     logging.info("Starting linting the generated code...\n")
 
     logging.info("\tLINT: Linting frontend code.")
-    lint_frontend(output_dir=output_dir, service_name=service_name)
+    lint_frontend(config=config, output_dir=output_dir)
 
     logging.info("\tLINT: Linting backend code.")
-    lint_backend(output_dir=output_dir)
+    lint_backend(config=config, output_dir=output_dir)
 
 
 def generate(
     service_config: ServiceConfig,
     output_dir: str,
-    service_name: str = None,
     backend_only: bool = False,
     frontend_only: bool = False,
 ) -> Dict:
@@ -169,7 +166,6 @@ def generate(
     Args:
         service_config (ServiceConfig): Service configuration
         output_dir (str): Output directory
-        service_name (str): Name of the service.
         backend_only (bool): Only regenerate the backend
         frontend_only (bool): Only regenerate the frontend
     Returns:
@@ -178,31 +174,19 @@ def generate(
     # Only regenerate the backend
     if backend_only:
         created_files = generate_back(config=service_config, output_dir=output_dir)
-        generate_clients(output_dir=output_dir, service_name=service_name)
-        lint_backend(output_dir=output_dir)
+        generate_clients(config=service_config, output_dir=output_dir)
+        lint_backend(config=service_config, output_dir=output_dir)
         return created_files
 
     # Only regenerate the frontend
     if frontend_only:
-        if not service_name:
-            raise ValueError(
-                "Service name must be passed when generating the frontend."
-            )
-        generate_front(
-            config=service_config, output_dir=output_dir, service_name=service_name
-        )
-        lint_frontend(output_dir=output_dir, service_name=service_name)
+        generate_front(config=service_config, output_dir=output_dir)
+        lint_frontend(config=service_config, output_dir=output_dir)
         return {}
 
     # Regenerate both the backend and frontend
-    if not service_name:
-        raise ValueError("Service name must be passed when generating the frontend.")
-
-    # Regenerate both the backend and frontend
     created_files = generate_back(config=service_config, output_dir=output_dir)
-    generate_front(
-        config=service_config, output_dir=output_dir, service_name=service_name
-    )
-    generate_clients(output_dir=output_dir, service_name=service_name)
-    lint_generated_code(output_dir=output_dir, service_name=service_name)
+    generate_front(config=service_config, output_dir=output_dir)
+    generate_clients(config=service_config, output_dir=output_dir)
+    lint_generated_code(config=service_config, output_dir=output_dir)
     return created_files

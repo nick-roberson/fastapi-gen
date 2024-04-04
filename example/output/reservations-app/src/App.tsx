@@ -202,30 +202,46 @@ function App() {
 
                     <Box m={3}>
                         <Divider> Users </Divider>
-                        <Box m={3}>
-                            <DataGrid rows={ user } columns={ user_columns}/>
-                        </Box>
+                        {
+                            user && user.length > 0 ?
+                             <Box m={3}>
+                                <DataGrid rows={ user } columns={ user_columns}/>
+                            </Box>
+                            : <p>No Users found!</p>
+                        }
                     </Box>
 
                     <Box m={3}>
                         <Divider> Restaurants </Divider>
-                        <Box m={3}>
-                            <DataGrid rows={ restaurant } columns={ restaurant_columns}/>
-                        </Box>
+                        {
+                            restaurant && restaurant.length > 0 ?
+                             <Box m={3}>
+                                <DataGrid rows={ restaurant } columns={ restaurant_columns}/>
+                            </Box>
+                            : <p>No Restaurants found!</p>
+                        }
                     </Box>
 
                     <Box m={3}>
                         <Divider> Reservations </Divider>
-                        <Box m={3}>
-                            <DataGrid rows={ reservation } columns={ reservation_columns}/>
-                        </Box>
+                        {
+                            reservation && reservation.length > 0 ?
+                             <Box m={3}>
+                                <DataGrid rows={ reservation } columns={ reservation_columns}/>
+                            </Box>
+                            : <p>No Reservations found!</p>
+                        }
                     </Box>
 
                     <Box m={3}>
                         <Divider> Reviews </Divider>
-                        <Box m={3}>
-                            <DataGrid rows={ review } columns={ review_columns}/>
-                        </Box>
+                        {
+                            review && review.length > 0 ?
+                             <Box m={3}>
+                                <DataGrid rows={ review } columns={ review_columns}/>
+                            </Box>
+                            : <p>No Reviews found!</p>
+                        }
                     </Box>
 
                 </Box>

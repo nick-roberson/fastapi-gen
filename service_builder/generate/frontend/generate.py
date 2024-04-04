@@ -6,7 +6,7 @@ from jinja2 import Environment, FileSystemLoader
 
 from service_builder.constants import (FRONTEND_TEMPLATES, NODE_DEPENDENCIES,
                                        OPENAPI_SPEC_FN)
-from service_builder.models import ModelConfig
+from service_builder.models import ModelConfig, ServiceConfig
 from service_builder.utils import run_command
 
 # Commands
@@ -19,25 +19,27 @@ CREATE_MODEL_CMD: Template = Template(
 INSTALL_DEPENDENCIES_CMD: Template = Template("npm install $dependencies")
 
 
-def create_application(output_dir: str, service_name: str):
+def create_application(config: ServiceConfig, output_dir: str):
     """Generates a typescript / react front end from scratch.
 
     Args:
+        config (ServiceConfig): Service configuration
         output_dir (str): Output directory
-        service_name (str): Name of the service
     """
+    service_name = config.service_info.name
     full_path = os.path.abspath(output_dir)
     command = CREATE_SERVICE_CMD.substitute(service_name=service_name)
     run_command(cmd=command, cwd=full_path)
 
 
-def install_dependencies(output_dir: str, service_name: str):
+def install_dependencies(config: ServiceConfig, output_dir: str):
     """Install node dependencies using npm
 
     Args:
+        config (ServiceConfig): Service configuration
         output_dir (str): Output directory
-        service_name (str): Name of the service
     """
+    service_name = config.service_info.name
     full_path = os.path.abspath(output_dir)
     app_path = f"{full_path}/{service_name}"
     dependencies = " ".join(NODE_DEPENDENCIES)
@@ -61,36 +63,35 @@ def create_typescript_client(output_dir: str, service_name: str):
     run_command(cmd=command, cwd=full_path)
 
 
-def lint_frontend(output_dir: str, service_name: str):
+def lint_frontend(config: ServiceConfig, output_dir: str):
     """Lint the code using prettier
 
     Args:
+        config (ServiceConfig): Service configuration
         output_dir (str): Output directory
-        service_name (str): Name of the service
     """
-    full_path = os.path.abspath(output_dir)
-    code_path = f"{full_path}/{service_name}/src"
+    service_name = config.service_info.name
+    code_path = f"{output_dir}/{service_name}/src"
     run_command("npx prettier --write .", cwd=code_path)
     run_command("npx eslint --fix .", cwd=code_path)
 
 
-def generate_app_main_page(
-    output_dir: str, service_name: str, models: List[ModelConfig]
-):
+def generate_app_main_page(config: ServiceConfig, output_dir: str):
     """Generate the main page of the application
 
     Args:
+        config (ServiceConfig): Service configuration
         output_dir (str): Output directory
-        service_name (str): Name of the service
     """
     # Load the template
     env = Environment(loader=FileSystemLoader(FRONTEND_TEMPLATES))
     frontend_template = env.get_template("App.tsx")
 
     # Generate the models
-    output = frontend_template.render(models=models)
+    output = frontend_template.render(models=config.models)
 
     # Write the models to the output directory
+    service_name = config.service_info.name
     file_name = f"{output_dir}/{service_name}/src/App.tsx"
     if not os.path.exists(file_name):
         os.makedirs(os.path.dirname(file_name), exist_ok=True)

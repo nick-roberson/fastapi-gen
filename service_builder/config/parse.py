@@ -1,5 +1,6 @@
+import logging
 import os
-from typing import Dict, Tuple
+from typing import Dict
 
 import yaml
 from pydantic.fields import FieldInfo
@@ -7,7 +8,7 @@ from pydantic.fields import FieldInfo
 from service_builder.constants import PYTHON_DEPENDENCIES
 from service_builder.models import (DatabaseConfig, DatabaseTypes,
                                     DependencyConfig, FieldDefinition,
-                                    ModelConfig, ServiceConfig)
+                                    ModelConfig, ServiceConfig, ServiceInfo)
 
 # Pull output the fields from the models
 FIELD_DEFINITION_FIELDS: dict[str, FieldInfo] = FieldDefinition.model_fields
@@ -64,7 +65,7 @@ def validate_config(config: Dict) -> None:
         ValueError: If the config is invalid
     """
     # (1) Confirm top level keys in the Config
-    required_top_level_keys = ["database", "models"]
+    required_top_level_keys = ["database", "models", "service"]
     if not all(key in config.keys() for key in required_top_level_keys):
         raise ValueError(
             f"Invalid top level keys in config, required keys are {required_top_level_keys}"
@@ -122,6 +123,14 @@ def validate_config(config: Dict) -> None:
                 f"Invalid field name in DependencyConfig `{dependency['base']}`"
             )
 
+    # (5) Confirm the service name is a string
+    service_config = config["service"]
+    service_required_keys = ["name", "version", "description"]
+    if not all(key in service_config.keys() for key in service_required_keys):
+        raise ValueError(
+            f"Invalid top level keys in service config, required keys are {service_required_keys}"
+        )
+
 
 ########################################
 # Parse Model Definition               #
@@ -135,18 +144,19 @@ def parse_config(config) -> ServiceConfig:
     Returns:
         Config
     """
-    # (1) Parse the DB connection
+    # (1) Parse the service info
+    service_info = ServiceInfo(**config["service"])
+
+    # (2) Parse the DB connection
     database_config = DatabaseConfig(**config["database"])
 
-    # (2) Parse the models
+    # (3) Parse the models
     models_config = []
     for model in config.get("models", []):
         fields = []
-
         # Parse the fields
         for field in model["fields"]:
             fields.append(FieldDefinition(**field))
-
         # If no `id` field is present, add it
         if not any(field.name == "id" for field in fields):
             logging.info("During parsing found no id field, adding one automatically")
@@ -156,7 +166,7 @@ def parse_config(config) -> ServiceConfig:
 
         models_config.append(ModelConfig(name=model["name"], fields=fields))
 
-    # (3) Parse the dependencies (optional, yet to be implemented)
+    # (4) Parse the dependencies (optional, yet to be implemented)
     dependencies_config = []
     if "dependencies" not in config:
         dependencies_config = [
@@ -168,7 +178,10 @@ def parse_config(config) -> ServiceConfig:
             dependencies_config.append(DependencyConfig(**dependency))
 
     return ServiceConfig(
-        database=database_config, models=models_config, dependencies=dependencies_config
+        service_info=service_info,
+        database=database_config,
+        models=models_config,
+        dependencies=dependencies_config,
     )
 
 
