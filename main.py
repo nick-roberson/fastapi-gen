@@ -76,13 +76,13 @@ def validate_config(config_file: str) -> ServiceConfig:
     return config
 
 
-def process_close(result: Dict, output_dir: str, service_name: str = None):
+def process_close(result: Dict, output_dir: str, service_config: ServiceConfig):
     """Show the results and close the application.
 
     Args:
         result (Dict): The result of the generation
         output_dir (str): The output directory
-        service_name (str): The service name
+        service_config (ServiceConfig): The service configuration
     """
     # Subtract the current working dir from all files in result for easier reading
     result = {
@@ -101,21 +101,10 @@ def process_close(result: Dict, output_dir: str, service_name: str = None):
     logging.info(f"\t% poetry run uvicorn service:app --reload --port {DEFAULT_PORT}")
 
     # Display the frontend commands
-    if service_name:
-        logging.info("Run the following commands to run the frontend:")
-        logging.info(f"\t% cd {output_dir}/{service_name}")
-        logging.info(f"\t% npm start")
-
-
-@app.command()
-def validate_config(
-    config: Optional[str] = typer.Option(
-        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
-    ),
-):
-    """Validate the input yaml config."""
-    validate_config(config)
-    logging.info(f"Config file found at {config} is valid!")
+    service_name = service_config.service_info.name
+    logging.info("Run the following commands to run the frontend:")
+    logging.info(f"\t% cd {output_dir}/{service_name}")
+    logging.info(f"\t% npm start")
 
 
 @app.command()
@@ -126,30 +115,35 @@ def generate_typescript_app(
     output_dir: Optional[str] = typer.Option(
         SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
     ),
-    service_name: Optional[str] = typer.Option(
-        None, "--service-name", "-s", help="Name of the service."
-    ),
 ):
-    """Generate the models and services from the input yaml config."""
+    """Generate a React frontend from the input yaml config.
+
+    Args:
+        config (Optional[str], optional): Path to the input yaml config.
+            Defaults to SAMPLE_INPUT_FILE.
+        output_dir (Optional[str], optional): Path to the output directory.
+            Defaults to SAMPLE_OUTPUT_DIR.
+    """
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
     output_directory = validate_output_dir(output_dir)
-    service_name = validate_service_name(service_name)
     context = {
         "service_config": service_config,
         "output_dir": output_directory,
-        "service_name": service_name,
         "frontend_only": True,
     }
 
     # Log the inputs
-    logging.info(f"""Generating models and services with the following inputs""")
-    for key, value in context.items():
-        logging.info(f"\t{key}: {value}")
+    service_name = service_config.service_info.name
+    logging.info(f"Generating Frontend service for app `{service_name}`")
+    logging.info(f"\tconfig:     {config}")
+    logging.info(f"\toutput_dir: {output_dir}")
 
     # Generate the frontend files and close out
     result = generate_service(**context)
-    process_close(result=result, output_dir=output_directory, service_name=service_name)
+    process_close(
+        result=result, output_dir=output_directory, service_config=service_config
+    )
 
 
 @app.command()
@@ -161,7 +155,14 @@ def generate_python_app(
         SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
     ),
 ):
-    """ "Generate the models and services from the input yaml config."""
+    """Generate a FastAPI backend from the input yaml config.
+
+    Args:
+        config (Optional[str], optional): Path to the input yaml config.
+            Defaults to SAMPLE_INPUT_FILE.
+        output_dir (Optional[str], optional): Path to the output directory.
+            Defaults to SAMPLE_OUTPUT_DIR.
+    """
     # Validate the input and get absolute paths
     service_config = validate_config(config)
     output_directory = validate_output_dir(output_dir)
@@ -172,13 +173,16 @@ def generate_python_app(
     }
 
     # Log the inputs
-    logging.info(f"""Generating models and services with the following inputs""")
-    for key, value in context.items():
-        logging.info(f"\t{key}: {value}")
+    service_name = service_config.service_info.name
+    logging.info(f"Generating Backend services for app `{service_name}`")
+    logging.info(f"\tconfig:     {config}")
+    logging.info(f"\toutput_dir: {output_dir}")
 
     # Generate the backend files and close out
     result = generate_service(**context)
-    process_close(result=result, output_dir=output_directory)
+    process_close(
+        result=result, output_dir=output_directory, service_config=service_config
+    )
 
 
 @app.command()
@@ -189,29 +193,34 @@ def generate_app(
     output_dir: Optional[str] = typer.Option(
         SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
     ),
-    service_name: Optional[str] = typer.Option(
-        None, "--service-name", "-s", help="Name of the service."
-    ),
 ):
-    """Generate the models and services from the input yaml config."""
+    """Generate a FastAPI backend and React frontend from the input yaml config.
+
+    Args:
+        config (Optional[str], optional): Path to the input yaml config.
+            Defaults to SAMPLE_INPUT_FILE.
+        output_dir (Optional[str], optional): Path to the output directory.
+            Defaults to SAMPLE_OUTPUT_DIR.
+    """
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
     output_directory = validate_output_dir(output_dir)
-    service_name = validate_service_name(service_name)
     context = {
         "service_config": service_config,
         "output_dir": output_directory,
-        "service_name": service_name,
     }
 
     # Log the inputs
-    logging.info(f"""Generating models and services with the following inputs""")
-    for key, value in context.items():
-        logging.info(f"\t{key}: {value}")
+    service_name = service_config.service_info.name
+    logging.info(f"Generating Frontend and Backend services for app `{service_name}`")
+    logging.info(f"\tconfig:     {config}")
+    logging.info(f"\toutput_dir: {output_dir}")
 
     # Generate the files and close out
     result = generate_service(**context)
-    process_close(result=result, output_dir=output_directory, service_name=service_name)
+    process_close(
+        result=result, output_dir=output_directory, service_config=service_config
+    )
 
 
 # TODO: Rewrite this function

@@ -16,24 +16,13 @@ def test_generate(config):
     with tempfile.TemporaryDirectory() as output_dir:
         # Parse the model definitions
         config_def = load_config(config)
-        config_model = parse_config(config_def)
+        config = parse_config(config_def)
 
         # Generate the application
-        create_application(
-            output_dir=output_dir, service_name=config_model.service_name
-        )
-
+        create_application(config=config, output_dir=output_dir)
         # Install the dependencies
-        install_dependencies(
-            output_dir=output_dir, service_name=config_model.service_name
-        )
-
+        install_dependencies(config=config, output_dir=output_dir)
         # Generate the main page
-        generate_app_main_page(
-            output_dir=output_dir,
-            service_name=config_model.service_name,
-            models=config_model.models,
-        )
-
+        generate_app_main_page(config=config, output_dir=output_dir)
         # Lint the code
-        lint_frontend(output_dir=output_dir, service_name=config_model.service_name)
+        lint_frontend(config=config, output_dir=output_dir)

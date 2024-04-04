@@ -1,3 +1,9 @@
+# Service Configuration
+service:
+  name: reservations-app
+  version: 1.0.0
+  description: A restaurant reservations service
+
 # Database Configuration
 database:
   db_type: mongo

@@ -105,9 +105,11 @@ This is the CLI interface for the service generator:
 │ --help                                                       Show this message and exit.                                                                                                                │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ generate                   Generate the models and services from the input yaml config.                                                                                                                 │
-│ revert                     Revert the service to a previous version.                                                                                                                                    │
-│ versions                   List all versions of the service that have been generated.                                                                                                                   │
+│ generate-app                                      Generate a FastAPI backend and React frontend from the input yaml config.                                                                             │
+│ generate-python-app                               Generate a FastAPI backend from the input yaml config.                                                                                                │
+│ generate-typescript-app                           Generate a React frontend from the input yaml config.                                                                                                 │
+│ revert                                            Revert the service to a previous version.                                                                                                             │
+│ versions                                          List all versions of the service that have been generated.                                                                                            │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
@@ -119,18 +121,13 @@ I plan on adding a more interactive way to generate the config file in the futur
 
 Here is an example of the output that you will see when you run the service generator:
 ```bash
-% poetry install && poetry update
-% VERBOSE=0 && poetry run python main.py generate \
+% VERBOSE=0 && poetry run python main.py generate-app \
     --config example/configs/restaurant_reservations.yaml \
-    --output-dir example/output \
-    --service-name nicks-app
+    --output-dir example/output
 
-Generating models and services with the following inputs
-    Input:  /Users/nicholas/Code/fastapi-gen/example/configs/restaurant_reservations.yaml
-    Output: /Users/nicholas/Code/fastapi-gen/example/output
-    Service Name: nicksapp
-    Frontend Only: False
-    Backend Only: False
+Generating Frontend and Backend services for app `reservations-app`
+      config:     example/configs/restaurant_reservations.yaml
+      output_dir: example/output
 
 Starting generating the backend code...
 
@@ -151,9 +148,8 @@ Starting generating the backend code...
 Starting generating the frontend code...
 
       FRONTEND: Clearing the frontend code directory.
-              > rm -rf /Users/nicholas/Code/fastapi-gen/example/output/nicksapp
       FRONTEND: Creating the application.
-              > npx create-react-app nicksapp --template typescript
+              > npx create-react-app reservations-app --template typescript
       FRONTEND: Installing dependencies.
               > npm install axios @mui/material @mui/icons-material @mui/x-data-grid @mui/styled-engine @mui/lab @emotion/react @emotion/styled prettier eslint web-vitals
       FRONTEND: Generating the main page.
@@ -162,9 +158,8 @@ Starting generating the client code...
 
       CLIENTS: Clearing the typescript / python client dirs.
       CLIENTS: Generating the typescript / python client code.
-              > openapi-generator generate -i openapi.json -g typescript-fetch -o /Users/nicholas/Code/fastapi-gen/example/output/nicksapp/src/api
+              > openapi-generator generate -i openapi.json -g typescript-fetch -o /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/src/api
       CLIENTS: Clearing the python client dir.
-              > rm -rf /Users/nicholas/Code/fastapi-gen/example/output/client
       CLIENTS: Generating the python client code.
               > openapi-generator generate -i openapi.json -g python -o /Users/nicholas/Code/fastapi-gen/example/output/client
 
@@ -190,11 +185,9 @@ Generated files:
 Run the following commands to run the service:
       % cd /Users/nicholas/Code/fastapi-gen/example/output
       % poetry run uvicorn service:app --reload --port 8000
-
 Run the following commands to run the frontend:
-      % cd /Users/nicholas/Code/fastapi-gen/example/output/nicksapp
+      % cd /Users/nicholas/Code/fastapi-gen/example/output/reservations-app
       % npm start
-
 ```
 
 ## Running

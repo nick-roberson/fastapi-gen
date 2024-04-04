@@ -1,3 +1,10 @@
+# Service Configuration
+service:
+  name: user-groups
+  version: 1.0.0
+  description: A user groups service
+
+
 # Database Config
 database:
   db_type: mongo

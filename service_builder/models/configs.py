@@ -170,11 +170,23 @@ class DatabaseConfig(BaseModel):
         extra = "ignore"
 
 
+class ServiceInfo(BaseModel):
+
+    name: str = DEFAULT_SERVICE_NAME
+    version: str = "0.1.0"
+    description: str = "A service built with service_builder"
+
+    class Config:
+        extra = "ignore"
+
+    def __str__(self):
+        return f"ServiceInfo(service_name={self.name}, version={self.version}, description={self.description})"
+
+
 class ServiceConfig(BaseModel):
     """List of model definitions"""
 
-    service_name: str = DEFAULT_SERVICE_NAME
-
+    service_info: ServiceInfo
     database: DatabaseConfig
     models: List[ModelConfig] = []
     dependencies: List[DependencyConfig] = []

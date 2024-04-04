@@ -48,10 +48,11 @@ def install_backend_deps(output_dir: str) -> None:
 ############################################
 
 
-def lint_backend(output_dir: str) -> None:
+def lint_backend(config: ServiceConfig, output_dir: str) -> None:
     """Lint the code using black and isort
 
     Args:
+        config (Config): Configuration object
         output_dir (str): Output directory
     """
     run_command(f"poetry run black {output_dir}")

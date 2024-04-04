@@ -20,54 +20,22 @@ def test_generate(config):
     with tempfile.TemporaryDirectory() as output_dir:
         # Parse the model definitions
         config_def = load_config(config)
-        config_model = parse_config(config_def)
+        config = parse_config(config_def)
 
         # Generate the models
-        generate_models(
-            output_dir=output_dir,
-            config=config_model,
-        )
-
+        generate_models(config=config, output_dir=output_dir)
         # Generate the services
-        generate_services(
-            output_dir=output_dir,
-            config=config_model,
-        )
-
+        generate_services(config=config, output_dir=output_dir)
         # Generate the managers
-        generate_managers(
-            output_dir=output_dir,
-            config=config_model,
-        )
-
+        generate_managers(config=config, output_dir=output_dir)
         # Generate the mongo
-        generate_database(
-            output_dir=output_dir,
-            config=config_model,
-        )
-
+        generate_database(config=config, output_dir=output_dir)
         # Generate the poetry.toml
-        generate_poetry_toml(
-            output_dir=output_dir,
-            config=config_model,
-        )
+        generate_poetry_toml(config=config, output_dir=output_dir)
 
         # Generate the README
-        generate_readme(
-            output_dir=output_dir,
-        )
-
+        generate_readme(output_dir=output_dir)
         # Install the dependencies
-        install_backend_deps(
-            output_dir=output_dir,
-        )
-
-        # TODO: Generate Open API Spec Json, currently commented out because the function cannot find the `fastapi` import for some reason
-        # export_openapi(
-        #     output_dir=output_dir,
-        # )
-
+        install_backend_deps(output_dir=output_dir)
         # Lint the code
-        lint_backend(
-            output_dir=output_dir,
-        )
+        lint_backend(output_dir=output_dir)
