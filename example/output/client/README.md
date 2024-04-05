@@ -122,10 +122,22 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [Comment](docs/Comment.md)
+ - [Cuisine](docs/Cuisine.md)
  - [HTTPValidationError](docs/HTTPValidationError.md)
+ - [Id](docs/Id.md)
+ - [Id1](docs/Id1.md)
+ - [Id2](docs/Id2.md)
+ - [Id3](docs/Id3.md)
+ - [PhoneNumber](docs/PhoneNumber.md)
+ - [Preferences](docs/Preferences.md)
+ - [PriceRange](docs/PriceRange.md)
+ - [Rating](docs/Rating.md)
  - [Reservation](docs/Reservation.md)
  - [Restaurant](docs/Restaurant.md)
  - [Review](docs/Review.md)
+ - [Role](docs/Role.md)
+ - [SpecialRequests](docs/SpecialRequests.md)
  - [User](docs/User.md)
  - [ValidationError](docs/ValidationError.md)
  - [ValidationErrorLocInner](docs/ValidationErrorLocInner.md)

@@ -2076,7 +2076,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> Reservation:
         """Delete Reservation
 
         Delete a Reservation
@@ -2114,7 +2114,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "Reservation",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2141,7 +2141,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[Reservation]:
         """Delete Reservation
 
         Delete a Reservation
@@ -2179,7 +2179,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "Reservation",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2244,7 +2244,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "Reservation",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2320,7 +2320,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> List[Reservation]:
         """Delete Reservations
 
         Delete multiple Reservations
@@ -2358,7 +2358,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "List[Reservation]",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2385,7 +2385,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[List[Reservation]]:
         """Delete Reservations
 
         Delete multiple Reservations
@@ -2423,7 +2423,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "List[Reservation]",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2488,7 +2488,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "List[Reservation]",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2574,7 +2574,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> Restaurant:
         """Delete Restaurant
 
         Delete a Restaurant
@@ -2612,7 +2612,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "Restaurant",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2639,7 +2639,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[Restaurant]:
         """Delete Restaurant
 
         Delete a Restaurant
@@ -2677,7 +2677,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "Restaurant",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2742,7 +2742,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "Restaurant",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2818,7 +2818,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> List[Restaurant]:
         """Delete Restaurants
 
         Delete multiple Restaurants
@@ -2856,7 +2856,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "List[Restaurant]",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2883,7 +2883,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[List[Restaurant]]:
         """Delete Restaurants
 
         Delete multiple Restaurants
@@ -2921,7 +2921,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "List[Restaurant]",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2986,7 +2986,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "List[Restaurant]",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3072,7 +3072,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> Review:
         """Delete Review
 
         Delete a Review
@@ -3110,7 +3110,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "Review",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3137,7 +3137,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[Review]:
         """Delete Review
 
         Delete a Review
@@ -3175,7 +3175,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "Review",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3240,7 +3240,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "Review",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3316,7 +3316,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> List[Review]:
         """Delete Reviews
 
         Delete multiple Reviews
@@ -3354,7 +3354,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "List[Review]",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3381,7 +3381,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[List[Review]]:
         """Delete Reviews
 
         Delete multiple Reviews
@@ -3419,7 +3419,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "List[Review]",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3484,7 +3484,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "List[Review]",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3570,7 +3570,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> User:
         """Delete User
 
         Delete a User
@@ -3608,7 +3608,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "User",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3635,7 +3635,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[User]:
         """Delete User
 
         Delete a User
@@ -3673,7 +3673,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "User",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3738,7 +3738,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "User",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3814,7 +3814,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> List[User]:
         """Delete Users
 
         Delete multiple Users
@@ -3852,7 +3852,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "List[User]",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3879,7 +3879,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[List[User]]:
         """Delete Users
 
         Delete multiple Users
@@ -3917,7 +3917,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "List[User]",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3982,7 +3982,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            "200": "object",
+            "200": "List[User]",
             "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(

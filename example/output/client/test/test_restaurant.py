@@ -36,12 +36,12 @@ class TestRestaurant(unittest.TestCase):
         model = Restaurant()
         if include_optional:
             return Restaurant(
-                id = '',
+                id = None,
                 name = '',
                 location = '',
-                cuisine = '',
-                rating = 1.337,
-                price_range = ''
+                cuisine = None,
+                rating = None,
+                price_range = None
             )
         else:
             return Restaurant(

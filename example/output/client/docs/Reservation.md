@@ -5,12 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** | The unique identifier of the reservation | [optional]
+**id** | [**Id**](Id.md) |  | [optional]
 **restaurant_id** | **str** | The ID of the restaurant where the reservation is made |
 **user_id** | **str** | The ID of the user who made the reservation |
 **reservation_time** | **datetime** | The date and time of the reservation |
 **party_size** | **int** | The size of the party for the reservation |
-**special_requests** | **str** | Any special requests made by the user | [optional]
+**special_requests** | [**SpecialRequests**](SpecialRequests.md) |  | [optional]
 
 ## Example
 

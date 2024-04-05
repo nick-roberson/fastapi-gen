@@ -5,12 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** | The unique identifier of the user | [optional]
+**id** | [**Id3**](Id3.md) |  | [optional]
 **username** | **str** | The username of the user |
 **email** | **str** | The email address of the user |
-**phone_number** | **str** | The phone number of the user | [optional]
-**preferences** | **List[object]** | The dining preferences of the user | [optional] [default to []]
-**role** | **str** | The role of the user (e.g., admin, user, restaurant_owner) | [optional] [default to 'user']
+**phone_number** | [**PhoneNumber**](PhoneNumber.md) |  | [optional]
+**preferences** | [**Preferences**](Preferences.md) |  | [optional]
+**role** | [**Role**](Role.md) |  | [optional]
 
 ## Example
 

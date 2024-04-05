@@ -19,6 +19,10 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set
 
+from openapi_client.models.id3 import Id3
+from openapi_client.models.phone_number import PhoneNumber
+from openapi_client.models.preferences import Preferences
+from openapi_client.models.role import Role
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing_extensions import Self
 
@@ -28,21 +32,12 @@ class User(BaseModel):
     User
     """  # noqa: E501
 
-    id: Optional[StrictStr] = Field(
-        default=None, description="The unique identifier of the user"
-    )
+    id: Optional[Id3] = None
     username: StrictStr = Field(description="The username of the user")
     email: StrictStr = Field(description="The email address of the user")
-    phone_number: Optional[StrictStr] = Field(
-        default=None, description="The phone number of the user"
-    )
-    preferences: Optional[List[Any]] = Field(
-        default=None, description="The dining preferences of the user"
-    )
-    role: Optional[StrictStr] = Field(
-        default="user",
-        description="The role of the user (e.g., admin, user, restaurant_owner)",
-    )
+    phone_number: Optional[PhoneNumber] = None
+    preferences: Optional[Preferences] = None
+    role: Optional[Role] = None
     __properties: ClassVar[List[str]] = [
         "id",
         "username",
@@ -89,6 +84,18 @@ class User(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of id
+        if self.id:
+            _dict["id"] = self.id.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of phone_number
+        if self.phone_number:
+            _dict["phone_number"] = self.phone_number.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of preferences
+        if self.preferences:
+            _dict["preferences"] = self.preferences.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of role
+        if self.role:
+            _dict["role"] = self.role.to_dict()
         return _dict
 
     @classmethod
@@ -102,12 +109,22 @@ class User(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "id": obj.get("id"),
+                "id": Id3.from_dict(obj["id"]) if obj.get("id") is not None else None,
                 "username": obj.get("username"),
                 "email": obj.get("email"),
-                "phone_number": obj.get("phone_number"),
-                "preferences": obj.get("preferences"),
-                "role": obj.get("role") if obj.get("role") is not None else "user",
+                "phone_number": (
+                    PhoneNumber.from_dict(obj["phone_number"])
+                    if obj.get("phone_number") is not None
+                    else None
+                ),
+                "preferences": (
+                    Preferences.from_dict(obj["preferences"])
+                    if obj.get("preferences") is not None
+                    else None
+                ),
+                "role": (
+                    Role.from_dict(obj["role"]) if obj.get("role") is not None else None
+                ),
             }
         )
         return _obj

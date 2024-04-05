@@ -13,6 +13,23 @@
  */
 
 import { mapValues } from "../runtime";
+import type { Cuisine } from "./Cuisine";
+import {
+  CuisineFromJSON,
+  CuisineFromJSONTyped,
+  CuisineToJSON,
+} from "./Cuisine";
+import type { Id1 } from "./Id1";
+import { Id1FromJSON, Id1FromJSONTyped, Id1ToJSON } from "./Id1";
+import type { PriceRange } from "./PriceRange";
+import {
+  PriceRangeFromJSON,
+  PriceRangeFromJSONTyped,
+  PriceRangeToJSON,
+} from "./PriceRange";
+import type { Rating } from "./Rating";
+import { RatingFromJSON, RatingFromJSONTyped, RatingToJSON } from "./Rating";
+
 /**
  *
  * @export
@@ -20,11 +37,11 @@ import { mapValues } from "../runtime";
  */
 export interface Restaurant {
   /**
-   * The unique identifier of the restaurant
-   * @type {string}
+   *
+   * @type {Id1}
    * @memberof Restaurant
    */
-  id?: string;
+  id?: Id1;
   /**
    * The name of the restaurant
    * @type {string}
@@ -38,23 +55,23 @@ export interface Restaurant {
    */
   location: string;
   /**
-   * The type of cuisine the restaurant offers
-   * @type {string}
+   *
+   * @type {Cuisine}
    * @memberof Restaurant
    */
-  cuisine?: string;
+  cuisine?: Cuisine;
   /**
-   * The average rating of the restaurant
-   * @type {number}
+   *
+   * @type {Rating}
    * @memberof Restaurant
    */
-  rating?: number;
+  rating?: Rating;
   /**
-   * The price range of the restaurant
-   * @type {string}
+   *
+   * @type {PriceRange}
    * @memberof Restaurant
    */
-  priceRange?: string;
+  priceRange?: PriceRange;
 }
 
 /**
@@ -78,12 +95,16 @@ export function RestaurantFromJSONTyped(
     return json;
   }
   return {
-    id: json["id"] == null ? undefined : json["id"],
+    id: json["id"] == null ? undefined : Id1FromJSON(json["id"]),
     name: json["name"],
     location: json["location"],
-    cuisine: json["cuisine"] == null ? undefined : json["cuisine"],
-    rating: json["rating"] == null ? undefined : json["rating"],
-    priceRange: json["price_range"] == null ? undefined : json["price_range"],
+    cuisine:
+      json["cuisine"] == null ? undefined : CuisineFromJSON(json["cuisine"]),
+    rating: json["rating"] == null ? undefined : RatingFromJSON(json["rating"]),
+    priceRange:
+      json["price_range"] == null
+        ? undefined
+        : PriceRangeFromJSON(json["price_range"]),
   };
 }
 
@@ -92,11 +113,11 @@ export function RestaurantToJSON(value?: Restaurant | null): any {
     return value;
   }
   return {
-    id: value["id"],
+    id: Id1ToJSON(value["id"]),
     name: value["name"],
     location: value["location"],
-    cuisine: value["cuisine"],
-    rating: value["rating"],
-    price_range: value["priceRange"],
+    cuisine: CuisineToJSON(value["cuisine"]),
+    rating: RatingToJSON(value["rating"]),
+    price_range: PriceRangeToJSON(value["priceRange"]),
   };
 }

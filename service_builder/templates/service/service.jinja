@@ -93,14 +93,14 @@ def update_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.name
 
 {% for model in models %}
 @app.delete("/{{ model.name.lower() }}")
-def delete_{{ model.name.lower()}}({{ model.model_id_var_name }}: str):
+def delete_{{ model.name.lower()}}({{ model.model_id_var_name }}: str) -> {{ model.name }}:
     """ Delete a {{ model.name }} """
     print(f"Deleting {{ model.name }} with id: {id}")
     return {{ model.manager_var_name }}.delete({{ model.model_id_var_name }}={{ model.model_id_var_name }})
 
 
 @app.delete("/{{ model.name.lower() }}s")
-def delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s: List[str]):
+def delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s: List[str]) -> List[{{ model.name }}]:
     """ Delete multiple {{ model.name }}s """
     print(f"Deleting {{ model.name }}s: {str({{ model.model_id_var_name }}s)}")
     return {{ model.manager_var_name }}.delete_many({{ model.model_id_var_name }}s={{ model.model_id_var_name }}s)

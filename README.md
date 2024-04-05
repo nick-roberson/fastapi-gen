@@ -57,17 +57,23 @@ This is a simple FastAPI service that can be used as a starting point for a new 
 
 ## Features
 
-#### Python Code Generation
+### Python Code Generation
 - Generate FastAPI services with `MongoDB` database support (via model managers)
 - Generate `pydantic` models for the FastAPI services
 - Generate Python client code for the FastAPI service using `openapi-generator`
 
-#### Frontend Code Generation
+### Frontend Code Generation
 - Generate a React frontend with TypeScript
 - Generate TypeScript and Python clients for the FastAPI service using `openapi-generator`
 - Generate homepage to display all the models that have been generated
 
-#### Docker
+
+![images/homepage.png](images/restaurant_app.png)
+
+Here is an example of the created frontend, which will fetch all the models and allow you
+to interact with the FastAPI service, right now by only GET and DELETE requests.
+
+### Docker
 - Generate Dockerfiles for the FastAPI service and the React frontend
 
 ## Setup
@@ -115,7 +121,7 @@ I plan on adding a more interactive way to generate the config file in the futur
 
 Here is an example of the output that you will see when you run the service generator:
 ```bash
-% VERBOSE=0 && poetry run python main.py generate-app \
+% poetry run python main.py generate-app \
     --config example/configs/restaurant_reservations.yaml \
     --output-dir example/output
 
@@ -210,3 +216,10 @@ To view the generated OpenAPI documentation, navigate to [http://localhost:8000/
 % cd /Users/nicholas/Code/fastapi-gen/example/output/reservations-app
 % npm start
 ```
+
+## Test Data
+
+Right now I am working on a script that will generate test data for the FastAPI service, but it is not yet complete.
+
+There is a script that works for the example in the `service_builder/scripts/create_restaurant_app_data.py` file.
+You can use a method similar to that in order to create and insert fake data.

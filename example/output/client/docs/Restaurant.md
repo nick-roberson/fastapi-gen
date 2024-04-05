@@ -5,12 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** | The unique identifier of the restaurant | [optional]
+**id** | [**Id1**](Id1.md) |  | [optional]
 **name** | **str** | The name of the restaurant |
 **location** | **str** | The physical location of the restaurant |
-**cuisine** | **str** | The type of cuisine the restaurant offers | [optional]
-**rating** | **float** | The average rating of the restaurant | [optional]
-**price_range** | **str** | The price range of the restaurant | [optional]
+**cuisine** | [**Cuisine**](Cuisine.md) |  | [optional]
+**rating** | [**Rating**](Rating.md) |  | [optional]
+**price_range** | [**PriceRange**](PriceRange.md) |  | [optional]
 
 ## Example
 

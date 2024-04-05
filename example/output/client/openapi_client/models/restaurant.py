@@ -17,10 +17,13 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Dict, List, Optional, Set, Union
+from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from pydantic import (BaseModel, ConfigDict, Field, StrictFloat, StrictInt,
-                      StrictStr)
+from openapi_client.models.cuisine import Cuisine
+from openapi_client.models.id1 import Id1
+from openapi_client.models.price_range import PriceRange
+from openapi_client.models.rating import Rating
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing_extensions import Self
 
 
@@ -29,20 +32,12 @@ class Restaurant(BaseModel):
     Restaurant
     """  # noqa: E501
 
-    id: Optional[StrictStr] = Field(
-        default=None, description="The unique identifier of the restaurant"
-    )
+    id: Optional[Id1] = None
     name: StrictStr = Field(description="The name of the restaurant")
     location: StrictStr = Field(description="The physical location of the restaurant")
-    cuisine: Optional[StrictStr] = Field(
-        default=None, description="The type of cuisine the restaurant offers"
-    )
-    rating: Optional[Union[StrictFloat, StrictInt]] = Field(
-        default=None, description="The average rating of the restaurant"
-    )
-    price_range: Optional[StrictStr] = Field(
-        default=None, description="The price range of the restaurant"
-    )
+    cuisine: Optional[Cuisine] = None
+    rating: Optional[Rating] = None
+    price_range: Optional[PriceRange] = None
     __properties: ClassVar[List[str]] = [
         "id",
         "name",
@@ -89,6 +84,18 @@ class Restaurant(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of id
+        if self.id:
+            _dict["id"] = self.id.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of cuisine
+        if self.cuisine:
+            _dict["cuisine"] = self.cuisine.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of rating
+        if self.rating:
+            _dict["rating"] = self.rating.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of price_range
+        if self.price_range:
+            _dict["price_range"] = self.price_range.to_dict()
         return _dict
 
     @classmethod
@@ -102,12 +109,24 @@ class Restaurant(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "id": obj.get("id"),
+                "id": Id1.from_dict(obj["id"]) if obj.get("id") is not None else None,
                 "name": obj.get("name"),
                 "location": obj.get("location"),
-                "cuisine": obj.get("cuisine"),
-                "rating": obj.get("rating"),
-                "price_range": obj.get("price_range"),
+                "cuisine": (
+                    Cuisine.from_dict(obj["cuisine"])
+                    if obj.get("cuisine") is not None
+                    else None
+                ),
+                "rating": (
+                    Rating.from_dict(obj["rating"])
+                    if obj.get("rating") is not None
+                    else None
+                ),
+                "price_range": (
+                    PriceRange.from_dict(obj["price_range"])
+                    if obj.get("price_range") is not None
+                    else None
+                ),
             }
         )
         return _obj
