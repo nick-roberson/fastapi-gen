@@ -26,7 +26,7 @@ class {{ model.name }}Manager:
 
     def create(self, {{ model.name.lower() }}: {{ model.name }}) -> {{ model.name }}:
         """ Create a new {{ model.name }} """
-        logging.info("Creating {{ model.name }}: {}".format({{ model.name.lower() }}))
+        print("Creating {{ model.name }}: {}".format({{ model.name.lower() }}))
         try:
             # Generate id for the model
             if not {{ model.name.lower() }}.id:
@@ -42,7 +42,7 @@ class {{ model.name }}Manager:
 
     def create_many(self, {{ model.name.lower() }}_list: List[{{ model.name }}]) -> List[{{ model.name }}]:
         """ Create a list of {{ model.name }} """
-        logging.info("Creating {{ model.name }}: {}".format({{ model.name.lower() }}_list))
+        print("Creating {{ model.name }}: {}".format({{ model.name.lower() }}_list))
         try:
             # Generate ids for the models
             for model in {{ model.name.lower() }}_list:
@@ -65,7 +65,7 @@ class {{ model.name }}Manager:
 
     def get(self, {{ model.name.lower() }}_id: str) -> {{ model.name }}:
         """ Get a {{ model.name }} by its id """
-        logging.info("Getting {{ model.name }}: {}.format({{ model.name.lower() }}_id)")
+        print("Getting {{ model.name }}: {}.format({{ model.name.lower() }}_id)")
         try:
             return self.collection.find_one({'id': {{ model.name.lower() }}_id})
         except Exception as e:
@@ -74,7 +74,7 @@ class {{ model.name }}Manager:
 
     def get_many(self, {{ model.name.lower() }}_ids: List[str]) -> List[{{ model.name }}]:
         """ Get a list of {{ model.name }} by their ids """
-        logging.info("Getting {{ model.name }}: {}".format({{ model.name.lower() }}_ids))
+        print("Getting {{ model.name }}: {}".format({{ model.name.lower() }}_ids))
         try:
             return list(self.collection.find({'id': {'$in': {{ model.name.lower() }}_ids}}))
         except Exception as e:
@@ -83,7 +83,7 @@ class {{ model.name }}Manager:
 
     def get_all(self) -> List[{{ model.name }}]:
         """ Get all {{ model.name }} """
-        logging.info(f"Getting all {{ model.name }}")
+        print(f"Getting all {{ model.name }}")
         try:
             return list(self.collection.find())
         except Exception as e:
@@ -96,7 +96,7 @@ class {{ model.name }}Manager:
 
     def update(self, {{ model.name.lower() }}: {{ model.name }}) -> {{ model.name }}:
         """ Update a {{ model.name }} """
-        logging.info("Updating {{ model.name }}: {}".format({{ model.name.lower() }}))
+        print("Updating {{ model.name }}: {}".format({{ model.name.lower() }}))
         try:
             # Raise error if id is not present on the model
             if not {{ model.name.lower() }}.id:
@@ -116,7 +116,7 @@ class {{ model.name }}Manager:
 
     def update_many(self, {{ model.name.lower() }}_list: List[{{ model.name }}]) -> List[{{ model.name }}]:
         """ Update a list of {{ model.name }} """
-        logging.info("Updating {{ model.name }}: {}".format({{ model.name.lower() }}_list))
+        print("Updating {{ model.name }}: {}".format({{ model.name.lower() }}_list))
         try:
             # Update
             for {{ model.name.lower() }} in {{ model.name.lower() }}_list:
@@ -135,7 +135,7 @@ class {{ model.name }}Manager:
 
     def delete(self, {{ model.name.lower() }}_id: str) -> {{ model.name }}:
         """ Delete a {{ model.name }} """
-        logging.info("Deleting {{ model.name }}: {}".format({{ model.name.lower() }}_id))
+        print("Deleting {{ model.name }}: {}".format({{ model.name.lower() }}_id))
         try:
             # Find in database
             obj = self.get({{ model.name.lower() }}_id)
@@ -153,7 +153,7 @@ class {{ model.name }}Manager:
 
     def delete_many(self, {{ model.name.lower() }}_ids: List[str]) -> List[{{ model.name }}]:
         """ Delete a list of {{ model.name }} """
-        logging.info("Deleting {{ model.name }}: {}".format({{ model.name.lower() }}_ids))
+        print("Deleting {{ model.name }}: {}".format({{ model.name.lower() }}_ids))
         try:
             # Find in database
             objs = self.get_many({{ model.name.lower() }}_ids)

@@ -30,7 +30,7 @@ class UserManager:
 
     def create(self, user: User) -> User:
         """Create a new User"""
-        logging.info("Creating User: {}".format(user))
+        print("Creating User: {}".format(user))
         try:
             # Generate id for the model
             if not user.id:
@@ -46,7 +46,7 @@ class UserManager:
 
     def create_many(self, user_list: List[User]) -> List[User]:
         """Create a list of User"""
-        logging.info("Creating User: {}".format(user_list))
+        print("Creating User: {}".format(user_list))
         try:
             # Generate ids for the models
             for model in user_list:
@@ -69,7 +69,7 @@ class UserManager:
 
     def get(self, user_id: str) -> User:
         """Get a User by its id"""
-        logging.info("Getting User: {}.format(user_id)")
+        print("Getting User: {}.format(user_id)")
         try:
             return self.collection.find_one({"id": user_id})
         except Exception as e:
@@ -77,7 +77,7 @@ class UserManager:
 
     def get_many(self, user_ids: List[str]) -> List[User]:
         """Get a list of User by their ids"""
-        logging.info("Getting User: {}".format(user_ids))
+        print("Getting User: {}".format(user_ids))
         try:
             return list(self.collection.find({"id": {"$in": user_ids}}))
         except Exception as e:
@@ -85,7 +85,7 @@ class UserManager:
 
     def get_all(self) -> List[User]:
         """Get all User"""
-        logging.info(f"Getting all User")
+        print(f"Getting all User")
         try:
             return list(self.collection.find())
         except Exception as e:
@@ -97,7 +97,7 @@ class UserManager:
 
     def update(self, user: User) -> User:
         """Update a User"""
-        logging.info("Updating User: {}".format(user))
+        print("Updating User: {}".format(user))
         try:
             # Raise error if id is not present on the model
             if not user.id:
@@ -115,7 +115,7 @@ class UserManager:
 
     def update_many(self, user_list: List[User]) -> List[User]:
         """Update a list of User"""
-        logging.info("Updating User: {}".format(user_list))
+        print("Updating User: {}".format(user_list))
         try:
             # Update
             for user in user_list:
@@ -132,7 +132,7 @@ class UserManager:
 
     def delete(self, user_id: str) -> User:
         """Delete a User"""
-        logging.info("Deleting User: {}".format(user_id))
+        print("Deleting User: {}".format(user_id))
         try:
             # Find in database
             obj = self.get(user_id)
@@ -149,7 +149,7 @@ class UserManager:
 
     def delete_many(self, user_ids: List[str]) -> List[User]:
         """Delete a list of User"""
-        logging.info("Deleting User: {}".format(user_ids))
+        print("Deleting User: {}".format(user_ids))
         try:
             # Find in database
             objs = self.get_many(user_ids)

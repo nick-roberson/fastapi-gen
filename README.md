@@ -126,68 +126,68 @@ Here is an example of the output that you will see when you run the service gene
     --output-dir example/output
 
 Generating Frontend and Backend services for app `reservations-app`
-      config:     example/configs/restaurant_reservations.yaml
-      output_dir: example/output
+        config:     example/configs/restaurant_reservations.yaml
+        output_dir: example/output
 
-Starting generating the backend code...
 
-      BACKEND: Clearing the backend code directory.
-              > rm -rf /Users/nicholas/Code/fastapi-gen/example/output/src
-      BACKEND: Generating models and services.
-      BACKEND: Installing dependencies...
-              > poetry env use 3.12.2
-              > poetry install
-              > poetry export -f requirements.txt --output requirements.txt
-      BACKEND: Copying Dockerfiles...
-              > cp /Users/nicholas/Code/fastapi-gen/service_builder/templates/docker/Dockerfile /Users/nicholas/Code/fastapi-gen/example/output/Dockerfile
-              > cp /Users/nicholas/Code/fastapi-gen/service_builder/templates/docker/compose.yml /Users/nicholas/Code/fastapi-gen/example/output/compose.yml
-              > cp /Users/nicholas/Code/fastapi-gen/service_builder/templates/docker/.dockerignore /Users/nicholas/Code/fastapi-gen/example/output/.dockerignore
-              > cp /Users/nicholas/Code/fastapi-gen/service_builder/templates/docker/README.Docker.md /Users/nicholas/Code/fastapi-gen/example/output/README.Docker.md
-      BACKEND: Exporting OpenAPI JSON...
+Generating backend and frontend services...
 
-Starting generating the frontend code...
+        1. Clearing the output directory...
+        2. Generating the backend code...
+        3. Generating the non-code files (poetry and readme)...
+        4. Exporting OpenAPI JSON file...
+        5. Generating the python client code...
+                > 'openapi-generator generate -i openapi.json -g python -o /Users/nicholas/Code/fastapi-gen/example/output/client'
+        6. Installing the backend dependencies...
+                > 'poetry env use 3.12.2'
+                > 'poetry install'
+                > 'poetry export -f requirements.txt --output requirements.txt'
+        7. Linting the backend code...
+                > 'poetry run black /Users/nicholas/Code/fastapi-gen/example/output/src'
+                > 'poetry run isort /Users/nicholas/Code/fastapi-gen/example/output/src'
 
-      FRONTEND: Clearing the frontend code directory.
-      FRONTEND: Creating the application.
-              > npx create-react-app reservations-app --template typescript
-      FRONTEND: Installing dependencies.
-              > npm install axios @mui/material @mui/icons-material @mui/x-data-grid @mui/styled-engine @mui/lab @emotion/react @emotion/styled prettier eslint web-vitals
-      FRONTEND: Generating the main page.
+Generating frontend services...
 
-Starting generating the client code...
-
-      CLIENTS: Clearing the typescript / python client dirs.
-      CLIENTS: Generating the typescript / python client code.
-              > openapi-generator generate -i openapi.json -g typescript-fetch -o /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/src/api
-      CLIENTS: Clearing the python client dir.
-      CLIENTS: Generating the python client code.
-              > openapi-generator generate -i openapi.json -g python -o /Users/nicholas/Code/fastapi-gen/example/output/client
-
-Starting linting the generated code...
-
-      LINT: Linting frontend code.
-              > npx prettier --write .
-              > npx eslint --fix .
-      LINT: Linting backend code.
-              > poetry run black /Users/nicholas/Code/fastapi-gen/example/output
-              > poetry run isort /Users/nicholas/Code/fastapi-gen/example/output
+        1. Clearing generated frontend code...
+        2. Generating frontend code ...
+                > 'npx create-react-app reservations-app --template typescript'
+        3. Installing dependencies...
+                > 'npm install axios @mui/material @mui/icons-material @mui/x-data-grid @mui/styled-engine @mui/lab @emotion/react @emotion/styled prettier eslint web-vitals'
+        4. Generating App main page...
+        5. Generating Typescript client...
+                > 'openapi-generator generate -i /Users/nicholas/Code/fastapi-gen/example/output/src/openapi.json -g typescript-fetch -o
+/Users/nicholas/Code/fastapi-gen/example/output/reservations-app/src/api'
+        6. Linting frontend code...
+                > 'npx prettier --write .'
+                > 'npx eslint --fix .'
 
 Generated files:
-      models: ['src/models/models.py']
-      service: ['src/service.py']
-      managers: ['src/user_manager.py', 'src/restaurant_manager.py', 'src/reservation_manager.py', 'src/review_manager.py']
-      mongo: ['src/mongo.py']
-      poetry: ['pyproject.toml']
-      readme: ['README.md']
-      docker: ['Dockerfile', 'compose.yml', '.dockerignore', 'README.Docker.md']
-      openapi: ['openapi.json']
+        Backend Files:
+                Pydantic Models: ['/Users/nicholas/Code/fastapi-gen/example/output/src/models/models.py']
+                FastAPI Service: ['/Users/nicholas/Code/fastapi-gen/example/output/src/service.py']
+                Model Managers: ['/Users/nicholas/Code/fastapi-gen/example/output/src/user_manager.py', '/Users/nicholas/Code/fastapi-gen/example/output/src/restaurant_manager.py',
+'/Users/nicholas/Code/fastapi-gen/example/output/src/reservation_manager.py', '/Users/nicholas/Code/fastapi-gen/example/output/src/review_manager.py']
+                MongoDB: ['/Users/nicholas/Code/fastapi-gen/example/output/src/mongo.py']
+                README.md: ['/Users/nicholas/Code/fastapi-gen/example/output/src/README.md']
+                Poetry: ['/Users/nicholas/Code/fastapi-gen/example/output/src/pyproject.toml']
+        Backend Directories:
+                Service Code: /Users/nicholas/Code/fastapi-gen/example/output/src
+                Python Client Code: /Users/nicholas/Code/fastapi-gen/example/output/client
+        Frontend Files:
+                Main Page: /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/src/App.tsx
+        Frontend Directories:
+                Application Directory: /Users/nicholas/Code/fastapi-gen/example/output/reservations-app
+                Source Code: /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/src
+                API Client Code: /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/src/api
 
 Run the following commands to run the service:
-      % cd /Users/nicholas/Code/fastapi-gen/example/output
-      % poetry run uvicorn service:app --reload --port 8000
+        % cd /Users/nicholas/Code/fastapi-gen/example/output/src
+        % poetry run uvicorn service:app --reload --port 8000
+
 Run the following commands to run the frontend:
-      % cd /Users/nicholas/Code/fastapi-gen/example/output/reservations-app
-      % npm start
+        % cd /Users/nicholas/Code/fastapi-gen/example/output/reservations-app
+        % npm start
+
 ```
 
 ## Running

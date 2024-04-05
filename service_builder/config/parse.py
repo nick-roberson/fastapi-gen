@@ -1,4 +1,3 @@
-import logging
 import os
 from typing import Dict
 
@@ -43,14 +42,14 @@ def load_config(input_file: str) -> Dict:
 def validate_field(field: FieldDefinition) -> None:
     field_info = FIELD_DEFINITION_FIELDS.get(field.name)
     if field_info is None:
-        raise ValueError(f"Invalid field name `{field.name}` in FieldDefinition")
+        raise ValueError(f"Invalid field name '{field.name}' in FieldDefinition")
 
 
 def validate_dependencies(dependency: DependencyConfig) -> None:
     for field_name in dependency:
         if field_name not in DEPENDENCY_DEFINITION_FIELDS.keys():
             raise ValueError(
-                f"Invalid field name `{field_name}` in DependencyConfig {dependency['base']}"
+                f"Invalid field name '{field_name}' in DependencyConfig {dependency['base']}"
             )
 
 
@@ -75,13 +74,13 @@ def validate_config(config: Dict) -> None:
     database = config["database"]
     for field_name in database:
         if field_name not in DatabaseConfig.model_fields.keys():
-            raise ValueError(f"Invalid field name in DatabaseConfig `{field_name}`")
+            raise ValueError(f"Invalid field name in DatabaseConfig '{field_name}'")
         if (
             field_name == "db_type"
             and database[field_name] not in DatabaseTypes.choices()
         ):
             raise ValueError(
-                f"Invalid db_type `{database[field_name]}`, allowed types are {DatabaseConfig.db_type_choices}"
+                f"Invalid db_type '{database[field_name]}', allowed types are {DatabaseConfig.db_type_choices}"
             )
 
     # (3) For each ModelConfig confirm fields are valid
@@ -92,7 +91,7 @@ def validate_config(config: Dict) -> None:
             field_name not in ModelConfig.model_fields.keys()
             for field_name in model.keys()
         ):
-            raise ValueError(f"Invalid field name in ModelConfig `{model['name']}`")
+            raise ValueError(f"Invalid field name in ModelConfig '{model['name']}'")
         for field in model["fields"]:
             # Validate the field
             if any(
@@ -108,7 +107,7 @@ def validate_config(config: Dict) -> None:
             if field.get("of_type") is not None:
                 if field["of_type"] not in model_names:
                     raise ValueError(
-                        f"Invalid reference `{field['of_type']}` in FieldDefinition `{field['name']}`, valid references are"
+                        f"Invalid reference '{field['of_type']}' in FieldDefinition '{field['name']}', valid references are"
                         f"{model_names}"
                     )
 
@@ -120,7 +119,7 @@ def validate_config(config: Dict) -> None:
             for field_name in dependency.keys()
         ):
             raise ValueError(
-                f"Invalid field name in DependencyConfig `{dependency['base']}`"
+                f"Invalid field name in DependencyConfig '{dependency['base']}'"
             )
 
     # (5) Confirm the service name is a string
@@ -157,9 +156,9 @@ def parse_config(config) -> ServiceConfig:
         # Parse the fields
         for field in model["fields"]:
             fields.append(FieldDefinition(**field))
-        # If no `id` field is present, add it
+        # If no 'id' field is present, add it
         if not any(field.name == "id" for field in fields):
-            logging.info("During parsing found no id field, adding one automatically")
+            print("During parsing found no id field, adding one automatically")
             fields.append(
                 FieldDefinition(name="id", type="str", required=False, default=None)
             )

@@ -8,23 +8,23 @@ This service was generated using the FastAPI Generation tool. All dependencies a
 
 ---
 
-```bash
+'''bash
 % poetry install
-```
+'''
 
 ## Running the Service
 
 ---
 
-```bash
+'''bash
 % poetry run uvicorn service:app --reload --port 8000
-```
+'''
 
 ## Adding New Dependencies
 
 ---
 
 If any are missing, you can easily update using this command:
-```bash
+'''bash
 % poetry add <package-name>
-```
+'''
