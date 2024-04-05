@@ -1,14 +1,16 @@
-from typing import Any, List, Optional, Tuple
+from typing import Any, List, Optional
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, ConfigDict, field_validator
 from pydantic.fields import FieldInfo
 
-from service_builder.constants import DEFAULT_SERVICE_NAME, PYTHON_DEPENDENCIES
+from service_builder.constants import DEFAULT_SERVICE_NAME
 from service_builder.models.enum import DatabaseTypes, FieldDataType
 
 
 class FieldDefinition(BaseModel):
     """Field definition for a model"""
+
+    model_config = ConfigDict(extra="ignore")
 
     def __init__(self, **data):
         super().__init__(**data)
@@ -85,9 +87,6 @@ class FieldDefinition(BaseModel):
                     f"Default value {self.default} is not of type {self.type}"
                 )
 
-    class Config:
-        extra = "ignore"
-
     def __str__(self):
         return (
             f"FieldDefinition(name={self.name}, type={self.type}, of_type={self.of_type}, "
@@ -119,6 +118,8 @@ class FieldDefinition(BaseModel):
 class ModelConfig(BaseModel):
     """Model definition"""
 
+    model_config = ConfigDict(extra="ignore")
+
     name: str
     fields: List[FieldDefinition]
 
@@ -134,9 +135,6 @@ class ModelConfig(BaseModel):
     def manager_var_name(self):
         return f"{self.name.lower()}_manager"
 
-    class Config:
-        extra = "ignore"
-
     def __str__(self):
         return f"ModelConfig(name={self.name}, fields={self.fields})"
 
@@ -144,11 +142,9 @@ class ModelConfig(BaseModel):
 class DependencyConfig(BaseModel):
     """Dependency definition"""
 
+    model_config = ConfigDict(extra="ignore")
     name: str
     version: Optional[str] = None
-
-    class Config:
-        extra = "ignore"
 
     def __str__(self):
         return f"DependencyConfig(name={self.name}, version={self.version})"
@@ -156,6 +152,8 @@ class DependencyConfig(BaseModel):
 
 class DatabaseConfig(BaseModel):
     """Database configuration"""
+
+    model_config = ConfigDict(extra="ignore")
 
     db_type: str
     db_uri_env_var: str
@@ -166,18 +164,13 @@ class DatabaseConfig(BaseModel):
             raise ValueError(f"db_type must be one of {DatabaseTypes.choices()}")
         return v
 
-    class Config:
-        extra = "ignore"
-
 
 class ServiceInfo(BaseModel):
+    model_config = ConfigDict(extra="ignore")
 
     name: str = DEFAULT_SERVICE_NAME
     version: str = "0.1.0"
     description: str = "A service built with service_builder"
-
-    class Config:
-        extra = "ignore"
 
     def __str__(self):
         return f"ServiceInfo(service_name={self.name}, version={self.version}, description={self.description})"
@@ -186,13 +179,12 @@ class ServiceInfo(BaseModel):
 class ServiceConfig(BaseModel):
     """List of model definitions"""
 
+    model_config = ConfigDict(extra="ignore")
+
     service_info: ServiceInfo
     database: DatabaseConfig
     models: List[ModelConfig] = []
     dependencies: List[DependencyConfig] = []
-
-    class Config:
-        extra = "ignore"
 
     def __str__(self):
         return f"Config(models={self.models}, dependencies={self.dependencies})"

@@ -1,6 +1,6 @@
 from typing import List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from service_builder.models.configs import (DatabaseConfig, DependencyConfig,
                                             ModelConfig, ServiceConfig)
@@ -12,6 +12,7 @@ class ServiceVersion(BaseModel):
     testing the changes in the service and models.
     """
 
+    model_config = ConfigDict(extra="ignore")
     version: int
     created_at: str
     db_config: DatabaseConfig = None
@@ -23,9 +24,6 @@ class ServiceVersion(BaseModel):
         return ServiceConfig(
             database=self.db_config, models=self.models, dependencies=self.dependencies
         )
-
-    class Config:
-        extra = "ignore"
 
     def __str__(self):
         return f"ServiceVersion(version={self.version}, models={self.models}, dependencies={self.dependencies})"

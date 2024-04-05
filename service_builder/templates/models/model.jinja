@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from pydantic.fields import FieldInfo
 from datetime import datetime
 
@@ -6,11 +6,10 @@ from typing import List, Dict
 
 {% for model in models %}
 class {{ model.name }}(BaseModel):
+    model_config = ConfigDict(extra='ignore')
+
     {% for field in model.fields %}{{ field.row }}
     {% endfor %}
-
-    class Config:
-        extra = "ignore"
 
     def to_dict(self) -> Dict:
         return self.dict()

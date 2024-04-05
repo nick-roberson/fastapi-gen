@@ -1,11 +1,13 @@
 from datetime import datetime
 from typing import Dict, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from pydantic.fields import FieldInfo
 
 
 class User(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
     id: str = FieldInfo(
         default=None, description="The unique identifier of the user", required=False
     )
@@ -23,14 +25,13 @@ class User(BaseModel):
         required=False,
     )
 
-    class Config:
-        extra = "ignore"
-
     def to_dict(self) -> Dict:
         return self.dict()
 
 
 class Restaurant(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
     id: str = FieldInfo(
         default=None,
         description="The unique identifier of the restaurant",
@@ -52,14 +53,13 @@ class Restaurant(BaseModel):
         default=None, description="The price range of the restaurant", required=False
     )
 
-    class Config:
-        extra = "ignore"
-
     def to_dict(self) -> Dict:
         return self.dict()
 
 
 class Reservation(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
     id: str = FieldInfo(
         default=None,
         description="The unique identifier of the reservation",
@@ -84,14 +84,13 @@ class Reservation(BaseModel):
         required=False,
     )
 
-    class Config:
-        extra = "ignore"
-
     def to_dict(self) -> Dict:
         return self.dict()
 
 
 class Review(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
     id: str = FieldInfo(
         default=None, description="The unique identifier of the review", required=False
     )
@@ -105,9 +104,6 @@ class Review(BaseModel):
     comment: str = FieldInfo(
         default=None, description="The textual comment of the review", required=False
     )
-
-    class Config:
-        extra = "ignore"
 
     def to_dict(self) -> Dict:
         return self.dict()
