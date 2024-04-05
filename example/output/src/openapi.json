@@ -154,7 +154,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
               }
             }
           },
@@ -305,7 +307,13 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "type": "array",
+                  "title": "Response Delete Users Users Delete"
+                }
               }
             }
           },
@@ -455,7 +463,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/Restaurant"
+                }
               }
             }
           },
@@ -606,7 +616,13 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Restaurant"
+                  },
+                  "type": "array",
+                  "title": "Response Delete Restaurants Restaurants Delete"
+                }
               }
             }
           },
@@ -756,7 +772,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/Reservation"
+                }
               }
             }
           },
@@ -907,7 +925,13 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Reservation"
+                  },
+                  "type": "array",
+                  "title": "Response Delete Reservations Reservations Delete"
+                }
               }
             }
           },
@@ -1057,7 +1081,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
               }
             }
           },
@@ -1208,7 +1234,13 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  },
+                  "type": "array",
+                  "title": "Response Delete Reviews Reviews Delete"
+                }
               }
             }
           },
@@ -1244,7 +1276,14 @@
       "Reservation": {
         "properties": {
           "id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Id",
             "description": "The unique identifier of the reservation"
           },
@@ -1270,7 +1309,14 @@
             "description": "The size of the party for the reservation"
           },
           "special_requests": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Special Requests",
             "description": "Any special requests made by the user"
           }
@@ -1287,7 +1333,14 @@
       "Restaurant": {
         "properties": {
           "id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Id",
             "description": "The unique identifier of the restaurant"
           },
@@ -1302,17 +1355,38 @@
             "description": "The physical location of the restaurant"
           },
           "cuisine": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Cuisine",
             "description": "The type of cuisine the restaurant offers"
           },
           "rating": {
-            "type": "number",
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Rating",
             "description": "The average rating of the restaurant"
           },
           "price_range": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Price Range",
             "description": "The price range of the restaurant"
           }
@@ -1327,7 +1401,14 @@
       "Review": {
         "properties": {
           "id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Id",
             "description": "The unique identifier of the review"
           },
@@ -1347,7 +1428,14 @@
             "description": "The rating given by the user"
           },
           "comment": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Comment",
             "description": "The textual comment of the review"
           }
@@ -1363,7 +1451,14 @@
       "User": {
         "properties": {
           "id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Id",
             "description": "The unique identifier of the user"
           },
@@ -1378,19 +1473,40 @@
             "description": "The email address of the user"
           },
           "phone_number": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Phone Number",
             "description": "The phone number of the user"
           },
           "preferences": {
-            "items": {},
-            "type": "array",
+            "anyOf": [
+              {
+                "items": {},
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Preferences",
             "description": "The dining preferences of the user",
             "default": []
           },
           "role": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Role",
             "description": "The role of the user (e.g., admin, user, restaurant_owner)",
             "default": "user"

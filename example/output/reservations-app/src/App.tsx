@@ -3,12 +3,16 @@ import "./App.css";
 
 // Import MUI Components
 import { Container, Box, Typography } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { Divider } from "@mui/material";
+import { Grid } from "@mui/material";
 
 // Import Client
 import { DefaultApi } from "./api";
 import { Configuration } from "./api";
+
+// Import Delete Icon
+import DeleteIcon from "@mui/icons-material/Delete";
 
 // Import Models
 
@@ -20,234 +24,289 @@ import { Reservation } from "./api";
 
 import { Review } from "./api";
 
-
-// Declare Columns for DataGrid
-
-
-const user_columns = [
-
-
-
-
-        { field: "username", headerName: "username", width: 150 },
-
-
-
-        { field: "email", headerName: "email", width: 150 },
-
-
-
-        { field: "phone_number", headerName: "phone_number", width: 150 },
-
-
-
-        { field: "preferences", headerName: "preferences", width: 150 },
-
-
-
-        { field: "role", headerName: "role", width: 150 },
-
-
-];
-
-
-
-const restaurant_columns = [
-
-
-
-
-        { field: "name", headerName: "name", width: 150 },
-
-
-
-        { field: "location", headerName: "location", width: 150 },
-
-
-
-        { field: "cuisine", headerName: "cuisine", width: 150 },
-
-
-
-        { field: "rating", headerName: "rating", width: 150 },
-
-
-
-        { field: "price_range", headerName: "price_range", width: 150 },
-
-
-];
-
-
-
-const reservation_columns = [
-
-
-
-
-        { field: "restaurant_id", headerName: "restaurant_id", width: 150 },
-
-
-
-        { field: "user_id", headerName: "user_id", width: 150 },
-
-
-
-        { field: "reservation_time", headerName: "reservation_time", width: 150 },
-
-
-
-        { field: "party_size", headerName: "party_size", width: 150 },
-
-
-
-        { field: "special_requests", headerName: "special_requests", width: 150 },
-
-
-];
-
-
-
-const review_columns = [
-
-
-
-
-        { field: "restaurant_id", headerName: "restaurant_id", width: 150 },
-
-
-
-        { field: "user_id", headerName: "user_id", width: 150 },
-
-
-
-        { field: "rating", headerName: "rating", width: 150 },
-
-
-
-        { field: "comment", headerName: "comment", width: 150 },
-
-
-];
-
-
-
-
 // Replace with your Host and Port
-cost basePath = "http://localhost:8000";
+const basePath = "http://localhost:8000";
 
 function App() {
+  // Declare API Client
+  const configuration = new Configuration({
+    basePath: basePath,
+  });
+  const api = new DefaultApi(configuration);
 
-    // Declare API Client
-    const configuration = new Configuration({
-      basePath: basePath,
-    });
-    const api = new DefaultApi(configuration);
+  // Declare State
 
-    // Declare State
+  const [user, setUser] = React.useState<User[]>([]);
 
-    const [user, setUser] = React.useState<User[]>([]);
+  const [restaurant, setRestaurant] = React.useState<Restaurant[]>([]);
 
-    const [restaurant, setRestaurant] = React.useState<Restaurant[]>([]);
+  const [reservation, setReservation] = React.useState<Reservation[]>([]);
 
-    const [reservation, setReservation] = React.useState<Reservation[]>([]);
+  const [review, setReview] = React.useState<Review[]>([]);
 
-    const [review, setReview] = React.useState<Review[]>([]);
+  // Declare Columns for User
+  const user_columns = [
+    { field: "username", headerName: "username", width: 150 },
 
+    { field: "email", headerName: "email", width: 150 },
 
-    // Fetch Data
+    { field: "phoneNumber", headerName: "phone_number", width: 150 },
 
-    const fetchUser = async () => {
-      const res = await api.getUsersUsersGet();
-      setUser(res);
-    };
+    { field: "preferences", headerName: "preferences", width: 150 },
 
-    const fetchRestaurant = async () => {
-      const res = await api.getRestaurantsRestaurantsGet();
-      setRestaurant(res);
-    };
+    { field: "role", headerName: "role", width: 150 },
 
-    const fetchReservation = async () => {
-      const res = await api.getReservationsReservationsGet();
-      setReservation(res);
-    };
+    // Delete Button, will call the delete endpoint and reload the data
+    {
+      field: "delete",
+      headerName: "Delete",
+      width: 100,
+      renderCell: (params: GridCellParams<User>) => {
+        return (
+          <DeleteIcon
+            onClick={() => {
+              let model = params.row as User;
+              if (!model.id) {
+                console.log("Could not find id for deletion", model);
+                return;
+              }
+              api
+                .deleteUserUserDelete({ userId: model.id as string })
+                .then(() => {
+                  fetchUsers();
+                });
+            }}
+          />
+        );
+      },
+    },
+  ];
 
-    const fetchReview = async () => {
-      const res = await api.getReviewsReviewsGet();
-      setReview(res);
-    };
+  // Declare Columns for Restaurant
+  const restaurant_columns = [
+    { field: "name", headerName: "name", width: 150 },
 
+    { field: "location", headerName: "location", width: 150 },
 
-    useEffect(() => {
+    { field: "cuisine", headerName: "cuisine", width: 150 },
 
-        fetchUser();
+    { field: "rating", headerName: "rating", width: 150 },
 
-        fetchRestaurant();
+    { field: "priceRange", headerName: "price_range", width: 150 },
 
-        fetchReservation();
+    // Delete Button, will call the delete endpoint and reload the data
+    {
+      field: "delete",
+      headerName: "Delete",
+      width: 100,
+      renderCell: (params: GridCellParams<Restaurant>) => {
+        return (
+          <DeleteIcon
+            onClick={() => {
+              let model = params.row as Restaurant;
+              if (!model.id) {
+                console.log("Could not find id for deletion", model);
+                return;
+              }
+              api
+                .deleteRestaurantRestaurantDelete({
+                  restaurantId: model.id as string,
+                })
+                .then(() => {
+                  fetchRestaurants();
+                });
+            }}
+          />
+        );
+      },
+    },
+  ];
 
-        fetchReview();
+  // Declare Columns for Reservation
+  const reservation_columns = [
+    { field: "restaurantId", headerName: "restaurant_id", width: 150 },
 
-    }, []);
+    { field: "userId", headerName: "user_id", width: 150 },
 
-    return (
-        <div>
-            <Container>
-                <Box m={3}>
-                    <Box>
-                        <Typography variant="h4">My Application</Typography>
-                        <p>Generated with FastAPI-React-Generator</p>
-                        <p>At the moment the frontend template is very basic, but you can customize it as you wish. Any objects present in the database will be pulled into the tables here and visualized. </p>
-                    </Box>
+    { field: "reservationTime", headerName: "reservation_time", width: 150 },
 
-                    <Box m={3}>
-                        <Divider> Users </Divider>
-                        {
-                            user && user.length > 0 ?
-                             <Box m={3}>
-                                <DataGrid rows={ user } columns={ user_columns}/>
-                            </Box>
-                            : <p>No Users found!</p>
-                        }
-                    </Box>
+    { field: "partySize", headerName: "party_size", width: 150 },
 
-                    <Box m={3}>
-                        <Divider> Restaurants </Divider>
-                        {
-                            restaurant && restaurant.length > 0 ?
-                             <Box m={3}>
-                                <DataGrid rows={ restaurant } columns={ restaurant_columns}/>
-                            </Box>
-                            : <p>No Restaurants found!</p>
-                        }
-                    </Box>
+    { field: "specialRequests", headerName: "special_requests", width: 150 },
 
-                    <Box m={3}>
-                        <Divider> Reservations </Divider>
-                        {
-                            reservation && reservation.length > 0 ?
-                             <Box m={3}>
-                                <DataGrid rows={ reservation } columns={ reservation_columns}/>
-                            </Box>
-                            : <p>No Reservations found!</p>
-                        }
-                    </Box>
+    // Delete Button, will call the delete endpoint and reload the data
+    {
+      field: "delete",
+      headerName: "Delete",
+      width: 100,
+      renderCell: (params: GridCellParams<Reservation>) => {
+        return (
+          <DeleteIcon
+            onClick={() => {
+              let model = params.row as Reservation;
+              if (!model.id) {
+                console.log("Could not find id for deletion", model);
+                return;
+              }
+              api
+                .deleteReservationReservationDelete({
+                  reservationId: model.id as string,
+                })
+                .then(() => {
+                  fetchReservations();
+                });
+            }}
+          />
+        );
+      },
+    },
+  ];
 
-                    <Box m={3}>
-                        <Divider> Reviews </Divider>
-                        {
-                            review && review.length > 0 ?
-                             <Box m={3}>
-                                <DataGrid rows={ review } columns={ review_columns}/>
-                            </Box>
-                            : <p>No Reviews found!</p>
-                        }
-                    </Box>
+  // Declare Columns for Review
+  const review_columns = [
+    { field: "restaurantId", headerName: "restaurant_id", width: 150 },
 
-                </Box>
-            </Container>
-        </div>
-    );
+    { field: "userId", headerName: "user_id", width: 150 },
+
+    { field: "rating", headerName: "rating", width: 150 },
+
+    { field: "comment", headerName: "comment", width: 150 },
+
+    // Delete Button, will call the delete endpoint and reload the data
+    {
+      field: "delete",
+      headerName: "Delete",
+      width: 100,
+      renderCell: (params: GridCellParams<Review>) => {
+        return (
+          <DeleteIcon
+            onClick={() => {
+              let model = params.row as Review;
+              if (!model.id) {
+                console.log("Could not find id for deletion", model);
+                return;
+              }
+              api
+                .deleteReviewReviewDelete({ reviewId: model.id as string })
+                .then(() => {
+                  fetchReviews();
+                });
+            }}
+          />
+        );
+      },
+    },
+  ];
+
+  // Fetch Data
+
+  const fetchUsers = async () => {
+    const res = await api.getUsersUsersGet();
+    setUser(res);
+  };
+
+  const fetchRestaurants = async () => {
+    const res = await api.getRestaurantsRestaurantsGet();
+    setRestaurant(res);
+  };
+
+  const fetchReservations = async () => {
+    const res = await api.getReservationsReservationsGet();
+    setReservation(res);
+  };
+
+  const fetchReviews = async () => {
+    const res = await api.getReviewsReviewsGet();
+    setReview(res);
+  };
+
+  useEffect(() => {
+    fetchUsers();
+
+    fetchRestaurants();
+
+    fetchReservations();
+
+    fetchReviews();
+  }, []);
+
+  return (
+    <div>
+      <Box m={3}>
+        <Box>
+          <Typography variant="h4">My Application</Typography>
+          <p>Generated with FastAPI-React-Generator</p>
+          <p>
+            At the moment the frontend template is very basic, but you can
+            customize it as you wish. Any objects present in the database will
+            be pulled into the tables here and visualized.{" "}
+          </p>
+        </Box>
+
+        <Grid container spacing={1}>
+          <Grid item xs={6}>
+            <Divider> Users </Divider>
+            {user && user.length > 0 ? (
+              <Box m={3}>
+                <DataGrid
+                  rows={user}
+                  columns={user_columns}
+                  density="compact"
+                />
+              </Box>
+            ) : (
+              <p>No Users found!</p>
+            )}
+          </Grid>
+
+          <Grid item xs={6}>
+            <Divider> Restaurants </Divider>
+            {restaurant && restaurant.length > 0 ? (
+              <Box m={3}>
+                <DataGrid
+                  rows={restaurant}
+                  columns={restaurant_columns}
+                  density="compact"
+                />
+              </Box>
+            ) : (
+              <p>No Restaurants found!</p>
+            )}
+          </Grid>
+
+          <Grid item xs={6}>
+            <Divider> Reservations </Divider>
+            {reservation && reservation.length > 0 ? (
+              <Box m={3}>
+                <DataGrid
+                  rows={reservation}
+                  columns={reservation_columns}
+                  density="compact"
+                />
+              </Box>
+            ) : (
+              <p>No Reservations found!</p>
+            )}
+          </Grid>
+
+          <Grid item xs={6}>
+            <Divider> Reviews </Divider>
+            {review && review.length > 0 ? (
+              <Box m={3}>
+                <DataGrid
+                  rows={review}
+                  columns={review_columns}
+                  density="compact"
+                />
+              </Box>
+            ) : (
+              <p>No Reviews found!</p>
+            )}
+          </Grid>
+        </Grid>
+      </Box>
+    </div>
+  );
 }
 
 export default App;

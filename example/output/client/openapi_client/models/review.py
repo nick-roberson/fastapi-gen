@@ -19,6 +19,8 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set, Union
 
+from openapi_client.models.comment import Comment
+from openapi_client.models.id2 import Id2
 from pydantic import (BaseModel, ConfigDict, Field, StrictFloat, StrictInt,
                       StrictStr)
 from typing_extensions import Self
@@ -29,9 +31,7 @@ class Review(BaseModel):
     Review
     """  # noqa: E501
 
-    id: Optional[StrictStr] = Field(
-        default=None, description="The unique identifier of the review"
-    )
+    id: Optional[Id2] = None
     restaurant_id: StrictStr = Field(
         description="The ID of the restaurant being reviewed"
     )
@@ -39,9 +39,7 @@ class Review(BaseModel):
     rating: Union[StrictFloat, StrictInt] = Field(
         description="The rating given by the user"
     )
-    comment: Optional[StrictStr] = Field(
-        default=None, description="The textual comment of the review"
-    )
+    comment: Optional[Comment] = None
     __properties: ClassVar[List[str]] = [
         "id",
         "restaurant_id",
@@ -87,6 +85,12 @@ class Review(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of id
+        if self.id:
+            _dict["id"] = self.id.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of comment
+        if self.comment:
+            _dict["comment"] = self.comment.to_dict()
         return _dict
 
     @classmethod
@@ -100,11 +104,15 @@ class Review(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "id": obj.get("id"),
+                "id": Id2.from_dict(obj["id"]) if obj.get("id") is not None else None,
                 "restaurant_id": obj.get("restaurant_id"),
                 "user_id": obj.get("user_id"),
                 "rating": obj.get("rating"),
-                "comment": obj.get("comment"),
+                "comment": (
+                    Comment.from_dict(obj["comment"])
+                    if obj.get("comment") is not None
+                    else None
+                ),
             }
         )
         return _obj

@@ -572,7 +572,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteReservationReservationDeleteRaw(
     requestParameters: DeleteReservationReservationDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<any>> {
+  ): Promise<runtime.ApiResponse<Reservation>> {
     if (requestParameters["reservationId"] == null) {
       throw new runtime.RequiredError(
         "reservationId",
@@ -598,11 +598,9 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    if (this.isJsonMime(response.headers.get("content-type"))) {
-      return new runtime.JSONApiResponse<any>(response);
-    } else {
-      return new runtime.TextApiResponse(response) as any;
-    }
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      ReservationFromJSON(jsonValue),
+    );
   }
 
   /**
@@ -612,7 +610,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteReservationReservationDelete(
     requestParameters: DeleteReservationReservationDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<any> {
+  ): Promise<Reservation> {
     const response = await this.deleteReservationReservationDeleteRaw(
       requestParameters,
       initOverrides,
@@ -627,7 +625,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteReservationsReservationsDeleteRaw(
     requestParameters: DeleteReservationsReservationsDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<any>> {
+  ): Promise<runtime.ApiResponse<Array<Reservation>>> {
     if (requestParameters["requestBody"] == null) {
       throw new runtime.RequiredError(
         "requestBody",
@@ -652,11 +650,9 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    if (this.isJsonMime(response.headers.get("content-type"))) {
-      return new runtime.JSONApiResponse<any>(response);
-    } else {
-      return new runtime.TextApiResponse(response) as any;
-    }
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(ReservationFromJSON),
+    );
   }
 
   /**
@@ -666,7 +662,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteReservationsReservationsDelete(
     requestParameters: DeleteReservationsReservationsDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<any> {
+  ): Promise<Array<Reservation>> {
     const response = await this.deleteReservationsReservationsDeleteRaw(
       requestParameters,
       initOverrides,
@@ -681,7 +677,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteRestaurantRestaurantDeleteRaw(
     requestParameters: DeleteRestaurantRestaurantDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<any>> {
+  ): Promise<runtime.ApiResponse<Restaurant>> {
     if (requestParameters["restaurantId"] == null) {
       throw new runtime.RequiredError(
         "restaurantId",
@@ -707,11 +703,9 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    if (this.isJsonMime(response.headers.get("content-type"))) {
-      return new runtime.JSONApiResponse<any>(response);
-    } else {
-      return new runtime.TextApiResponse(response) as any;
-    }
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      RestaurantFromJSON(jsonValue),
+    );
   }
 
   /**
@@ -721,7 +715,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteRestaurantRestaurantDelete(
     requestParameters: DeleteRestaurantRestaurantDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<any> {
+  ): Promise<Restaurant> {
     const response = await this.deleteRestaurantRestaurantDeleteRaw(
       requestParameters,
       initOverrides,
@@ -736,7 +730,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteRestaurantsRestaurantsDeleteRaw(
     requestParameters: DeleteRestaurantsRestaurantsDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<any>> {
+  ): Promise<runtime.ApiResponse<Array<Restaurant>>> {
     if (requestParameters["requestBody"] == null) {
       throw new runtime.RequiredError(
         "requestBody",
@@ -761,11 +755,9 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    if (this.isJsonMime(response.headers.get("content-type"))) {
-      return new runtime.JSONApiResponse<any>(response);
-    } else {
-      return new runtime.TextApiResponse(response) as any;
-    }
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(RestaurantFromJSON),
+    );
   }
 
   /**
@@ -775,7 +767,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteRestaurantsRestaurantsDelete(
     requestParameters: DeleteRestaurantsRestaurantsDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<any> {
+  ): Promise<Array<Restaurant>> {
     const response = await this.deleteRestaurantsRestaurantsDeleteRaw(
       requestParameters,
       initOverrides,
@@ -790,7 +782,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteReviewReviewDeleteRaw(
     requestParameters: DeleteReviewReviewDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<any>> {
+  ): Promise<runtime.ApiResponse<Review>> {
     if (requestParameters["reviewId"] == null) {
       throw new runtime.RequiredError(
         "reviewId",
@@ -816,11 +808,9 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    if (this.isJsonMime(response.headers.get("content-type"))) {
-      return new runtime.JSONApiResponse<any>(response);
-    } else {
-      return new runtime.TextApiResponse(response) as any;
-    }
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      ReviewFromJSON(jsonValue),
+    );
   }
 
   /**
@@ -830,7 +820,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteReviewReviewDelete(
     requestParameters: DeleteReviewReviewDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<any> {
+  ): Promise<Review> {
     const response = await this.deleteReviewReviewDeleteRaw(
       requestParameters,
       initOverrides,
@@ -845,7 +835,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteReviewsReviewsDeleteRaw(
     requestParameters: DeleteReviewsReviewsDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<any>> {
+  ): Promise<runtime.ApiResponse<Array<Review>>> {
     if (requestParameters["requestBody"] == null) {
       throw new runtime.RequiredError(
         "requestBody",
@@ -870,11 +860,9 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    if (this.isJsonMime(response.headers.get("content-type"))) {
-      return new runtime.JSONApiResponse<any>(response);
-    } else {
-      return new runtime.TextApiResponse(response) as any;
-    }
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(ReviewFromJSON),
+    );
   }
 
   /**
@@ -884,7 +872,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteReviewsReviewsDelete(
     requestParameters: DeleteReviewsReviewsDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<any> {
+  ): Promise<Array<Review>> {
     const response = await this.deleteReviewsReviewsDeleteRaw(
       requestParameters,
       initOverrides,
@@ -899,7 +887,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteUserUserDeleteRaw(
     requestParameters: DeleteUserUserDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<any>> {
+  ): Promise<runtime.ApiResponse<User>> {
     if (requestParameters["userId"] == null) {
       throw new runtime.RequiredError(
         "userId",
@@ -925,11 +913,9 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    if (this.isJsonMime(response.headers.get("content-type"))) {
-      return new runtime.JSONApiResponse<any>(response);
-    } else {
-      return new runtime.TextApiResponse(response) as any;
-    }
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      UserFromJSON(jsonValue),
+    );
   }
 
   /**
@@ -939,7 +925,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteUserUserDelete(
     requestParameters: DeleteUserUserDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<any> {
+  ): Promise<User> {
     const response = await this.deleteUserUserDeleteRaw(
       requestParameters,
       initOverrides,
@@ -954,7 +940,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteUsersUsersDeleteRaw(
     requestParameters: DeleteUsersUsersDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<any>> {
+  ): Promise<runtime.ApiResponse<Array<User>>> {
     if (requestParameters["requestBody"] == null) {
       throw new runtime.RequiredError(
         "requestBody",
@@ -979,11 +965,9 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides,
     );
 
-    if (this.isJsonMime(response.headers.get("content-type"))) {
-      return new runtime.JSONApiResponse<any>(response);
-    } else {
-      return new runtime.TextApiResponse(response) as any;
-    }
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(UserFromJSON),
+    );
   }
 
   /**
@@ -993,7 +977,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async deleteUsersUsersDelete(
     requestParameters: DeleteUsersUsersDeleteRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<any> {
+  ): Promise<Array<User>> {
     const response = await this.deleteUsersUsersDeleteRaw(
       requestParameters,
       initOverrides,

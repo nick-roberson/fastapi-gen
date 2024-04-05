@@ -222,56 +222,56 @@ def update_reviews(reviews: List[Review]) -> List[Review]:
 
 
 @app.delete("/user")
-def delete_user(user_id: str):
+def delete_user(user_id: str) -> User:
     """Delete a User"""
     print(f"Deleting User with id: {id}")
     return user_manager.delete(user_id=user_id)
 
 
 @app.delete("/users")
-def delete_users(user_ids: List[str]):
+def delete_users(user_ids: List[str]) -> List[User]:
     """Delete multiple Users"""
     print(f"Deleting Users: {str(user_ids)}")
     return user_manager.delete_many(user_ids=user_ids)
 
 
 @app.delete("/restaurant")
-def delete_restaurant(restaurant_id: str):
+def delete_restaurant(restaurant_id: str) -> Restaurant:
     """Delete a Restaurant"""
     print(f"Deleting Restaurant with id: {id}")
     return restaurant_manager.delete(restaurant_id=restaurant_id)
 
 
 @app.delete("/restaurants")
-def delete_restaurants(restaurant_ids: List[str]):
+def delete_restaurants(restaurant_ids: List[str]) -> List[Restaurant]:
     """Delete multiple Restaurants"""
     print(f"Deleting Restaurants: {str(restaurant_ids)}")
     return restaurant_manager.delete_many(restaurant_ids=restaurant_ids)
 
 
 @app.delete("/reservation")
-def delete_reservation(reservation_id: str):
+def delete_reservation(reservation_id: str) -> Reservation:
     """Delete a Reservation"""
     print(f"Deleting Reservation with id: {id}")
     return reservation_manager.delete(reservation_id=reservation_id)
 
 
 @app.delete("/reservations")
-def delete_reservations(reservation_ids: List[str]):
+def delete_reservations(reservation_ids: List[str]) -> List[Reservation]:
     """Delete multiple Reservations"""
     print(f"Deleting Reservations: {str(reservation_ids)}")
     return reservation_manager.delete_many(reservation_ids=reservation_ids)
 
 
 @app.delete("/review")
-def delete_review(review_id: str):
+def delete_review(review_id: str) -> Review:
     """Delete a Review"""
     print(f"Deleting Review with id: {id}")
     return review_manager.delete(review_id=review_id)
 
 
 @app.delete("/reviews")
-def delete_reviews(review_ids: List[str]):
+def delete_reviews(review_ids: List[str]) -> List[Review]:
     """Delete multiple Reviews"""
     print(f"Deleting Reviews: {str(review_ids)}")
     return review_manager.delete_many(review_ids=review_ids)

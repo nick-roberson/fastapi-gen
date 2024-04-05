@@ -1,4 +1,4 @@
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, ConfigDict, field_validator
 from pydantic.fields import FieldInfo
@@ -36,6 +36,16 @@ class FieldDefinition(BaseModel):
         if v not in FieldDataType.choices():
             raise ValueError(f"type must be one of {FieldDataType.choices()}")
         return v
+
+    @property
+    def camel_case_name(self):
+        """For example phone_number -> phoneNumber"""
+        return "".join(
+            [
+                word.capitalize() if i > 0 else word
+                for i, word in enumerate(self.name.split("_"))
+            ]
+        )
 
     def verify_default(self):
         """We want to check here that if there is a default value, it is of the correct type"""
@@ -106,11 +116,11 @@ class FieldDefinition(BaseModel):
         # If not required, include default  (if present)
         else:
             if self.default is None:
-                return f"{self.name}: {self.type} = FieldInfo(default=None,description='{self.description}', required={self.required})"
+                return f"{self.name}: Optional[{self.type}] = FieldInfo(default=None,description='{self.description}', required={self.required})"
             else:
                 default = f"'{self.default}'" if self.type == "str" else self.default
                 return (
-                    f"{self.name}: {self.type} = FieldInfo(default={default}, description='{self.description}', "
+                    f"{self.name}: Optional[{self.type}] = FieldInfo(default={default}, description='{self.description}', "
                     f"required={self.required})"
                 )
 

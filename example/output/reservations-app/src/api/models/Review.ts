@@ -13,6 +13,15 @@
  */
 
 import { mapValues } from "../runtime";
+import type { Comment } from "./Comment";
+import {
+  CommentFromJSON,
+  CommentFromJSONTyped,
+  CommentToJSON,
+} from "./Comment";
+import type { Id2 } from "./Id2";
+import { Id2FromJSON, Id2FromJSONTyped, Id2ToJSON } from "./Id2";
+
 /**
  *
  * @export
@@ -20,11 +29,11 @@ import { mapValues } from "../runtime";
  */
 export interface Review {
   /**
-   * The unique identifier of the review
-   * @type {string}
+   *
+   * @type {Id2}
    * @memberof Review
    */
-  id?: string;
+  id?: Id2;
   /**
    * The ID of the restaurant being reviewed
    * @type {string}
@@ -44,11 +53,11 @@ export interface Review {
    */
   rating: number;
   /**
-   * The textual comment of the review
-   * @type {string}
+   *
+   * @type {Comment}
    * @memberof Review
    */
-  comment?: string;
+  comment?: Comment;
 }
 
 /**
@@ -73,11 +82,12 @@ export function ReviewFromJSONTyped(
     return json;
   }
   return {
-    id: json["id"] == null ? undefined : json["id"],
+    id: json["id"] == null ? undefined : Id2FromJSON(json["id"]),
     restaurantId: json["restaurant_id"],
     userId: json["user_id"],
     rating: json["rating"],
-    comment: json["comment"] == null ? undefined : json["comment"],
+    comment:
+      json["comment"] == null ? undefined : CommentFromJSON(json["comment"]),
   };
 }
 
@@ -86,10 +96,10 @@ export function ReviewToJSON(value?: Review | null): any {
     return value;
   }
   return {
-    id: value["id"],
+    id: Id2ToJSON(value["id"]),
     restaurant_id: value["restaurantId"],
     user_id: value["userId"],
     rating: value["rating"],
-    comment: value["comment"],
+    comment: CommentToJSON(value["comment"]),
   };
 }

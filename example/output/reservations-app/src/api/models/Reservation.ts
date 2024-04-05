@@ -13,6 +13,15 @@
  */
 
 import { mapValues } from "../runtime";
+import type { Id } from "./Id";
+import { IdFromJSON, IdFromJSONTyped, IdToJSON } from "./Id";
+import type { SpecialRequests } from "./SpecialRequests";
+import {
+  SpecialRequestsFromJSON,
+  SpecialRequestsFromJSONTyped,
+  SpecialRequestsToJSON,
+} from "./SpecialRequests";
+
 /**
  *
  * @export
@@ -20,11 +29,11 @@ import { mapValues } from "../runtime";
  */
 export interface Reservation {
   /**
-   * The unique identifier of the reservation
-   * @type {string}
+   *
+   * @type {Id}
    * @memberof Reservation
    */
-  id?: string;
+  id?: Id;
   /**
    * The ID of the restaurant where the reservation is made
    * @type {string}
@@ -50,11 +59,11 @@ export interface Reservation {
    */
   partySize: number;
   /**
-   * Any special requests made by the user
-   * @type {string}
+   *
+   * @type {SpecialRequests}
    * @memberof Reservation
    */
-  specialRequests?: string;
+  specialRequests?: SpecialRequests;
 }
 
 /**
@@ -80,13 +89,15 @@ export function ReservationFromJSONTyped(
     return json;
   }
   return {
-    id: json["id"] == null ? undefined : json["id"],
+    id: json["id"] == null ? undefined : IdFromJSON(json["id"]),
     restaurantId: json["restaurant_id"],
     userId: json["user_id"],
     reservationTime: new Date(json["reservation_time"]),
     partySize: json["party_size"],
     specialRequests:
-      json["special_requests"] == null ? undefined : json["special_requests"],
+      json["special_requests"] == null
+        ? undefined
+        : SpecialRequestsFromJSON(json["special_requests"]),
   };
 }
 
@@ -95,11 +106,11 @@ export function ReservationToJSON(value?: Reservation | null): any {
     return value;
   }
   return {
-    id: value["id"],
+    id: IdToJSON(value["id"]),
     restaurant_id: value["restaurantId"],
     user_id: value["userId"],
     reservation_time: value["reservationTime"].toISOString(),
     party_size: value["partySize"],
-    special_requests: value["specialRequests"],
+    special_requests: SpecialRequestsToJSON(value["specialRequests"]),
   };
 }

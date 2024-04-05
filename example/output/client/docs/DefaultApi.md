@@ -592,7 +592,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_reservation_reservation_delete**
-> object delete_reservation_reservation_delete(reservation_id)
+> Reservation delete_reservation_reservation_delete(reservation_id)
 
 Delete Reservation
 
@@ -603,6 +603,7 @@ Delete a Reservation
 
 ```python
 import openapi_client
+from openapi_client.models.reservation import Reservation
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -639,7 +640,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**object**
+[**Reservation**](Reservation.md)
 
 ### Authorization
 
@@ -660,7 +661,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_reservations_reservations_delete**
-> object delete_reservations_reservations_delete(request_body)
+> List[Reservation] delete_reservations_reservations_delete(request_body)
 
 Delete Reservations
 
@@ -671,6 +672,7 @@ Delete multiple Reservations
 
 ```python
 import openapi_client
+from openapi_client.models.reservation import Reservation
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -707,7 +709,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**object**
+[**List[Reservation]**](Reservation.md)
 
 ### Authorization
 
@@ -728,7 +730,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_restaurant_restaurant_delete**
-> object delete_restaurant_restaurant_delete(restaurant_id)
+> Restaurant delete_restaurant_restaurant_delete(restaurant_id)
 
 Delete Restaurant
 
@@ -739,6 +741,7 @@ Delete a Restaurant
 
 ```python
 import openapi_client
+from openapi_client.models.restaurant import Restaurant
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -775,7 +778,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**object**
+[**Restaurant**](Restaurant.md)
 
 ### Authorization
 
@@ -796,7 +799,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_restaurants_restaurants_delete**
-> object delete_restaurants_restaurants_delete(request_body)
+> List[Restaurant] delete_restaurants_restaurants_delete(request_body)
 
 Delete Restaurants
 
@@ -807,6 +810,7 @@ Delete multiple Restaurants
 
 ```python
 import openapi_client
+from openapi_client.models.restaurant import Restaurant
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -843,7 +847,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**object**
+[**List[Restaurant]**](Restaurant.md)
 
 ### Authorization
 
@@ -864,7 +868,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_review_review_delete**
-> object delete_review_review_delete(review_id)
+> Review delete_review_review_delete(review_id)
 
 Delete Review
 
@@ -875,6 +879,7 @@ Delete a Review
 
 ```python
 import openapi_client
+from openapi_client.models.review import Review
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -911,7 +916,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**object**
+[**Review**](Review.md)
 
 ### Authorization
 
@@ -932,7 +937,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_reviews_reviews_delete**
-> object delete_reviews_reviews_delete(request_body)
+> List[Review] delete_reviews_reviews_delete(request_body)
 
 Delete Reviews
 
@@ -943,6 +948,7 @@ Delete multiple Reviews
 
 ```python
 import openapi_client
+from openapi_client.models.review import Review
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -979,7 +985,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**object**
+[**List[Review]**](Review.md)
 
 ### Authorization
 
@@ -1000,7 +1006,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_user_user_delete**
-> object delete_user_user_delete(user_id)
+> User delete_user_user_delete(user_id)
 
 Delete User
 
@@ -1011,6 +1017,7 @@ Delete a User
 
 ```python
 import openapi_client
+from openapi_client.models.user import User
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -1047,7 +1054,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**object**
+[**User**](User.md)
 
 ### Authorization
 
@@ -1068,7 +1075,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_users_users_delete**
-> object delete_users_users_delete(request_body)
+> List[User] delete_users_users_delete(request_body)
 
 Delete Users
 
@@ -1079,6 +1086,7 @@ Delete multiple Users
 
 ```python
 import openapi_client
+from openapi_client.models.user import User
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -1115,7 +1123,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**object**
+[**List[User]**](User.md)
 
 ### Authorization
 

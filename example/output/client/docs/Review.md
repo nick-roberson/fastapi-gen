@@ -5,11 +5,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** | The unique identifier of the review | [optional]
+**id** | [**Id2**](Id2.md) |  | [optional]
 **restaurant_id** | **str** | The ID of the restaurant being reviewed |
 **user_id** | **str** | The ID of the user who wrote the review |
 **rating** | **float** | The rating given by the user |
-**comment** | **str** | The textual comment of the review | [optional]
+**comment** | [**Comment**](Comment.md) |  | [optional]
 
 ## Example
 

@@ -20,6 +20,8 @@ import re  # noqa: F401
 from datetime import datetime
 from typing import Any, ClassVar, Dict, List, Optional, Set
 
+from openapi_client.models.id import Id
+from openapi_client.models.special_requests import SpecialRequests
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing_extensions import Self
 
@@ -29,9 +31,7 @@ class Reservation(BaseModel):
     Reservation
     """  # noqa: E501
 
-    id: Optional[StrictStr] = Field(
-        default=None, description="The unique identifier of the reservation"
-    )
+    id: Optional[Id] = None
     restaurant_id: StrictStr = Field(
         description="The ID of the restaurant where the reservation is made"
     )
@@ -44,9 +44,7 @@ class Reservation(BaseModel):
     party_size: StrictInt = Field(
         description="The size of the party for the reservation"
     )
-    special_requests: Optional[StrictStr] = Field(
-        default=None, description="Any special requests made by the user"
-    )
+    special_requests: Optional[SpecialRequests] = None
     __properties: ClassVar[List[str]] = [
         "id",
         "restaurant_id",
@@ -93,6 +91,12 @@ class Reservation(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of id
+        if self.id:
+            _dict["id"] = self.id.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of special_requests
+        if self.special_requests:
+            _dict["special_requests"] = self.special_requests.to_dict()
         return _dict
 
     @classmethod
@@ -106,12 +110,16 @@ class Reservation(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "id": obj.get("id"),
+                "id": Id.from_dict(obj["id"]) if obj.get("id") is not None else None,
                 "restaurant_id": obj.get("restaurant_id"),
                 "user_id": obj.get("user_id"),
                 "reservation_time": obj.get("reservation_time"),
                 "party_size": obj.get("party_size"),
-                "special_requests": obj.get("special_requests"),
+                "special_requests": (
+                    SpecialRequests.from_dict(obj["special_requests"])
+                    if obj.get("special_requests") is not None
+                    else None
+                ),
             }
         )
         return _obj

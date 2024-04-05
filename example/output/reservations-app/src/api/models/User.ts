@@ -13,6 +13,23 @@
  */
 
 import { mapValues } from "../runtime";
+import type { Id3 } from "./Id3";
+import { Id3FromJSON, Id3FromJSONTyped, Id3ToJSON } from "./Id3";
+import type { PhoneNumber } from "./PhoneNumber";
+import {
+  PhoneNumberFromJSON,
+  PhoneNumberFromJSONTyped,
+  PhoneNumberToJSON,
+} from "./PhoneNumber";
+import type { Preferences } from "./Preferences";
+import {
+  PreferencesFromJSON,
+  PreferencesFromJSONTyped,
+  PreferencesToJSON,
+} from "./Preferences";
+import type { Role } from "./Role";
+import { RoleFromJSON, RoleFromJSONTyped, RoleToJSON } from "./Role";
+
 /**
  *
  * @export
@@ -20,11 +37,11 @@ import { mapValues } from "../runtime";
  */
 export interface User {
   /**
-   * The unique identifier of the user
-   * @type {string}
+   *
+   * @type {Id3}
    * @memberof User
    */
-  id?: string;
+  id?: Id3;
   /**
    * The username of the user
    * @type {string}
@@ -38,23 +55,23 @@ export interface User {
    */
   email: string;
   /**
-   * The phone number of the user
-   * @type {string}
+   *
+   * @type {PhoneNumber}
    * @memberof User
    */
-  phoneNumber?: string;
+  phoneNumber?: PhoneNumber;
   /**
-   * The dining preferences of the user
-   * @type {Array<any>}
+   *
+   * @type {Preferences}
    * @memberof User
    */
-  preferences?: Array<any>;
+  preferences?: Preferences;
   /**
-   * The role of the user (e.g., admin, user, restaurant_owner)
-   * @type {string}
+   *
+   * @type {Role}
    * @memberof User
    */
-  role?: string;
+  role?: Role;
 }
 
 /**
@@ -78,13 +95,18 @@ export function UserFromJSONTyped(
     return json;
   }
   return {
-    id: json["id"] == null ? undefined : json["id"],
+    id: json["id"] == null ? undefined : Id3FromJSON(json["id"]),
     username: json["username"],
     email: json["email"],
     phoneNumber:
-      json["phone_number"] == null ? undefined : json["phone_number"],
-    preferences: json["preferences"] == null ? undefined : json["preferences"],
-    role: json["role"] == null ? undefined : json["role"],
+      json["phone_number"] == null
+        ? undefined
+        : PhoneNumberFromJSON(json["phone_number"]),
+    preferences:
+      json["preferences"] == null
+        ? undefined
+        : PreferencesFromJSON(json["preferences"]),
+    role: json["role"] == null ? undefined : RoleFromJSON(json["role"]),
   };
 }
 
@@ -93,11 +115,11 @@ export function UserToJSON(value?: User | null): any {
     return value;
   }
   return {
-    id: value["id"],
+    id: Id3ToJSON(value["id"]),
     username: value["username"],
     email: value["email"],
-    phone_number: value["phoneNumber"],
-    preferences: value["preferences"],
-    role: value["role"],
+    phone_number: PhoneNumberToJSON(value["phoneNumber"]),
+    preferences: PreferencesToJSON(value["preferences"]),
+    role: RoleToJSON(value["role"]),
   };
 }
