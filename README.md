@@ -67,14 +67,10 @@ This is a simple FastAPI service that can be used as a starting point for a new 
 - Generate TypeScript and Python clients for the FastAPI service using `openapi-generator`
 - Generate homepage to display all the models that have been generated
 
-#### Linting
-- Lint the frontend code using `prettier`, `esLint`
-- Lint the backend code using `black`, and `isort`
-
 #### Docker
 - Generate Dockerfiles for the FastAPI service and the React frontend
 
-## Installation
+## Setup
 
 - Poetry installed
 - Python 3.12.2 installed (can install via poetry)
@@ -108,8 +104,6 @@ This is the CLI interface for the service generator:
 │ generate-app                                      Generate a FastAPI backend and React frontend from the input yaml config.                                                                             │
 │ generate-python-app                               Generate a FastAPI backend from the input yaml config.                                                                                                │
 │ generate-typescript-app                           Generate a React frontend from the input yaml config.                                                                                                 │
-│ revert                                            Revert the service to a previous version.                                                                                                             │
-│ versions                                          List all versions of the service that have been generated.                                                                                            │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
@@ -198,13 +192,13 @@ Two options, you can either run from your local environment or from the docker c
 
 Local:
 ```
-% cd /Users/nicholas/Code/fastapi-gen/output
+% cd /Users/nicholas/Code/fastapi-gen/example/output/src
 % poetry run uvicorn service:app --reload --port 8000
 ```
 
 Docker:
 ```
-% cd /Users/nicholas/Code/fastapi-gen/output
+% cd /Users/nicholas/Code/fastapi-gen/example/output/src
 % docker build -t myfastapiapp .
 % docker run -p 8000:8000 myfastapiapp
 ```
@@ -213,18 +207,6 @@ To view the generated OpenAPI documentation, navigate to [http://localhost:8000/
 
 ### Front End
 ```
-% cd /Users/nicholas/Code/fastapi-gen/example-output/nicksapp
+% cd /Users/nicholas/Code/fastapi-gen/example/output/reservations-app
 % npm start
 ```
-
-Once you have run the above command, you can navigate to [http://localhost:3000](http://localhost:3000) to view the generated React application. And it should look something like this:
-<p align="center">
-  <img src="images/nicksapp.png" alt="React App">
-</p>
-
-## Import Config to Postman
-
-You can import the API into Postman by following the steps in the following link: [Importing a Collection Using OpenAPI](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/)
-
-The OpenAPI documentation can be found at [http://localhost:8000/docs](http://localhost:8000/docs). The raw JSON
-for the OpenAPI documentation can be found at [http://localhost:8000/openapi.json](http://localhost:8000/openapi.json).
