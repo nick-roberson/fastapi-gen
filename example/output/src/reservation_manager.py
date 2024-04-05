@@ -30,7 +30,7 @@ class ReservationManager:
 
     def create(self, reservation: Reservation) -> Reservation:
         """Create a new Reservation"""
-        logging.info("Creating Reservation: {}".format(reservation))
+        print("Creating Reservation: {}".format(reservation))
         try:
             # Generate id for the model
             if not reservation.id:
@@ -46,7 +46,7 @@ class ReservationManager:
 
     def create_many(self, reservation_list: List[Reservation]) -> List[Reservation]:
         """Create a list of Reservation"""
-        logging.info("Creating Reservation: {}".format(reservation_list))
+        print("Creating Reservation: {}".format(reservation_list))
         try:
             # Generate ids for the models
             for model in reservation_list:
@@ -72,7 +72,7 @@ class ReservationManager:
 
     def get(self, reservation_id: str) -> Reservation:
         """Get a Reservation by its id"""
-        logging.info("Getting Reservation: {}.format(reservation_id)")
+        print("Getting Reservation: {}.format(reservation_id)")
         try:
             return self.collection.find_one({"id": reservation_id})
         except Exception as e:
@@ -80,7 +80,7 @@ class ReservationManager:
 
     def get_many(self, reservation_ids: List[str]) -> List[Reservation]:
         """Get a list of Reservation by their ids"""
-        logging.info("Getting Reservation: {}".format(reservation_ids))
+        print("Getting Reservation: {}".format(reservation_ids))
         try:
             return list(self.collection.find({"id": {"$in": reservation_ids}}))
         except Exception as e:
@@ -88,7 +88,7 @@ class ReservationManager:
 
     def get_all(self) -> List[Reservation]:
         """Get all Reservation"""
-        logging.info(f"Getting all Reservation")
+        print(f"Getting all Reservation")
         try:
             return list(self.collection.find())
         except Exception as e:
@@ -100,7 +100,7 @@ class ReservationManager:
 
     def update(self, reservation: Reservation) -> Reservation:
         """Update a Reservation"""
-        logging.info("Updating Reservation: {}".format(reservation))
+        print("Updating Reservation: {}".format(reservation))
         try:
             # Raise error if id is not present on the model
             if not reservation.id:
@@ -118,7 +118,7 @@ class ReservationManager:
 
     def update_many(self, reservation_list: List[Reservation]) -> List[Reservation]:
         """Update a list of Reservation"""
-        logging.info("Updating Reservation: {}".format(reservation_list))
+        print("Updating Reservation: {}".format(reservation_list))
         try:
             # Update
             for reservation in reservation_list:
@@ -135,7 +135,7 @@ class ReservationManager:
 
     def delete(self, reservation_id: str) -> Reservation:
         """Delete a Reservation"""
-        logging.info("Deleting Reservation: {}".format(reservation_id))
+        print("Deleting Reservation: {}".format(reservation_id))
         try:
             # Find in database
             obj = self.get(reservation_id)
@@ -152,7 +152,7 @@ class ReservationManager:
 
     def delete_many(self, reservation_ids: List[str]) -> List[Reservation]:
         """Delete a list of Reservation"""
-        logging.info("Deleting Reservation: {}".format(reservation_ids))
+        print("Deleting Reservation: {}".format(reservation_ids))
         try:
             # Find in database
             objs = self.get_many(reservation_ids)

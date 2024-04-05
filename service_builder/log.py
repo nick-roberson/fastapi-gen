@@ -55,4 +55,4 @@ def setup_logging(
     log_file = os.path.join(log_dir, f"{datetime.now().isoformat()}.log")
     file_handler = logging.FileHandler(log_file)
     logging.getLogger().addHandler(file_handler)
-    logging.debug(f"Logging to file: {log_file}")
+    print(f"Logging to file: {log_file}")

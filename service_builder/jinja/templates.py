@@ -1,8 +1,7 @@
-import logging
 import os
-import subprocess
 
 from jinja2 import Environment, FileSystemLoader, Template
+from rich import print
 
 # Constants
 VERBOSE: bool = os.environ.get("VERBOSE", False)
@@ -27,7 +26,7 @@ def load_template(template_path: str, template_name: str) -> Template:
         env = Environment(loader=FileSystemLoader(template_path))
         return env.get_template(template_name)
     except Exception as e:
-        logging.info(f"Error loading template: {template_path}, {e}")
+        print(f"Error loading template: {template_path}, {e}")
         raise e
 
 
@@ -48,7 +47,7 @@ def write_template(template: Template, output_path: str, context: dict) -> None:
         with open(output_path, "w") as f:
             f.write(rendered_template)
     except Exception as e:
-        logging.info(f"Error writing template: {output_path}, {e}")
+        print(f"Error writing template: {output_path}, {e}")
         raise e
 
 
@@ -77,5 +76,5 @@ def populate_template(
         return output_path
 
     except Exception as e:
-        logging.info(f"Error populating template: {output_path}, {e}")
+        print(f"Error populating template: {output_path}, {e}")
         raise e

@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "service"
-version = "0.1.0"
-description = "My Generated Service"
-authors = ["TODO"]
+name = "reservations-app"
+version = "1.0.0"
+description = "A restaurant reservations service"
+authors = ["<enter your email>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]

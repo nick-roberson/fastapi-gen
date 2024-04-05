@@ -4,14 +4,7 @@ import pytest
 
 from service_builder.config.parse import load_config, parse_config
 from service_builder.constants import SAMPLE_INPUT_FILE
-from service_builder.generate.backend.generate import (generate_database,
-                                                       generate_managers,
-                                                       generate_models,
-                                                       generate_poetry_toml,
-                                                       generate_readme,
-                                                       generate_services,
-                                                       install_backend_deps,
-                                                       lint_backend)
+from service_builder.generate.backend.generator import BackendGenerator
 
 
 @pytest.mark.parametrize("config", [SAMPLE_INPUT_FILE])
@@ -22,20 +15,15 @@ def test_generate(config):
         config_def = load_config(config)
         config = parse_config(config_def)
 
-        # Generate the models
-        generate_models(config=config, output_dir=output_dir)
-        # Generate the services
-        generate_services(config=config, output_dir=output_dir)
-        # Generate the managers
-        generate_managers(config=config, output_dir=output_dir)
-        # Generate the mongo
-        generate_database(config=config, output_dir=output_dir)
-        # Generate the poetry.toml
-        generate_poetry_toml(config=config, output_dir=output_dir)
+        # Init the backend generator
+        generator = BackendGenerator(config=config, output_dir=output_dir)
 
-        # Generate the README
-        generate_readme(output_dir=output_dir)
-        # Install the dependencies
-        install_backend_deps(output_dir=output_dir)
-        # Lint the code
-        lint_backend(output_dir=output_dir)
+        # Generate the backend code
+        generator.generate_models()
+        generator.generate_services()
+        generator.generate_managers()
+        generator.generate_database()
+        generator.generate_poetry_toml()
+        generator.generate_readme()
+        generator.install_backend_deps()
+        generator.lint_backend()

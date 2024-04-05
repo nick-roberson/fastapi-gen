@@ -30,7 +30,7 @@ class ReviewManager:
 
     def create(self, review: Review) -> Review:
         """Create a new Review"""
-        logging.info("Creating Review: {}".format(review))
+        print("Creating Review: {}".format(review))
         try:
             # Generate id for the model
             if not review.id:
@@ -46,7 +46,7 @@ class ReviewManager:
 
     def create_many(self, review_list: List[Review]) -> List[Review]:
         """Create a list of Review"""
-        logging.info("Creating Review: {}".format(review_list))
+        print("Creating Review: {}".format(review_list))
         try:
             # Generate ids for the models
             for model in review_list:
@@ -69,7 +69,7 @@ class ReviewManager:
 
     def get(self, review_id: str) -> Review:
         """Get a Review by its id"""
-        logging.info("Getting Review: {}.format(review_id)")
+        print("Getting Review: {}.format(review_id)")
         try:
             return self.collection.find_one({"id": review_id})
         except Exception as e:
@@ -77,7 +77,7 @@ class ReviewManager:
 
     def get_many(self, review_ids: List[str]) -> List[Review]:
         """Get a list of Review by their ids"""
-        logging.info("Getting Review: {}".format(review_ids))
+        print("Getting Review: {}".format(review_ids))
         try:
             return list(self.collection.find({"id": {"$in": review_ids}}))
         except Exception as e:
@@ -85,7 +85,7 @@ class ReviewManager:
 
     def get_all(self) -> List[Review]:
         """Get all Review"""
-        logging.info(f"Getting all Review")
+        print(f"Getting all Review")
         try:
             return list(self.collection.find())
         except Exception as e:
@@ -97,7 +97,7 @@ class ReviewManager:
 
     def update(self, review: Review) -> Review:
         """Update a Review"""
-        logging.info("Updating Review: {}".format(review))
+        print("Updating Review: {}".format(review))
         try:
             # Raise error if id is not present on the model
             if not review.id:
@@ -115,7 +115,7 @@ class ReviewManager:
 
     def update_many(self, review_list: List[Review]) -> List[Review]:
         """Update a list of Review"""
-        logging.info("Updating Review: {}".format(review_list))
+        print("Updating Review: {}".format(review_list))
         try:
             # Update
             for review in review_list:
@@ -132,7 +132,7 @@ class ReviewManager:
 
     def delete(self, review_id: str) -> Review:
         """Delete a Review"""
-        logging.info("Deleting Review: {}".format(review_id))
+        print("Deleting Review: {}".format(review_id))
         try:
             # Find in database
             obj = self.get(review_id)
@@ -149,7 +149,7 @@ class ReviewManager:
 
     def delete_many(self, review_ids: List[str]) -> List[Review]:
         """Delete a list of Review"""
-        logging.info("Deleting Review: {}".format(review_ids))
+        print("Deleting Review: {}".format(review_ids))
         try:
             # Find in database
             objs = self.get_many(review_ids)

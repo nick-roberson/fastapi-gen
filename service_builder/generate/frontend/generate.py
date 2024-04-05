@@ -1,103 +1,137 @@
 import os
 from string import Template
-from typing import List
 
 from jinja2 import Environment, FileSystemLoader
+from rich import print
 
 from service_builder.constants import (FRONTEND_TEMPLATES, NODE_DEPENDENCIES,
                                        OPENAPI_SPEC_FN)
-from service_builder.models import ModelConfig, ServiceConfig
-from service_builder.utils import run_command
-
-# Commands
-CREATE_SERVICE_CMD: Template = Template(
-    "npx create-react-app $service_name --template typescript"
-)
-CREATE_MODEL_CMD: Template = Template(
-    "openapi-generator generate -i $openapi_spec -g typescript-fetch -o $output_dir"
-)
-INSTALL_DEPENDENCIES_CMD: Template = Template("npm install $dependencies")
+from service_builder.models import ServiceConfig
+from service_builder.utils import clear_directory, run_command
 
 
-def create_application(config: ServiceConfig, output_dir: str):
-    """Generates a typescript / react front end from scratch.
+class FrontendGenerator:
+    """Class to generate the frontend code for a service."""
 
-    Args:
-        config (ServiceConfig): Service configuration
-        output_dir (str): Output directory
-    """
-    service_name = config.service_info.name
-    full_path = os.path.abspath(output_dir)
-    command = CREATE_SERVICE_CMD.substitute(service_name=service_name)
-    run_command(cmd=command, cwd=full_path)
-
-
-def install_dependencies(config: ServiceConfig, output_dir: str):
-    """Install node dependencies using npm
-
-    Args:
-        config (ServiceConfig): Service configuration
-        output_dir (str): Output directory
-    """
-    service_name = config.service_info.name
-    full_path = os.path.abspath(output_dir)
-    app_path = f"{full_path}/{service_name}"
-    dependencies = " ".join(NODE_DEPENDENCIES)
-    command = INSTALL_DEPENDENCIES_CMD.substitute(dependencies=dependencies)
-    run_command(cmd=command, cwd=app_path)
-
-
-def create_typescript_client(output_dir: str, service_name: str):
-    """Generate the frontend service client code
-
-    Args:
-        output_dir (str): Output directory
-        service_name (str): Name of the service
-    """
-    full_path = os.path.abspath(output_dir)
-    client_code_dir = f"{full_path}/{service_name}/src/api"
-
-    command = CREATE_MODEL_CMD.substitute(
-        openapi_spec=OPENAPI_SPEC_FN, output_dir=client_code_dir
+    # Create React App command
+    CREATE_SERVICE_CMD: Template = Template(
+        "npx create-react-app $service_name --template typescript"
     )
-    run_command(cmd=command, cwd=full_path)
 
+    # Create Typescript Client command
+    CREATE_TYPESCRIPT_CLIENT_CMD: Template = Template(
+        "openapi-generator generate -i $openapi_spec -g typescript-fetch -o $output_dir"
+    )
 
-def lint_frontend(config: ServiceConfig, output_dir: str):
-    """Lint the code using prettier
+    # Install dependencies command
+    INSTALL_DEPENDENCIES_CMD: Template = Template("npm install $dependencies")
 
-    Args:
-        config (ServiceConfig): Service configuration
-        output_dir (str): Output directory
-    """
-    service_name = config.service_info.name
-    code_path = f"{output_dir}/{service_name}/src"
-    run_command("npx prettier --write .", cwd=code_path)
-    run_command("npx eslint --fix .", cwd=code_path)
+    def __init__(self, output_dir: str, config: ServiceConfig):
+        # Set the config and output directory
+        self.config = config
+        self.output_dir = output_dir
 
+        # Set the path for the application
+        service_name = self.config.service_info.name
+        self.app_dir = os.path.join(self.output_dir, service_name)
+        self.src_dir = os.path.join(self.output_dir, service_name, "src")
+        self.api_dir = os.path.join(self.output_dir, service_name, "src/api")
 
-def generate_app_main_page(config: ServiceConfig, output_dir: str):
-    """Generate the main page of the application
+        # OpenAPI Spec file
+        self.openapi_spec_fp = os.path.join(self.output_dir, "src", OPENAPI_SPEC_FN)
 
-    Args:
-        config (ServiceConfig): Service configuration
-        output_dir (str): Output directory
-    """
-    # Load the template
-    env = Environment(loader=FileSystemLoader(FRONTEND_TEMPLATES))
-    frontend_template = env.get_template("App.tsx")
+        # Application Typescript file
+        self.app_tsx = os.path.join(self.output_dir, service_name, "src/App.tsx")
 
-    # Generate the models
-    output = frontend_template.render(models=config.models)
+    def generate_all(self):
+        """Generate the frontend code"""
+        print("\t1. Clearing generated frontend code...")
+        self.clear_frontend()
 
-    # Write the models to the output directory
-    service_name = config.service_info.name
-    file_name = f"{output_dir}/{service_name}/src/App.tsx"
-    if not os.path.exists(file_name):
-        os.makedirs(os.path.dirname(file_name), exist_ok=True)
+        # Generate the application and install dependencies
+        print("\t2. Generating frontend code ...")
+        self.generate_application()
+        print("\t3. Installing dependencies...")
+        self.install_dependencies()
 
-    # Write the models to the output directory
-    with open(file_name, "w") as f:
-        f.write(output)
+        # Generate the App main page
+        print("\t4. Generating App main page...")
+        app_main_page = self.generate_app_main_page()
 
-    return file_name
+        # Generate the typescript client
+        print("\t5. Generating Typescript client...")
+        self.generate_typescript_client()
+
+        # Lint the code
+        print("\t6. Linting frontend code...")
+        self.lint_frontend()
+
+        return {
+            "Frontend Files": {
+                "Main Page": app_main_page,
+            },
+            "Frontend Directories": {
+                "Application Directory": self.app_dir,
+                "Source Code": self.src_dir,
+                "API Client Code": self.api_dir,
+            },
+        }
+
+    def clear_frontend(self):
+        """Clear the frontend code"""
+        # Clear the frontend code directory
+        clear_directory(self.app_dir)
+
+    def generate_application(self):
+        """Generates a typescript / react front end from scratch."""
+        command = self.CREATE_SERVICE_CMD.substitute(
+            service_name=self.config.service_info.name
+        )
+        run_command(cmd=command, cwd=self.output_dir)
+
+    def install_dependencies(self):
+        """Install node dependencies using npm"""
+        dependencies = " ".join(NODE_DEPENDENCIES)
+        command = self.INSTALL_DEPENDENCIES_CMD.substitute(dependencies=dependencies)
+        run_command(cmd=command, cwd=self.app_dir)
+
+    def lint_frontend(self):
+        """Lint the code using prettier"""
+        run_command("npx prettier --write .", cwd=self.src_dir)
+        run_command("npx eslint --fix .", cwd=self.src_dir)
+
+    def generate_app_main_page(self):
+        """Generate the main page of the application"""
+        # Load the template
+        env = Environment(loader=FileSystemLoader(FRONTEND_TEMPLATES))
+        frontend_template = env.get_template("App.tsx")
+
+        # Generate the models
+        output = frontend_template.render(models=self.config.models)
+
+        # Write the models to the output directory
+        service_name = self.config.service_info.name
+        file_name = f"{self.output_dir}/{service_name}/src/App.tsx"
+        if not os.path.exists(file_name):
+            os.makedirs(os.path.dirname(file_name), exist_ok=True)
+
+        # Write the models to the output directory
+        with open(file_name, "w") as f:
+            f.write(output)
+
+        return file_name
+
+    def generate_typescript_client(self):
+        """Generate the frontend service client code"""
+        # Clear the client code directory
+        clear_directory(self.api_dir)
+
+        # Create the client code directory
+        if not os.path.exists(self.api_dir):
+            os.makedirs(self.api_dir, exist_ok=True)
+
+        # Generate the client code
+        command = self.CREATE_TYPESCRIPT_CLIENT_CMD.substitute(
+            openapi_spec=self.openapi_spec_fp, output_dir=self.api_dir
+        )
+        run_command(cmd=command, cwd=self.output_dir)

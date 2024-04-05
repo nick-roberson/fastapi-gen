@@ -3,20 +3,14 @@ import os
 from typing import Dict, Optional
 
 import typer
+from rich import print
 
 from service_builder.config.parse import load_and_validate_config
 from service_builder.constants import (DEFAULT_PORT, SAMPLE_INPUT_FILE,
                                        SAMPLE_OUTPUT_DIR)
-from service_builder.generate.backend.generate import generate_files
-from service_builder.log import setup_logging
-from service_builder.models import ServiceVersion
 from service_builder.models.configs import ServiceConfig
 from service_builder.run import generate as generate_service
-from service_builder.versions.utils import load_versions
 
-# Initialize the logger
-setup_logging()
-# Initialize the typer app
 app = typer.Typer()
 
 
@@ -31,10 +25,10 @@ def validate_service_name(service_name: str) -> str:
     """
     # Check if it is too short or too long
     if len(service_name) < 3:
-        logging.info("Service name must be at least 3 characters")
+        print("Service name must be at least 3 characters")
         typer.Exit(code=1)
     if len(service_name) > 20:
-        logging.info("Service name must be less than 20 characters")
+        print("Service name must be less than 20 characters")
         typer.Exit(code=1)
 
     # Clean the service name
@@ -65,7 +59,7 @@ def validate_config(config_file: str) -> ServiceConfig:
     """
     # Check if the file exists
     if not os.path.exists(config_file):
-        logging.info(f"Config file not found at {config_file}")
+        print(f"Config file not found at {config_file}")
         typer.Exit(code=1)
 
     # Get the absolute path
@@ -84,27 +78,34 @@ def process_close(result: Dict, output_dir: str, service_config: ServiceConfig):
         output_dir (str): The output directory
         service_config (ServiceConfig): The service configuration
     """
-    # Subtract the current working dir from all files in result for easier reading
-    result = {
-        key: [v.replace(f"{output_dir}/", "") for v in values]
-        for key, values in result.items()
-    }
+    code_dir = "src"
 
     # Display the generated files
-    logging.info(f"Generated files:")
+    print(f"\nGenerated files:")
     for key, value in result.items():
-        logging.info(f"\t{key}: {value}")
+
+        # Handle logging files
+        if key.endswith("Files"):
+            print(f"\t{key}:")
+            for file_type, file_names in value.items():
+                print(f"\t\t{file_type}: {file_names}")
+
+        # Handle logging directories
+        elif key.endswith("Directories"):
+            print(f"\t{key}:")
+            for dir_type, dir_names in value.items():
+                print(f"\t\t{dir_type}: {dir_names}")
 
     # Display commands for users to go and run the generated files
-    logging.info("Run the following commands to run the service:")
-    logging.info(f"\t% cd {output_dir}")
-    logging.info(f"\t% poetry run uvicorn service:app --reload --port {DEFAULT_PORT}")
+    print("\nRun the following commands to run the service:")
+    print(f"\t% cd {output_dir}/{code_dir}")
+    print(f"\t% poetry run uvicorn service:app --reload --port {DEFAULT_PORT}")
 
     # Display the frontend commands
     service_name = service_config.service_info.name
-    logging.info("Run the following commands to run the frontend:")
-    logging.info(f"\t% cd {output_dir}/{service_name}")
-    logging.info(f"\t% npm start")
+    print("\nRun the following commands to run the frontend:")
+    print(f"\t% cd {output_dir}/{service_name}")
+    print(f"\t% npm start")
 
 
 @app.command()
@@ -135,9 +136,9 @@ def generate_typescript_app(
 
     # Log the inputs
     service_name = service_config.service_info.name
-    logging.info(f"Generating Frontend service for app `{service_name}`")
-    logging.info(f"\tconfig:     {config}")
-    logging.info(f"\toutput_dir: {output_dir}")
+    print(f"Generating Frontend service for app `{service_name}`")
+    print(f"\tconfig:     {config}")
+    print(f"\toutput_dir: {output_dir}\n")
 
     # Generate the frontend files and close out
     result = generate_service(**context)
@@ -174,9 +175,9 @@ def generate_python_app(
 
     # Log the inputs
     service_name = service_config.service_info.name
-    logging.info(f"Generating Backend services for app `{service_name}`")
-    logging.info(f"\tconfig:     {config}")
-    logging.info(f"\toutput_dir: {output_dir}")
+    print(f"Generating Backend services for app `{service_name}`")
+    print(f"\tconfig:     {config}")
+    print(f"\toutput_dir: {output_dir}\n")
 
     # Generate the backend files and close out
     result = generate_service(**context)
@@ -212,69 +213,15 @@ def generate_app(
 
     # Log the inputs
     service_name = service_config.service_info.name
-    logging.info(f"Generating Frontend and Backend services for app `{service_name}`")
-    logging.info(f"\tconfig:     {config}")
-    logging.info(f"\toutput_dir: {output_dir}")
+    print(f"Generating Frontend and Backend services for app `{service_name}`")
+    print(f"\tconfig:     {config}")
+    print(f"\toutput_dir: {output_dir}\n")
 
     # Generate the files and close out
     result = generate_service(**context)
     process_close(
         result=result, output_dir=output_directory, service_config=service_config
     )
-
-
-# TODO: Rewrite this function
-@app.command()
-def revert(
-    version: int = typer.Option(
-        None, "--version", "-v", help="The version number to revert to."
-    ),
-    output_dir: Optional[str] = typer.Option(
-        SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
-    ),
-):
-    """Revert the service to a previous version."""
-    logging.info(
-        f"""Reverting the service to version {version}, outputting to {output_dir}"""
-    )
-
-    # Load all versions
-    all_versions = load_versions()
-    if not all_versions:
-        logging.info("No versions found")
-        typer.Exit(code=1)
-
-    # Check if the version exists
-    version_names = [v.version for v in all_versions]
-    if not version:
-        logging.info("Please specify a version to revert to")
-        typer.Exit(code=1)
-    if version not in version_names:
-        logging.info(f"Version {version} not found in {version_names}")
-        typer.Exit(code=1)
-
-    # Get the version to revert to
-    version_to_revert = [v for v in all_versions if v.version == version][0]
-    config = ServiceVersion(**version_to_revert.dict()).config
-
-    # Generate the files and close out
-    output_directory = os.path.abspath(output_dir)
-    result = generate_files(output_dir=output_directory, config=config, is_revert=True)
-    process_close(result=result, output_dir=output_directory)
-
-
-@app.command()
-def versions():
-    """List all versions of the service that have been generated."""
-    # Load all versions
-    all_versions = load_versions()
-    # Display the versions
-    logging.info(f"Loaded {len(all_versions)} versions:")
-    if not all_versions:
-        logging.info("\tNo versions found")
-        return
-    for version in all_versions:
-        logging.info(f"\tVersion: {version.version} - {version.created_at}")
 
 
 if __name__ == "__main__":

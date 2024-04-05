@@ -30,7 +30,7 @@ class RestaurantManager:
 
     def create(self, restaurant: Restaurant) -> Restaurant:
         """Create a new Restaurant"""
-        logging.info("Creating Restaurant: {}".format(restaurant))
+        print("Creating Restaurant: {}".format(restaurant))
         try:
             # Generate id for the model
             if not restaurant.id:
@@ -46,7 +46,7 @@ class RestaurantManager:
 
     def create_many(self, restaurant_list: List[Restaurant]) -> List[Restaurant]:
         """Create a list of Restaurant"""
-        logging.info("Creating Restaurant: {}".format(restaurant_list))
+        print("Creating Restaurant: {}".format(restaurant_list))
         try:
             # Generate ids for the models
             for model in restaurant_list:
@@ -69,7 +69,7 @@ class RestaurantManager:
 
     def get(self, restaurant_id: str) -> Restaurant:
         """Get a Restaurant by its id"""
-        logging.info("Getting Restaurant: {}.format(restaurant_id)")
+        print("Getting Restaurant: {}.format(restaurant_id)")
         try:
             return self.collection.find_one({"id": restaurant_id})
         except Exception as e:
@@ -77,7 +77,7 @@ class RestaurantManager:
 
     def get_many(self, restaurant_ids: List[str]) -> List[Restaurant]:
         """Get a list of Restaurant by their ids"""
-        logging.info("Getting Restaurant: {}".format(restaurant_ids))
+        print("Getting Restaurant: {}".format(restaurant_ids))
         try:
             return list(self.collection.find({"id": {"$in": restaurant_ids}}))
         except Exception as e:
@@ -85,7 +85,7 @@ class RestaurantManager:
 
     def get_all(self) -> List[Restaurant]:
         """Get all Restaurant"""
-        logging.info(f"Getting all Restaurant")
+        print(f"Getting all Restaurant")
         try:
             return list(self.collection.find())
         except Exception as e:
@@ -97,7 +97,7 @@ class RestaurantManager:
 
     def update(self, restaurant: Restaurant) -> Restaurant:
         """Update a Restaurant"""
-        logging.info("Updating Restaurant: {}".format(restaurant))
+        print("Updating Restaurant: {}".format(restaurant))
         try:
             # Raise error if id is not present on the model
             if not restaurant.id:
@@ -115,7 +115,7 @@ class RestaurantManager:
 
     def update_many(self, restaurant_list: List[Restaurant]) -> List[Restaurant]:
         """Update a list of Restaurant"""
-        logging.info("Updating Restaurant: {}".format(restaurant_list))
+        print("Updating Restaurant: {}".format(restaurant_list))
         try:
             # Update
             for restaurant in restaurant_list:
@@ -132,7 +132,7 @@ class RestaurantManager:
 
     def delete(self, restaurant_id: str) -> Restaurant:
         """Delete a Restaurant"""
-        logging.info("Deleting Restaurant: {}".format(restaurant_id))
+        print("Deleting Restaurant: {}".format(restaurant_id))
         try:
             # Find in database
             obj = self.get(restaurant_id)
@@ -149,7 +149,7 @@ class RestaurantManager:
 
     def delete_many(self, restaurant_ids: List[str]) -> List[Restaurant]:
         """Delete a list of Restaurant"""
-        logging.info("Deleting Restaurant: {}".format(restaurant_ids))
+        print("Deleting Restaurant: {}".format(restaurant_ids))
         try:
             # Find in database
             objs = self.get_many(restaurant_ids)

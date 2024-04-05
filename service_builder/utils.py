@@ -1,12 +1,13 @@
-import logging
 import os
 import subprocess
+
+from rich import print
 
 from service_builder.constants import VERBOSE
 
 
 def clear_directory(directory: str) -> None:
-    """Clear a directory.
+    """Safely clear a directory.
 
     Args:
         directory (str): The directory to clear
@@ -19,7 +20,22 @@ def clear_directory(directory: str) -> None:
         # Create the directory
         os.makedirs(directory, exist_ok=True)
     except Exception as e:
-        logging.info(f"Error clearing directory: {directory}, {e}")
+        print(f"Error clearing directory: {directory}, {e}")
+        raise e
+
+
+def clear_file(file_path: str) -> None:
+    """Safely clear a file.
+
+    Args:
+        file_path (str): The file to clear
+    """
+    try:
+        # If the file exists, clear it
+        if os.path.exists(file_path):
+            run_command(f"rm -f {file_path}", tabs=2)
+    except Exception as e:
+        print(f"Error clearing file: {file_path}, {e}")
         raise e
 
 
@@ -47,15 +63,15 @@ def run_command(
             args["cwd"] = cwd
 
         # Run command and log output
-        logging.info(f"{''.join(['\t' for _ in range(tabs)])}> {cmd}")
+        print(f"{''.join(['\t' for _ in range(tabs)])}> '{cmd}'")
         if VERBOSE:
             completed_process = subprocess.run(cmd, **args)
-            logging.info(completed_process.stdout)
-            logging.info(completed_process.stderr)
+            print(completed_process.stdout)
+            print(completed_process.stderr)
         else:
             completed_process = subprocess.run(cmd, **args)
         return completed_process
 
     except Exception as e:
-        logging.info(f"Error running command: {cmd}, {e}")
+        print(f"Error running command: {cmd}, {e}")
         raise e
