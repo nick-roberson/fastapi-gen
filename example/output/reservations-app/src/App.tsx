@@ -6,6 +6,7 @@ import { Container, Box, Typography } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { Divider } from "@mui/material";
 import { Grid } from "@mui/material";
+import { Stack } from "@mui/material";
 
 // Import Client
 import { DefaultApi } from "./api";
@@ -234,13 +235,16 @@ function App() {
     <div>
       <Box m={3}>
         <Box>
-          <Typography variant="h4">My Application</Typography>
-          <p>Generated with FastAPI-React-Generator</p>
-          <p>
-            At the moment the frontend template is very basic, but you can
-            customize it as you wish. Any objects present in the database will
-            be pulled into the tables here and visualized.{" "}
-          </p>
+          <Stack direction="row" spacing={2}>
+            <Typography variant="h4">reservations-app</Typography>
+            <Typography variant="h6" color="textSecondary">
+              1.0.0
+            </Typography>
+          </Stack>
+
+          <Typography variant="body1">
+            A restaurant reservations service
+          </Typography>
         </Box>
 
         <Grid container spacing={1}>

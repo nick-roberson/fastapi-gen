@@ -49,6 +49,7 @@ NODE_DEPENDENCIES = [
     "prettier",
     "eslint",
     "web-vitals",
+    "react-router-dom",
 ]
 
 # OpenAPI Spec filename
