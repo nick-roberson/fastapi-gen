@@ -58,22 +58,38 @@ This is a simple FastAPI service that can be used as a starting point for a new 
 ## Features
 
 ### Python Code Generation
+
+---
+
 - Generate FastAPI services with `MongoDB` database support (via model managers)
 - Generate `pydantic` models for the FastAPI services
 - Generate Python client code for the FastAPI service using `openapi-generator`
 
 ### Frontend Code Generation
+
+---
+
 - Generate a React frontend with TypeScript
+   - Create a homepage that displays all the models that have been generated
+   - Create a page for each model that allows you to interact with the FastAPI service
 - Generate TypeScript and Python clients for the FastAPI service using `openapi-generator`
-- Generate homepage to display all the models that have been generated
 
+<div style="padding: 20px;">
+  <img src="images/home_page.png" alt="Home Page" />
+</div>
 
-![images/homepage.png](images/restaurant_app.png)
+Here is an example of the homepage that is generated for the React frontend. It will display all the models that have been generated.
 
-Here is an example of the created frontend, which will fetch all the models and allow you
-to interact with the FastAPI service, right now by only GET and DELETE requests.
+<div style="padding: 20px;">
+  <img src="images/users_page.png" alt="Users Page" />
+</div>
+
+All models will have a page similar to the one above, where you can interact with the FastAPI service.
 
 ### Docker
+
+---
+
 - Generate Dockerfiles for the FastAPI service and the React frontend
 
 ## Setup

@@ -26,6 +26,14 @@ class FrontendGenerator:
     # Install dependencies command
     INSTALL_DEPENDENCIES_CMD: Template = Template("npm install $dependencies")
 
+    # Frontend template files
+    APP_FILE = "App.tsx"
+    INDEX_FILE = "index.tsx"
+    HOME_FILE = "components/home.tsx"
+    LAYOUT_FILE = "components/layout.tsx"
+    NO_PAGE_FILE = "components/no_page.tsx"
+    MODEL_PAGE_FILE = "components/model_page.tsx"
+
     def __init__(self, output_dir: str, config: ServiceConfig):
         # Set the config and output directory
         self.config = config
@@ -41,7 +49,14 @@ class FrontendGenerator:
         self.openapi_spec_fp = os.path.join(self.output_dir, "src", OPENAPI_SPEC_FN)
 
         # Application Typescript file
-        self.app_tsx = os.path.join(self.output_dir, service_name, "src/App.tsx")
+        self.app_tsx = os.path.join(self.src_dir, "App.tsx")
+        self.index_tsx = os.path.join(self.src_dir, "index.tsx")
+
+        # Application components
+        self.components_dir = os.path.join(self.src_dir, "components")
+        self.home_tsx = os.path.join(self.components_dir, "Home.tsx")
+        self.layout_tsx = os.path.join(self.components_dir, "Layout.tsx")
+        self.no_page_tsx = os.path.join(self.components_dir, "NoPage.tsx")
 
     def generate_all(self):
         """Generate the frontend code"""
@@ -102,22 +117,65 @@ class FrontendGenerator:
 
     def generate_app_main_page(self):
         """Generate the main page of the application"""
-        # Load the template
+        # Ensure all dirs exist
+        if not os.path.exists(self.components_dir):
+            os.makedirs(self.components_dir, exist_ok=True)
+
+        # Get env and render the templates
         env = Environment(loader=FileSystemLoader(FRONTEND_TEMPLATES))
-        frontend_template = env.get_template("App.tsx")
 
-        # Generate the models
-        output = frontend_template.render(models=self.config.models)
-
-        # Write the models to the output directory
-        service_name = self.config.service_info.name
-        file_name = f"{self.output_dir}/{service_name}/src/App.tsx"
-        if not os.path.exists(file_name):
-            os.makedirs(os.path.dirname(file_name), exist_ok=True)
-
-        # Write the models to the output directory
-        with open(file_name, "w") as f:
+        # Generate the App.tsx file
+        frontend_template = env.get_template(self.APP_FILE)
+        output = frontend_template.render(
+            service_info=self.config.service_info, models=self.config.models
+        )
+        with open(self.app_tsx, "w") as f:
             f.write(output)
+
+        # Generate the index.tsx file
+        frontend_template = env.get_template(self.INDEX_FILE)
+        output = frontend_template.render(config=self.config)
+        with open(self.index_tsx, "w") as f:
+            f.write(output)
+
+        # Generate the home.tsx file
+        frontend_template = env.get_template(self.HOME_FILE)
+        output = frontend_template.render(config=self.config)
+        with open(self.home_tsx, "w") as f:
+            f.write(output)
+
+        # Generate the layout.tsx file
+        frontend_template = env.get_template(self.LAYOUT_FILE)
+        output = frontend_template.render(config=self.config)
+        with open(self.layout_tsx, "w") as f:
+            f.write(output)
+
+        # Generate the nopage.tsx file
+        frontend_template = env.get_template(self.NO_PAGE_FILE)
+        output = frontend_template.render(config=self.config)
+        with open(self.no_page_tsx, "w") as f:
+            f.write(output)
+
+        # For each model generate a page
+        model_page_files = []
+        for model in self.config.models:
+            frontend_template = env.get_template(self.MODEL_PAGE_FILE)
+            output = frontend_template.render(model=model, config=self.config)
+            model_file = os.path.join(
+                self.components_dir, f"{model.name.lower()}_page.tsx"
+            )
+            with open(model_file, "w") as f:
+                f.write(output)
+            model_page_files.append(model_file)
+
+        return {
+            "App.tsx": self.app_tsx,
+            "Index.tsx": self.index_tsx,
+            "home.tsx": self.home_tsx,
+            "layout.tsx": self.layout_tsx,
+            "nopage.tsx": self.no_page_tsx,
+            "Model Pages": model_page_files,
+        }
 
         return file_name
 

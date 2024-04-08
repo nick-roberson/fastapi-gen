@@ -8,7 +8,6 @@ from rich import print
 from service_builder.config.parse import load_and_validate_config
 from service_builder.constants import (DEFAULT_PORT, SAMPLE_INPUT_FILE,
                                        SAMPLE_OUTPUT_DIR)
-from service_builder.generate.backend.generator import BackendGenerator
 from service_builder.generate.frontend.generate import FrontendGenerator
 from service_builder.models.configs import ServiceConfig
 from service_builder.run import generate as generate_service
@@ -129,10 +128,10 @@ def generate_typescript_app(
     """
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
-    output_directory = validate_output_dir(output_dir)
+    output_dir = validate_output_dir(output_dir)
     context = {
         "service_config": service_config,
-        "output_dir": output_directory,
+        "output_dir": output_dir,
         "frontend_only": True,
     }
 
@@ -144,9 +143,7 @@ def generate_typescript_app(
 
     # Generate the frontend files and close out
     result = generate_service(**context)
-    process_close(
-        result=result, output_dir=output_directory, service_config=service_config
-    )
+    process_close(result=result, output_dir=output_dir, service_config=service_config)
 
 
 @app.command()
@@ -168,10 +165,10 @@ def generate_python_app(
     """
     # Validate the input and get absolute paths
     service_config = validate_config(config)
-    output_directory = validate_output_dir(output_dir)
+    output_dir = validate_output_dir(output_dir)
     context = {
         "service_config": service_config,
-        "output_dir": output_directory,
+        "output_dir": output_dir,
         "backend_only": True,
     }
 
@@ -183,9 +180,7 @@ def generate_python_app(
 
     # Generate the backend files and close out
     result = generate_service(**context)
-    process_close(
-        result=result, output_dir=output_directory, service_config=service_config
-    )
+    process_close(result=result, output_dir=output_dir, service_config=service_config)
 
 
 @app.command()
@@ -207,10 +202,10 @@ def generate_app(
     """
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
-    output_directory = validate_output_dir(output_dir)
+    output_dir = validate_output_dir(output_dir)
     context = {
         "service_config": service_config,
-        "output_dir": output_directory,
+        "output_dir": output_dir,
     }
 
     # Log the inputs
@@ -221,9 +216,33 @@ def generate_app(
 
     # Generate the files and close out
     result = generate_service(**context)
-    process_close(
-        result=result, output_dir=output_directory, service_config=service_config
-    )
+    process_close(result=result, output_dir=output_dir, service_config=service_config)
+
+
+@app.command()
+def regenerate_main_page(
+    config: Optional[str] = typer.Option(
+        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+    ),
+    output_dir: Optional[str] = typer.Option(
+        SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
+    ),
+):
+    """Generate a FastAPI backend and React frontend from the input yaml config.
+
+    Args:
+        config (Optional[str], optional): Path to the input yaml config.
+            Defaults to SAMPLE_INPUT_FILE.
+        output_dir (Optional[str], optional): Path to the output directory.
+            Defaults to SAMPLE_OUTPUT_DIR.
+    """
+    # Validate the inputs, get absolute paths, clean the service name, build the context
+    service_config = validate_config(config)
+    output_dir = validate_output_dir(output_dir)
+
+    # Create frontend generator
+    frontend_generator = FrontendGenerator(output_dir, service_config)
+    frontend_generator.generate_app_main_page()
 
 
 if __name__ == "__main__":

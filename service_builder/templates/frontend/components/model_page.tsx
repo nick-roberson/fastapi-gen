@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import "./App.css";
+import React, { useEffect, useState } from "react";
 
 // Import MUI Components
 import { Container, Box, Typography } from "@mui/material";
@@ -9,21 +8,19 @@ import { Grid } from "@mui/material";
 import { Stack } from "@mui/material";
 
 // Import Client
-import { DefaultApi } from "./api";
-import { Configuration } from "./api";
+import { DefaultApi } from "../api";
+import { Configuration } from "../api";
 
 // Import Delete Icon
 import DeleteIcon from "@mui/icons-material/Delete";
 
 // Import Models
-{% for model in models %}
-import { {{ model.name }} } from "./api";
-{% endfor %}
+import { {{ model.name }} } from "../api";
 
 // Replace with your Host and Port
 const basePath = "http://localhost:8000";
 
-function App() {
+function {{ model.name }}Page() {
 
     // Declare API Client
     const configuration = new Configuration({
@@ -32,19 +29,14 @@ function App() {
     const api = new DefaultApi(configuration);
 
     // Declare State
-    {% for model in models %}
-    const [{{ model.name.lower() }}, set{{ model.name }}] = React.useState<{{ model.name }}[]>([]);
-    {% endfor %}
+    const [{{ model.name.lower() }}, set{{ model.name }}] = useState<{{ model.name }}[]>([]);
 
-    {% for model in models %}
     // Declare Columns for {{ model.name }}
     const {{ model.name.lower() }}_columns = [
-
         {% for field in model.fields %}
-            {% if field.name != "id" %}{ field: "{{ field.camel_case_name }}", headerName: "{{ field.name }}", width: 150 },
+            {% if field.name != "id" %}{ field: "{{ field.camel_case_name }}", headerName: "{{ field.name }}", width: 250 },
             {% endif %}
         {% endfor %}
-
         // Delete Button, will call the delete endpoint and reload the data
         { field: "delete", headerName: "Delete", width: 100, renderCell: (params: GridCellParams<{{model.name}}>) => {
             return (
@@ -61,21 +53,15 @@ function App() {
             );
         }},
     ];
-    {% endfor %}
-
 
     // Fetch Data
-    {% for model in models %}
     const fetch{{ model.name }}s = async () => {
       const res = await api.get{{ model.name }}s{{ model.name }}sGet();
       set{{ model.name }}(res);
     };
-    {% endfor %}
 
     useEffect(() => {
-        {% for model in models %}
         fetch{{ model.name }}s();
-        {% endfor %}
     }, []);
 
     return (
@@ -85,25 +71,15 @@ function App() {
                 <Box>
                   <Stack direction="row" spacing={2}>
                     <Typography variant="h4">
-                      {{ service_info.name }}
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      color="textSecondary"
-                    >
-                      {{ service_info.version }}
+                      {{ model.name }}s Page
                     </Typography>
                   </Stack>
 
-                  <Typography variant="body1">
-                    {{ service_info.description }}
-                  </Typography>
                 </Box>
 
                 <Grid container spacing={1}>
 
-                    {% for model in models %}
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <Divider> {{ model.name }}s </Divider>
                         {
                             {{ model.name.lower() }} && {{ model.name.lower() }}.length > 0 ?
@@ -111,13 +87,11 @@ function App() {
                                 <DataGrid
                                     rows={ {{ model.name.lower() }} }
                                     columns={ {{ model.name.lower() }}_columns}
-                                    density="compact"
                                 />
                             </Box>
                             : <p>No {{ model.name }}s found!</p>
                         }
                     </Grid>
-                    {% endfor %}
 
                 </Grid>
             </Box>
@@ -125,4 +99,4 @@ function App() {
     );
 }
 
-export default App;
+export default {{ model.name }}Page;
