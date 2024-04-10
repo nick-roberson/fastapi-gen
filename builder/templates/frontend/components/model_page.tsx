@@ -10,8 +10,7 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 
 // Import Client
-import { DefaultApi } from "../api";
-import { Configuration } from "../api";
+import { getAPIClient, parseField } from "./utils";
 
 // Import Delete Icon
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -24,10 +23,7 @@ const basePath = "http://localhost:8000";
 function {{ model.name }}Page() {
 
     // Declare API Client
-    const configuration = new Configuration({
-      basePath: basePath,
-    });
-    const api = new DefaultApi(configuration);
+    const api = getAPIClient();
 
     // Declare State
     const [{{ model.name.lower() }}, set{{ model.name }}] = useState<{{ model.name }}[]>([]);
@@ -68,7 +64,10 @@ function {{ model.name }}Page() {
                 id: null,
                 {% for field in model.fields %}
                     {% if field.name != "id" %}
-                {{ field.camel_case_name }}: (document.getElementById("{{ field.camel_case_name }}") as HTMLInputElement).value,
+                {{ field.camel_case_name }}: parseField(
+                    (document.getElementById("{{ field.camel_case_name }}") as HTMLInputElement).value,
+                    "{{ field.type }}"
+                    ),
                     {% endif %}
                 {% endfor %}
             };

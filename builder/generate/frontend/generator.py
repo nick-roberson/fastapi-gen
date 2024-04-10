@@ -174,12 +174,21 @@ class FrontendGenerator:
                 f.write(output)
             model_page_files.append(model_file)
 
+        # Generate the `utils.tsx` file
+        utils_template = env.get_template("components/utils.tsx")
+        output = utils_template.render(config=self.config)
+        utils_file = os.path.join(self.components_dir, "utils.tsx")
+        clear_file(utils_file)
+        with open(utils_file, "w") as f:
+            f.write(output)
+
         return {
             "App.tsx": self.app_tsx,
             "Index.tsx": self.index_tsx,
             "home.tsx": self.home_tsx,
             "layout.tsx": self.layout_tsx,
             "nopage.tsx": self.no_page_tsx,
+            "utils.tsx": utils_file,
             "Model Pages": model_page_files,
         }
 

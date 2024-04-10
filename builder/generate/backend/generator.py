@@ -254,6 +254,10 @@ class BackendGenerator:
                 template_name="mongo.jinja",
                 output_path=output_file,
             )
+        if self.config.database.db_type == DatabaseTypes.POSTGRES.value:
+            pass
+        if self.config.database.db_type == DatabaseTypes.MYSQL.value:
+            pass
         else:
             raise ValueError(
                 f"Invalid db_type '{self.config.database.db_type}', allowed types are {DatabaseTypes.choices()}"

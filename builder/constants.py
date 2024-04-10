@@ -34,6 +34,7 @@ PYTHON_DEPENDENCIES = [
     ("pymongo", "^4.6.2"),
     ("certifi", "^2024.2.2"),
     ("rich", "^13.7.1"),
+    ("alembic", "^1.13.1"),
 ]
 
 # Node Dependencies
