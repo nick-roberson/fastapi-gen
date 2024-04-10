@@ -59,7 +59,9 @@
     </a>
 </p>
 
-**NOTE:** This project is still in active development and is not yet intended for production use. However, it does work well for general cases as well as for POCs.
+**NOTE:**
+- This project is still in active development and is not yet intended for production use. However, it does work well for general cases as well as for POCs.
+- The templates for services that get set up are solid, but the generated code is not yet perfect. There are still some issues that need to be fixed.
 
 # Table of Contents
 
