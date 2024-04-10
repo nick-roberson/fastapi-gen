@@ -117,6 +117,8 @@ Define a YAML file anywhere that you would like to, it only has to match the for
 
 This is the CLI interface for the service generator:
 ```bash
+% poetry run python main.py --help
+
  Usage: main.py [OPTIONS] COMMAND [ARGS]...
 
 ╭─ Options ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
@@ -124,11 +126,12 @@ This is the CLI interface for the service generator:
 │ --show-completion           [bash|zsh|fish|powershell|pwsh]  Show completion for the specified shell, to copy it or customize the installation. [default: None]                                         │
 │ --help                                                       Show this message and exit.                                                                                                                │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ generate-app                                      Generate a FastAPI backend and React frontend from the input yaml config.                                                                             │
-│ generate-python-app                               Generate a FastAPI backend from the input yaml config.                                                                                                │
-│ generate-typescript-app                           Generate a React frontend from the input yaml config.                                                                                                 │
-╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ generate-app                                        Generate a FastAPI backend and React frontend from the input yaml config.                                                                                                   │
+│ generate-python-app                                 Generate a FastAPI backend from the input yaml config.                                                                                                                      │
+│ generate-typescript-app                             Generate a React frontend from the input yaml config.                                                                                                                       │
+│ regenerate-templates                                Just regenerate the frontend or backend templates, do not recreate the application                                                                                          │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 For an example of a config that you can use to generate a service, see the `example/configs/user_groups.yaml` file.

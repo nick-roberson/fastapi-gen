@@ -73,15 +73,20 @@ class BackendGenerator:
             os.path.join(self.code_dir, file) for file in self.DOCKERFILES
         ]
 
-    def generate_all(self) -> Dict:
+    def generate_all(self, clear: bool = True) -> Dict:
         """Generate the backend code for the service.
 
+        Args:
+            clear (bool, optional): Whether to clear the output directory. Defaults to True.
         Returns:
             Dict: Dictionary of the generated files
         """
         # Clear the output directory
-        print("\t1. Clearing the output directory...")
-        self.clear_output()
+        if clear:
+            print("\t1. Clearing the output directory...")
+            self.clear_output()
+        else:
+            print("\t1. Skipping clearing the output directory...")
 
         # Generate the models, services, managers, and mongo files
         print("\t2. Generating the backend code...")
