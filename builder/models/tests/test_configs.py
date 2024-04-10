@@ -1,8 +1,8 @@
 import pytest
 
-from service_builder.models.configs import (DatabaseConfig, FieldDefinition,
-                                            ModelConfig, ServiceConfig)
-from service_builder.models.enum import FieldDataType
+from builder.models.configs import (DatabaseConfig, FieldDefinition,
+                                    ModelConfig, ServiceConfig)
+from builder.models.enum import FieldDataType
 
 
 def test_validate_db_type():

@@ -4,10 +4,10 @@ from typing import Dict
 import yaml
 from pydantic.fields import FieldInfo
 
-from service_builder.constants import PYTHON_DEPENDENCIES
-from service_builder.models import (DatabaseConfig, DatabaseTypes,
-                                    DependencyConfig, FieldDefinition,
-                                    ModelConfig, ServiceConfig, ServiceInfo)
+from builder.constants import PYTHON_DEPENDENCIES
+from builder.models import (DatabaseConfig, DatabaseTypes, DependencyConfig,
+                            FieldDefinition, ModelConfig, ServiceConfig,
+                            ServiceInfo)
 
 # Pull output the fields from the models
 FIELD_DEFINITION_FIELDS: dict[str, FieldInfo] = FieldDefinition.model_fields

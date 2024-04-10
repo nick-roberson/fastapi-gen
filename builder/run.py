@@ -1,8 +1,8 @@
 from typing import Dict
 
-from service_builder.generate.backend.generator import BackendGenerator
-from service_builder.generate.frontend.generator import FrontendGenerator
-from service_builder.models import ServiceConfig
+from builder.generate.backend.generator import BackendGenerator
+from builder.generate.frontend.generator import FrontendGenerator
+from builder.models import ServiceConfig
 
 
 def generate(

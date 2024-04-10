@@ -4,10 +4,10 @@ from string import Template
 from jinja2 import Environment, FileSystemLoader
 from rich import print
 
-from service_builder.constants import (FRONTEND_TEMPLATES, NODE_DEPENDENCIES,
-                                       OPENAPI_SPEC_FN)
-from service_builder.models import ServiceConfig
-from service_builder.utils import clear_directory, run_command
+from builder.constants import (FRONTEND_TEMPLATES, NODE_DEPENDENCIES,
+                               OPENAPI_SPEC_FN)
+from builder.models import ServiceConfig
+from builder.utils import clear_directory, run_command
 
 
 class FrontendGenerator:
