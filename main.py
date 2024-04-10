@@ -8,6 +8,7 @@ from rich import print
 from service_builder.config.parse import load_and_validate_config
 from service_builder.constants import (DEFAULT_PORT, SAMPLE_INPUT_FILE,
                                        SAMPLE_OUTPUT_DIR)
+from service_builder.generate.backend.generator import BackendGenerator
 from service_builder.generate.frontend.generate import FrontendGenerator
 from service_builder.models.configs import ServiceConfig
 from service_builder.run import generate as generate_service
@@ -220,7 +221,10 @@ def generate_app(
 
 
 @app.command()
-def regenerate_main_page(
+def regenerate_templates(
+    component: Optional[str] = typer.Option(
+        None, "--component", "-c", help="Component to regenerate"
+    ),
     config: Optional[str] = typer.Option(
         SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
     ),
@@ -228,21 +232,28 @@ def regenerate_main_page(
         SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
     ),
 ):
-    """Generate a FastAPI backend and React frontend from the input yaml config.
+    """Just regenerate the frontend or backend templates, do not recreate the application"""
+    # Check that component is either frontend or backend
+    if component not in ["frontend", "backend"]:
+        print("Component must be either frontend or backend")
+        typer.Exit(code=1)
 
-    Args:
-        config (Optional[str], optional): Path to the input yaml config.
-            Defaults to SAMPLE_INPUT_FILE.
-        output_dir (Optional[str], optional): Path to the output directory.
-            Defaults to SAMPLE_OUTPUT_DIR.
-    """
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
     output_dir = validate_output_dir(output_dir)
 
     # Create frontend generator
-    frontend_generator = FrontendGenerator(output_dir, service_config)
-    frontend_generator.generate_app_main_page()
+    if component == "frontend":
+        frontend_generator = FrontendGenerator(
+            config=service_config, output_dir=output_dir
+        )
+        frontend_generator.generate_app_main_page()
+    elif component == "backend":
+        backend_generator = BackendGenerator(
+            config=service_config, output_dir=output_dir
+        )
+        backend_generator.generate_all(clear=False)
+    print(f"Regenerated {component} templates!")
 
 
 if __name__ == "__main__":
