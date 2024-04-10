@@ -242,5 +242,5 @@ To view the generated OpenAPI documentation, navigate to [http://localhost:8000/
 
 Right now I am working on a script that will generate test data for the FastAPI service, but it is not yet complete.
 
-There is a script that works for the example in the `service_builder/scripts/create_restaurant_app_data.py` file.
+There is a script that works for the example in the `builder/scripts/create_restaurant_app_data.py` file.
 You can use a method similar to that in order to create and insert fake data.

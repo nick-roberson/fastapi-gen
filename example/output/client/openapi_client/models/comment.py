@@ -26,7 +26,6 @@ from typing_extensions import Literal, Self
 
 COMMENT_ANY_OF_SCHEMAS = ["object", "str"]
 
-
 class Comment(BaseModel):
     """
     The textual comment of the review
@@ -50,18 +49,14 @@ class Comment(BaseModel):
     def __init__(self, *args, **kwargs) -> None:
         if args:
             if len(args) > 1:
-                raise ValueError(
-                    "If a position argument is used, only 1 is allowed to set `actual_instance`"
-                )
+                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
             if kwargs:
-                raise ValueError(
-                    "If a position argument is used, keyword arguments cannot be used."
-                )
+                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
             super().__init__(actual_instance=args[0])
         else:
             super().__init__(**kwargs)
 
-    @field_validator("actual_instance")
+    @field_validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):
         instance = Comment.model_construct()
         error_messages = []
@@ -79,10 +74,7 @@ class Comment(BaseModel):
             error_messages.append(str(e))
         if error_messages:
             # no match
-            raise ValueError(
-                "No match found when setting the actual_instance in Comment with anyOf schemas: object, str. Details: "
-                + ", ".join(error_messages)
-            )
+            raise ValueError("No match found when setting the actual_instance in Comment with anyOf schemas: object, str. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -116,10 +108,7 @@ class Comment(BaseModel):
 
         if error_messages:
             # no match
-            raise ValueError(
-                "No match found when deserializing the JSON string into Comment with anyOf schemas: object, str. Details: "
-                + ", ".join(error_messages)
-            )
+            raise ValueError("No match found when deserializing the JSON string into Comment with anyOf schemas: object, str. Details: " + ", ".join(error_messages))
         else:
             return instance
 
@@ -128,9 +117,7 @@ class Comment(BaseModel):
         if self.actual_instance is None:
             return "null"
 
-        if hasattr(self.actual_instance, "to_json") and callable(
-            self.actual_instance.to_json
-        ):
+        if hasattr(self.actual_instance, "to_json") and callable(self.actual_instance.to_json):
             return self.actual_instance.to_json()
         else:
             return json.dumps(self.actual_instance)
@@ -140,9 +127,7 @@ class Comment(BaseModel):
         if self.actual_instance is None:
             return None
 
-        if hasattr(self.actual_instance, "to_dict") and callable(
-            self.actual_instance.to_dict
-        ):
+        if hasattr(self.actual_instance, "to_dict") and callable(self.actual_instance.to_dict):
             return self.actual_instance.to_dict()
         else:
             return self.actual_instance

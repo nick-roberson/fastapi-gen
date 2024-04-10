@@ -37,7 +37,7 @@ jobs:
         run: |
           echo "Running Backend Tests"
           export VERBOSE=1
-          poetry run coverage run -m pytest service_builder/generate/backend
+          poetry run coverage run -m pytest builder/generate/backend
           poetry run coverage report -m
 
       # Run frontend tests
@@ -45,5 +45,5 @@ jobs:
         run: |
           echo "Running Frontend Tests"
           export VERBOSE=1
-          poetry run coverage run -m pytest service_builder/generate/frontend
+          poetry run coverage run -m pytest builder/generate/frontend
           poetry run coverage report -m

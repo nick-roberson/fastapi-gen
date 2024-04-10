@@ -30,28 +30,21 @@ from typing_extensions import Self
 class User(BaseModel):
     """
     User
-    """  # noqa: E501
-
+    """ # noqa: E501
     id: Optional[Id3] = None
     username: StrictStr = Field(description="The username of the user")
     email: StrictStr = Field(description="The email address of the user")
     phone_number: Optional[PhoneNumber] = None
     preferences: Optional[Preferences] = None
     role: Optional[Role] = None
-    __properties: ClassVar[List[str]] = [
-        "id",
-        "username",
-        "email",
-        "phone_number",
-        "preferences",
-        "role",
-    ]
+    __properties: ClassVar[List[str]] = ["id", "username", "email", "phone_number", "preferences", "role"]
 
     model_config = ConfigDict(
         populate_by_name=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
@@ -77,7 +70,8 @@ class User(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([])
+        excluded_fields: Set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -86,16 +80,16 @@ class User(BaseModel):
         )
         # override the default output from pydantic by calling `to_dict()` of id
         if self.id:
-            _dict["id"] = self.id.to_dict()
+            _dict['id'] = self.id.to_dict()
         # override the default output from pydantic by calling `to_dict()` of phone_number
         if self.phone_number:
-            _dict["phone_number"] = self.phone_number.to_dict()
+            _dict['phone_number'] = self.phone_number.to_dict()
         # override the default output from pydantic by calling `to_dict()` of preferences
         if self.preferences:
-            _dict["preferences"] = self.preferences.to_dict()
+            _dict['preferences'] = self.preferences.to_dict()
         # override the default output from pydantic by calling `to_dict()` of role
         if self.role:
-            _dict["role"] = self.role.to_dict()
+            _dict['role'] = self.role.to_dict()
         return _dict
 
     @classmethod
@@ -107,24 +101,12 @@ class User(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                "id": Id3.from_dict(obj["id"]) if obj.get("id") is not None else None,
-                "username": obj.get("username"),
-                "email": obj.get("email"),
-                "phone_number": (
-                    PhoneNumber.from_dict(obj["phone_number"])
-                    if obj.get("phone_number") is not None
-                    else None
-                ),
-                "preferences": (
-                    Preferences.from_dict(obj["preferences"])
-                    if obj.get("preferences") is not None
-                    else None
-                ),
-                "role": (
-                    Role.from_dict(obj["role"]) if obj.get("role") is not None else None
-                ),
-            }
-        )
+        _obj = cls.model_validate({
+            "id": Id3.from_dict(obj["id"]) if obj.get("id") is not None else None,
+            "username": obj.get("username"),
+            "email": obj.get("email"),
+            "phone_number": PhoneNumber.from_dict(obj["phone_number"]) if obj.get("phone_number") is not None else None,
+            "preferences": Preferences.from_dict(obj["preferences"]) if obj.get("preferences") is not None else None,
+            "role": Role.from_dict(obj["role"]) if obj.get("role") is not None else None
+        })
         return _obj

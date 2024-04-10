@@ -29,30 +29,20 @@ from typing_extensions import Self
 class Review(BaseModel):
     """
     Review
-    """  # noqa: E501
-
+    """ # noqa: E501
     id: Optional[Id2] = None
-    restaurant_id: StrictStr = Field(
-        description="The ID of the restaurant being reviewed"
-    )
+    restaurant_id: StrictStr = Field(description="The ID of the restaurant being reviewed")
     user_id: StrictStr = Field(description="The ID of the user who wrote the review")
-    rating: Union[StrictFloat, StrictInt] = Field(
-        description="The rating given by the user"
-    )
+    rating: Union[StrictFloat, StrictInt] = Field(description="The rating given by the user")
     comment: Optional[Comment] = None
-    __properties: ClassVar[List[str]] = [
-        "id",
-        "restaurant_id",
-        "user_id",
-        "rating",
-        "comment",
-    ]
+    __properties: ClassVar[List[str]] = ["id", "restaurant_id", "user_id", "rating", "comment"]
 
     model_config = ConfigDict(
         populate_by_name=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
@@ -78,7 +68,8 @@ class Review(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([])
+        excluded_fields: Set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -87,10 +78,10 @@ class Review(BaseModel):
         )
         # override the default output from pydantic by calling `to_dict()` of id
         if self.id:
-            _dict["id"] = self.id.to_dict()
+            _dict['id'] = self.id.to_dict()
         # override the default output from pydantic by calling `to_dict()` of comment
         if self.comment:
-            _dict["comment"] = self.comment.to_dict()
+            _dict['comment'] = self.comment.to_dict()
         return _dict
 
     @classmethod
@@ -102,17 +93,11 @@ class Review(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                "id": Id2.from_dict(obj["id"]) if obj.get("id") is not None else None,
-                "restaurant_id": obj.get("restaurant_id"),
-                "user_id": obj.get("user_id"),
-                "rating": obj.get("rating"),
-                "comment": (
-                    Comment.from_dict(obj["comment"])
-                    if obj.get("comment") is not None
-                    else None
-                ),
-            }
-        )
+        _obj = cls.model_validate({
+            "id": Id2.from_dict(obj["id"]) if obj.get("id") is not None else None,
+            "restaurant_id": obj.get("restaurant_id"),
+            "user_id": obj.get("user_id"),
+            "rating": obj.get("rating"),
+            "comment": Comment.from_dict(obj["comment"]) if obj.get("comment") is not None else None
+        })
         return _obj
