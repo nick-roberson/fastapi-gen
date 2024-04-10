@@ -76,7 +76,7 @@ This is a simple FastAPI service that can be used as a starting point for a new 
 
 Here is an example of the homepage that is generated for the React frontend. It will display all the models that have been generated.
 
-<div style="padding: 50px;">
+<div style="padding: 100px;">
   <img src="images/user_page.png" alt="Users Page" style="width: 100%; height: auto; max-width: 35vw;">
   <img src="images/restaurant_page.png" alt="Restaurant Page" style="width: 100%; height: auto; max-width: 35vw;">
   <img src="images/reservation_page.png" alt="Reservation Page" style="width: 100%; height: auto; max-width: 35vw;">
