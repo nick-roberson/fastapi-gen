@@ -29,36 +29,21 @@ from typing_extensions import Self
 class Reservation(BaseModel):
     """
     Reservation
-    """  # noqa: E501
-
+    """ # noqa: E501
     id: Optional[Id] = None
-    restaurant_id: StrictStr = Field(
-        description="The ID of the restaurant where the reservation is made"
-    )
-    user_id: StrictStr = Field(
-        description="The ID of the user who made the reservation"
-    )
-    reservation_time: datetime = Field(
-        description="The date and time of the reservation"
-    )
-    party_size: StrictInt = Field(
-        description="The size of the party for the reservation"
-    )
+    restaurant_id: StrictStr = Field(description="The ID of the restaurant where the reservation is made")
+    user_id: StrictStr = Field(description="The ID of the user who made the reservation")
+    reservation_time: datetime = Field(description="The date and time of the reservation")
+    party_size: StrictInt = Field(description="The size of the party for the reservation")
     special_requests: Optional[SpecialRequests] = None
-    __properties: ClassVar[List[str]] = [
-        "id",
-        "restaurant_id",
-        "user_id",
-        "reservation_time",
-        "party_size",
-        "special_requests",
-    ]
+    __properties: ClassVar[List[str]] = ["id", "restaurant_id", "user_id", "reservation_time", "party_size", "special_requests"]
 
     model_config = ConfigDict(
         populate_by_name=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
@@ -84,7 +69,8 @@ class Reservation(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([])
+        excluded_fields: Set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -93,10 +79,10 @@ class Reservation(BaseModel):
         )
         # override the default output from pydantic by calling `to_dict()` of id
         if self.id:
-            _dict["id"] = self.id.to_dict()
+            _dict['id'] = self.id.to_dict()
         # override the default output from pydantic by calling `to_dict()` of special_requests
         if self.special_requests:
-            _dict["special_requests"] = self.special_requests.to_dict()
+            _dict['special_requests'] = self.special_requests.to_dict()
         return _dict
 
     @classmethod
@@ -108,18 +94,12 @@ class Reservation(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                "id": Id.from_dict(obj["id"]) if obj.get("id") is not None else None,
-                "restaurant_id": obj.get("restaurant_id"),
-                "user_id": obj.get("user_id"),
-                "reservation_time": obj.get("reservation_time"),
-                "party_size": obj.get("party_size"),
-                "special_requests": (
-                    SpecialRequests.from_dict(obj["special_requests"])
-                    if obj.get("special_requests") is not None
-                    else None
-                ),
-            }
-        )
+        _obj = cls.model_validate({
+            "id": Id.from_dict(obj["id"]) if obj.get("id") is not None else None,
+            "restaurant_id": obj.get("restaurant_id"),
+            "user_id": obj.get("user_id"),
+            "reservation_time": obj.get("reservation_time"),
+            "party_size": obj.get("party_size"),
+            "special_requests": SpecialRequests.from_dict(obj["special_requests"]) if obj.get("special_requests") is not None else None
+        })
         return _obj
