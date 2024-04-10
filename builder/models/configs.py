@@ -10,7 +10,7 @@ from builder.models.enum import DatabaseTypes, FieldDataType
 class FieldDefinition(BaseModel):
     """Field definition for a model"""
 
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
 
     def __init__(self, **data):
         super().__init__(**data)
@@ -124,11 +124,40 @@ class FieldDefinition(BaseModel):
                     f"required={self.required})"
                 )
 
+    @property
+    def alembic_db_def(self):
+        """Return the Alembic database definition for the field"""
+        # Handle id fields
+        if self.name == "id":
+            return "Column(Integer, primary_key=True, autoincrement=True)"
+
+        # Handle all other fields
+        if self.type == "str":
+            return f"Column(String(1000), nullable={not self.required}, default='{self.default or ''}')"
+        elif self.type == "int":
+            return (
+                f"Column(Integer, nullable={not self.required}, default={self.default})"
+            )
+        elif self.type == "float":
+            return (
+                f"Column(Float, nullable={not self.required}, default={self.default})"
+            )
+        elif self.type == "bool":
+            return (
+                f"Column(Boolean, nullable={not self.required}, default={self.default})"
+            )
+        elif self.type == "datetime":
+            return f"Column(DateTime, nullable={not self.required}, default=func.now())"
+        elif self.type == "list" or self.type == "dict":
+            return f"Column(JSON, nullable={not self.required}, default={self.default})"
+        else:
+            raise ValueError(f"Invalid type {self.type}")
+
 
 class ModelConfig(BaseModel):
     """Model definition"""
 
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
 
     name: str
     fields: List[FieldDefinition]
@@ -152,7 +181,7 @@ class ModelConfig(BaseModel):
 class DependencyConfig(BaseModel):
     """Dependency definition"""
 
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
     name: str
     version: Optional[str] = None
 
@@ -163,7 +192,7 @@ class DependencyConfig(BaseModel):
 class DatabaseConfig(BaseModel):
     """Database configuration"""
 
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
 
     db_type: str
     db_uri_env_var: str
@@ -176,7 +205,7 @@ class DatabaseConfig(BaseModel):
 
 
 class ServiceInfo(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
 
     name: str = DEFAULT_SERVICE_NAME
     version: str = "0.1.0"
@@ -189,7 +218,7 @@ class ServiceInfo(BaseModel):
 class ServiceConfig(BaseModel):
     """List of model definitions"""
 
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
 
     service_info: ServiceInfo
     database: DatabaseConfig

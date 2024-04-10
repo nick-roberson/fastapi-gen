@@ -80,7 +80,7 @@ def process_close(result: Dict, output_dir: str, service_config: ServiceConfig):
         output_dir (str): The output directory
         service_config (ServiceConfig): The service configuration
     """
-    code_dir = "src"
+    code_dir = "backend"
 
     # Display the generated files
     print(f"\nGenerated files:")

@@ -1,0 +1,222 @@
+[
+  {
+    "id": 3324,
+    "username": "mroberts",
+    "email": "gordontheodore@example.net",
+    "phone_number": "707.878.3717x784",
+    "preferences": [
+      "japanese",
+      "italian"
+    ],
+    "role": "admin"
+  },
+  {
+    "id": 5347,
+    "username": "adrianamiller",
+    "email": "csantiago@example.org",
+    "phone_number": "399.717.6339x48764",
+    "preferences": [
+      "mexican",
+      "japanese"
+    ],
+    "role": "restaurant_owner"
+  },
+  {
+    "id": 4323,
+    "username": "saraherickson",
+    "email": "jackjohnson@example.org",
+    "phone_number": "001-609-503-2846x28675",
+    "preferences": [
+      "japanese",
+      "vegan"
+    ],
+    "role": "user"
+  },
+  {
+    "id": 658,
+    "username": "michael07",
+    "email": "mbaldwin@example.net",
+    "phone_number": "(458)507-0194",
+    "preferences": [
+      "chinese",
+      "chinese"
+    ],
+    "role": "user"
+  },
+  {
+    "id": 2710,
+    "username": "david99",
+    "email": "tmurray@example.net",
+    "phone_number": "(956)668-4920x4064",
+    "preferences": [
+      "vegan",
+      "japanese"
+    ],
+    "role": "user"
+  },
+  {
+    "id": 5240,
+    "username": "owilliams",
+    "email": "laurengibson@example.org",
+    "phone_number": "001-950-400-8015x959",
+    "preferences": [
+      "japanese",
+      "japanese"
+    ],
+    "role": "user"
+  },
+  {
+    "id": 7753,
+    "username": "patriciafischer",
+    "email": "mcdowellraymond@example.net",
+    "phone_number": "(497)512-5403x265",
+    "preferences": [
+      "japanese",
+      "vegan"
+    ],
+    "role": "admin"
+  },
+  {
+    "id": 4569,
+    "username": "moralesanthony",
+    "email": "dmoreno@example.org",
+    "phone_number": "6776224454",
+    "preferences": [
+      "italian",
+      "japanese"
+    ],
+    "role": "admin"
+  },
+  {
+    "id": 537,
+    "username": "nbuck",
+    "email": "bhuber@example.org",
+    "phone_number": "+1-767-391-4947x1768",
+    "preferences": [
+      "mexican",
+      "japanese"
+    ],
+    "role": "admin"
+  },
+  {
+    "id": 1258,
+    "username": "zhunt",
+    "email": "browncatherine@example.com",
+    "phone_number": "001-707-956-6539x149",
+    "preferences": [
+      "chinese",
+      "italian"
+    ],
+    "role": "user"
+  },
+  {
+    "id": 1559,
+    "username": "donmahoney",
+    "email": "jenningskathy@example.net",
+    "phone_number": "(660)819-2148",
+    "preferences": [
+      "chinese",
+      "mexican"
+    ],
+    "role": "admin"
+  },
+  {
+    "id": 5769,
+    "username": "lauraking",
+    "email": "jeffery45@example.com",
+    "phone_number": "(572)895-5006",
+    "preferences": [
+      "italian",
+      "chinese"
+    ],
+    "role": "admin"
+  },
+  {
+    "id": 9267,
+    "username": "wtaylor",
+    "email": "szavala@example.com",
+    "phone_number": "987.726.2244x499",
+    "preferences": [
+      "japanese",
+      "italian"
+    ],
+    "role": "restaurant_owner"
+  },
+  {
+    "id": 4906,
+    "username": "rangelemily",
+    "email": "zcrawford@example.net",
+    "phone_number": "001-706-425-1527x23985",
+    "preferences": [
+      "japanese",
+      "chinese"
+    ],
+    "role": "admin"
+  },
+  {
+    "id": 8161,
+    "username": "hkey",
+    "email": "ibowman@example.org",
+    "phone_number": "001-792-233-7849",
+    "preferences": [
+      "mexican",
+      "chinese"
+    ],
+    "role": "restaurant_owner"
+  },
+  {
+    "id": 5307,
+    "username": "lporter",
+    "email": "sramirez@example.com",
+    "phone_number": "+1-772-826-1378x862",
+    "preferences": [
+      "vegan",
+      "japanese"
+    ],
+    "role": "restaurant_owner"
+  },
+  {
+    "id": 9613,
+    "username": "justin13",
+    "email": "derek38@example.com",
+    "phone_number": "+1-441-995-7650",
+    "preferences": [
+      "chinese",
+      "chinese"
+    ],
+    "role": "restaurant_owner"
+  },
+  {
+    "id": 3616,
+    "username": "codymyers",
+    "email": "linda14@example.org",
+    "phone_number": "+1-320-299-7741x843",
+    "preferences": [
+      "vegan",
+      "japanese"
+    ],
+    "role": "user"
+  },
+  {
+    "id": 7727,
+    "username": "julia77",
+    "email": "shubbard@example.com",
+    "phone_number": "(510)325-8889x808",
+    "preferences": [
+      "vegan",
+      "japanese"
+    ],
+    "role": "restaurant_owner"
+  },
+  {
+    "id": 4707,
+    "username": "wschaefer",
+    "email": "abbottalan@example.org",
+    "phone_number": "339-502-7209x31101",
+    "preferences": [
+      "italian",
+      "japanese"
+    ],
+    "role": "admin"
+  }
+]

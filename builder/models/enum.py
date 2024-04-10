@@ -5,6 +5,8 @@ class DatabaseTypes(enum.Enum):
     """Database types"""
 
     MONGO: str = "mongo"
+    POSTGRES: str = "postgres"
+    MYSQL: str = "mysql"
 
     @classmethod
     def choices(cls):

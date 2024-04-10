@@ -4,7 +4,7 @@ from typing import Dict
 import yaml
 from pydantic.fields import FieldInfo
 
-from builder.constants import PYTHON_DEPENDENCIES
+from builder.constants import PYTHON_DEPENDENCIES, REQUIRED_DB_ENV_VARS
 from builder.models import (DatabaseConfig, DatabaseTypes, DependencyConfig,
                             FieldDefinition, ModelConfig, ServiceConfig,
                             ServiceInfo)
@@ -82,6 +82,32 @@ def validate_config(config: Dict) -> None:
             raise ValueError(
                 f"Invalid db_type '{database[field_name]}', allowed types are {DatabaseConfig.db_type_choices}"
             )
+
+        # Check the db_type is present and all vars are present
+        if field_name == "db_type" and database[field_name] is None:
+            db_type = database["db_type"]
+            if db_type == DatabaseTypes.postgres.value:
+                for env_var in REQUIRED_DB_ENV_VARS["postgres"]:
+                    if env_var not in os.environ or not os.environ[env_var]:
+                        raise ValueError(
+                            f"Missing required environment variable '{env_var}' for postgres"
+                        )
+            elif db_type == DatabaseTypes.mysql.value:
+                for env_var in REQUIRED_DB_ENV_VARS["mysql"]:
+                    if env_var not in os.environ or not os.environ[env_var]:
+                        raise ValueError(
+                            f"Missing required environment variable '{env_var}' for mysql"
+                        )
+            elif db_type == DatabaseTypes.mongo.value:
+                for env_var in REQUIRED_DB_ENV_VARS["mongo"]:
+                    if env_var not in os.environ or not os.environ[env_var]:
+                        raise ValueError(
+                            f"Missing required environment variable '{env_var}' for mongo"
+                        )
+            else:
+                raise ValueError(
+                    f"Invalid db_type '{db_type}', allowed types are {DatabaseConfig.db_type_choices}"
+                )
 
     # (3) For each ModelConfig confirm fields are valid
     models = config["models"]
