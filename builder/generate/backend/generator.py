@@ -73,6 +73,23 @@ class BackendGenerator:
             os.path.join(self.code_dir, file) for file in self.DOCKERFILES
         ]
 
+    def generate_templated_components(self):
+        """Generate the templated components for the backend service."""
+        model_file = self.generate_models()
+        service_file = self.generate_services()
+        manager_files = self.generate_managers()
+        mongo_file = self.generate_database()
+        readme_file = self.generate_readme()
+        poetry_file = self.generate_poetry_toml()
+        return {
+            "Pydantic Models": model_file,
+            "FastAPI Service": service_file,
+            "Model Managers": manager_files,
+            "MongoDB": mongo_file,
+            "Poetry": poetry_file,
+            "README.md": readme_file,
+        }
+
     def generate_all(self, clear: bool = True) -> Dict:
         """Generate the backend code for the service.
 
@@ -90,37 +107,24 @@ class BackendGenerator:
 
         # Generate the models, services, managers, and mongo files
         print("\t2. Generating the backend code...")
-        model_file = self.generate_models()
-        service_file = self.generate_services()
-        manager_files = self.generate_managers()
-        mongo_file = self.generate_database()
-
-        # Generate non code files
-        print("\t3. Generating the non-code files (poetry and readme)...")
-        poetry_file = self.generate_poetry_toml()
-        readme_file = self.generate_readme()
+        templated_files = self.generate_templated_components()
 
         # Generate the python client code
-        print("\t4. Exporting OpenAPI JSON file...")
+        print("\t3. Exporting OpenAPI JSON file...")
         self.generate_openapi_file()
-        print("\t5. Generating the python client code...")
+        print("\t4. Generating the python client code...")
         self.generate_python_client()
 
         # Then install the backend dependencies and lint the code
-        print("\t6. Installing the backend dependencies...")
+        print("\t5. Installing the backend dependencies...")
         self.install_backend_deps()
-        print("\t7. Linting the backend code...")
+        print("\t6. Linting the backend code...")
         self.lint_backend()
 
         # Return the generated files
         return {
             "Backend Files": {
-                "Pydantic Models": [model_file],
-                "FastAPI Service": [service_file],
-                "Model Managers": manager_files,
-                "MongoDB": [mongo_file],
-                "README.md": [readme_file],
-                "Poetry": [poetry_file],
+                **templated_files,
             },
             "Backend Directories": {
                 "Service Code": self.code_dir,
