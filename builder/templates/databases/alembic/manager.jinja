@@ -1,0 +1,218 @@
+""" Template for alembic model manager, includes the following endpoints:
+- create_model
+- create_models
+- get_model
+- get_models
+- update_model
+- delete_model
+"""
+
+import logging
+
+from datetime import datetime
+from typing import List
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+from db.constants import DB_URL
+from db.models import DB{{ model.name }}
+
+
+# Singleton Manager for {{ model.name }}
+__{{ model.name.upper()}}_MANAGER = None
+def get_{{ model.name.lower() }}_manager():
+    global __{{ model.name.upper()}}_MANAGER
+    if not __{{ model.name.upper()}}_MANAGER:
+        __{{ model.name.upper()}}_MANAGER = {{ model.name }}Manager()
+    return __{{ model.name.upper()}}_MANAGER
+
+
+class {{ model.name }}Manager:
+    """{{ model.name }} manager to handle all database operations for the {{ model.name }} records."""
+
+    def __init__(self):
+        """Initialize the CaseManager."""
+        engine = create_engine(DB_URL)
+        self.session_factory = sessionmaker(bind=engine)
+        logging.info("CaseManager successfully initialized")
+
+    def get(self, id: int) -> DB{{ model.name }}:
+        """Retrieve a {{ model.name }} record from the database by its ID."""
+        logging.info(f"Retrieving {{ model.name }} record with ID: {id}")
+        try:
+            with self.session_factory() as session:
+                # Retrieve the {{ model.name }} record by its ID
+                item = session.query(DB{{ model.name }}).get(id)
+                logging.info(f"Successfully retrieved {{ model.name }} record: {item}")
+                return item
+        except Exception as e:
+            logging.error(f"Failed to retrieve {{ model.name }} record: {e}")
+            raise e
+        finally:
+            self.close_session()
+
+    def get_all(self) -> List[DB{{ model.name }}]:
+        """Retrieve all {{ model.name }} records from the database."""
+        logging.info("Retrieving all {{ model.name }} records")
+        try:
+            with self.session_factory() as session:
+                # Retrieve all {{ model.name }} records
+                items = session.query(DB{{ model.name }}).all()
+                logging.info(f"Successfully retrieved all {{ model.name }} records: {items}")
+                return items
+        except Exception as e:
+            logging.error(f"Failed to retrieve all {{ model.name }} records: {e}")
+            raise e
+        finally:
+            self.close_session()
+
+    def create(self, data: dict) -> DB{{ model.name }}:
+        """Create a new {{ model.name }} record in the database."""
+        logging.info(f"Creating new {{ model.name }} record: {data}")
+        try:
+            with self.session_factory() as session:
+                # Create a new {{ model.name }} record
+                new_item = DB{{ model.name }}(**data)
+
+                # Add the new {{ model.name }} record to the session and commit
+                session.add(new_item)
+                session.commit()
+
+                # Refresh and return the new {{ model.name }} record
+                session.refresh(new_item)
+                logging.info(f"Successfully created new {{ model.name }} record: {new_item}")
+                return new_item
+        except Exception as e:
+            logging.error(f"Failed to create new {{ model.name }} record: {e}")
+            raise e
+        finally:
+            self.close_session()
+
+    def create_many(self, data: List[dict]) -> List[DB{{ model.name }}]:
+        """Create multiple new {{ model.name }} records in the database."""
+        logging.info(f"Creating multiple new {{ model.name }} records: {data}")
+        try:
+            with self.session_factory() as session:
+                # Create new {{ model.name }} records
+                new_items = [DB{{ model.name }}(**item) for item in data]
+
+                # Add the new {{ model.name }} records to the session and commit
+                session.add_all(new_items)
+                session.commit()
+
+                # Refresh and return the new {{ model.name }} records
+                for item in new_items:
+                    session.refresh(item)
+                logging.info(f"Successfully created multiple new {{ model.name }} records: {new_items}")
+                return new_items
+        except Exception as e:
+            logging.error(f"Failed to create multiple new {{ model.name }} records: {e}")
+            raise e
+        finally:
+            self.close_session()
+
+    def update(self, id: int, data: dict) -> DB{{ model.name }}:
+        """Update an existing {{ model.name }} record in the database."""
+        logging.info(f"Updating {{ model.name }} record with ID {id}: {data}")
+        try:
+            with self.session_factory() as session:
+                # Retrieve the {{ model.name }} record by its ID
+                item = session.query(DB{{ model.name }}).get(id)
+
+                # Update the {{ model.name }} record with the new data
+                for key, value in data.items():
+                    setattr(item, key, value)
+                item.updated_at = datetime.now()
+
+                # Commit the changes
+                session.commit()
+
+                # Refresh and return the updated {{ model.name }} record
+                session.refresh(item)
+                logging.info(f"Successfully updated {{ model.name }} record: {item}")
+                return item
+        except Exception as e:
+            logging.error(f"Failed to update {{ model.name }} record: {e}")
+            raise e
+        finally:
+            self.close_session()
+
+    def update_many(self, data: List[dict]) -> List[DB{{ model.name }}]:
+        """Update multiple existing {{ model.name }} records in the database."""
+        logging.info(f"Updating multiple {{ model.name }} records: {data}")
+        try:
+            with self.session_factory() as session:
+                # Update the {{ model.name }} records with the new data
+                updated_items = []
+                for item_data in data:
+                    # Retrieve the {{ model.name }} record by its ID
+                    item = session.query(DB{{ model.name }}).get(item_data['id'])
+
+                    # Update the {{ model.name }} record with the new data
+                    for key, value in item_data.items():
+                        setattr(item, key, value)
+                    item.updated_at = datetime.now()
+
+                    # Add the updated {{ model.name }} record to the list
+                    updated_items.append(item)
+
+                # Commit the changes
+                session.commit()
+
+                # Refresh and return the updated {{ model.name }} records
+                for item in updated_items:
+                    session.refresh(item)
+                logging.info(f"Successfully updated multiple {{ model.name }} records: {updated_items}")
+                return updated_items
+        except Exception as e:
+            logging.error(f"Failed to update multiple {{ model.name }} records: {e}")
+            raise e
+        finally:
+            self.close_session()
+
+
+    def delete(self, id: int) -> DB{{ model.name }}:
+        """Delete a {{ model.name }} record from the database by its ID."""
+        logging.info(f"Deleting {{ model.name }} record with ID: {id}")
+        try:
+            with self.session_factory() as session:
+                # Retrieve the {{ model.name }} record by its ID
+                item = session.query(DB{{ model.name }}).get(id)
+
+                # Delete the {{ model.name }} record
+                session.delete(item)
+                session.commit()
+
+                logging.info(f"Successfully deleted {{ model.name }} record: {item}")
+                return item
+        except Exception as e:
+            logging.error(f"Failed to delete {{ model.name }} record: {e}")
+            raise e
+        finally:
+            self.close_session()
+
+    def delete_many(self, ids: List[int]) -> List[DB{{ model.name }}]:
+        """Delete multiple {{ model.name }} records from the database by their IDs."""
+        logging.info(f"Deleting multiple {{ model.name }} records with IDs: {ids}")
+        try:
+            with self.session_factory() as session:
+                # Retrieve the {{ model.name }} records by their IDs
+                items = session.query(DB{{ model.name }}).filter(DB{{ model.name }}.id.in_(ids)).all()
+
+                # Delete the {{ model.name }} records
+                for item in items:
+                    session.delete(item)
+                session.commit()
+
+                logging.info(f"Successfully deleted multiple {{ model.name }} records: {items}")
+                return items
+        except Exception as e:
+            logging.error(f"Failed to delete multiple {{ model.name }} records: {e}")
+            raise e
+        finally:
+            self.close_session()
+
+    def close_session(self):
+        """This method is now redundant since each action opens and closes its session."""
+        pass

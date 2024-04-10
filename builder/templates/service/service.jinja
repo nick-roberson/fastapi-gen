@@ -5,7 +5,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from models.models import {{ model_names }}
 
-{% for model in models %}from {{ model.name.lower() }}_manager import get_{{ model.manager_var_name }}
+{% for model in models %}from db.{{ model.name.lower() }}_manager import get_{{ model.manager_var_name }}
 {% endfor %}
 
 # Create instances of managers for each model

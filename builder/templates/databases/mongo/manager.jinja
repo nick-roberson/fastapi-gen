@@ -1,0 +1,171 @@
+import uuid
+import logging
+from typing import List
+from models.models import {{ model.name }}
+from db.utils import get_collection, get_client
+
+# Singleton Manager for {{ model.name }}
+__{{ model.name.upper()}}_MANAGER = None
+def get_{{ model.name.lower() }}_manager():
+    global __{{ model.name.upper()}}_MANAGER
+    if not __{{ model.name.upper()}}_MANAGER:
+        __{{ model.name.upper()}}_MANAGER = {{ model.name }}Manager()
+    return __{{ model.name.upper()}}_MANAGER
+
+class {{ model.name }}Manager:
+
+    collection_name: str = '{{ model.name.lower() }}'
+
+    def __init__(self):
+        self.client = get_client()
+        self.collection = get_collection(self.client, self.collection_name)
+
+    ########################################################
+    # Create Operations                                    #
+    ########################################################
+
+    def create(self, {{ model.name.lower() }}: {{ model.name }}) -> {{ model.name }}:
+        """ Create a new {{ model.name }} """
+        print("Creating {{ model.name }}: {}".format({{ model.name.lower() }}))
+        try:
+            # Generate id for the model
+            if not {{ model.name.lower() }}.id:
+                {{ model.name.lower() }}.id = str(uuid.uuid4())
+
+            # Insert into database
+            self.collection.insert_one({{ model.name.lower() }}.model_dump(mode="json"))
+
+            # Return the created {{ model.name }}
+            return {{ model.name.lower() }}
+        except Exception as e:
+            raise e
+
+    def create_many(self, {{ model.name.lower() }}_list: List[{{ model.name }}]) -> List[{{ model.name }}]:
+        """ Create a list of {{ model.name }} """
+        print("Creating {{ model.name }}: {}".format({{ model.name.lower() }}_list))
+        try:
+            # Generate ids for the models
+            for model in {{ model.name.lower() }}_list:
+                if not model.id:
+                    model.id = str(uuid.uuid4())
+
+            # Insert into database
+            self.collection.insert_many([{{ model.name.lower() }}.model_dump(mode="json") for {{ model.name.lower() }} in {{ model.name.lower() }}_list])
+
+            # Return the {{ model.name }} list
+            return {{ model.name.lower() }}_list
+        except Exception as e:
+            raise e
+
+
+    ########################################################
+    # Read Operations                                      #
+    ########################################################
+
+
+    def get(self, {{ model.name.lower() }}_id: str) -> {{ model.name }}:
+        """ Get a {{ model.name }} by its id """
+        print("Getting {{ model.name }}: {}.format({{ model.name.lower() }}_id)")
+        try:
+            return self.collection.find_one({'id': {{ model.name.lower() }}_id})
+        except Exception as e:
+            raise e
+
+
+    def get_many(self, {{ model.name.lower() }}_ids: List[str]) -> List[{{ model.name }}]:
+        """ Get a list of {{ model.name }} by their ids """
+        print("Getting {{ model.name }}: {}".format({{ model.name.lower() }}_ids))
+        try:
+            return list(self.collection.find({'id': {'$in': {{ model.name.lower() }}_ids}}))
+        except Exception as e:
+            raise e
+
+
+    def get_all(self) -> List[{{ model.name }}]:
+        """ Get all {{ model.name }} """
+        print(f"Getting all {{ model.name }}")
+        try:
+            return list(self.collection.find())
+        except Exception as e:
+            raise e
+
+    ########################################################
+    # Update Operations                                    #
+    ########################################################
+
+
+    def update(self, {{ model.name.lower() }}: {{ model.name }}) -> {{ model.name }}:
+        """ Update a {{ model.name }} """
+        print("Updating {{ model.name }}: {}".format({{ model.name.lower() }}))
+        try:
+            # Raise error if id is not present on the model
+            if not {{ model.name.lower() }}.id:
+                raise Exception("{{ model.name }} id is required")
+
+            # Update
+            self.collection.update_one(
+                {'id': {{ model.name.lower() }}.id},
+                {'$set': {{ model.name.lower() }}.model_dump(mode="json")}
+            )
+
+            # Return new copy
+            return self.get({{ model.name.lower() }}.id)
+        except Exception as e:
+            raise e
+
+
+    def update_many(self, {{ model.name.lower() }}_list: List[{{ model.name }}]) -> List[{{ model.name }}]:
+        """ Update a list of {{ model.name }} """
+        print("Updating {{ model.name }}: {}".format({{ model.name.lower() }}_list))
+        try:
+            # Update
+            for {{ model.name.lower() }} in {{ model.name.lower() }}_list:
+                self.update({{ model.name.lower() }})
+
+            # Return new copies
+            return self.get_many([{{ model.name.lower() }}.id for {{ model.name.lower() }} in {{ model.name.lower() }}_list])
+        except Exception as e:
+            raise e
+
+
+    ########################################################
+    # Delete Operations                                    #
+    ########################################################
+
+
+    def delete(self, {{ model.name.lower() }}_id: str) -> {{ model.name }}:
+        """ Delete a {{ model.name }} """
+        print("Deleting {{ model.name }}: {}".format({{ model.name.lower() }}_id))
+        try:
+            # Find in database
+            obj = self.get({{ model.name.lower() }}_id)
+            if not obj:
+                raise Exception("{{ model.name }} not found")
+
+            # Delete if found
+            self.collection.delete_one({'id': {{ model.name.lower() }}_id})
+
+            # Return the deleted object
+            return obj
+        except Exception as e:
+            raise e
+
+
+    def delete_many(self, {{ model.name.lower() }}_ids: List[str]) -> List[{{ model.name }}]:
+        """ Delete a list of {{ model.name }} """
+        print("Deleting {{ model.name }}: {}".format({{ model.name.lower() }}_ids))
+        try:
+            # Find in database
+            objs = self.get_many({{ model.name.lower() }}_ids)
+            if not objs:
+                raise Exception("{{ model.name }}s not found")
+            if len(objs) != len({{ model.name.lower() }}_ids):
+                raise Exception("Some {{ model.name }}s not found")
+
+            # Delete if found
+            self.collection.delete_many({'id': {'$in': {{ model.name.lower() }}_ids}})
+
+            # Return the deleted objects
+            return objs
+        except Exception as e:
+            raise e

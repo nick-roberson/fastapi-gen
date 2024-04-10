@@ -140,94 +140,56 @@ You can also declare your own config file, but it must match the format of the e
 I plan on adding a more interactive way to generate the config file in the future, via some command line prompts such as `build-config`, but that is yet to come.
 
 
-Here is an example of the output that you will see when you run the service generator:
+## Generate using Alembic
 ```bash
 % poetry run python main.py generate-app \
-    --config example/configs/restaurant_reservations.yaml \
-    --output-dir example/output
+    --config example/alembic/restaurant.yaml \
+    --output-dir example/alembic/output
 
-Generating Frontend and Backend services for app `reservations-app`
-        config:     example/configs/restaurant_reservations.yaml
-        output_dir: example/output
-
-
-Generating backend and frontend services...
-
-        1. Clearing the output directory...
-        2. Generating the backend code...
-        3. Generating the non-code files (poetry and readme)...
-        4. Exporting OpenAPI JSON file...
-        5. Generating the python client code...
-                > 'openapi-generator generate -i openapi.json -g python -o /Users/nicholas/Code/fastapi-gen/example/output/client'
-        6. Installing the backend dependencies...
-                > 'poetry env use 3.12.2'
-                > 'poetry install'
-                > 'poetry export -f requirements.txt --output requirements.txt'
-        7. Linting the backend code...
-                > 'poetry run black /Users/nicholas/Code/fastapi-gen/example/output/src'
-                > 'poetry run isort /Users/nicholas/Code/fastapi-gen/example/output/src'
-
-Generating frontend services...
-
-        1. Clearing generated frontend code...
-        2. Generating frontend code ...
-                > 'npx create-react-app reservations-app --template typescript'
-        3. Installing dependencies...
-                > 'npm install axios @mui/material @mui/icons-material @mui/x-data-grid @mui/styled-engine @mui/lab @emotion/react @emotion/styled prettier eslint web-vitals'
-        4. Generating App main page...
-        5. Generating Typescript client...
-                > 'openapi-generator generate -i /Users/nicholas/Code/fastapi-gen/example/output/src/openapi.json -g typescript-fetch -o
-/Users/nicholas/Code/fastapi-gen/example/output/reservations-app/src/api'
-        6. Linting frontend code...
-                > 'npx prettier --write .'
-                > 'npx eslint --fix .'
-
-Generated files:
-        Backend Files:
-                Pydantic Models: ['/Users/nicholas/Code/fastapi-gen/example/output/src/models/models.py']
-                FastAPI Service: ['/Users/nicholas/Code/fastapi-gen/example/output/src/service.py']
-                Model Managers: ['/Users/nicholas/Code/fastapi-gen/example/output/src/user_manager.py', '/Users/nicholas/Code/fastapi-gen/example/output/src/restaurant_manager.py',
-'/Users/nicholas/Code/fastapi-gen/example/output/src/reservation_manager.py', '/Users/nicholas/Code/fastapi-gen/example/output/src/review_manager.py']
-                MongoDB: ['/Users/nicholas/Code/fastapi-gen/example/output/src/mongo.py']
-                README.md: ['/Users/nicholas/Code/fastapi-gen/example/output/src/README.md']
-                Poetry: ['/Users/nicholas/Code/fastapi-gen/example/output/src/pyproject.toml']
-        Backend Directories:
-                Service Code: /Users/nicholas/Code/fastapi-gen/example/output/src
-                Python Client Code: /Users/nicholas/Code/fastapi-gen/example/output/client
-        Frontend Files:
-                Main Page: /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/src/App.tsx
-        Frontend Directories:
-                Application Directory: /Users/nicholas/Code/fastapi-gen/example/output/reservations-app
-                Source Code: /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/src
-                API Client Code: /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/src/api
+...
 
 Run the following commands to run the service:
-        % cd /Users/nicholas/Code/fastapi-gen/example/output/src
+        % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/src
         % poetry run uvicorn service:app --reload --port 8000
 
 Run the following commands to run the frontend:
-        % cd /Users/nicholas/Code/fastapi-gen/example/output/reservations-app
+        % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app
         % npm start
+```
 
+### Generate using Mongo
+```bash
+% poetry run python main.py generate-app \
+    --config example/mongo/restaurant.yaml \
+    --output-dir example/mongo/output
+
+...
+
+Run the following commands to run the service:
+    % cd /Users/nicholas/Code/fastapi-gen/example/mongo/output/src
+    % poetry run uvicorn service:app --reload --port 8000
+
+Run the following commands to run the frontend:
+    % cd /Users/nicholas/Code/fastapi-gen/example/mongo/output/reservations-app
+    % npm start
 ```
 
 ## Running
 
 ### Back End
 
-Two options, you can either run from your local environment or from the docker container.
+Two options, you can either run from your local environment or from the docker container. These
+need to be run from the `output/src` directory.
 
-Local:
+#### Local:
 ```
-% cd /Users/nicholas/Code/fastapi-gen/example/output/src && \
-    poetry run uvicorn service:app --reload --port 8000
+poetry run uvicorn service:app --reload --port 8000
 ```
 
-Docker:
+#### Docker:
 ```
-% cd /Users/nicholas/Code/fastapi-gen/example/output/src && \
-    docker build -t myfastapiapp . && \
-    docker run -p 8000:8000 myfastapiapp
+docker build -t myfastapiapp .
+docker run -p 8000:8000 myfastapiapp
 ```
 
 To view the generated OpenAPI documentation, navigate to [http://localhost:8000/docs](http://localhost:8000/docs).
@@ -244,8 +206,8 @@ If you want to regenerate the templates for the frontend or backend, you can use
 
 ```bash
 % poetry run python main.py regenerate-templates frontend \
-    --output-dir example/output \
-    --config example/configs/restaurant_reservations.yaml
+    --output-dir example/mongo/alembic.yaml \
+    --config example/configs/alembic.yaml
 
     > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/App.tsx'
     > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/index.tsx'
@@ -265,7 +227,7 @@ If you want to regenerate the backend templates, you can use the following comma
 ```bash
 % poetry run python main.py regenerate-templates backend \
     --output-dir example/output/src \
-    --config example/configs/restaurant_reservations.yaml
+    --config example/configs/alembic.yaml
 
 ... you get the idea ...
 ```

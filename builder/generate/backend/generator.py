@@ -4,7 +4,7 @@ from typing import Dict, List
 
 from rich import print
 
-from builder.constants import (DOCKER_TEMPLATES, MANAGER_TEMPLATES,
+from builder.constants import (ALEMBIC_TEMPLATES, DOCKER_TEMPLATES,
                                MODEL_TEMPLATES, MONGO_TEMPLATES,
                                OPENAPI_SPEC_FN, POETRY_TEMPLATES,
                                PYTHON_VERSION, README_TEMPLATES,
@@ -30,7 +30,7 @@ class BackendGenerator:
     REQUIREMENTS_TXT: str = "requirements.txt"
 
     # Python code directories
-    SRC_DIR: str = "src"
+    SRC_DIR: str = "backend"
     MODELS_DIR: str = "models"
     MANAGERS_DIR: str = "managers"
     CLIENT_DIR: str = "client"
@@ -41,6 +41,19 @@ class BackendGenerator:
         "compose.yml",
         ".dockerignore",
         "README.Docker.md",
+    ]
+
+    # Alembic files
+    ALEMBIC_CP_FILES: List[str] = [
+        "alembic/script.py.mako",
+        "alembic/README",
+        "alembic.ini",
+    ]
+    ALEMBIC_TEMPLATE_FILES: List[str] = [
+        "alembic/env.jinja",
+        "models.jinja",
+        "manager.jinja",
+        "constants.jinja",
     ]
 
     # Generate python client command
@@ -77,17 +90,17 @@ class BackendGenerator:
         """Generate the templated components for the backend service."""
         model_file = self.generate_models()
         service_file = self.generate_services()
-        manager_files = self.generate_managers()
-        mongo_file = self.generate_database()
+        database_files = self.generate_database()
         readme_file = self.generate_readme()
         poetry_file = self.generate_poetry_toml()
+        docker_files = self.copy_dockerfiles()
         return {
             "Pydantic Models": model_file,
             "FastAPI Service": service_file,
-            "Model Managers": manager_files,
-            "MongoDB": mongo_file,
+            "Database": database_files,
             "Poetry": poetry_file,
             "README.md": readme_file,
+            "Docker Files": docker_files,
         }
 
     def generate_all(self, clear: bool = True) -> Dict:
@@ -246,54 +259,123 @@ class BackendGenerator:
         Returns:
             str: File name of the generated database
         """
-        # If the db_type is MONGO, generate the db utils
-        if self.config.database.db_type == DatabaseTypes.MONGO.value:
-            output_file = f"{self.code_dir}/mongo.py"
-            return populate_template(
+        db_type = self.config.database.db_type
+        # If the db_type is MONGO, generate the mongo files
+        if db_type == DatabaseTypes.MONGO.value:
+            created_files = self._generate_mongo_db()
+            return created_files
+        # If the db_type is POSTGRES or MYSQL, generate the alembic files
+        if (
+            db_type == DatabaseTypes.POSTGRES.value
+            or db_type == DatabaseTypes.MYSQL.value
+        ):
+            created_files = self._generate_alembic_db()
+            return created_files
+        # Otherwise, raise an error
+        else:
+            raise ValueError(
+                f"Invalid db_type '{db_type}', allowed types are {DatabaseTypes.choices()}"
+            )
+
+    def _generate_alembic_db(self):
+        """Generate the Alembic database files."""
+        # First copy over the alembic template files
+        alembic_files = []
+        for file in self.ALEMBIC_CP_FILES:
+            src = os.path.join(ALEMBIC_TEMPLATES, file)
+            dst = os.path.join(self.code_dir, "db", file)
+            if not os.path.exists(os.path.dirname(dst)):
+                os.makedirs(os.path.dirname(dst), exist_ok=True)
+            run_command(f"cp {src} {dst}", cwd=self.code_dir)
+            alembic_files.append(dst)
+
+        # Create versions dir for alembic
+        versions_dir = os.path.join(self.code_dir, "db", "alembic", "versions")
+        os.makedirs(versions_dir, exist_ok=True)
+
+        # Handle models.py
+        output_path = os.path.join(self.code_dir, "db", "models.py")
+        populate_template(
+            template_dir=ALEMBIC_TEMPLATES,
+            template_name="models.jinja",
+            output_path=output_path,
+            context={"models": self.config.models},
+        )
+
+        # Handle *_managers.py
+        manager_file_names = []
+        for model in self.config.models:
+            # Create inputs for the model template
+            output_path = os.path.join(
+                self.code_dir, "db", f"{model.manager_var_name}.py"
+            )
+            context = {
+                "model": model,
+            }
+
+            # Populate the manager template and append the file name
+            output_file = populate_template(
+                template_dir=ALEMBIC_TEMPLATES,
+                template_name="manager.jinja",
+                output_path=output_path,
+                context=context,
+            )
+            manager_file_names.append(output_file)
+
+        # Handle constants.py
+        output_path = os.path.join(self.code_dir, "db", "constants.py")
+        populate_template(
+            template_dir=ALEMBIC_TEMPLATES,
+            template_name="constants.jinja",
+            output_path=output_path,
+            context={"models": self.config.models},
+        )
+
+        # Handle alembic/env.py
+        output_path = os.path.join(self.code_dir, "db", "alembic", "env.py")
+        populate_template(
+            template_dir=ALEMBIC_TEMPLATES,
+            template_name="alembic/env.jinja",
+            output_path=output_path,
+            context={"models": self.config.models},
+        )
+
+        # Return all created files
+        return alembic_files + manager_file_names + [output_path]
+
+    def _generate_mongo_db(self):
+        """Generate the MongoDB database files and managers."""
+        # Create utils file
+        output_file = os.path.join(self.code_dir, "db", "utils.py")
+        utils_file = populate_template(
+            template_dir=MONGO_TEMPLATES,
+            template_name="mongo.jinja",
+            output_path=output_file,
+        )
+
+        # Create different managers
+        manager_file_names = []
+        for model in self.config.models:
+            # Create inputs for the model template
+            output_path = os.path.join(
+                self.code_dir, "db", f"{model.name.lower()}_manager.py"
+            )
+            context = {
+                "model": model,
+                "db_config": self.config.database,
+            }
+
+            # Populate the manager template and append the file name
+            output_file = populate_template(
                 template_dir=MONGO_TEMPLATES,
-                template_name="mongo.jinja",
-                output_path=output_file,
+                template_name="manager.jinja",
+                output_path=output_path,
+                context=context,
             )
-        if self.config.database.db_type == DatabaseTypes.POSTGRES.value:
-            pass
-        if self.config.database.db_type == DatabaseTypes.MYSQL.value:
-            pass
-        else:
-            raise ValueError(
-                f"Invalid db_type '{self.config.database.db_type}', allowed types are {DatabaseTypes.choices()}"
-            )
+            manager_file_names.append(output_file)
 
-    def generate_managers(self) -> List[str]:
-        """Use the JINJA Template to generate the service managers.
-        Returns:
-            List[str]: List of file names of the generated managers
-        """
-        # If the db_type is MONGO, generate the manager
-        if self.config.database.db_type == DatabaseTypes.MONGO.value:
-            manager_file_names = []
-
-            for model in self.config.models:
-                # Create inputs for the model template
-                output_path = f"{self.code_dir}/{model.manager_var_name}.py"
-                context = {
-                    "model": model,
-                    "db_config": self.config.database,
-                }
-
-                # Populate the manager template and append the file name
-                output_file = populate_template(
-                    template_dir=MANAGER_TEMPLATES,
-                    template_name="manager.jinja",
-                    output_path=output_path,
-                    context=context,
-                )
-                manager_file_names.append(output_file)
-
-            return manager_file_names
-        else:
-            raise ValueError(
-                f"Invalid db_type '{self.config.database.db_type}', allowed types are {DatabaseTypes.choices()}"
-            )
+        db_files = manager_file_names + [utils_file]
+        return db_files
 
     def lint_backend(self) -> None:
         """Lint the code using black and isort"""

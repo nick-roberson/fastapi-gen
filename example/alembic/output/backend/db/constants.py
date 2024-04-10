@@ -1,0 +1,30 @@
+import os
+
+# Pull in environment vars for MYSQL or POSTGRES
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
+DB_USER = os.getenv("DB_USER")
+DB_NAME = os.getenv("DB_NAME")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+
+
+def get_url() -> str:
+    """Get the database URL from the environment variables"""
+    # Get the database type
+    db_type = os.getenv("DB_TYPE", None)
+    if db_type is None:
+        raise ValueError("DB_TYPE environment variable must be set")
+
+    # Return the database URL based on the type
+    if db_type == "postgres":
+        return f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    elif db_type == "mysql":
+        return f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    else:
+        raise ValueError(
+            f"Invalid database type {db_type} must be 'postgres' or 'mysql'"
+        )
+
+
+# Get the database URL
+DB_URL = get_url()

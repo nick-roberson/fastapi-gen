@@ -124,6 +124,35 @@ class FieldDefinition(BaseModel):
                     f"required={self.required})"
                 )
 
+    @property
+    def alembic_db_def(self):
+        """Return the Alembic database definition for the field"""
+        # Handle id fields
+        if self.name == "id":
+            return "Column(Integer, primary_key=True, autoincrement=True)"
+
+        # Handle all other fields
+        if self.type == "str":
+            return f"Column(String(10000), nullable={not self.required}, default='{self.default or ''}')"
+        elif self.type == "int":
+            return (
+                f"Column(Integer, nullable={not self.required}, default={self.default})"
+            )
+        elif self.type == "float":
+            return (
+                f"Column(Float, nullable={not self.required}, default={self.default})"
+            )
+        elif self.type == "bool":
+            return (
+                f"Column(Boolean, nullable={not self.required}, default={self.default})"
+            )
+        elif self.type == "datetime":
+            return f"Column(DateTime, nullable={not self.required}, default=func.now())"
+        elif self.type == "list" or self.type == "dict":
+            return f"Column(JSON, nullable={not self.required}, default={self.default})"
+        else:
+            raise ValueError(f"Invalid type {self.type}")
+
 
 class ModelConfig(BaseModel):
     """Model definition"""

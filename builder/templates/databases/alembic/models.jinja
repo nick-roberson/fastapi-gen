@@ -1,0 +1,21 @@
+""" Template to store the DB models of the application """
+
+from sqlalchemy import JSON, Boolean, Column, DateTime, Integer, String, Text, Float
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+
+Base = declarative_base()
+
+{% for model in models %}
+class DB{{ model.name }}(Base):
+
+    __tablename__ = '{{ model.name.lower() }}'
+
+    {% for field in model.fields %}
+    {{ field.name.lower() }} = {{ field.alembic_db_def }}
+    {% endfor %}
+
+    created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+
+{% endfor %}

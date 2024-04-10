@@ -75,7 +75,7 @@ def generate_data(n=5):
     user_samples = generate_user_samples(n)
     restaurant_samples = generate_restaurant_samples(n)
 
-    # Extracting user and restaurant IDs for reservations and reviews
+    # Extracting user and alembic IDs for reservations and reviews
     user_ids = [user["id"] for user in user_samples]
     restaurant_ids = [restaurant["id"] for restaurant in restaurant_samples]
 

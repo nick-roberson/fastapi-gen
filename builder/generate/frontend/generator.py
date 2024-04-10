@@ -42,11 +42,11 @@ class FrontendGenerator:
         # Set the path for the application
         service_name = self.config.service_info.name
         self.app_dir = os.path.join(self.output_dir, service_name)
-        self.src_dir = os.path.join(self.output_dir, service_name, "src")
+        self.src_dir = os.path.join(self.output_dir, service_name, "backend")
         self.api_dir = os.path.join(self.output_dir, service_name, "src/api")
 
         # OpenAPI Spec file
-        self.openapi_spec_fp = os.path.join(self.output_dir, "src", OPENAPI_SPEC_FN)
+        self.openapi_spec_fp = os.path.join(self.output_dir, "backend", OPENAPI_SPEC_FN)
 
         # Application Typescript file
         self.app_tsx = os.path.join(self.src_dir, "App.tsx")
