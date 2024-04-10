@@ -8,7 +8,6 @@
 </p>
 
 <h3 align="center">Backend</h3>
-
 <p align="center">
     <a href="">
         <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
@@ -23,7 +22,7 @@
     </a>
 </p>
 
-<h3 align="center">Databases</h3>
+<h3 align="center">Database </h3>
 <p align="center">
     <a href="https://www.mongodb.com/">
         <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB">
@@ -61,23 +60,46 @@
 </p>
 
 
+# Table of Contents
+- [Features](#features)
+  - [Python Code Generation](#python-code-generation)
+  - [Database Generation](#database-generation)
+  - [Frontend Code Generation](#frontend-code-generation)
+- [Images](#images)
+- [Setup](#setup)
+- [Usage](#usage)
+- [Running](#running)
+  - [Back End](#back-end)
+  - [Front End](#front-end)
+  - [Regenerating Templated Files](#regenerating-templated-files)
+- [Test Data](#test-data)
+
+
 
 This is a simple FastAPI service that can be used as a starting point for a new project.
 
 ## Features
 
-### Python Code Generation
+####  Python Code Generation
+1. Generate FastAPI services with `MongoDB` database support (via model managers)
+2. Generate `pydantic` models for the FastAPI services
+3. Generate Python client code for the FastAPI service using `openapi-generator`
 
-- Generate FastAPI services with `MongoDB` database support (via model managers)
-- Generate `pydantic` models for the FastAPI services
-- Generate Python client code for the FastAPI service using `openapi-generator`
 
-### Frontend Code Generation
+#### Database Generation
 
-- Generate a React frontend with TypeScript
+1. Generate a `MongoDB` database with `Pydantic` models
+2. Generate a `PostgreSQL` database with `SQLAlchemy` models
+3. Generate a `MySQL` database with `SQLAlchemy` models
+
+#### Frontend Code Generation
+
+1. Generate a React frontend with TypeScript
    - Create a homepage that displays all the models that have been generated
    - Create a page for each model that allows you to interact with the FastAPI service
-- Generate TypeScript and Python clients for the FastAPI service using `openapi-generator`
+2. Generate TypeScript and Python clients for the FastAPI service using `openapi-generator`
+
+## Images
 
 <div style="padding: 50px;">
   <img src="images/home_page.png" alt="Home Page" />
@@ -87,31 +109,20 @@ Here is an example of the homepage that is generated for the React frontend. It 
 
 <div style="padding: 100px;">
   <img src="images/user_page.png" alt="Users Page" style="width: 100%; height: auto; max-width: 35vw;">
-  <img src="images/restaurant_page.png" alt="Restaurant Page" style="width: 100%; height: auto; max-width: 35vw;">
-  <img src="images/reservation_page.png" alt="Reservation Page" style="width: 100%; height: auto; max-width: 35vw;">
+  <img src="images/reservation_page.png" alt="Reservations Page" style="width: 100%; height: auto; max-width: 35vw;">
+  <img src="images/restaurant_page.png" alt="Restaurants Page" style="width: 100%; height: auto; max-width: 35vw;">
   <img src="images/review_page.png" alt="Review Page" style="width: 100%; height: auto; max-width: 35vw;">
 </div>
 
 All models will have a page similar to the one above, where you can interact with the FastAPI service.
 
-_**Notes:**_
-- The frontend is still a work in progress, and I am working on adding more features to it.
-- The frontend is generated using `create-react-app` with the `typescript` template.
-- You will need to adjust the frontend to fit your needs, as it is a starting point for your project, for example by adjusting the default column widths.
-
-### Docker
-
-- Generate Dockerfiles for the FastAPI service and the React frontend
-
 ## Setup
-
 
 **General**
 - Poetry installed
 - Python 3.12.2 installed (can install via poetry)
-
+-
 **Database**
-
 - If using **MongoDB** as the database, you will need to set up a free tier MongoDB Atlas database as well as have `MONGO_URI` set in your environment variables.
 - If using **PostgreSQL** or **MySQL** as the database, you will need to set up either database locally or somewhere else and have the following environment variables set:
   - `DB_USER`
@@ -119,14 +130,15 @@ _**Notes:**_
   - `DB_HOST`
   - `DB_PORT`
   - `DB_NAME`
+- The options in the config for the `db_type` are `mongo`, `postgres`, and `mysql`
 
 To learn more about how to set up a free tier MongoDB Atlas database,
 see the following link: [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
 - Click "Try Free" and follow the instructions to set up a free tier database
 
-## Setup
+**Poetry**
 
-This project runs using poetry and should have all the basic imports declared in the `pyproject.toml` file.
+All you should need to do before running otherwise is to install the dependencies using poetry.
 ```bash
 % poetry install
 ```
@@ -160,7 +172,8 @@ You can also declare your own config file, but it must match the format of the e
 I plan on adding a more interactive way to generate the config file in the future, via some command line prompts such as `build-config`, but that is yet to come.
 
 
-## Generate using Alembic
+### Generate using Alembic
+
 ```bash
 % poetry run python main.py generate-app \
     --config example/alembic/restaurant.yaml \
@@ -169,15 +182,18 @@ I plan on adding a more interactive way to generate the config file in the futur
 ...
 
 Run the following commands to run the service:
-        % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend
+        % example/alembic/output/backend
+        % poetry install && poetry update
         % poetry run uvicorn service:app --reload --port 8000
 
 Run the following commands to run the frontend:
-        % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app
+        % cd example/alembic/output/reservations-app
+        % npm install
         % npm start
 ```
 
 ### Generate using Mongo
+
 ```bash
 % poetry run python main.py generate-app \
     --config example/mongo/restaurant.yaml \
@@ -186,11 +202,13 @@ Run the following commands to run the frontend:
 ...
 
 Run the following commands to run the service:
-    % cd /Users/nicholas/Code/fastapi-gen/example/mongo/output/backend
-    % poetry run uvicorn service:app --reload --port 8000
+    % cd example/alembic/output/backend
+    % poetry install && poetry update
+    % poetry install && poetry run uvicorn service:app --reload --port 8000
 
 Run the following commands to run the frontend:
-    % cd /Users/nicholas/Code/fastapi-gen/example/mongo/output/reservations-app
+    % cd example/alembic/output/reservations-app
+    % npm install
     % npm start
 ```
 
@@ -201,26 +219,32 @@ Run the following commands to run the frontend:
 Two options, you can either run from your local environment or from the docker container. These
 need to be run from the `output/src` directory.
 
-#### Local:
+**Local:**
 ```
-poetry run uvicorn service:app --reload --port 8000
+% cd example/alembic/output/backend
+% poetry install && poetry update
+% poetry install && poetry run uvicorn service:app --reload --port 8000
 ```
 
-#### Docker:
+**Docker:**
+
 ```
-docker build -t myfastapiapp .
-docker run -p 8000:8000 myfastapiapp
+% cd example/alembic/output/backend
+% docker build -t myfastapiapp .
+% docker run -p 8000:8000 myfastapiapp
 ```
 
 To view the generated OpenAPI documentation, navigate to [http://localhost:8000/docs](http://localhost:8000/docs).
 
 ### Front End
+
 ```
-% cd /Users/nicholas/Code/fastapi-gen/example/output/reservations-app && \
-    npm start
+% cd example/alembic/output/reservations-app
+% npm install
+% npm start
 ```
 
-### Regenerating Templates
+### Regenerating Templated Files
 
 If you want to regenerate the templates for the frontend or backend, you can use the `regenerate-templates` command.
 
@@ -228,7 +252,9 @@ If you want to regenerate the templates for the frontend or backend, you can use
 % poetry run python main.py regenerate-templates frontend \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
+
 ...
+
 Regenerated frontend templates!
 ```
 
@@ -238,7 +264,9 @@ If you want to regenerate the backend templates, you can use the following comma
 % poetry run python main.py regenerate-templates backend \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
+
 ...
+
 Regenerated backend templates!
 ```
 
@@ -248,3 +276,6 @@ Right now I am working on a script that will generate test data for the FastAPI 
 
 There is a script that works for the example in the `builder/scripts/create_restaurant_app_data.py` file.
 You can use a method similar to that in order to create and insert fake data.
+
+Once that is done you can just copy the contents of the files into postman and submit them
+to the create many endpoints of the FastAPI service.
