@@ -1,3 +1,7 @@
+# NOTE:  If you want to generate your own config file from this one, honestly ChatGPT is a really good way to do it.
+# Just plug in this file and ask it to generate a .yaml file for you for other models or objects and it generally
+# does a pretty good job.
+
 # Service Configuration
 service:
   name: reservations-app
