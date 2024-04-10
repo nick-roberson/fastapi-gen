@@ -156,8 +156,6 @@ correct environment variables set (see the `setup` section for more information)
 
 ## Usage
 
-Define a YAML file anywhere that you would like to, it only has to match the format of the example below.
-
 This is the CLI interface for the service generator:
 ```bash
 % poetry run python main.py --help
@@ -177,14 +175,12 @@ This is the CLI interface for the service generator:
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
-For an example of a config that you can use to generate a service, see the `example/configs/user_groups.yaml` file.
-You can also declare your own config file, but it must match the format of the example.
-
-I plan on adding a more interactive way to generate the config file in the future, via some command line prompts such as `build-config`, but that is yet to come.
-
+You can find an example config file in the `example/` directory. There should be one for `MongoDB` and one for `MySQL + Alembic`.
+This setup should also work for Postgres, but I have not tested it yet.
 
 ### Generate using Alembic
 
+Once you have your config ready (or you can use the example config), you can generate the service using the following command:
 ```bash
 % poetry run python main.py generate-app \
     --config example/alembic/restaurant.yaml \
