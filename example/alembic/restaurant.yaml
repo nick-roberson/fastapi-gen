@@ -2,12 +2,15 @@
 service:
   name: reservations-app
   version: 1.0.0
-  description: A alembic reservations service
+  description: An Alembic + MySQL backed simple Reservations Service
 
 # Database Configuration
 database:
-  db_type: postgres
-  db_uri_env_var: MONGO_DB_URI
+  db_type: mysql
+  # TODO: If you are using this config just ignore if you dont have this ready at the moment
+  # I am working on updating the database configuration to use environment variables depending on type of database
+  # you are using.
+  db_uri_env_var: DB_URI
 
 # Model Definitions
 models:
