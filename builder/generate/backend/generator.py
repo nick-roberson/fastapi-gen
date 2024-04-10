@@ -262,6 +262,7 @@ class BackendGenerator:
         db_type = self.config.database.db_type
         # If the db_type is MONGO, generate the mongo files
         if db_type == DatabaseTypes.MONGO.value:
+
             created_files = self._generate_mongo_db()
             return created_files
         # If the db_type is POSTGRES or MYSQL, generate the alembic files
@@ -269,13 +270,27 @@ class BackendGenerator:
             db_type == DatabaseTypes.POSTGRES.value
             or db_type == DatabaseTypes.MYSQL.value
         ):
+            # Generate the alembic files
             created_files = self._generate_alembic_db()
+            # Generate and apply the alembic migration files
+            self._update_alembic_db()
             return created_files
         # Otherwise, raise an error
         else:
             raise ValueError(
                 f"Invalid db_type '{db_type}', allowed types are {DatabaseTypes.choices()}"
             )
+
+    def _update_alembic_db(self):
+        """Generate the Alembic migration files."""
+        # Create the alembic migration files
+        db_dir = os.path.join(self.code_dir, "db")
+        run_command(
+            "poetry run alembic revision --autogenerate -m 'Initial Migration'",
+            cwd=db_dir,
+        )
+        # Apply the alembic migration files
+        run_command("poetry run alembic upgrade head", cwd=db_dir)
 
     def _generate_alembic_db(self):
         """Generate the Alembic database files."""

@@ -133,7 +133,7 @@ class FieldDefinition(BaseModel):
 
         # Handle all other fields
         if self.type == "str":
-            return f"Column(String(10000), nullable={not self.required}, default='{self.default or ''}')"
+            return f"Column(String(1000), nullable={not self.required}, default='{self.default or ''}')"
         elif self.type == "int":
             return (
                 f"Column(Integer, nullable={not self.required}, default={self.default})"

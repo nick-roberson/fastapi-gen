@@ -75,3 +75,10 @@ DEFAULT_SERVICE_NAME: str = "my-service"
 
 # Verbose logging
 VERBOSE: bool = True if os.getenv("VERBOSE") else False
+
+# Required Database Environment Variables
+REQUIRED_DB_ENV_VARS = {
+    "mysql": ["DB_HOST", "DB_PORT", "DB_USER", "DB_NAME", "DB_PASSWORD"],
+    "postgres": ["DB_HOST", "DB_PORT", "DB_USER", "DB_NAME", "DB_PASSWORD"],
+    "mongo": ["MONGO_URI"],
+}

@@ -226,8 +226,8 @@ If you want to regenerate the backend templates, you can use the following comma
 
 ```bash
 % poetry run python main.py regenerate-templates backend \
-    --output-dir example/output/src \
-    --config example/configs/alembic.yaml
+    --config example/alembic/restaurant.yaml \
+    --output-dir example/alembic/output
 
 ... you get the idea ...
 ```
