@@ -23,6 +23,6 @@ def test_generate(config):
         # Install the dependencies
         frontend_generator.install_dependencies()
         # Generate the main page
-        frontend_generator.generate_app_main_page()
+        frontend_generator.generate_templated_components()
         # Lint the code
         frontend_generator.lint_frontend()

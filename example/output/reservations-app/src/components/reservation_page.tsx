@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // Import MUI Components
-import { Container, Box, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { Divider } from "@mui/material";
 import { Grid } from "@mui/material";
@@ -29,6 +29,12 @@ function ReservationPage() {
 
   // Declare State
   const [reservation, setReservation] = useState<Reservation[]>([]);
+
+  // Fetch Data
+  const fetchReservations = async () => {
+    const res = await api.getReservationsReservationsGet();
+    setReservation(res);
+  };
 
   // Declare Columns for Reservation
   const reservation_columns = [
@@ -70,12 +76,6 @@ function ReservationPage() {
     },
   ];
 
-  // Fetch Data
-  const fetchReservations = async () => {
-    const res = await api.getReservationsReservationsGet();
-    setReservation(res);
-  };
-
   useEffect(() => {
     fetchReservations();
   }, []);
@@ -85,13 +85,16 @@ function ReservationPage() {
       <Box m={3}>
         <Box>
           <Stack direction="row" spacing={2}>
-            <Typography variant="h4">Reservations Page</Typography>
+            <Typography variant="h4">Reservations</Typography>
           </Stack>
         </Box>
 
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <Divider> Reservations </Divider>
+            <Divider>
+              <Typography>Loaded {reservation.length} Reservations</Typography>
+            </Divider>
+
             {reservation && reservation.length > 0 ? (
               <Box m={3}>
                 <DataGrid rows={reservation} columns={reservation_columns} />
@@ -99,6 +102,10 @@ function ReservationPage() {
             ) : (
               <p>No Reservations found!</p>
             )}
+
+            <Divider> Create Reservation </Divider>
+
+            <Typography>Coming soon ...</Typography>
           </Grid>
         </Grid>
       </Box>

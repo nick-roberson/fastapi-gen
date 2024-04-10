@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // Import MUI Components
-import { Container, Box, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { Divider } from "@mui/material";
 import { Grid } from "@mui/material";
@@ -31,6 +31,12 @@ function {{ model.name }}Page() {
     // Declare State
     const [{{ model.name.lower() }}, set{{ model.name }}] = useState<{{ model.name }}[]>([]);
 
+    // Fetch Data
+    const fetch{{ model.name }}s = async () => {
+      const res = await api.get{{ model.name }}s{{ model.name }}sGet();
+      set{{ model.name }}(res);
+    };
+
     // Declare Columns for {{ model.name }}
     const {{ model.name.lower() }}_columns = [
         {% for field in model.fields %}
@@ -54,12 +60,6 @@ function {{ model.name }}Page() {
         }},
     ];
 
-    // Fetch Data
-    const fetch{{ model.name }}s = async () => {
-      const res = await api.get{{ model.name }}s{{ model.name }}sGet();
-      set{{ model.name }}(res);
-    };
-
     useEffect(() => {
         fetch{{ model.name }}s();
     }, []);
@@ -71,7 +71,7 @@ function {{ model.name }}Page() {
                 <Box>
                   <Stack direction="row" spacing={2}>
                     <Typography variant="h4">
-                      {{ model.name }}s Page
+                      {{ model.name }}s
                     </Typography>
                   </Stack>
 
@@ -80,7 +80,13 @@ function {{ model.name }}Page() {
                 <Grid container spacing={1}>
 
                     <Grid item xs={12}>
-                        <Divider> {{ model.name }}s </Divider>
+
+                        <Divider>
+                            <Typography>
+                                Loaded { {{ model.name.lower() }}.length } {{ model.name }}s
+                            </Typography>
+                        </Divider>
+
                         {
                             {{ model.name.lower() }} && {{ model.name.lower() }}.length > 0 ?
                              <Box m={3}>
@@ -91,6 +97,13 @@ function {{ model.name }}Page() {
                             </Box>
                             : <p>No {{ model.name }}s found!</p>
                         }
+
+                        <Divider> Create {{ model.name }} </Divider>
+
+                        <Typography>
+                            Coming soon ...
+                        </Typography>
+
                     </Grid>
 
                 </Grid>
