@@ -3,7 +3,7 @@ import subprocess
 
 from rich import print
 
-from service_builder.constants import VERBOSE
+from builder.constants import VERBOSE
 
 
 def clear_directory(directory: str) -> None:

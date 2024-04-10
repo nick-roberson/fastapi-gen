@@ -5,13 +5,13 @@ from typing import Dict, Optional
 import typer
 from rich import print
 
-from service_builder.config.parse import load_and_validate_config
-from service_builder.constants import (DEFAULT_PORT, SAMPLE_INPUT_FILE,
-                                       SAMPLE_OUTPUT_DIR)
-from service_builder.generate.backend.generator import BackendGenerator
-from service_builder.generate.frontend.generator import FrontendGenerator
-from service_builder.models.configs import ServiceConfig
-from service_builder.run import generate as generate_service
+from builder.config.parse import load_and_validate_config
+from builder.constants import (DEFAULT_PORT, SAMPLE_INPUT_FILE,
+                               SAMPLE_OUTPUT_DIR)
+from builder.generate.backend.generator import BackendGenerator
+from builder.generate.frontend.generator import FrontendGenerator
+from builder.models.configs import ServiceConfig
+from builder.run import generate as generate_service
 
 app = typer.Typer()
 

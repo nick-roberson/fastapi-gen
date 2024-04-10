@@ -11,7 +11,7 @@ SAMPLE_OUTPUT_DIR: str = os.path.abspath("data/example_output")
 VERSIONS_DIR: str = os.path.abspath("versions")
 
 # Template directories
-TEMPLATE_DIR: str = os.path.abspath("service_builder/templates")
+TEMPLATE_DIR: str = os.path.abspath("builder/templates")
 MODEL_TEMPLATES: str = f"{TEMPLATE_DIR}/models/"
 SERVICE_TEMPLATES: str = f"{TEMPLATE_DIR}/service/"
 MANAGER_TEMPLATES: str = f"{TEMPLATE_DIR}/manager/"

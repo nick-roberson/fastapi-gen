@@ -2,8 +2,8 @@ from typing import List
 
 from pydantic import BaseModel, ConfigDict
 
-from service_builder.models.configs import (DatabaseConfig, DependencyConfig,
-                                            ModelConfig, ServiceConfig)
+from builder.models.configs import (DatabaseConfig, DependencyConfig,
+                                    ModelConfig, ServiceConfig)
 
 
 class ServiceVersion(BaseModel):

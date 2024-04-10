@@ -3,8 +3,8 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, ConfigDict, field_validator
 from pydantic.fields import FieldInfo
 
-from service_builder.constants import DEFAULT_SERVICE_NAME
-from service_builder.models.enum import DatabaseTypes, FieldDataType
+from builder.constants import DEFAULT_SERVICE_NAME
+from builder.models.enum import DatabaseTypes, FieldDataType
 
 
 class FieldDefinition(BaseModel):
@@ -180,7 +180,7 @@ class ServiceInfo(BaseModel):
 
     name: str = DEFAULT_SERVICE_NAME
     version: str = "0.1.0"
-    description: str = "A service built with service_builder"
+    description: str = "A service built with builder"
 
     def __str__(self):
         return f"ServiceInfo(service_name={self.name}, version={self.version}, description={self.description})"

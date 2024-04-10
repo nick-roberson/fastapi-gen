@@ -4,15 +4,15 @@ from typing import Dict, List
 
 from rich import print
 
-from service_builder.constants import (DOCKER_TEMPLATES, MANAGER_TEMPLATES,
-                                       MODEL_TEMPLATES, MONGO_TEMPLATES,
-                                       OPENAPI_SPEC_FN, POETRY_TEMPLATES,
-                                       PYTHON_VERSION, README_TEMPLATES,
-                                       SERVICE_TEMPLATES)
-from service_builder.jinja.templates import populate_template
-from service_builder.models import DatabaseTypes, ServiceConfig
-from service_builder.openapi.export import export_openapi
-from service_builder.utils import clear_directory, clear_file, run_command
+from builder.constants import (DOCKER_TEMPLATES, MANAGER_TEMPLATES,
+                               MODEL_TEMPLATES, MONGO_TEMPLATES,
+                               OPENAPI_SPEC_FN, POETRY_TEMPLATES,
+                               PYTHON_VERSION, README_TEMPLATES,
+                               SERVICE_TEMPLATES)
+from builder.jinja.templates import populate_template
+from builder.models import DatabaseTypes, ServiceConfig
+from builder.openapi.export import export_openapi
+from builder.utils import clear_directory, clear_file, run_command
 
 
 class BackendGenerator:
