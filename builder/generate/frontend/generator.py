@@ -7,7 +7,7 @@ from rich import print
 from builder.constants import (FRONTEND_TEMPLATES, NODE_DEPENDENCIES,
                                OPENAPI_SPEC_FN)
 from builder.models import ServiceConfig
-from builder.utils import clear_directory, run_command
+from builder.utils import clear_directory, clear_file, run_command
 
 
 class FrontendGenerator:
@@ -71,7 +71,7 @@ class FrontendGenerator:
 
         # Generate the App main page
         print("\t4. Generating App main page...")
-        app_main_page = self.generate_app_main_page()
+        app_main_page = self.generate_templated_components()
 
         # Generate the typescript client
         print("\t5. Generating Typescript client...")
@@ -115,7 +115,7 @@ class FrontendGenerator:
         run_command("npx prettier --write .", cwd=self.src_dir)
         run_command("npx eslint --fix .", cwd=self.src_dir)
 
-    def generate_app_main_page(self):
+    def generate_templated_components(self):
         """Generate the main page of the application"""
         # Ensure all dirs exist
         if not os.path.exists(self.components_dir):
@@ -129,30 +129,35 @@ class FrontendGenerator:
         output = frontend_template.render(
             service_info=self.config.service_info, models=self.config.models
         )
+        clear_file(self.app_tsx)
         with open(self.app_tsx, "w") as f:
             f.write(output)
 
         # Generate the index.tsx file
         frontend_template = env.get_template(self.INDEX_FILE)
         output = frontend_template.render(config=self.config)
+        clear_file(self.index_tsx)
         with open(self.index_tsx, "w") as f:
             f.write(output)
 
         # Generate the home.tsx file
         frontend_template = env.get_template(self.HOME_FILE)
         output = frontend_template.render(config=self.config)
+        clear_file(self.home_tsx)
         with open(self.home_tsx, "w") as f:
             f.write(output)
 
         # Generate the layout.tsx file
         frontend_template = env.get_template(self.LAYOUT_FILE)
         output = frontend_template.render(config=self.config)
+        clear_file(self.layout_tsx)
         with open(self.layout_tsx, "w") as f:
             f.write(output)
 
         # Generate the nopage.tsx file
         frontend_template = env.get_template(self.NO_PAGE_FILE)
         output = frontend_template.render(config=self.config)
+        clear_file(self.no_page_tsx)
         with open(self.no_page_tsx, "w") as f:
             f.write(output)
 
@@ -164,6 +169,7 @@ class FrontendGenerator:
             model_file = os.path.join(
                 self.components_dir, f"{model.name.lower()}_page.tsx"
             )
+            clear_file(model_file)
             with open(model_file, "w") as f:
                 f.write(output)
             model_page_files.append(model_file)
@@ -176,8 +182,6 @@ class FrontendGenerator:
             "nopage.tsx": self.no_page_tsx,
             "Model Pages": model_page_files,
         }
-
-        return file_name
 
     def generate_typescript_client(self):
         """Generate the frontend service client code"""

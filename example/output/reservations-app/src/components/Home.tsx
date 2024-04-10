@@ -3,7 +3,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 
 export function Home() {
@@ -22,19 +21,19 @@ export function Home() {
         <Divider>Models</Divider>
 
         <Typography variant="h6" gutterBottom m={2}>
-          {"*"} <Link to="/user">Users Page</Link>
+          <Link to="/user">Users Page</Link>
         </Typography>
 
         <Typography variant="h6" gutterBottom m={2}>
-          {"*"} <Link to="/restaurant">Restaurants Page</Link>
+          <Link to="/restaurant">Restaurants Page</Link>
         </Typography>
 
         <Typography variant="h6" gutterBottom m={2}>
-          {"*"} <Link to="/reservation">Reservations Page</Link>
+          <Link to="/reservation">Reservations Page</Link>
         </Typography>
 
         <Typography variant="h6" gutterBottom m={2}>
-          {"*"} <Link to="/review">Reviews Page</Link>
+          <Link to="/review">Reviews Page</Link>
         </Typography>
       </div>
     </Box>

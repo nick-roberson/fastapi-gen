@@ -3,7 +3,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 
 export function Home() {
@@ -24,7 +23,7 @@ export function Home() {
 
             {% for model in config.models %}
                 <Typography variant="h6" gutterBottom m={2}>
-                    {'*'} <Link to="/{{ model.name|lower }}">{{ model.name }}s Page</Link>
+                    <Link to="/{{ model.name|lower }}">{{ model.name }}s Page</Link>
                 </Typography>
             {% endfor %}
         </div>

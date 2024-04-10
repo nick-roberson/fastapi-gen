@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // Import MUI Components
-import { Container, Box, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { Divider } from "@mui/material";
 import { Grid } from "@mui/material";
@@ -29,6 +29,12 @@ function ReviewPage() {
 
   // Declare State
   const [review, setReview] = useState<Review[]>([]);
+
+  // Fetch Data
+  const fetchReviews = async () => {
+    const res = await api.getReviewsReviewsGet();
+    setReview(res);
+  };
 
   // Declare Columns for Review
   const review_columns = [
@@ -66,12 +72,6 @@ function ReviewPage() {
     },
   ];
 
-  // Fetch Data
-  const fetchReviews = async () => {
-    const res = await api.getReviewsReviewsGet();
-    setReview(res);
-  };
-
   useEffect(() => {
     fetchReviews();
   }, []);
@@ -81,13 +81,16 @@ function ReviewPage() {
       <Box m={3}>
         <Box>
           <Stack direction="row" spacing={2}>
-            <Typography variant="h4">Reviews Page</Typography>
+            <Typography variant="h4">Reviews</Typography>
           </Stack>
         </Box>
 
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <Divider> Reviews </Divider>
+            <Divider>
+              <Typography>Loaded {review.length} Reviews</Typography>
+            </Divider>
+
             {review && review.length > 0 ? (
               <Box m={3}>
                 <DataGrid rows={review} columns={review_columns} />
@@ -95,6 +98,10 @@ function ReviewPage() {
             ) : (
               <p>No Reviews found!</p>
             )}
+
+            <Divider> Create Review </Divider>
+
+            <Typography>Coming soon ...</Typography>
           </Grid>
         </Grid>
       </Box>

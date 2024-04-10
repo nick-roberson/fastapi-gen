@@ -1,4 +1,4 @@
-import logging
+import json
 import os
 from typing import Dict, Optional
 
@@ -84,30 +84,18 @@ def process_close(result: Dict, output_dir: str, service_config: ServiceConfig):
 
     # Display the generated files
     print(f"\nGenerated files:")
-    for key, value in result.items():
-
-        # Handle logging files
-        if key.endswith("Files"):
-            print(f"\t{key}:")
-            for file_type, file_names in value.items():
-                print(f"\t\t{file_type}: {file_names}")
-
-        # Handle logging directories
-        elif key.endswith("Directories"):
-            print(f"\t{key}:")
-            for dir_type, dir_names in value.items():
-                print(f"\t\t{dir_type}: {dir_names}")
+    print(json.dumps(result, indent=4))
 
     # Display commands for users to go and run the generated files
     print("\nRun the following commands to run the service:")
-    print(f"\t% cd {output_dir}/{code_dir}")
-    print(f"\t% poetry run uvicorn service:app --reload --port {DEFAULT_PORT}")
+    print(
+        f"\t% cd {output_dir}/{code_dir} && \\ \n\tpoetry run uvicorn service:app --reload --port {DEFAULT_PORT}"
+    )
 
     # Display the frontend commands
     service_name = service_config.service_info.name
     print("\nRun the following commands to run the frontend:")
-    print(f"\t% cd {output_dir}/{service_name}")
-    print(f"\t% npm start")
+    print(f"\t% cd {output_dir}/{service_name} && \\ \n\tnpm start")
 
 
 @app.command()
@@ -222,8 +210,8 @@ def generate_app(
 
 @app.command()
 def regenerate_templates(
-    component: Optional[str] = typer.Option(
-        None, "--component", "-c", help="Component to regenerate"
+    component: str = typer.Argument(
+        ..., help="The component to regenerate templates for (frontend or backend)."
     ),
     config: Optional[str] = typer.Option(
         SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
@@ -247,13 +235,16 @@ def regenerate_templates(
         frontend_generator = FrontendGenerator(
             config=service_config, output_dir=output_dir
         )
-        frontend_generator.generate_app_main_page()
+        created_files = frontend_generator.generate_templated_components()
+        print(f"Regenerated frontend templates!")
+        print(f"Created files: {json.dumps(created_files, indent=4)}")
     elif component == "backend":
         backend_generator = BackendGenerator(
             config=service_config, output_dir=output_dir
         )
-        backend_generator.generate_all(clear=False)
-    print(f"Regenerated {component} templates!")
+        created_files = backend_generator.generate_all(clear=False)
+        print(f"Regenerated backend templates!")
+        print(f"Created files: {json.dumps(created_files, indent=4)}")
 
 
 if __name__ == "__main__":

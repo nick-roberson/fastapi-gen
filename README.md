@@ -238,6 +238,38 @@ To view the generated OpenAPI documentation, navigate to [http://localhost:8000/
     npm start
 ```
 
+### Regenerating Templates
+
+If you want to regenerate the templates for the frontend or backend, you can use the `regenerate-templates` command.
+
+```bash
+% poetry run python main.py regenerate-templates frontend \
+    --output-dir example/output/reservations-app \
+    --config example/configs/restaurant_reservations.yaml
+
+    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/App.tsx'
+    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/index.tsx'
+    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/components/Home.tsx'
+    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/components/Layout.tsx'
+    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/components/NoPage.tsx'
+    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/components/user_page.tsx'
+    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/components/restaurant_page.tsx'
+    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/components/reservation_page.tsx'
+    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/components/review_page.tsx'
+
+Regenerated frontend templates!
+```
+
+If you want to regenerate the backend templates, you can use the following command:
+
+```bash
+% poetry run python main.py regenerate-templates backend \
+    --output-dir example/output/src \
+    --config example/configs/restaurant_reservations.yaml
+
+... you get the idea ...
+```
+
 ## Test Data
 
 Right now I am working on a script that will generate test data for the FastAPI service, but it is not yet complete.

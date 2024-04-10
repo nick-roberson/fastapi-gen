@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // Import MUI Components
-import { Container, Box, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { Divider } from "@mui/material";
 import { Grid } from "@mui/material";
@@ -29,6 +29,12 @@ function UserPage() {
 
   // Declare State
   const [user, setUser] = useState<User[]>([]);
+
+  // Fetch Data
+  const fetchUsers = async () => {
+    const res = await api.getUsersUsersGet();
+    setUser(res);
+  };
 
   // Declare Columns for User
   const user_columns = [
@@ -68,12 +74,6 @@ function UserPage() {
     },
   ];
 
-  // Fetch Data
-  const fetchUsers = async () => {
-    const res = await api.getUsersUsersGet();
-    setUser(res);
-  };
-
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -83,13 +83,16 @@ function UserPage() {
       <Box m={3}>
         <Box>
           <Stack direction="row" spacing={2}>
-            <Typography variant="h4">Users Page</Typography>
+            <Typography variant="h4">Users</Typography>
           </Stack>
         </Box>
 
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <Divider> Users </Divider>
+            <Divider>
+              <Typography>Loaded {user.length} Users</Typography>
+            </Divider>
+
             {user && user.length > 0 ? (
               <Box m={3}>
                 <DataGrid rows={user} columns={user_columns} />
@@ -97,6 +100,10 @@ function UserPage() {
             ) : (
               <p>No Users found!</p>
             )}
+
+            <Divider> Create User </Divider>
+
+            <Typography>Coming soon ...</Typography>
           </Grid>
         </Grid>
       </Box>

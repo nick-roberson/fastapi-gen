@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // Import MUI Components
-import { Container, Box, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { Divider } from "@mui/material";
 import { Grid } from "@mui/material";
@@ -29,6 +29,12 @@ function RestaurantPage() {
 
   // Declare State
   const [restaurant, setRestaurant] = useState<Restaurant[]>([]);
+
+  // Fetch Data
+  const fetchRestaurants = async () => {
+    const res = await api.getRestaurantsRestaurantsGet();
+    setRestaurant(res);
+  };
 
   // Declare Columns for Restaurant
   const restaurant_columns = [
@@ -70,12 +76,6 @@ function RestaurantPage() {
     },
   ];
 
-  // Fetch Data
-  const fetchRestaurants = async () => {
-    const res = await api.getRestaurantsRestaurantsGet();
-    setRestaurant(res);
-  };
-
   useEffect(() => {
     fetchRestaurants();
   }, []);
@@ -85,13 +85,16 @@ function RestaurantPage() {
       <Box m={3}>
         <Box>
           <Stack direction="row" spacing={2}>
-            <Typography variant="h4">Restaurants Page</Typography>
+            <Typography variant="h4">Restaurants</Typography>
           </Stack>
         </Box>
 
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <Divider> Restaurants </Divider>
+            <Divider>
+              <Typography>Loaded {restaurant.length} Restaurants</Typography>
+            </Divider>
+
             {restaurant && restaurant.length > 0 ? (
               <Box m={3}>
                 <DataGrid rows={restaurant} columns={restaurant_columns} />
@@ -99,6 +102,10 @@ function RestaurantPage() {
             ) : (
               <p>No Restaurants found!</p>
             )}
+
+            <Divider> Create Restaurant </Divider>
+
+            <Typography>Coming soon ...</Typography>
           </Grid>
         </Grid>
       </Box>
