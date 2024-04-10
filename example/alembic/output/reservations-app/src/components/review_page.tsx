@@ -16,76 +16,110 @@ import { getAPIClient, parseField } from "./utils";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 // Import Models
-import { {{ model.name }}, {{ model.name }}FromJSON } from "../api";
+import { Review, ReviewFromJSON } from "../api";
 // Replace with your Host and Port
 const basePath = "http://localhost:8000";
 
-function {{ model.name }}Page() {
+function ReviewPage() {
 
     // Declare API Client
     const api = getAPIClient();
 
     // Declare State
-    const [{{ model.name.lower() }}, set{{ model.name }}] = useState<{{ model.name }}[]>([]);
+    const [review, setReview] = useState<Review[]>([]);
 
     // Fetch Data
-    const fetch{{ model.name }}s = async () => {
-      const res = await api.get{{ model.name }}s{{ model.name }}sGet();
-      set{{ model.name }}(res);
+    const fetchReviews = async () => {
+      const res = await api.getReviewsReviewsGet();
+      setReview(res);
     };
 
-    // Declare Columns for {{ model.name }}
-    const {{ model.name.lower() }}_columns = [
-        {% for field in model.fields %}
-            {% if field.name != "id" %}{ field: "{{ field.camel_case_name }}", headerName: "{{ field.name }}", width: 250 },
-            {% endif %}
-        {% endfor %}
+    // Declare Columns for Review
+    const review_columns = [
+
+
+
+            { field: "restaurantId", headerName: "restaurant_id", width: 250 },
+
+
+            { field: "userId", headerName: "user_id", width: 250 },
+
+
+            { field: "rating", headerName: "rating", width: 250 },
+
+
+            { field: "comment", headerName: "comment", width: 250 },
+
+
         // Delete Button, will call the delete endpoint and reload the data
-        { field: "delete", headerName: "Delete", width: 100, renderCell: (params: GridCellParams<{{model.name}}>) => {
+        { field: "delete", headerName: "Delete", width: 100, renderCell: (params: GridCellParams<Review>) => {
             return (
                 <DeleteIcon onClick={() => {
-                    let model = params.row as {{model.name}};
+                    let model = params.row as Review;
                     if (!model.id) {
                         console.log("Could not find id for deletion", model);
                         return;
                     }
-                    api.delete{{ model.name }}{{ model.name }}Delete({ {{ model.name.lower() }}Id: model.id as string }).then(() => {
-                        fetch{{ model.name }}s();
+                    api.deleteReviewReviewDelete({ reviewId: model.id as string }).then(() => {
+                        fetchReviews();
                     });
                 }} />
             );
         }},
     ];
 
-    // Create {{ model.name }} Models
-    const create{{ model.name }} = async () => {
+    // Create Review Models
+    const createReview = async () => {
         try {
             let model = {
                 id: null,
-                {% for field in model.fields %}
-                    {% if field.name != "id" %}
-                {{ field.camel_case_name }}: parseField(
-                    (document.getElementById("{{ field.camel_case_name }}") as HTMLInputElement).value,
-                    "{{ field.type }}"
+
+
+
+
+                restaurantId: parseField(
+                    (document.getElementById("restaurantId") as HTMLInputElement).value,
+                    "int"
                     ),
-                    {% endif %}
-                {% endfor %}
+
+
+
+                userId: parseField(
+                    (document.getElementById("userId") as HTMLInputElement).value,
+                    "int"
+                    ),
+
+
+
+                rating: parseField(
+                    (document.getElementById("rating") as HTMLInputElement).value,
+                    "float"
+                    ),
+
+
+
+                comment: parseField(
+                    (document.getElementById("comment") as HTMLInputElement).value,
+                    "str"
+                    ),
+
+
             };
-            console.log("Creating {{ model.name }}", model)
+            console.log("Creating Review", model)
             let body = {
-                {{ model.name.lower() }}: {{ model.name }}FromJSON(model)
+                review: ReviewFromJSON(model)
             };
-            api.create{{ model.name }}{{ model.name }}Post(body).then(() => {
-                fetch{{ model.name }}s();
+            api.createReviewReviewPost(body).then(() => {
+                fetchReviews();
             });
         } catch (e) {
-            console.error("Error creating {{ model.name }}", e);
+            console.error("Error creating Review", e);
         }
     };
 
 
     useEffect(() => {
-        fetch{{ model.name }}s();
+        fetchReviews();
     }, []);
 
     return (
@@ -95,33 +129,59 @@ function {{ model.name }}Page() {
                 <Box>
                   <Stack direction="row" spacing={2}>
                     <Typography variant="h4">
-                      {{ model.name }}s
+                      Reviews
                     </Typography>
                   </Stack>
 
                 </Box>
 
-                    <Divider> Create {{ model.name }} </Divider>
+                    <Divider> Create Review </Divider>
 
                     <Grid container spacing={1}>
 
                         <Grid item xs={12} m={2}>
                             <Stack direction="row" spacing={2}>
-                                {% for field in model.fields %}
-                                    {% if field.name != "id" %}
+
+
+
+
                                     <TextField
-                                        id="{{ field.camel_case_name }}"
-                                        label="{{ field.name }} ({{ field.type }})"
+                                        id="restaurantId"
+                                        label="restaurant_id (int)"
                                         variant="outlined"
                                     />
-                                    {% endif %}
-                                {% endfor %}
+
+
+
+                                    <TextField
+                                        id="userId"
+                                        label="user_id (int)"
+                                        variant="outlined"
+                                    />
+
+
+
+                                    <TextField
+                                        id="rating"
+                                        label="rating (float)"
+                                        variant="outlined"
+                                    />
+
+
+
+                                    <TextField
+                                        id="comment"
+                                        label="comment (str)"
+                                        variant="outlined"
+                                    />
+
+
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    onClick={ () => { create{{ model.name }}(); } }
+                                    onClick={ () => { createReview(); } }
                                 >
-                                    Create {{ model.name }}
+                                    Create Review
                                 </Button>
                             </Stack>
                         </Grid>
@@ -133,16 +193,16 @@ function {{ model.name }}Page() {
 
                         <Divider>
                             <Typography>
-                                Loaded { {{ model.name.lower() }}.length } {{ model.name }}s
+                                Loaded { review.length } Reviews
                             </Typography>
                         </Divider>
 
                         {
-                            {{ model.name.lower() }} && {{ model.name.lower() }}.length > 0 ?
+                            review && review.length > 0 ?
                              <Box m={3}>
                                 <DataGrid
-                                    rows={ {{ model.name.lower() }} }
-                                    columns={ {{ model.name.lower() }}_columns}
+                                    rows={ review }
+                                    columns={ review_columns}
                                     density="compact"
                                     initialState={
                                         {
@@ -155,7 +215,7 @@ function {{ model.name }}Page() {
                                     slots={ { toolbar: GridToolbar } }
                                 />
                             </Box>
-                            : <p>No {{ model.name }}s found!</p>
+                            : <p>No Reviews found!</p>
                         }
 
                     </Grid>
@@ -166,4 +226,4 @@ function {{ model.name }}Page() {
     );
 }
 
-export default {{ model.name }}Page;
+export default ReviewPage;

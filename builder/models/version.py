@@ -12,7 +12,7 @@ class ServiceVersion(BaseModel):
     testing the changes in the service and models.
     """
 
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
     version: int
     created_at: str
     db_config: DatabaseConfig = None

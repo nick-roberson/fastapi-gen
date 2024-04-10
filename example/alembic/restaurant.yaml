@@ -16,7 +16,7 @@ models:
   - name: User
     fields:
       - name: id
-        type: str
+        type: int
         required: false
         default: None
         description: The unique identifier of the user
@@ -48,7 +48,7 @@ models:
   - name: Restaurant
     fields:
       - name: id
-        type: str
+        type: int
         required: false
         default: None
         description: The unique identifier of the alembic
@@ -80,16 +80,16 @@ models:
   - name: Reservation
     fields:
       - name: id
-        type: str
+        type: int
         required: false
         default: None
         description: The unique identifier of the reservation
       - name: restaurant_id
-        type: str
+        type: int
         required: true
         description: The ID of the alembic where the reservation is made
       - name: user_id
-        type: str
+        type: int
         required: true
         description: The ID of the user who made the reservation
       - name: reservation_time
@@ -110,16 +110,16 @@ models:
   - name: Review
     fields:
       - name: id
-        type: str
+        type: int
         required: false
         default: None
         description: The unique identifier of the review
       - name: restaurant_id
-        type: str
+        type: int
         required: true
         description: The ID of the alembic being reviewed
       - name: user_id
-        type: str
+        type: int
         required: true
         description: The ID of the user who wrote the review
       - name: rating

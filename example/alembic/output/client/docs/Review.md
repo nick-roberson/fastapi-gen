@@ -6,8 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | [**Id2**](Id2.md) |  | [optional]
-**restaurant_id** | **str** | The ID of the alembic being reviewed |
-**user_id** | **str** | The ID of the user who wrote the review |
+**restaurant_id** | **int** | The ID of the alembic being reviewed |
+**user_id** | **int** | The ID of the user who wrote the review |
 **rating** | **float** | The rating given by the user |
 **comment** | [**Comment**](Comment.md) |  | [optional]
 

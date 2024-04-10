@@ -149,7 +149,7 @@ I plan on adding a more interactive way to generate the config file in the futur
 ...
 
 Run the following commands to run the service:
-        % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/src
+        % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend
         % poetry run uvicorn service:app --reload --port 8000
 
 Run the following commands to run the frontend:
@@ -166,7 +166,7 @@ Run the following commands to run the frontend:
 ...
 
 Run the following commands to run the service:
-    % cd /Users/nicholas/Code/fastapi-gen/example/mongo/output/src
+    % cd /Users/nicholas/Code/fastapi-gen/example/mongo/output/backend
     % poetry run uvicorn service:app --reload --port 8000
 
 Run the following commands to run the frontend:
@@ -206,19 +206,9 @@ If you want to regenerate the templates for the frontend or backend, you can use
 
 ```bash
 % poetry run python main.py regenerate-templates frontend \
-    --output-dir example/mongo/alembic.yaml \
-    --config example/configs/alembic.yaml
-
-    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/App.tsx'
-    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/index.tsx'
-    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/components/Home.tsx'
-    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/components/Layout.tsx'
-    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/components/NoPage.tsx'
-    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/components/user_page.tsx'
-    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/components/restaurant_page.tsx'
-    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/components/reservation_page.tsx'
-    > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/components/review_page.tsx'
-
+    --config example/alembic/restaurant.yaml \
+    --output-dir example/alembic/output
+...
 Regenerated frontend templates!
 ```
 
@@ -228,8 +218,8 @@ If you want to regenerate the backend templates, you can use the following comma
 % poetry run python main.py regenerate-templates backend \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
-
-... you get the idea ...
+...
+Regenerated backend templates!
 ```
 
 ## Test Data

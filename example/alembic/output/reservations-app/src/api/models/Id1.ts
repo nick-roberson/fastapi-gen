@@ -12,30 +12,29 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues } from "../runtime";
 /**
  * The unique identifier of the alembic
  * @export
  * @interface Id1
  */
-export interface Id1 {
-}
+export interface Id1 {}
 
 /**
  * Check if a given object implements the Id1 interface.
  */
 export function instanceOfId1(value: object): boolean {
-    return true;
+  return true;
 }
 
 export function Id1FromJSON(json: any): Id1 {
-    return Id1FromJSONTyped(json, false);
+  return Id1FromJSONTyped(json, false);
 }
 
 export function Id1FromJSONTyped(json: any, ignoreDiscriminator: boolean): Id1 {
-    return json;
+  return json;
 }
 
 export function Id1ToJSON(value?: Id1 | null): any {
-    return value;
+  return value;
 }

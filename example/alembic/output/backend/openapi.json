@@ -1278,7 +1278,7 @@
           "id": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "integer"
               },
               {
                 "type": "null"
@@ -1288,12 +1288,12 @@
             "description": "The unique identifier of the reservation"
           },
           "restaurant_id": {
-            "type": "string",
+            "type": "integer",
             "title": "Restaurant Id",
             "description": "The ID of the alembic where the reservation is made"
           },
           "user_id": {
-            "type": "string",
+            "type": "integer",
             "title": "User Id",
             "description": "The ID of the user who made the reservation"
           },
@@ -1335,7 +1335,7 @@
           "id": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "integer"
               },
               {
                 "type": "null"
@@ -1403,7 +1403,7 @@
           "id": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "integer"
               },
               {
                 "type": "null"
@@ -1413,12 +1413,12 @@
             "description": "The unique identifier of the review"
           },
           "restaurant_id": {
-            "type": "string",
+            "type": "integer",
             "title": "Restaurant Id",
             "description": "The ID of the alembic being reviewed"
           },
           "user_id": {
-            "type": "string",
+            "type": "integer",
             "title": "User Id",
             "description": "The ID of the user who wrote the review"
           },
@@ -1453,7 +1453,7 @@
           "id": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "integer"
               },
               {
                 "type": "null"

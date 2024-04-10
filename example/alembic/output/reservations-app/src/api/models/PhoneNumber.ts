@@ -12,30 +12,32 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues } from "../runtime";
 /**
  * The phone number of the user
  * @export
  * @interface PhoneNumber
  */
-export interface PhoneNumber {
-}
+export interface PhoneNumber {}
 
 /**
  * Check if a given object implements the PhoneNumber interface.
  */
 export function instanceOfPhoneNumber(value: object): boolean {
-    return true;
+  return true;
 }
 
 export function PhoneNumberFromJSON(json: any): PhoneNumber {
-    return PhoneNumberFromJSONTyped(json, false);
+  return PhoneNumberFromJSONTyped(json, false);
 }
 
-export function PhoneNumberFromJSONTyped(json: any, ignoreDiscriminator: boolean): PhoneNumber {
-    return json;
+export function PhoneNumberFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean,
+): PhoneNumber {
+  return json;
 }
 
 export function PhoneNumberToJSON(value?: PhoneNumber | null): any {
-    return value;
+  return value;
 }

@@ -12,30 +12,32 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues } from "../runtime";
 /**
  * The dining preferences of the user
  * @export
  * @interface Preferences
  */
-export interface Preferences {
-}
+export interface Preferences {}
 
 /**
  * Check if a given object implements the Preferences interface.
  */
 export function instanceOfPreferences(value: object): boolean {
-    return true;
+  return true;
 }
 
 export function PreferencesFromJSON(json: any): Preferences {
-    return PreferencesFromJSONTyped(json, false);
+  return PreferencesFromJSONTyped(json, false);
 }
 
-export function PreferencesFromJSONTyped(json: any, ignoreDiscriminator: boolean): Preferences {
-    return json;
+export function PreferencesFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean,
+): Preferences {
+  return json;
 }
 
 export function PreferencesToJSON(value?: Preferences | null): any {
-    return value;
+  return value;
 }

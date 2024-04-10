@@ -52,4 +52,4 @@ COPY . .
 EXPOSE 8000
 
 # Run the application.
-CMD uvicorn "src.service:app" --reload --port 8000
+CMD uvicorn "backend.service:app" --reload --port 8000

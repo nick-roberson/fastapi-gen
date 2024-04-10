@@ -6,8 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | [**Id**](Id.md) |  | [optional]
-**restaurant_id** | **str** | The ID of the alembic where the reservation is made |
-**user_id** | **str** | The ID of the user who made the reservation |
+**restaurant_id** | **int** | The ID of the alembic where the reservation is made |
+**user_id** | **int** | The ID of the user who made the reservation |
 **reservation_time** | **datetime** | The date and time of the reservation |
 **party_size** | **int** | The size of the party for the reservation |
 **special_requests** | [**SpecialRequests**](SpecialRequests.md) |  | [optional]

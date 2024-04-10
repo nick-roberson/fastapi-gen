@@ -54,9 +54,9 @@ class DBReservation(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    restaurant_id = Column(String(1000), nullable=False, default="")
+    restaurant_id = Column(Integer, nullable=False, default=None)
 
-    user_id = Column(String(1000), nullable=False, default="")
+    user_id = Column(Integer, nullable=False, default=None)
 
     reservation_time = Column(DateTime, nullable=False, default=func.now())
 
@@ -74,9 +74,9 @@ class DBReview(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    restaurant_id = Column(String(1000), nullable=False, default="")
+    restaurant_id = Column(Integer, nullable=False, default=None)
 
-    user_id = Column(String(1000), nullable=False, default="")
+    user_id = Column(Integer, nullable=False, default=None)
 
     rating = Column(Float, nullable=False, default=None)
 

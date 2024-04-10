@@ -12,30 +12,29 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues } from "../runtime";
 /**
  * The unique identifier of the user
  * @export
  * @interface Id3
  */
-export interface Id3 {
-}
+export interface Id3 {}
 
 /**
  * Check if a given object implements the Id3 interface.
  */
 export function instanceOfId3(value: object): boolean {
-    return true;
+  return true;
 }
 
 export function Id3FromJSON(json: any): Id3 {
-    return Id3FromJSONTyped(json, false);
+  return Id3FromJSONTyped(json, false);
 }
 
 export function Id3FromJSONTyped(json: any, ignoreDiscriminator: boolean): Id3 {
-    return json;
+  return json;
 }
 
 export function Id3ToJSON(value?: Id3 | null): any {
-    return value;
+  return value;
 }

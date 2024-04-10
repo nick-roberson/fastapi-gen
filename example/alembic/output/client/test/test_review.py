@@ -37,15 +37,15 @@ class TestReview(unittest.TestCase):
         if include_optional:
             return Review(
                 id = None,
-                restaurant_id = '',
-                user_id = '',
+                restaurant_id = 56,
+                user_id = 56,
                 rating = 1.337,
                 comment = None
             )
         else:
             return Review(
-                restaurant_id = '',
-                user_id = '',
+                restaurant_id = 56,
+                user_id = 56,
                 rating = 1.337,
         )
         """

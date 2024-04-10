@@ -16,6 +16,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from db.constants import DB_URL
+from models.models import {{ model.name }}
 from db.models import DB{{ model.name }}
 
 
@@ -37,7 +38,7 @@ class {{ model.name }}Manager:
         self.session_factory = sessionmaker(bind=engine)
         logging.info("CaseManager successfully initialized")
 
-    def get(self, id: int) -> DB{{ model.name }}:
+    def get(self, id: int) -> {{ model.name }}:
         """Retrieve a {{ model.name }} record from the database by its ID."""
         logging.info(f"Retrieving {{ model.name }} record with ID: {id}")
         try:
@@ -45,14 +46,14 @@ class {{ model.name }}Manager:
                 # Retrieve the {{ model.name }} record by its ID
                 item = session.query(DB{{ model.name }}).get(id)
                 logging.info(f"Successfully retrieved {{ model.name }} record: {item}")
-                return item
+                return {{ model.name }}.from_orm(item)
         except Exception as e:
             logging.error(f"Failed to retrieve {{ model.name }} record: {e}")
             raise e
         finally:
             self.close_session()
 
-    def get_all(self) -> List[DB{{ model.name }}]:
+    def get_all(self) -> List[{{ model.name }}]:
         """Retrieve all {{ model.name }} records from the database."""
         logging.info("Retrieving all {{ model.name }} records")
         try:
@@ -60,20 +61,20 @@ class {{ model.name }}Manager:
                 # Retrieve all {{ model.name }} records
                 items = session.query(DB{{ model.name }}).all()
                 logging.info(f"Successfully retrieved all {{ model.name }} records: {items}")
-                return items
+                return [{{ model.name }}.from_orm(item) for item in items]
         except Exception as e:
             logging.error(f"Failed to retrieve all {{ model.name }} records: {e}")
             raise e
         finally:
             self.close_session()
 
-    def create(self, data: dict) -> DB{{ model.name }}:
+    def create(self, data: {{ model.name }}) -> {{ model.name }}:
         """Create a new {{ model.name }} record in the database."""
         logging.info(f"Creating new {{ model.name }} record: {data}")
         try:
             with self.session_factory() as session:
                 # Create a new {{ model.name }} record
-                new_item = DB{{ model.name }}(**data)
+                new_item = DB{{ model.name }}(**data.dict())
 
                 # Add the new {{ model.name }} record to the session and commit
                 session.add(new_item)
@@ -82,20 +83,20 @@ class {{ model.name }}Manager:
                 # Refresh and return the new {{ model.name }} record
                 session.refresh(new_item)
                 logging.info(f"Successfully created new {{ model.name }} record: {new_item}")
-                return new_item
+                return {{ model.name }}.from_orm(new_item)
         except Exception as e:
             logging.error(f"Failed to create new {{ model.name }} record: {e}")
             raise e
         finally:
             self.close_session()
 
-    def create_many(self, data: List[dict]) -> List[DB{{ model.name }}]:
+    def create_many(self, data: List[{{ model.name }}]) -> List[{{ model.name }}]:
         """Create multiple new {{ model.name }} records in the database."""
         logging.info(f"Creating multiple new {{ model.name }} records: {data}")
         try:
             with self.session_factory() as session:
                 # Create new {{ model.name }} records
-                new_items = [DB{{ model.name }}(**item) for item in data]
+                new_items = [DB{{ model.name }}(**item.dict()) for item in data]
 
                 # Add the new {{ model.name }} records to the session and commit
                 session.add_all(new_items)
@@ -105,14 +106,14 @@ class {{ model.name }}Manager:
                 for item in new_items:
                     session.refresh(item)
                 logging.info(f"Successfully created multiple new {{ model.name }} records: {new_items}")
-                return new_items
+                return [{{ model.name }}.from_orm(item) for item in new_items]
         except Exception as e:
             logging.error(f"Failed to create multiple new {{ model.name }} records: {e}")
             raise e
         finally:
             self.close_session()
 
-    def update(self, id: int, data: dict) -> DB{{ model.name }}:
+    def update(self, id: int, data: {{ model.name }}) -> {{ model.name }}:
         """Update an existing {{ model.name }} record in the database."""
         logging.info(f"Updating {{ model.name }} record with ID {id}: {data}")
         try:
@@ -121,7 +122,7 @@ class {{ model.name }}Manager:
                 item = session.query(DB{{ model.name }}).get(id)
 
                 # Update the {{ model.name }} record with the new data
-                for key, value in data.items():
+                for key, value in data.dict().items():
                     setattr(item, key, value)
                 item.updated_at = datetime.now()
 
@@ -131,14 +132,14 @@ class {{ model.name }}Manager:
                 # Refresh and return the updated {{ model.name }} record
                 session.refresh(item)
                 logging.info(f"Successfully updated {{ model.name }} record: {item}")
-                return item
+                return {{ model.name }}.from_orm(item)
         except Exception as e:
             logging.error(f"Failed to update {{ model.name }} record: {e}")
             raise e
         finally:
             self.close_session()
 
-    def update_many(self, data: List[dict]) -> List[DB{{ model.name }}]:
+    def update_many(self, data: List[{{ model.name }}]) -> List[{{ model.name }}]:
         """Update multiple existing {{ model.name }} records in the database."""
         logging.info(f"Updating multiple {{ model.name }} records: {data}")
         try:
@@ -147,10 +148,10 @@ class {{ model.name }}Manager:
                 updated_items = []
                 for item_data in data:
                     # Retrieve the {{ model.name }} record by its ID
-                    item = session.query(DB{{ model.name }}).get(item_data['id'])
+                    item = session.query(DB{{ model.name }}).get(item_data.id)
 
                     # Update the {{ model.name }} record with the new data
-                    for key, value in item_data.items():
+                    for key, value in item_data.dict().items():
                         setattr(item, key, value)
                     item.updated_at = datetime.now()
 
@@ -164,7 +165,7 @@ class {{ model.name }}Manager:
                 for item in updated_items:
                     session.refresh(item)
                 logging.info(f"Successfully updated multiple {{ model.name }} records: {updated_items}")
-                return updated_items
+                return [{{ model.name }}.from_orm(item) for item in updated_items]
         except Exception as e:
             logging.error(f"Failed to update multiple {{ model.name }} records: {e}")
             raise e
@@ -172,7 +173,7 @@ class {{ model.name }}Manager:
             self.close_session()
 
 
-    def delete(self, id: int) -> DB{{ model.name }}:
+    def delete(self, id: int) -> {{ model.name }}:
         """Delete a {{ model.name }} record from the database by its ID."""
         logging.info(f"Deleting {{ model.name }} record with ID: {id}")
         try:
@@ -185,14 +186,14 @@ class {{ model.name }}Manager:
                 session.commit()
 
                 logging.info(f"Successfully deleted {{ model.name }} record: {item}")
-                return item
+                return {{ model.name }}.from_orm(item)
         except Exception as e:
             logging.error(f"Failed to delete {{ model.name }} record: {e}")
             raise e
         finally:
             self.close_session()
 
-    def delete_many(self, ids: List[int]) -> List[DB{{ model.name }}]:
+    def delete_many(self, ids: List[int]) -> List[{{ model.name }}]:
         """Delete multiple {{ model.name }} records from the database by their IDs."""
         logging.info(f"Deleting multiple {{ model.name }} records with IDs: {ids}")
         try:
@@ -206,7 +207,7 @@ class {{ model.name }}Manager:
                 session.commit()
 
                 logging.info(f"Successfully deleted multiple {{ model.name }} records: {items}")
-                return items
+                return [{{ model.name }}.from_orm(item) for item in items]
         except Exception as e:
             logging.error(f"Failed to delete multiple {{ model.name }} records: {e}")
             raise e

@@ -10,7 +10,8 @@ fake = Faker()
 def generate_user_samples(n=5):
     return [
         {
-            "id": fake.uuid4(),
+            # create fake integer  id
+            "id": fake.random_int(min=0, max=10000),
             "username": fake.user_name(),
             "email": fake.email(),
             "phone_number": fake.phone_number(),
@@ -26,7 +27,7 @@ def generate_user_samples(n=5):
 def generate_restaurant_samples(n=5):
     return [
         {
-            "id": fake.uuid4(),
+            "id": fake.random_int(min=0, max=10000),
             "name": fake.company(),
             "location": fake.address(),
             "cuisine": random.choice(
@@ -42,7 +43,7 @@ def generate_restaurant_samples(n=5):
 def generate_reservation_samples(user_ids, restaurant_ids, n=5):
     return [
         {
-            "id": fake.uuid4(),
+            "id": fake.random_int(min=0, max=10000),
             "restaurant_id": random.choice(restaurant_ids),
             "user_id": random.choice(user_ids),
             "reservation_time": fake.future_date(end_date="+30d").isoformat()
@@ -60,7 +61,7 @@ def generate_reservation_samples(user_ids, restaurant_ids, n=5):
 def generate_review_samples(user_ids, restaurant_ids, n=5):
     return [
         {
-            "id": fake.uuid4(),
+            "id": fake.random_int(min=0, max=10000),
             "restaurant_id": random.choice(restaurant_ids),
             "user_id": random.choice(user_ids),
             "rating": round(random.uniform(1.0, 5.0), 1),
@@ -87,18 +88,14 @@ def generate_data(n=5):
 if __name__ == "__main__":
     # Generate sample data
     user_samples, restaurant_samples, reservation_samples, review_samples = (
-        generate_data()
+        generate_data(n=20)
     )
-
-    # Output the samples to a file
-    with open("data.json", "w") as f:
-        json.dump(
-            {
-                "users": user_samples,
-                "restaurants": restaurant_samples,
-                "reservations": reservation_samples,
-                "reviews": review_samples,
-            },
-            f,
-            indent=2,
-        )
+    # For each data type write as list to `data/<type>.json`
+    with open("data/users.json", "w") as f:
+        json.dump(user_samples, f, indent=2)
+    with open("data/restaurants.json", "w") as f:
+        json.dump(restaurant_samples, f, indent=2)
+    with open("data/reservations.json", "w") as f:
+        json.dump(reservation_samples, f, indent=2)
+    with open("data/reviews.json", "w") as f:
+        json.dump(review_samples, f, indent=2)

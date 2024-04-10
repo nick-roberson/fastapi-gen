@@ -6,9 +6,9 @@ from pydantic.fields import FieldInfo
 
 
 class User(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
 
-    id: Optional[str] = FieldInfo(
+    id: Optional[int] = FieldInfo(
         default=None, description="The unique identifier of the user", required=False
     )
     username: str = FieldInfo(description="The username of the user", required=True)
@@ -30,9 +30,9 @@ class User(BaseModel):
 
 
 class Restaurant(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
 
-    id: Optional[str] = FieldInfo(
+    id: Optional[int] = FieldInfo(
         default=None, description="The unique identifier of the alembic", required=False
     )
     name: str = FieldInfo(description="The name of the alembic", required=True)
@@ -56,17 +56,17 @@ class Restaurant(BaseModel):
 
 
 class Reservation(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
 
-    id: Optional[str] = FieldInfo(
+    id: Optional[int] = FieldInfo(
         default=None,
         description="The unique identifier of the reservation",
         required=False,
     )
-    restaurant_id: str = FieldInfo(
+    restaurant_id: int = FieldInfo(
         description="The ID of the alembic where the reservation is made", required=True
     )
-    user_id: str = FieldInfo(
+    user_id: int = FieldInfo(
         description="The ID of the user who made the reservation", required=True
     )
     reservation_time: datetime = FieldInfo(
@@ -86,15 +86,15 @@ class Reservation(BaseModel):
 
 
 class Review(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
 
-    id: Optional[str] = FieldInfo(
+    id: Optional[int] = FieldInfo(
         default=None, description="The unique identifier of the review", required=False
     )
-    restaurant_id: str = FieldInfo(
+    restaurant_id: int = FieldInfo(
         description="The ID of the alembic being reviewed", required=True
     )
-    user_id: str = FieldInfo(
+    user_id: int = FieldInfo(
         description="The ID of the user who wrote the review", required=True
     )
     rating: float = FieldInfo(description="The rating given by the user", required=True)

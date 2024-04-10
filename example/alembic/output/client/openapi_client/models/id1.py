@@ -20,11 +20,11 @@ import re  # noqa: F401
 from inspect import getfullargspec
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
-from pydantic import (BaseModel, ConfigDict, Field, StrictStr, ValidationError,
-                      field_validator)
+from pydantic import (BaseModel, ConfigDict, Field, StrictInt, StrictStr,
+                      ValidationError, field_validator)
 from typing_extensions import Literal, Self
 
-ID1_ANY_OF_SCHEMAS = ["object", "str"]
+ID1_ANY_OF_SCHEMAS = ["int", "object"]
 
 
 class Id1(BaseModel):
@@ -32,15 +32,15 @@ class Id1(BaseModel):
     The unique identifier of the alembic
     """
 
-    # data type: str
-    anyof_schema_1_validator: Optional[StrictStr] = None
+    # data type: int
+    anyof_schema_1_validator: Optional[StrictInt] = None
     # data type: object
     anyof_schema_2_validator: Optional[Any] = None
     if TYPE_CHECKING:
-        actual_instance: Optional[Union[object, str]] = None
+        actual_instance: Optional[Union[int, object]] = None
     else:
         actual_instance: Any = None
-    any_of_schemas: List[str] = Field(default=Literal["object", "str"])
+    any_of_schemas: List[str] = Field(default=Literal["int", "object"])
 
     model_config = {
         "validate_assignment": True,
@@ -65,7 +65,7 @@ class Id1(BaseModel):
     def actual_instance_must_validate_anyof(cls, v):
         instance = Id1.model_construct()
         error_messages = []
-        # validate data type: str
+        # validate data type: int
         try:
             instance.anyof_schema_1_validator = v
             return v
@@ -80,7 +80,7 @@ class Id1(BaseModel):
         if error_messages:
             # no match
             raise ValueError(
-                "No match found when setting the actual_instance in Id1 with anyOf schemas: object, str. Details: "
+                "No match found when setting the actual_instance in Id1 with anyOf schemas: int, object. Details: "
                 + ", ".join(error_messages)
             )
         else:
@@ -95,7 +95,7 @@ class Id1(BaseModel):
         """Returns the object represented by the json string"""
         instance = cls.model_construct()
         error_messages = []
-        # deserialize data into str
+        # deserialize data into int
         try:
             # validation
             instance.anyof_schema_1_validator = json.loads(json_str)
@@ -117,7 +117,7 @@ class Id1(BaseModel):
         if error_messages:
             # no match
             raise ValueError(
-                "No match found when deserializing the JSON string into Id1 with anyOf schemas: object, str. Details: "
+                "No match found when deserializing the JSON string into Id1 with anyOf schemas: int, object. Details: "
                 + ", ".join(error_messages)
             )
         else:
@@ -135,7 +135,7 @@ class Id1(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict[str, Any], object, str]]:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], int, object]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

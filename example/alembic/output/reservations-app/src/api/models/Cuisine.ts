@@ -12,30 +12,32 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues } from "../runtime";
 /**
  * The type of cuisine the alembic offers
  * @export
  * @interface Cuisine
  */
-export interface Cuisine {
-}
+export interface Cuisine {}
 
 /**
  * Check if a given object implements the Cuisine interface.
  */
 export function instanceOfCuisine(value: object): boolean {
-    return true;
+  return true;
 }
 
 export function CuisineFromJSON(json: any): Cuisine {
-    return CuisineFromJSONTyped(json, false);
+  return CuisineFromJSONTyped(json, false);
 }
 
-export function CuisineFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cuisine {
-    return json;
+export function CuisineFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean,
+): Cuisine {
+  return json;
 }
 
 export function CuisineToJSON(value?: Cuisine | null): any {
-    return value;
+  return value;
 }

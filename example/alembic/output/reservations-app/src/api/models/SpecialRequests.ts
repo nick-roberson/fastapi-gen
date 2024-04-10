@@ -12,30 +12,32 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues } from "../runtime";
 /**
  * Any special requests made by the user
  * @export
  * @interface SpecialRequests
  */
-export interface SpecialRequests {
-}
+export interface SpecialRequests {}
 
 /**
  * Check if a given object implements the SpecialRequests interface.
  */
 export function instanceOfSpecialRequests(value: object): boolean {
-    return true;
+  return true;
 }
 
 export function SpecialRequestsFromJSON(json: any): SpecialRequests {
-    return SpecialRequestsFromJSONTyped(json, false);
+  return SpecialRequestsFromJSONTyped(json, false);
 }
 
-export function SpecialRequestsFromJSONTyped(json: any, ignoreDiscriminator: boolean): SpecialRequests {
-    return json;
+export function SpecialRequestsFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean,
+): SpecialRequests {
+  return json;
 }
 
 export function SpecialRequestsToJSON(value?: SpecialRequests | null): any {
-    return value;
+  return value;
 }

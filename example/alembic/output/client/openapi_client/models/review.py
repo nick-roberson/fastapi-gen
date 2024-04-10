@@ -21,8 +21,7 @@ from typing import Any, ClassVar, Dict, List, Optional, Set, Union
 
 from openapi_client.models.comment import Comment
 from openapi_client.models.id2 import Id2
-from pydantic import (BaseModel, ConfigDict, Field, StrictFloat, StrictInt,
-                      StrictStr)
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
 from typing_extensions import Self
 
 
@@ -32,8 +31,8 @@ class Review(BaseModel):
     """  # noqa: E501
 
     id: Optional[Id2] = None
-    restaurant_id: StrictStr = Field(description="The ID of the alembic being reviewed")
-    user_id: StrictStr = Field(description="The ID of the user who wrote the review")
+    restaurant_id: StrictInt = Field(description="The ID of the alembic being reviewed")
+    user_id: StrictInt = Field(description="The ID of the user who wrote the review")
     rating: Union[StrictFloat, StrictInt] = Field(
         description="The rating given by the user"
     )

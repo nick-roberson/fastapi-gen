@@ -12,30 +12,36 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues } from "../runtime";
 /**
  *
  * @export
  * @interface ValidationErrorLocInner
  */
-export interface ValidationErrorLocInner {
-}
+export interface ValidationErrorLocInner {}
 
 /**
  * Check if a given object implements the ValidationErrorLocInner interface.
  */
 export function instanceOfValidationErrorLocInner(value: object): boolean {
-    return true;
+  return true;
 }
 
-export function ValidationErrorLocInnerFromJSON(json: any): ValidationErrorLocInner {
-    return ValidationErrorLocInnerFromJSONTyped(json, false);
+export function ValidationErrorLocInnerFromJSON(
+  json: any,
+): ValidationErrorLocInner {
+  return ValidationErrorLocInnerFromJSONTyped(json, false);
 }
 
-export function ValidationErrorLocInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): ValidationErrorLocInner {
-    return json;
+export function ValidationErrorLocInnerFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean,
+): ValidationErrorLocInner {
+  return json;
 }
 
-export function ValidationErrorLocInnerToJSON(value?: ValidationErrorLocInner | null): any {
-    return value;
+export function ValidationErrorLocInnerToJSON(
+  value?: ValidationErrorLocInner | null,
+): any {
+  return value;
 }

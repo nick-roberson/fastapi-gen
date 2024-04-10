@@ -22,7 +22,7 @@ from typing import Any, ClassVar, Dict, List, Optional, Set
 
 from openapi_client.models.id import Id
 from openapi_client.models.special_requests import SpecialRequests
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing_extensions import Self
 
 
@@ -32,10 +32,10 @@ class Reservation(BaseModel):
     """  # noqa: E501
 
     id: Optional[Id] = None
-    restaurant_id: StrictStr = Field(
+    restaurant_id: StrictInt = Field(
         description="The ID of the alembic where the reservation is made"
     )
-    user_id: StrictStr = Field(
+    user_id: StrictInt = Field(
         description="The ID of the user who made the reservation"
     )
     reservation_time: datetime = Field(

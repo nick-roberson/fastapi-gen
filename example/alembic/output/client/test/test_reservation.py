@@ -37,16 +37,16 @@ class TestReservation(unittest.TestCase):
         if include_optional:
             return Reservation(
                 id = None,
-                restaurant_id = '',
-                user_id = '',
+                restaurant_id = 56,
+                user_id = 56,
                 reservation_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 party_size = 56,
                 special_requests = None
             )
         else:
             return Reservation(
-                restaurant_id = '',
-                user_id = '',
+                restaurant_id = 56,
+                user_id = 56,
                 reservation_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 party_size = 56,
         )

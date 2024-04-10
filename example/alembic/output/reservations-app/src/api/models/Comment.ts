@@ -12,30 +12,32 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues } from "../runtime";
 /**
  * The textual comment of the review
  * @export
  * @interface Comment
  */
-export interface Comment {
-}
+export interface Comment {}
 
 /**
  * Check if a given object implements the Comment interface.
  */
 export function instanceOfComment(value: object): boolean {
-    return true;
+  return true;
 }
 
 export function CommentFromJSON(json: any): Comment {
-    return CommentFromJSONTyped(json, false);
+  return CommentFromJSONTyped(json, false);
 }
 
-export function CommentFromJSONTyped(json: any, ignoreDiscriminator: boolean): Comment {
-    return json;
+export function CommentFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean,
+): Comment {
+  return json;
 }
 
 export function CommentToJSON(value?: Comment | null): any {
-    return value;
+  return value;
 }
