@@ -4,8 +4,8 @@ import os
 CODEGEN_DIR_NAME: str = "backend"
 
 # Sample input file and output dir
-SAMPLE_INPUT_FILE: str = os.path.abspath("example/configs/mongo/alembic.yaml")
-SAMPLE_OUTPUT_DIR: str = os.path.abspath("data/example_output")
+SAMPLE_INPUT_FILE: str = os.path.abspath("example/mongo/restaurant.yaml")
+SAMPLE_OUTPUT_DIR: str = os.path.abspath("example/mongo/output")
 
 # Version directory
 VERSIONS_DIR: str = os.path.abspath("versions")

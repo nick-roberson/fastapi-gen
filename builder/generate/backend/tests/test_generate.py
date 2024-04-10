@@ -21,7 +21,7 @@ def test_generate(config):
         # Generate the backend code
         generator.generate_models()
         generator.generate_services()
-        generator.generate_managers()
+        generator.generate_templated_components()
         generator.generate_database()
         generator.generate_poetry_toml()
         generator.generate_readme()

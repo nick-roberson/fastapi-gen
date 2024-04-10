@@ -18,13 +18,25 @@
     <a href="https://docs.pydantic.dev/2.4/">
         <img src="https://img.shields.io/badge/Pydantic-E92063?logo=pydantic&logoColor=fff&style=for-the-badge" alt="Pydantic">
     </a>
-    <a href="https://www.mongodb.com/">
-        <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB">
-    </a>
     <a href="https://www.docker.com/">
         <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
     </a>
 </p>
+
+<h3 align="center">Databases</h3>
+<p align="center">
+    <a href="https://www.mongodb.com/">
+        <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB">
+    </a>
+    <a href="https://www.sqlalchemy.org/">
+        <img src="https://img.shields.io/badge/SQLAlchemy-3178C6?style=for-the-badge&logo=sqlalchemy&logoColor=white" alt="SQLAlchemy">
+    </a>
+    <a href="https://www.postgresql.org/">
+        <img src="https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
+    </a>
+    <a href="https://www.mysql.com/">
+        <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+    </a>
 
 <h3 align="center">Frontend</h3>
 
@@ -45,9 +57,6 @@
     </a>
     <a href="https://redis.com/">
       <img src="https://img.shields.io/badge/Redis-E92063?style=for-the-badge&logo=redis&logoColor=white" alt="Redis">
-    </a>
-    <a href="https://www.mysql.com/">
-      <img src="https://img.shields.io/badge/MySQL-336791?style=for-the-badge&logo=MySQL&logoColor=white" alt="MySQL">
     </a>
 </p>
 
@@ -96,9 +105,20 @@ _**Notes:**_
 
 ## Setup
 
+
+**General**
 - Poetry installed
 - Python 3.12.2 installed (can install via poetry)
-- MongoDB Atlas database and the `MONGO_URI` environment variable set
+
+**Database**
+
+- If using **MongoDB** as the database, you will need to set up a free tier MongoDB Atlas database as well as have `MONGO_URI` set in your environment variables.
+- If using **PostgreSQL** or **MySQL** as the database, you will need to set up either database locally or somewhere else and have the following environment variables set:
+  - `DB_USER`
+  - `DB_PASSWORD`
+  - `DB_HOST`
+  - `DB_PORT`
+  - `DB_NAME`
 
 To learn more about how to set up a free tier MongoDB Atlas database,
 see the following link: [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
