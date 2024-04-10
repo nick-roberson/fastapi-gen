@@ -59,6 +59,7 @@
     </a>
 </p>
 
+**NOTE:** This project is still in active development and is not yet intended for production use. However, it does work well for general cases as well as for POCs.
 
 # Table of Contents
 
