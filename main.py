@@ -230,21 +230,30 @@ def regenerate_templates(
     service_config = validate_config(config)
     output_dir = validate_output_dir(output_dir)
 
-    # Create frontend generator
     if component == "frontend":
+        # Create frontend generator
         frontend_generator = FrontendGenerator(
             config=service_config, output_dir=output_dir
         )
+
+        # Recreate the frontend templates
         created_files = frontend_generator.generate_templated_components()
         print(f"Regenerated frontend templates!")
         print(f"Created files: {json.dumps(created_files, indent=4)}")
+
     elif component == "backend":
+        # Create backend generator
         backend_generator = BackendGenerator(
             config=service_config, output_dir=output_dir
         )
-        created_files = backend_generator.generate_all(clear=False)
+
+        # Recreate the backend templates
+        created_files = backend_generator.generate_templated_components()
         print(f"Regenerated backend templates!")
         print(f"Created files: {json.dumps(created_files, indent=4)}")
+    else:
+        print("Component must be either 'frontend' or 'backend'")
+        typer.Exit(code=1)
 
 
 if __name__ == "__main__":
