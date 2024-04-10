@@ -4,7 +4,7 @@ import pytest
 
 from service_builder.config.parse import load_config, parse_config
 from service_builder.constants import SAMPLE_INPUT_FILE
-from service_builder.generate.frontend.generate import FrontendGenerator
+from service_builder.generate.frontend.generator import FrontendGenerator
 
 
 @pytest.mark.parametrize("config", [SAMPLE_INPUT_FILE])

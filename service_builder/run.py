@@ -1,7 +1,7 @@
 from typing import Dict
 
 from service_builder.generate.backend.generator import BackendGenerator
-from service_builder.generate.frontend.generate import FrontendGenerator
+from service_builder.generate.frontend.generator import FrontendGenerator
 from service_builder.models import ServiceConfig
 
 
