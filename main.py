@@ -9,7 +9,7 @@ from service_builder.config.parse import load_and_validate_config
 from service_builder.constants import (DEFAULT_PORT, SAMPLE_INPUT_FILE,
                                        SAMPLE_OUTPUT_DIR)
 from service_builder.generate.backend.generator import BackendGenerator
-from service_builder.generate.frontend.generate import FrontendGenerator
+from service_builder.generate.frontend.generator import FrontendGenerator
 from service_builder.models.configs import ServiceConfig
 from service_builder.run import generate as generate_service
 
