@@ -85,6 +85,11 @@ Here is an example of the homepage that is generated for the React frontend. It 
 
 All models will have a page similar to the one above, where you can interact with the FastAPI service.
 
+_**Notes:**_
+- The frontend is still a work in progress, and I am working on adding more features to it.
+- The frontend is generated using `create-react-app` with the `typescript` template.
+- You will need to adjust the frontend to fit your needs, as it is a starting point for your project, for example by adjusting the default column widths.
+
 ### Docker
 
 - Generate Dockerfiles for the FastAPI service and the React frontend
