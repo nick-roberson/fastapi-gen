@@ -216,9 +216,6 @@ Run the following commands to run the frontend:
 
 ### Back End
 
-Two options, you can either run from your local environment or from the docker container. These
-need to be run from the `output/src` directory.
-
 **Local:**
 ```
 % cd example/alembic/output/backend
