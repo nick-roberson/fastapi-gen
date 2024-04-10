@@ -76,9 +76,15 @@ This is a simple FastAPI service that can be used as a starting point for a new 
 
 Here is an example of the homepage that is generated for the React frontend. It will display all the models that have been generated.
 
+Grid of images that link to the different models that have been generated.
+
 <div style="padding: 50px;">
-  <img src="images/users_page.png" alt="Users Page" />
+  <img src="images/user_page.png" alt="Users Page" style="width: 100%; height: auto; max-width: 35vw;">
+  <img src="images/restaurant_page.png" alt="Restaurant Page" style="width: 100%; height: auto; max-width: 35vw;">
+  <img src="images/reservation_page.png" alt="Reservation Page" style="width: 100%; height: auto; max-width: 35vw;">
+  <img src="images/review_page.png" alt="Review Page" style="width: 100%; height: auto; max-width: 35vw;">
 </div>
+
 
 All models will have a page similar to the one above, where you can interact with the FastAPI service.
 
@@ -208,23 +214,23 @@ Two options, you can either run from your local environment or from the docker c
 
 Local:
 ```
-% cd /Users/nicholas/Code/fastapi-gen/example/output/src
-% poetry run uvicorn service:app --reload --port 8000
+% cd /Users/nicholas/Code/fastapi-gen/example/output/src && \
+    poetry run uvicorn service:app --reload --port 8000
 ```
 
 Docker:
 ```
-% cd /Users/nicholas/Code/fastapi-gen/example/output/src
-% docker build -t myfastapiapp .
-% docker run -p 8000:8000 myfastapiapp
+% cd /Users/nicholas/Code/fastapi-gen/example/output/src && \
+    docker build -t myfastapiapp . && \
+    docker run -p 8000:8000 myfastapiapp
 ```
 
 To view the generated OpenAPI documentation, navigate to [http://localhost:8000/docs](http://localhost:8000/docs).
 
 ### Front End
 ```
-% cd /Users/nicholas/Code/fastapi-gen/example/output/reservations-app
-% npm start
+% cd /Users/nicholas/Code/fastapi-gen/example/output/reservations-app && \
+    npm start
 ```
 
 ## Test Data
