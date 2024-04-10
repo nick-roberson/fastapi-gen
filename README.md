@@ -3,7 +3,7 @@
 <p align="center" markdown=1>
     <i>
         Generate POC FastAPI services with React frontends using a simple CLI tool.
-        Database generation is supported for MongoDB.
+        Database generation is supported for MongoDB, PostgreSQL, and MySQL.
     </i>
 </p>
 
@@ -61,6 +61,7 @@
 
 
 # Table of Contents
+
 - [Features](#features)
   - [Python Code Generation](#python-code-generation)
   - [Database Generation](#database-generation)
@@ -68,6 +69,7 @@
 - [Images](#images)
 - [Setup](#setup)
 - [Usage](#usage)
+- [Example](#example)
 - [Running](#running)
   - [Back End](#back-end)
   - [Front End](#front-end)
@@ -142,6 +144,15 @@ All you should need to do before running otherwise is to install the dependencie
 ```bash
 % poetry install
 ```
+
+## Example
+
+You can find an example config for both `MongoDB` and `MySQL + Alembic` in the `example/` directory
+under their respective folders.
+
+In addition, there is a full generated example of a `Restaurant` service in the `example/alembic/output` directory.
+You should be able to run the service and frontend by following the instructions below so long as you have all the
+correct environment variables set (see the `setup` section for more information).
 
 ## Usage
 
