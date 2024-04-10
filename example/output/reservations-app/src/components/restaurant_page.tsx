@@ -6,6 +6,8 @@ import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { Divider } from "@mui/material";
 import { Grid } from "@mui/material";
 import { Stack } from "@mui/material";
+import { TextField } from "@mui/material";
+import { Button } from "@mui/material";
 
 // Import Client
 import { DefaultApi } from "../api";
@@ -15,8 +17,7 @@ import { Configuration } from "../api";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 // Import Models
-import { Restaurant } from "../api";
-
+import { Restaurant, RestaurantFromJSON } from "../api";
 // Replace with your Host and Port
 const basePath = "http://localhost:8000";
 
@@ -76,6 +77,36 @@ function RestaurantPage() {
     },
   ];
 
+  // Create Restaurant Models
+  const createRestaurant = async () => {
+    try {
+      let model = {
+        id: null,
+
+        name: (document.getElementById("name") as HTMLInputElement).value,
+
+        location: (document.getElementById("location") as HTMLInputElement)
+          .value,
+
+        cuisine: (document.getElementById("cuisine") as HTMLInputElement).value,
+
+        rating: (document.getElementById("rating") as HTMLInputElement).value,
+
+        priceRange: (document.getElementById("priceRange") as HTMLInputElement)
+          .value,
+      };
+      console.log("Creating Restaurant", model);
+      let body = {
+        restaurant: RestaurantFromJSON(model),
+      };
+      api.createRestaurantRestaurantPost(body).then(() => {
+        fetchRestaurants();
+      });
+    } catch (e) {
+      console.error("Error creating Restaurant", e);
+    }
+  };
+
   useEffect(() => {
     fetchRestaurants();
   }, []);
@@ -88,6 +119,50 @@ function RestaurantPage() {
             <Typography variant="h4">Restaurants</Typography>
           </Stack>
         </Box>
+
+        <Divider> Create Restaurant </Divider>
+
+        <Grid container spacing={1}>
+          <Grid item xs={12} m={2}>
+            <Stack direction="row" spacing={2}>
+              <TextField id="name" label="name (str)" variant="outlined" />
+
+              <TextField
+                id="location"
+                label="location (str)"
+                variant="outlined"
+              />
+
+              <TextField
+                id="cuisine"
+                label="cuisine (str)"
+                variant="outlined"
+              />
+
+              <TextField
+                id="rating"
+                label="rating (float)"
+                variant="outlined"
+              />
+
+              <TextField
+                id="priceRange"
+                label="price_range (str)"
+                variant="outlined"
+              />
+
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  createRestaurant();
+                }}
+              >
+                Create Restaurant
+              </Button>
+            </Stack>
+          </Grid>
+        </Grid>
 
         <Grid container spacing={1}>
           <Grid item xs={12}>
@@ -102,10 +177,6 @@ function RestaurantPage() {
             ) : (
               <p>No Restaurants found!</p>
             )}
-
-            <Divider> Create Restaurant </Divider>
-
-            <Typography>Coming soon ...</Typography>
           </Grid>
         </Grid>
       </Box>

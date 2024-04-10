@@ -6,6 +6,8 @@ import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { Divider } from "@mui/material";
 import { Grid } from "@mui/material";
 import { Stack } from "@mui/material";
+import { TextField } from "@mui/material";
+import { Button } from "@mui/material";
 
 // Import Client
 import { DefaultApi } from "../api";
@@ -15,8 +17,7 @@ import { Configuration } from "../api";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 // Import Models
-import { Reservation } from "../api";
-
+import { Reservation, ReservationFromJSON } from "../api";
 // Replace with your Host and Port
 const basePath = "http://localhost:8000";
 
@@ -76,6 +77,41 @@ function ReservationPage() {
     },
   ];
 
+  // Create Reservation Models
+  const createReservation = async () => {
+    try {
+      let model = {
+        id: null,
+
+        restaurantId: (
+          document.getElementById("restaurantId") as HTMLInputElement
+        ).value,
+
+        userId: (document.getElementById("userId") as HTMLInputElement).value,
+
+        reservationTime: (
+          document.getElementById("reservationTime") as HTMLInputElement
+        ).value,
+
+        partySize: (document.getElementById("partySize") as HTMLInputElement)
+          .value,
+
+        specialRequests: (
+          document.getElementById("specialRequests") as HTMLInputElement
+        ).value,
+      };
+      console.log("Creating Reservation", model);
+      let body = {
+        reservation: ReservationFromJSON(model),
+      };
+      api.createReservationReservationPost(body).then(() => {
+        fetchReservations();
+      });
+    } catch (e) {
+      console.error("Error creating Reservation", e);
+    }
+  };
+
   useEffect(() => {
     fetchReservations();
   }, []);
@@ -88,6 +124,50 @@ function ReservationPage() {
             <Typography variant="h4">Reservations</Typography>
           </Stack>
         </Box>
+
+        <Divider> Create Reservation </Divider>
+
+        <Grid container spacing={1}>
+          <Grid item xs={12} m={2}>
+            <Stack direction="row" spacing={2}>
+              <TextField
+                id="restaurantId"
+                label="restaurant_id (str)"
+                variant="outlined"
+              />
+
+              <TextField id="userId" label="user_id (str)" variant="outlined" />
+
+              <TextField
+                id="reservationTime"
+                label="reservation_time (datetime)"
+                variant="outlined"
+              />
+
+              <TextField
+                id="partySize"
+                label="party_size (int)"
+                variant="outlined"
+              />
+
+              <TextField
+                id="specialRequests"
+                label="special_requests (str)"
+                variant="outlined"
+              />
+
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  createReservation();
+                }}
+              >
+                Create Reservation
+              </Button>
+            </Stack>
+          </Grid>
+        </Grid>
 
         <Grid container spacing={1}>
           <Grid item xs={12}>
@@ -102,10 +182,6 @@ function ReservationPage() {
             ) : (
               <p>No Reservations found!</p>
             )}
-
-            <Divider> Create Reservation </Divider>
-
-            <Typography>Coming soon ...</Typography>
           </Grid>
         </Grid>
       </Box>

@@ -244,7 +244,7 @@ If you want to regenerate the templates for the frontend or backend, you can use
 
 ```bash
 % poetry run python main.py regenerate-templates frontend \
-    --output-dir example/output/reservations-app \
+    --output-dir example/output \
     --config example/configs/restaurant_reservations.yaml
 
     > 'rm -f /Users/nicholas/Code/fastapi-gen/example/output/reservations-app/reservations-app/src/App.tsx'

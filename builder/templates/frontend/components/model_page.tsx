@@ -6,6 +6,8 @@ import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { Divider } from "@mui/material";
 import { Grid } from "@mui/material";
 import { Stack } from "@mui/material";
+import { TextField } from "@mui/material";
+import { Button } from "@mui/material";
 
 // Import Client
 import { DefaultApi } from "../api";
@@ -15,8 +17,7 @@ import { Configuration } from "../api";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 // Import Models
-import { {{ model.name }} } from "../api";
-
+import { {{ model.name }}, {{ model.name }}FromJSON } from "../api";
 // Replace with your Host and Port
 const basePath = "http://localhost:8000";
 
@@ -60,6 +61,30 @@ function {{ model.name }}Page() {
         }},
     ];
 
+    // Create {{ model.name }} Models
+    const create{{ model.name }} = async () => {
+        try {
+            let model = {
+                id: null,
+                {% for field in model.fields %}
+                    {% if field.name != "id" %}
+                {{ field.camel_case_name }}: (document.getElementById("{{ field.camel_case_name }}") as HTMLInputElement).value,
+                    {% endif %}
+                {% endfor %}
+            };
+            console.log("Creating {{ model.name }}", model)
+            let body = {
+                {{ model.name.lower() }}: {{ model.name }}FromJSON(model)
+            };
+            api.create{{ model.name }}{{ model.name }}Post(body).then(() => {
+                fetch{{ model.name }}s();
+            });
+        } catch (e) {
+            console.error("Error creating {{ model.name }}", e);
+        }
+    };
+
+
     useEffect(() => {
         fetch{{ model.name }}s();
     }, []);
@@ -76,6 +101,32 @@ function {{ model.name }}Page() {
                   </Stack>
 
                 </Box>
+
+                    <Divider> Create {{ model.name }} </Divider>
+
+                    <Grid container spacing={1}>
+
+                        <Grid item xs={12} m={2}>
+                            <Stack direction="row" spacing={2}>
+                                {% for field in model.fields %}
+                                    {% if field.name != "id" %}
+                                    <TextField
+                                        id="{{ field.camel_case_name }}"
+                                        label="{{ field.name }} ({{ field.type }})"
+                                        variant="outlined"
+                                    />
+                                    {% endif %}
+                                {% endfor %}
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={ () => { create{{ model.name }}(); } }
+                                >
+                                    Create {{ model.name }}
+                                </Button>
+                            </Stack>
+                        </Grid>
+                    </Grid>
 
                 <Grid container spacing={1}>
 
@@ -97,12 +148,6 @@ function {{ model.name }}Page() {
                             </Box>
                             : <p>No {{ model.name }}s found!</p>
                         }
-
-                        <Divider> Create {{ model.name }} </Divider>
-
-                        <Typography>
-                            Coming soon ...
-                        </Typography>
 
                     </Grid>
 
