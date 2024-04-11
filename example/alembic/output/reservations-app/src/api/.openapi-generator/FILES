@@ -1,5 +1,9 @@
 .openapi-generator-ignore
 apis/DefaultApi.ts
+apis/ReservationApi.ts
+apis/RestaurantApi.ts
+apis/ReviewApi.ts
+apis/UserApi.ts
 apis/index.ts
 index.ts
 models/Comment.ts

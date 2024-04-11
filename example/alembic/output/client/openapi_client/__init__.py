@@ -16,8 +16,12 @@
 
 __version__ = "1.0.0"
 
-# import apis into sdk package
 from openapi_client.api.default_api import DefaultApi
+# import apis into sdk package
+from openapi_client.api.reservation_api import ReservationApi
+from openapi_client.api.restaurant_api import RestaurantApi
+from openapi_client.api.review_api import ReviewApi
+from openapi_client.api.user_api import UserApi
 from openapi_client.api_client import ApiClient
 # import ApiClient
 from openapi_client.api_response import ApiResponse

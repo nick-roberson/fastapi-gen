@@ -10,7 +10,7 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 
 // Import Client
-import { getAPIClient, parseField } from "./utils";
+import { getReviewAPIClient, parseField } from "./utils";
 
 // Import Delete Icon
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -22,7 +22,7 @@ const basePath = "http://localhost:8000";
 
 function ReviewPage() {
   // Declare API Client
-  const api = getAPIClient();
+  const api = getReviewAPIClient();
 
   // Declare State
   const [review, setReview] = useState<Review[]>([]);

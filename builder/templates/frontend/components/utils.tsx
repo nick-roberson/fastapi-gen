@@ -1,8 +1,12 @@
-import { DefaultApi } from "../api";
 import { Configuration } from "../api";
+import { DefaultApi } from "../api";
+{% for model in config.models %}
+import { {{ model.name }}Api } from "../api";
+{% endfor %}
 
 const basePath = "http://localhost:8000";
 
+// Helper function to parse fields based on their type prior to sending to the API
 const parseField = (field: string, type: string) => {
     switch (type) {
         case 'string':
@@ -26,14 +30,20 @@ const parseField = (field: string, type: string) => {
     }
 }
 
-const getAPIClient = () => {
-    const configuration = new Configuration({
+{% for model in config.models %}
+// Fetch API client for {{ model.name }}
+const get{{ model.name }}APIClient = () => {
+    const apiConfig = new Configuration({
         basePath: basePath
     });
-    return new DefaultApi(configuration);
+    return new {{ model.name }}Api(apiConfig);
 }
+{% endfor %}
 
+// Export all API clients and utility functions
 export {
-    getAPIClient,
+    {% for model in config.models %}
+    get{{ model.name }}APIClient,
+    {% endfor %}
     parseField
 }

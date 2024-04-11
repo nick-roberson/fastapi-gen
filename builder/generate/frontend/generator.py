@@ -27,12 +27,19 @@ class FrontendGenerator:
     INSTALL_DEPENDENCIES_CMD: Template = Template("npm install $dependencies")
 
     # Frontend template files
-    APP_FILE = "App.tsx"
     INDEX_FILE = "index.tsx"
     HOME_FILE = "components/home.tsx"
     LAYOUT_FILE = "components/layout.tsx"
     NO_PAGE_FILE = "components/no_page.tsx"
     MODEL_PAGE_FILE = "components/model_page.tsx"
+    UTILS_FILE = "components/utils.tsx"
+
+    # Frontend auto-generated files to remove
+    AUTO_GENERATED_FILES_TO_REMOVE = [
+        "App.css",
+        "App.test.tsx",
+        "App.tsx",
+    ]
 
     def __init__(self, output_dir: str, config: ServiceConfig):
         # Set the config and output directory
@@ -49,7 +56,6 @@ class FrontendGenerator:
         self.openapi_spec_fp = os.path.join(self.output_dir, "backend", OPENAPI_SPEC_FN)
 
         # Application Typescript file
-        self.app_tsx = os.path.join(self.src_dir, "App.tsx")
         self.index_tsx = os.path.join(self.src_dir, "index.tsx")
 
         # Application components
@@ -78,8 +84,9 @@ class FrontendGenerator:
         self.generate_typescript_client()
 
         # Lint the code
-        print("\t6. Linting frontend code...")
+        print("\t6. Linting frontend code and cleaning up...")
         self.lint_frontend()
+        self.remove_auto_generated_files()
 
         return {
             "Frontend Files": {
@@ -115,6 +122,13 @@ class FrontendGenerator:
         run_command("npx prettier --write .", cwd=self.src_dir)
         run_command("npx eslint --fix .", cwd=self.src_dir)
 
+    def remove_auto_generated_files(self):
+        """Remove auto-generated files"""
+        for file in self.AUTO_GENERATED_FILES_TO_REMOVE:
+            file_path = os.path.join(self.src_dir, file)
+            if os.path.exists(file_path):
+                clear_file(file_path)
+
     def generate_templated_components(self):
         """Generate the main page of the application"""
         # Ensure all dirs exist
@@ -123,15 +137,6 @@ class FrontendGenerator:
 
         # Get env and render the templates
         env = Environment(loader=FileSystemLoader(FRONTEND_TEMPLATES))
-
-        # Generate the App.tsx file
-        frontend_template = env.get_template(self.APP_FILE)
-        output = frontend_template.render(
-            service_info=self.config.service_info, models=self.config.models
-        )
-        clear_file(self.app_tsx)
-        with open(self.app_tsx, "w") as f:
-            f.write(output)
 
         # Generate the index.tsx file
         frontend_template = env.get_template(self.INDEX_FILE)
@@ -183,12 +188,11 @@ class FrontendGenerator:
             f.write(output)
 
         return {
-            "App.tsx": self.app_tsx,
             "Index.tsx": self.index_tsx,
-            "home.tsx": self.home_tsx,
-            "layout.tsx": self.layout_tsx,
-            "nopage.tsx": self.no_page_tsx,
-            "utils.tsx": utils_file,
+            "Home": self.home_tsx,
+            "Layout": self.layout_tsx,
+            "No Page": self.no_page_tsx,
+            "Utils": utils_file,
             "Model Pages": model_page_files,
         }
 

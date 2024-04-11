@@ -10,7 +10,7 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 
 // Import Client
-import { getAPIClient, parseField } from "./utils";
+import { getRestaurantAPIClient, parseField } from "./utils";
 
 // Import Delete Icon
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -22,7 +22,7 @@ const basePath = "http://localhost:8000";
 
 function RestaurantPage() {
   // Declare API Client
-  const api = getAPIClient();
+  const api = getRestaurantAPIClient();
 
   // Declare State
   const [restaurant, setRestaurant] = useState<Restaurant[]>([]);

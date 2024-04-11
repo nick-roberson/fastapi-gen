@@ -34,6 +34,7 @@ class BackendGenerator:
     MODELS_DIR: str = "models"
     MANAGERS_DIR: str = "managers"
     CLIENT_DIR: str = "client"
+    ROUTES_DIR: str = "routes"
 
     # Docker files
     DOCKERFILES: List[str] = [
@@ -415,11 +416,11 @@ class BackendGenerator:
             context=context,
         )
 
-    def generate_services(self) -> str:
+    def generate_services(self) -> List[str]:
         """Use the JINJA Template to generate the service
 
         Returns:
-            str: File name of the generated service
+            List[str]: File names of the generated service and routes
         """
         # Get list of model names for imports
         model_names = ", ".join([model.name for model in self.config.models])
@@ -431,12 +432,33 @@ class BackendGenerator:
         }
 
         # Generate the service file and return the file name
-        return populate_template(
+        service_file = populate_template(
             template_dir=SERVICE_TEMPLATES,
             template_name="service.jinja",
             output_path=self.service_file,
             context=context,
         )
+
+        # Generate the routes for each model
+        route_files = []
+        for model in self.config.models:
+            context = {
+                "models": [model],
+                "model_names": model.name,
+                "manager_names": [f"{model.name}Manager"],
+            }
+            file_name = f"{model.name.lower()}_routes.py"
+            output_path = os.path.join(self.code_dir, self.ROUTES_DIR, file_name)
+            route_file = populate_template(
+                template_dir=SERVICE_TEMPLATES,
+                template_name="route.jinja",
+                output_path=output_path,
+                context=context,
+            )
+            route_files.append(route_file)
+
+        # Return the service file and route files
+        return [service_file] + route_files
 
     def generate_python_client(self):
         """Generate the python client code"""

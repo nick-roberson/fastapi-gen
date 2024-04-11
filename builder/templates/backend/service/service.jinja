@@ -2,17 +2,10 @@ import logging
 import uvicorn
 import argparse
 
-from typing import List
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from models.models import {{ model_names }}
-{% for model in models %}from db.{{ model.name.lower() }}_manager import get_{{ model.manager_var_name }}
-{% endfor %}
-
-# Create instances of managers for each model
-{% for model in models %}
-{{ model.manager_var_name }} = get_{{ model.manager_var_name }}()
+{% for model in models %}from routes.{{ model.name.lower() }}_routes import router as {{ model.name }}Routes
 {% endfor %}
 
 # Create FastAPI App and Allow CORS
@@ -29,6 +22,10 @@ app.add_middleware(
 DEFAULT_HOST = "localhost"
 DEFAULT_PORT = 8000
 
+# Add the API Routes
+{% for model in models %}app.include_router({{ model.name }}Routes, tags=["{{ model.name }}"])
+{% endfor %}
+
 ########################################################################################################################
 # Root and Health Endpoints
 ########################################################################################################################
@@ -39,233 +36,12 @@ async def root():
     """ Root Endpoint """
     return {"message": "Hello World"}
 
+
 @app.get("/health")
 async def health():
     """ Health Endpoint """
     return {"message": "Healthy"}
 
-
-########################################################################################################################
-# Get Endpoints for {{ model_names }}
-########################################################################################################################
-
-{% for model in models %}
-@app.get("/{{ model.name.lower() }}")
-def get_{{ model.name.lower() }}({{ model.model_id_var_name }}: str) -> {{ model.name }}:
-    """ Get a {{ model.name }} """
-    logging.info(f"Getting {{ model.name }} with id: {id}")
-
-    # Get the {{ model.name }} with the given id, if none found raise 404
-    model = {{ model.manager_var_name }}.get({{ model.model_id_var_name }}={{ model.model_id_var_name }})
-    if not model:
-        raise HTTPException(status_code=404, detail=f"{{ model.name }} with id {id} not found")
-
-    # Return the {{ model.name }}
-    return model
-
-
-@app.get("/{{ model.name.lower() }}s")
-def get_{{ model.name.lower() }}s() -> List[{{ model.name }}]:
-    """ Get all {{ model.name }}s """
-    logging.info(f"Getting all {{ model.name }}s")
-
-    # Get all {{ model.name }}s, if none found raise 404
-    models = {{ model.manager_var_name }}.get_all()
-    if not models:
-        raise HTTPException(status_code=404, detail=f"No {{ model.name }}s found")
-
-    # Return all {{ model.name }}s
-    return models
-
-
-{% endfor %}
-
-########################################################################################################################
-# Create Endpoints for {{ model_names }}
-########################################################################################################################
-
-{% for model in models %}
-
-def _create_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -> {{ model.name }}:
-    """ Create a {{ model.name }} helper function """
-    logging.info(f"Creating {{ model.name }}: {str({{model.name.lower()}})}")
-
-    # Create the {{ model.name }}, if failed raise 400
-    model = {{ model.manager_var_name }}.create({{model.name.lower()}})
-    if not model:
-        raise HTTPException(status_code=400, detail=f"Failed to create {{ model.name }}")
-
-    # Return the created {{ model.name }}
-    return model
-
-@app.post("/{{ model.name.lower() }}")
-def create_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -> {{ model.name }}:
-    """ Create a {{ model.name }} """
-    # Call the helper function to create the {{ model.name }}
-    return _create_{{ model.name.lower() }}({{model.name.lower()}})
-
-@app.post("/{{ model.name.lower() }}/async")
-def create_{{ model.name.lower() }}_async({{model.name.lower()}}: {{ model.name }}, background_tasks: BackgroundTasks):
-    """ Create a {{ model.name }} asynchronously """
-    logging.info(f"Creating {{ model.name }} asynchronously: {str({{model.name.lower()}})}")
-    # Create the {{ model.name }} asynchronously
-    background_tasks.add_task(_create_{{ model.name.lower() }}, {{model.name.lower()}})
-    # Return the created {{ model.name }}
-    return {"message": "Creating {{ model.name }} asynchronously"}
-
-
-def _create_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.name }}]) -> List[{{ model.name }}]:
-    """ Create multiple {{ model.name }}s helper function """
-    logging.info(f"Creating {{ model.name }}s: {str({{model.name.lower()}}s)}")
-
-    # Create the {{ model.name }}s, if failed raise 400
-    models = {{ model.manager_var_name }}.create_many({{model.name.lower()}}s)
-    if not models:
-        raise HTTPException(status_code=400, detail=f"Failed to create {{ model.name }}s")
-
-    # Return the created {{ model.name }}s
-    return models
-
-@app.post("/{{ model.name.lower() }}s")
-def create_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.name }}]) -> List[{{ model.name }}]:
-    """ Create multiple {{ model.name }}s """
-    # Call the helper function to create the {{ model.name }}s
-    return _create_{{ model.name.lower() }}s({{model.name.lower()}}s)
-
-@app.post("/{{ model.name.lower() }}s/async")
-def create_{{ model.name.lower() }}s_async({{model.name.lower()}}s: List[{{ model.name }}], background_tasks: BackgroundTasks):
-    """ Create multiple {{ model.name }}s asynchronously """
-    logging.info(f"Creating {{ model.name }}s asynchronously: {str({{model.name.lower()}}s)}")
-    # Create the {{ model.name }}s asynchronously
-    background_tasks.add_task(_create_{{ model.name.lower() }}s, {{model.name.lower()}}s)
-    # Return the created {{ model.name }}s
-    return {"message": "Creating {{ model.name }}s asynchronously"}
-
-{% endfor %}
-
-########################################################################################################################
-# Update Endpoints for {{ model_names }}
-########################################################################################################################
-
-{% for model in models %}
-
-def _update_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -> {{ model.name }}:
-    """ Update a {{ model.name }} helper function """
-    logging.info(f"Updating {{ model.name }}: {str({{model.name.lower()}})}")
-
-    # Update the {{ model.name }}, if failed raise 400
-    model = {{ model.manager_var_name }}.update({{model.name.lower()}})
-    if not model:
-        raise HTTPException(status_code=400, detail=f"Failed to update {{ model.name }}")
-
-    # Return the updated {{ model.name }}
-    return model
-
-@app.put("/{{ model.name.lower() }}")
-def update_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -> {{ model.name }}:
-    """ Update a {{ model.name }} """
-    # Call the helper function to update the {{ model.name }}
-    return _update_{{ model.name.lower() }}({{model.name.lower()}})
-
-@app.put("/{{ model.name.lower() }}/async")
-def update_{{ model.name.lower() }}_async({{model.name.lower()}}: {{ model.name }}, background_tasks: BackgroundTasks):
-    """ Update a {{ model.name }} asynchronously """
-    logging.info(f"Updating {{ model.name }} asynchronously: {str({{model.name.lower()}})}")
-    # Update the {{ model.name }} asynchronously
-    background_tasks.add_task(_update_{{ model.name.lower() }}, {{model.name.lower()}})
-    # Return the updated {{ model.name }}
-    return {"message": "Updating {{ model.name }} asynchronously"}
-
-def _update_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.name }}]) -> List[{{ model.name }}]:
-    """ Update multiple {{ model.name }}s helper function """
-    logging.info(f"Updating {{ model.name }}s: {str({{model.name.lower()}}s)}")
-
-    # Update the {{ model.name }}s, if failed raise 400
-    models = {{ model.manager_var_name }}.update_many({{model.name.lower()}}s)
-    if not models:
-        raise HTTPException(status_code=400, detail=f"Failed to update {{ model.name }}s")
-
-    # Return the updated {{ model.name }}s
-    return models
-
-@app.put("/{{ model.name.lower() }}s")
-def update_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.name }}]) -> List[{{ model.name }}]:
-    """ Update multiple {{ model.name }}s """
-    # Call the helper function to update the {{ model.name }}s
-    return _update_{{ model.name.lower() }}s({{model.name.lower()}}s)
-
-@app.put("/{{ model.name.lower() }}s/async")
-def update_{{ model.name.lower() }}s_async({{model.name.lower()}}s: List[{{ model.name }}], background_tasks: BackgroundTasks):
-    """ Update multiple {{ model.name }}s asynchronously """
-    logging.info(f"Updating {{ model.name }}s asynchronously: {str({{model.name.lower()}}s)}")
-    # Update the {{ model.name }}s asynchronously
-    background_tasks.add_task(_update_{{ model.name.lower() }}s, {{model.name.lower()}}s)
-    # Return the updated {{ model.name }}s
-    return {"message": "Updating {{ model.name }}s asynchronously"}
-
-{% endfor %}
-
-########################################################################################################################
-# Delete Endpoints for {{ model_names }}
-########################################################################################################################
-
-{% for model in models %}
-
-def _delete_{{ model.name.lower() }}({{ model.model_id_var_name }}: str) -> {{ model.name }}:
-    """ Delete a {{ model.name }} helper function """
-    logging.info(f"Deleting {{ model.name }} with id: {id}")
-
-    # Delete the {{ model.name }}, if failed raise 404
-    model = {{ model.manager_var_name }}.delete({{ model.model_id_var_name }}={{ model.model_id_var_name }})
-    if not model:
-        raise HTTPException(status_code=404, detail=f"Failed to delete {{ model.name }}")
-
-    # Return the deleted {{ model.name }}
-    return model
-
-@app.delete("/{{ model.name.lower() }}")
-def delete_{{ model.name.lower()}}({{ model.model_id_var_name }}: str) -> {{ model.name }}:
-    """ Delete a {{ model.name }} """
-    # Call the helper function to delete the {{ model.name }}
-    return _delete_{{ model.name.lower() }}({{ model.model_id_var_name }})
-
-@app.delete("/{{ model.name.lower() }}/async")
-def delete_{{ model.name.lower() }}_async({{ model.model_id_var_name }}: str, background_tasks: BackgroundTasks):
-    """ Delete a {{ model.name }} asynchronously """
-    logging.info(f"Deleting {{ model.name }} asynchronously with id: {id}")
-    # Delete the {{ model.name }} asynchronously
-    background_tasks.add_task(_delete_{{ model.name.lower() }}, {{ model.model_id_var_name }})
-    # Return the deleted {{ model.name }}
-    return {"message": "Deleting {{ model.name }} asynchronously"}
-
-def _delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s: List[str]) -> List[{{ model.name }}]:
-    """ Delete multiple {{ model.name }}s helper function """
-    logging.info(f"Deleting {{ model.name }}s: {str({{ model.model_id_var_name }}s)}")
-
-    # Delete the {{ model.name }}s, if failed raise 404
-    models = {{ model.manager_var_name }}.delete_many({{ model.model_id_var_name }}s={{ model.model_id_var_name }}s)
-    if not models:
-        raise HTTPException(status_code=404, detail=f"Failed to delete {{ model.name }}s")
-
-    # Return the deleted {{ model.name }}s
-    return models
-
-@app.delete("/{{ model.name.lower() }}s")
-def delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s: List[str]) -> List[{{ model.name }}]:
-    """ Delete multiple {{ model.name }}s """
-    # Call the helper function to delete the {{ model.name }}s
-    return _delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s)
-
-@app.delete("/{{ model.name.lower() }}s/async")
-def delete_{{ model.name.lower() }}s_async({{ model.model_id_var_name }}s: List[str], background_tasks: BackgroundTasks):
-    """ Delete multiple {{ model.name }}s asynchronously """
-    logging.info(f"Deleting {{ model.name }}s asynchronously: {str({{ model.model_id_var_name }}s)}")
-    # Delete the {{ model.name }}s asynchronously
-    background_tasks.add_task(_delete_{{ model.name.lower() }}s, {{ model.model_id_var_name }}s)
-    # Return the deleted {{ model.name }}s
-    return {"message": "Deleting {{ model.name }}s asynchronously"}
-
-{% endfor %}
 
 ########################################################################################################################
 # Logging

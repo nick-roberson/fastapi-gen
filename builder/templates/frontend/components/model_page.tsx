@@ -10,7 +10,7 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 
 // Import Client
-import { getAPIClient, parseField } from "./utils";
+import { get{{ model.name }}APIClient, parseField } from "./utils";
 
 // Import Delete Icon
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -23,7 +23,7 @@ const basePath = "http://localhost:8000";
 function {{ model.name }}Page() {
 
     // Declare API Client
-    const api = getAPIClient();
+    const api = get{{ model.name }}APIClient();
 
     // Declare State
     const [{{ model.name.lower() }}, set{{ model.name }}] = useState<{{ model.name }}[]>([]);

@@ -5,42 +5,11 @@
     "version": "0.1.0"
   },
   "paths": {
-    "/": {
-      "get": {
-        "summary": "Root",
-        "description": "Root Endpoint",
-        "operationId": "root__get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/health": {
-      "get": {
-        "summary": "Health",
-        "description": "Health Endpoint",
-        "operationId": "health_health_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
     "/user": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "summary": "Get User",
         "description": "Get a User",
         "operationId": "get_user_user_get",
@@ -79,6 +48,9 @@
         }
       },
       "post": {
+        "tags": [
+          "User"
+        ],
         "summary": "Create User",
         "description": "Create a User",
         "operationId": "create_user_user_post",
@@ -116,6 +88,9 @@
         }
       },
       "put": {
+        "tags": [
+          "User"
+        ],
         "summary": "Update User",
         "description": "Update a User",
         "operationId": "update_user_user_put",
@@ -153,6 +128,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "User"
+        ],
         "summary": "Delete User",
         "description": "Delete a User",
         "operationId": "delete_user_user_delete",
@@ -193,6 +171,9 @@
     },
     "/users": {
       "get": {
+        "tags": [
+          "User"
+        ],
         "summary": "Get Users",
         "description": "Get all Users",
         "operationId": "get_users_users_get",
@@ -214,6 +195,9 @@
         }
       },
       "put": {
+        "tags": [
+          "User"
+        ],
         "summary": "Update Users",
         "description": "Update multiple Users",
         "operationId": "update_users_users_put",
@@ -259,6 +243,9 @@
         }
       },
       "post": {
+        "tags": [
+          "User"
+        ],
         "summary": "Create Users",
         "description": "Create multiple Users",
         "operationId": "create_users_users_post",
@@ -304,6 +291,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "User"
+        ],
         "summary": "Delete Users",
         "description": "Delete multiple Users",
         "operationId": "delete_users_users_delete",
@@ -349,8 +339,256 @@
         }
       }
     },
+    "/user/async": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create User Async",
+        "description": "Create a User asynchronously",
+        "operationId": "create_user_async_user_async_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update User Async",
+        "description": "Update a User asynchronously",
+        "operationId": "update_user_async_user_async_put",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete User Async",
+        "description": "Delete a User asynchronously",
+        "operationId": "delete_user_async_user_async_delete",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/async": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update Users Async",
+        "description": "Update multiple Users asynchronously",
+        "operationId": "update_users_async_users_async_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "type": "array",
+                "title": "Users"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create Users Async",
+        "description": "Create multiple Users asynchronously",
+        "operationId": "create_users_async_users_async_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "type": "array",
+                "title": "Users"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete Users Async",
+        "description": "Delete multiple Users asynchronously",
+        "operationId": "delete_users_async_users_async_delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "title": "User Ids"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/restaurant": {
       "get": {
+        "tags": [
+          "Restaurant"
+        ],
         "summary": "Get Restaurant",
         "description": "Get a Restaurant",
         "operationId": "get_restaurant_restaurant_get",
@@ -389,6 +627,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Restaurant"
+        ],
         "summary": "Create Restaurant",
         "description": "Create a Restaurant",
         "operationId": "create_restaurant_restaurant_post",
@@ -426,6 +667,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Restaurant"
+        ],
         "summary": "Update Restaurant",
         "description": "Update a Restaurant",
         "operationId": "update_restaurant_restaurant_put",
@@ -463,6 +707,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Restaurant"
+        ],
         "summary": "Delete Restaurant",
         "description": "Delete a Restaurant",
         "operationId": "delete_restaurant_restaurant_delete",
@@ -503,6 +750,9 @@
     },
     "/restaurants": {
       "get": {
+        "tags": [
+          "Restaurant"
+        ],
         "summary": "Get Restaurants",
         "description": "Get all Restaurants",
         "operationId": "get_restaurants_restaurants_get",
@@ -524,6 +774,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Restaurant"
+        ],
         "summary": "Update Restaurants",
         "description": "Update multiple Restaurants",
         "operationId": "update_restaurants_restaurants_put",
@@ -569,6 +822,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Restaurant"
+        ],
         "summary": "Create Restaurants",
         "description": "Create multiple Restaurants",
         "operationId": "create_restaurants_restaurants_post",
@@ -614,6 +870,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Restaurant"
+        ],
         "summary": "Delete Restaurants",
         "description": "Delete multiple Restaurants",
         "operationId": "delete_restaurants_restaurants_delete",
@@ -659,8 +918,256 @@
         }
       }
     },
+    "/restaurant/async": {
+      "post": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Create Restaurant Async",
+        "description": "Create a Restaurant asynchronously",
+        "operationId": "create_restaurant_async_restaurant_async_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Restaurant"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Update Restaurant Async",
+        "description": "Update a Restaurant asynchronously",
+        "operationId": "update_restaurant_async_restaurant_async_put",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Restaurant"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Delete Restaurant Async",
+        "description": "Delete a Restaurant asynchronously",
+        "operationId": "delete_restaurant_async_restaurant_async_delete",
+        "parameters": [
+          {
+            "name": "restaurant_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Restaurant Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restaurants/async": {
+      "put": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Update Restaurants Async",
+        "description": "Update multiple Restaurants asynchronously",
+        "operationId": "update_restaurants_async_restaurants_async_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/Restaurant"
+                },
+                "type": "array",
+                "title": "Restaurants"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Create Restaurants Async",
+        "description": "Create multiple Restaurants asynchronously",
+        "operationId": "create_restaurants_async_restaurants_async_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/Restaurant"
+                },
+                "type": "array",
+                "title": "Restaurants"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Delete Restaurants Async",
+        "description": "Delete multiple Restaurants asynchronously",
+        "operationId": "delete_restaurants_async_restaurants_async_delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "title": "Restaurant Ids"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/reservation": {
       "get": {
+        "tags": [
+          "Reservation"
+        ],
         "summary": "Get Reservation",
         "description": "Get a Reservation",
         "operationId": "get_reservation_reservation_get",
@@ -699,6 +1206,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Reservation"
+        ],
         "summary": "Create Reservation",
         "description": "Create a Reservation",
         "operationId": "create_reservation_reservation_post",
@@ -736,6 +1246,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Reservation"
+        ],
         "summary": "Update Reservation",
         "description": "Update a Reservation",
         "operationId": "update_reservation_reservation_put",
@@ -773,6 +1286,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Reservation"
+        ],
         "summary": "Delete Reservation",
         "description": "Delete a Reservation",
         "operationId": "delete_reservation_reservation_delete",
@@ -813,6 +1329,9 @@
     },
     "/reservations": {
       "get": {
+        "tags": [
+          "Reservation"
+        ],
         "summary": "Get Reservations",
         "description": "Get all Reservations",
         "operationId": "get_reservations_reservations_get",
@@ -834,6 +1353,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Reservation"
+        ],
         "summary": "Update Reservations",
         "description": "Update multiple Reservations",
         "operationId": "update_reservations_reservations_put",
@@ -879,6 +1401,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Reservation"
+        ],
         "summary": "Create Reservations",
         "description": "Create multiple Reservations",
         "operationId": "create_reservations_reservations_post",
@@ -924,6 +1449,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Reservation"
+        ],
         "summary": "Delete Reservations",
         "description": "Delete multiple Reservations",
         "operationId": "delete_reservations_reservations_delete",
@@ -969,8 +1497,256 @@
         }
       }
     },
+    "/reservation/async": {
+      "post": {
+        "tags": [
+          "Reservation"
+        ],
+        "summary": "Create Reservation Async",
+        "description": "Create a Reservation asynchronously",
+        "operationId": "create_reservation_async_reservation_async_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reservation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Reservation"
+        ],
+        "summary": "Update Reservation Async",
+        "description": "Update a Reservation asynchronously",
+        "operationId": "update_reservation_async_reservation_async_put",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reservation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reservation"
+        ],
+        "summary": "Delete Reservation Async",
+        "description": "Delete a Reservation asynchronously",
+        "operationId": "delete_reservation_async_reservation_async_delete",
+        "parameters": [
+          {
+            "name": "reservation_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Reservation Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reservations/async": {
+      "put": {
+        "tags": [
+          "Reservation"
+        ],
+        "summary": "Update Reservations Async",
+        "description": "Update multiple Reservations asynchronously",
+        "operationId": "update_reservations_async_reservations_async_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/Reservation"
+                },
+                "type": "array",
+                "title": "Reservations"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Reservation"
+        ],
+        "summary": "Create Reservations Async",
+        "description": "Create multiple Reservations asynchronously",
+        "operationId": "create_reservations_async_reservations_async_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/Reservation"
+                },
+                "type": "array",
+                "title": "Reservations"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reservation"
+        ],
+        "summary": "Delete Reservations Async",
+        "description": "Delete multiple Reservations asynchronously",
+        "operationId": "delete_reservations_async_reservations_async_delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "title": "Reservation Ids"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/review": {
       "get": {
+        "tags": [
+          "Review"
+        ],
         "summary": "Get Review",
         "description": "Get a Review",
         "operationId": "get_review_review_get",
@@ -1009,6 +1785,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Review"
+        ],
         "summary": "Create Review",
         "description": "Create a Review",
         "operationId": "create_review_review_post",
@@ -1046,6 +1825,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Review"
+        ],
         "summary": "Update Review",
         "description": "Update a Review",
         "operationId": "update_review_review_put",
@@ -1083,6 +1865,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Review"
+        ],
         "summary": "Delete Review",
         "description": "Delete a Review",
         "operationId": "delete_review_review_delete",
@@ -1123,6 +1908,9 @@
     },
     "/reviews": {
       "get": {
+        "tags": [
+          "Review"
+        ],
         "summary": "Get Reviews",
         "description": "Get all Reviews",
         "operationId": "get_reviews_reviews_get",
@@ -1144,6 +1932,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Review"
+        ],
         "summary": "Update Reviews",
         "description": "Update multiple Reviews",
         "operationId": "update_reviews_reviews_put",
@@ -1189,6 +1980,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Review"
+        ],
         "summary": "Create Reviews",
         "description": "Create multiple Reviews",
         "operationId": "create_reviews_reviews_post",
@@ -1234,6 +2028,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Review"
+        ],
         "summary": "Delete Reviews",
         "description": "Delete multiple Reviews",
         "operationId": "delete_reviews_reviews_delete",
@@ -1279,689 +2076,11 @@
         }
       }
     },
-    "/user/async": {
-      "post": {
-        "summary": "Create User Async",
-        "description": "Create a User asynchronously",
-        "operationId": "create_user_async_user_async_post",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "summary": "Update User Async",
-        "description": "Update a User asynchronously",
-        "operationId": "update_user_async_user_async_put",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete User Async",
-        "description": "Delete a User asynchronously",
-        "operationId": "delete_user_async_user_async_delete",
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "User Id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users/async": {
-      "put": {
-        "summary": "Update Users Async",
-        "description": "Update multiple Users asynchronously",
-        "operationId": "update_users_async_users_async_put",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "$ref": "#/components/schemas/User"
-                },
-                "type": "array",
-                "title": "Users"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "summary": "Create Users Async",
-        "description": "Create multiple Users asynchronously",
-        "operationId": "create_users_async_users_async_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "$ref": "#/components/schemas/User"
-                },
-                "type": "array",
-                "title": "Users"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete Users Async",
-        "description": "Delete multiple Users asynchronously",
-        "operationId": "delete_users_async_users_async_delete",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array",
-                "title": "User Ids"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/restaurant/async": {
-      "post": {
-        "summary": "Create Restaurant Async",
-        "description": "Create a Restaurant asynchronously",
-        "operationId": "create_restaurant_async_restaurant_async_post",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Restaurant"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "summary": "Update Restaurant Async",
-        "description": "Update a Restaurant asynchronously",
-        "operationId": "update_restaurant_async_restaurant_async_put",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Restaurant"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete Restaurant Async",
-        "description": "Delete a Restaurant asynchronously",
-        "operationId": "delete_restaurant_async_restaurant_async_delete",
-        "parameters": [
-          {
-            "name": "restaurant_id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Restaurant Id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/restaurants/async": {
-      "put": {
-        "summary": "Update Restaurants Async",
-        "description": "Update multiple Restaurants asynchronously",
-        "operationId": "update_restaurants_async_restaurants_async_put",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "$ref": "#/components/schemas/Restaurant"
-                },
-                "type": "array",
-                "title": "Restaurants"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "summary": "Create Restaurants Async",
-        "description": "Create multiple Restaurants asynchronously",
-        "operationId": "create_restaurants_async_restaurants_async_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "$ref": "#/components/schemas/Restaurant"
-                },
-                "type": "array",
-                "title": "Restaurants"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete Restaurants Async",
-        "description": "Delete multiple Restaurants asynchronously",
-        "operationId": "delete_restaurants_async_restaurants_async_delete",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array",
-                "title": "Restaurant Ids"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/reservation/async": {
-      "post": {
-        "summary": "Create Reservation Async",
-        "description": "Create a Reservation asynchronously",
-        "operationId": "create_reservation_async_reservation_async_post",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Reservation"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "summary": "Update Reservation Async",
-        "description": "Update a Reservation asynchronously",
-        "operationId": "update_reservation_async_reservation_async_put",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Reservation"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete Reservation Async",
-        "description": "Delete a Reservation asynchronously",
-        "operationId": "delete_reservation_async_reservation_async_delete",
-        "parameters": [
-          {
-            "name": "reservation_id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Reservation Id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/reservations/async": {
-      "put": {
-        "summary": "Update Reservations Async",
-        "description": "Update multiple Reservations asynchronously",
-        "operationId": "update_reservations_async_reservations_async_put",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "$ref": "#/components/schemas/Reservation"
-                },
-                "type": "array",
-                "title": "Reservations"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "summary": "Create Reservations Async",
-        "description": "Create multiple Reservations asynchronously",
-        "operationId": "create_reservations_async_reservations_async_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "$ref": "#/components/schemas/Reservation"
-                },
-                "type": "array",
-                "title": "Reservations"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete Reservations Async",
-        "description": "Delete multiple Reservations asynchronously",
-        "operationId": "delete_reservations_async_reservations_async_delete",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array",
-                "title": "Reservation Ids"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/review/async": {
       "post": {
+        "tags": [
+          "Review"
+        ],
         "summary": "Create Review Async",
         "description": "Create a Review asynchronously",
         "operationId": "create_review_async_review_async_post",
@@ -1997,6 +2116,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Review"
+        ],
         "summary": "Update Review Async",
         "description": "Update a Review asynchronously",
         "operationId": "update_review_async_review_async_put",
@@ -2032,6 +2154,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Review"
+        ],
         "summary": "Delete Review Async",
         "description": "Delete a Review asynchronously",
         "operationId": "delete_review_async_review_async_delete",
@@ -2070,6 +2195,9 @@
     },
     "/reviews/async": {
       "put": {
+        "tags": [
+          "Review"
+        ],
         "summary": "Update Reviews Async",
         "description": "Update multiple Reviews asynchronously",
         "operationId": "update_reviews_async_reviews_async_put",
@@ -2109,6 +2237,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Review"
+        ],
         "summary": "Create Reviews Async",
         "description": "Create multiple Reviews asynchronously",
         "operationId": "create_reviews_async_reviews_async_post",
@@ -2148,6 +2279,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Review"
+        ],
         "summary": "Delete Reviews Async",
         "description": "Delete multiple Reviews asynchronously",
         "operationId": "delete_reviews_async_reviews_async_delete",
@@ -2181,6 +2315,40 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Root",
+        "description": "Root Endpoint",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "description": "Health Endpoint",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
               }
             }
           }
