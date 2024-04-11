@@ -189,7 +189,7 @@ def _delete_user(user_id: str) -> User:
     logging.info(f"Deleting User with id: {id}")
 
     # Delete the User, if failed raise 404
-    model = user_manager.delete(user_id=user_id)
+    model = user_manager.delete(user_id)
     if not model:
         raise HTTPException(status_code=404, detail=f"Failed to delete User")
 
@@ -219,7 +219,7 @@ def _delete_users(user_ids: List[str]) -> List[User]:
     logging.info(f"Deleting Users: {str(user_ids)}")
 
     # Delete the Users, if failed raise 404
-    models = user_manager.delete_many(user_ids=user_ids)
+    models = user_manager.delete_many(user_ids)
     if not models:
         raise HTTPException(status_code=404, detail=f"Failed to delete Users")
 

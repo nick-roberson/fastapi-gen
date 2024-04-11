@@ -195,7 +195,7 @@ def _delete_restaurant(restaurant_id: str) -> Restaurant:
     logging.info(f"Deleting Restaurant with id: {id}")
 
     # Delete the Restaurant, if failed raise 404
-    model = restaurant_manager.delete(restaurant_id=restaurant_id)
+    model = restaurant_manager.delete(restaurant_id)
     if not model:
         raise HTTPException(status_code=404, detail=f"Failed to delete Restaurant")
 
@@ -225,7 +225,7 @@ def _delete_restaurants(restaurant_ids: List[str]) -> List[Restaurant]:
     logging.info(f"Deleting Restaurants: {str(restaurant_ids)}")
 
     # Delete the Restaurants, if failed raise 404
-    models = restaurant_manager.delete_many(restaurant_ids=restaurant_ids)
+    models = restaurant_manager.delete_many(restaurant_ids)
     if not models:
         raise HTTPException(status_code=404, detail=f"Failed to delete Restaurants")
 

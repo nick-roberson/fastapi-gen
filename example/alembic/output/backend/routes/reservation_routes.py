@@ -199,7 +199,7 @@ def _delete_reservation(reservation_id: str) -> Reservation:
     logging.info(f"Deleting Reservation with id: {id}")
 
     # Delete the Reservation, if failed raise 404
-    model = reservation_manager.delete(reservation_id=reservation_id)
+    model = reservation_manager.delete(reservation_id)
     if not model:
         raise HTTPException(status_code=404, detail=f"Failed to delete Reservation")
 
@@ -229,7 +229,7 @@ def _delete_reservations(reservation_ids: List[str]) -> List[Reservation]:
     logging.info(f"Deleting Reservations: {str(reservation_ids)}")
 
     # Delete the Reservations, if failed raise 404
-    models = reservation_manager.delete_many(reservation_ids=reservation_ids)
+    models = reservation_manager.delete_many(reservation_ids)
     if not models:
         raise HTTPException(status_code=404, detail=f"Failed to delete Reservations")
 

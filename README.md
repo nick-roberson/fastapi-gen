@@ -70,6 +70,7 @@
   - [Database Generation](#database-generation)
   - [Frontend Code Generation](#frontend-code-generation)
 - [Images](#images)
+- [Loom Video](#loom-video)
 - [Setup](#setup)
 - [Usage](#usage)
 - [Example](#example)
@@ -120,6 +121,13 @@ Here is an example of the homepage that is generated for the React frontend. It 
 </div>
 
 All models will have a page similar to the one above, where you can interact with the FastAPI service.
+
+## Loom Video
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0;">
+  <iframe src="https://www.loom.com/embed/c49335aed3db41539aa8d4fee8e5c52e?sid=861c2b94-7385-411e-8ef2-25c175963a60" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+  </iframe>
+</div>
 
 ## Setup
 

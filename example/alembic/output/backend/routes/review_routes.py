@@ -189,7 +189,7 @@ def _delete_review(review_id: str) -> Review:
     logging.info(f"Deleting Review with id: {id}")
 
     # Delete the Review, if failed raise 404
-    model = review_manager.delete(review_id=review_id)
+    model = review_manager.delete(review_id)
     if not model:
         raise HTTPException(status_code=404, detail=f"Failed to delete Review")
 
@@ -219,7 +219,7 @@ def _delete_reviews(review_ids: List[str]) -> List[Review]:
     logging.info(f"Deleting Reviews: {str(review_ids)}")
 
     # Delete the Reviews, if failed raise 404
-    models = review_manager.delete_many(review_ids=review_ids)
+    models = review_manager.delete_many(review_ids)
     if not models:
         raise HTTPException(status_code=404, detail=f"Failed to delete Reviews")
 
