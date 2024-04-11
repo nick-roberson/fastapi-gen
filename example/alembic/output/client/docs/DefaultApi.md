@@ -1217,6 +1217,8 @@ No authorization required
 
 Get Reservations
 
+Get all Reservations
+
 ### Example
 
 
@@ -1347,6 +1349,8 @@ No authorization required
 > List[Restaurant] get_restaurants_restaurants_get()
 
 Get Restaurants
+
+Get all Restaurants
 
 ### Example
 
@@ -1479,6 +1483,8 @@ No authorization required
 
 Get Reviews
 
+Get all Reviews
+
 ### Example
 
 
@@ -1610,6 +1616,8 @@ No authorization required
 
 Get Users
 
+Get all Users
+
 ### Example
 
 
@@ -1671,6 +1679,8 @@ No authorization required
 > object root_get()
 
 Root
+
+Root Endpoint
 
 ### Example
 

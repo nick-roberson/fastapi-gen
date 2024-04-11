@@ -1039,6 +1039,7 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Get all Reservations
    * Get Reservations
    */
   async getReservationsReservationsGetRaw(
@@ -1064,6 +1065,7 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Get all Reservations
    * Get Reservations
    */
   async getReservationsReservationsGet(
@@ -1128,6 +1130,7 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Get all Restaurants
    * Get Restaurants
    */
   async getRestaurantsRestaurantsGetRaw(
@@ -1153,6 +1156,7 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Get all Restaurants
    * Get Restaurants
    */
   async getRestaurantsRestaurantsGet(
@@ -1216,6 +1220,7 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Get all Reviews
    * Get Reviews
    */
   async getReviewsReviewsGetRaw(
@@ -1241,6 +1246,7 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Get all Reviews
    * Get Reviews
    */
   async getReviewsReviewsGet(
@@ -1304,6 +1310,7 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Get all Users
    * Get Users
    */
   async getUsersUsersGetRaw(
@@ -1329,6 +1336,7 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Get all Users
    * Get Users
    */
   async getUsersUsersGet(
@@ -1339,6 +1347,7 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Root Endpoint
    * Root
    */
   async rootGetRaw(
@@ -1366,6 +1375,7 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Root Endpoint
    * Root
    */
   async rootGet(

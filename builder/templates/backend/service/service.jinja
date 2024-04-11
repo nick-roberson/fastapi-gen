@@ -1,0 +1,192 @@
+import logging
+import uvicorn
+import argparse
+
+from typing import List
+from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi.middleware.cors import CORSMiddleware
+
+from models.models import {{ model_names }}
+{% for model in models %}from db.{{ model.name.lower() }}_manager import get_{{ model.manager_var_name }}
+{% endfor %}
+
+# Create instances of managers for each model
+{% for model in models %}
+{{ model.manager_var_name }} = get_{{ model.manager_var_name }}()
+{% endfor %}
+
+# Create FastAPI App and Allow CORS
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/")
+async def root():
+    """ Root Endpoint """
+    return {"message": "Hello World"}
+
+##############################################
+# Get Endpoints for {{ model_names }}
+##############################################
+
+{% for model in models %}
+@app.get("/{{ model.name.lower() }}")
+def get_{{ model.name.lower() }}({{ model.model_id_var_name }}: str) -> {{ model.name }}:
+    """ Get a {{ model.name }} """
+    logging.info(f"Getting {{ model.name }} with id: {id}")
+
+    # Get the {{ model.name }} with the given id, if none found raise 404
+    model = {{ model.manager_var_name }}.get({{ model.model_id_var_name }}={{ model.model_id_var_name }})
+    if model is None:
+        raise HTTPException(status_code=404, detail=f"{{ model.name }} with id {id} not found")
+
+    # Return the {{ model.name }}
+    return model
+
+
+@app.get("/{{ model.name.lower() }}s")
+def get_{{ model.name.lower() }}s() -> List[{{ model.name }}]:
+    """ Get all {{ model.name }}s """
+    logging.info(f"Getting all {{ model.name }}s")
+
+    # Get all {{ model.name }}s, if none found raise 404
+    models = {{ model.manager_var_name }}.get_all()
+    if models is None:
+        raise HTTPException(status_code=404, detail=f"No {{ model.name }}s found")
+
+    # Return all {{ model.name }}s
+    return models
+
+
+{% endfor %}
+
+##############################################
+# Create Endpoints for {{ model_names }}
+##############################################
+
+{% for model in models %}
+@app.post("/{{ model.name.lower() }}")
+def create_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -> {{ model.name }}:
+    """ Create a {{ model.name }} """
+    logging.info(f"Creating {{ model.name }}: {str({{model.name.lower()}})}")
+
+    # Create the {{ model.name }}, if failed raise 400
+    model = {{ model.manager_var_name }}.create({{model.name.lower()}})
+    if model is None:
+        raise HTTPException(status_code=400, detail=f"Failed to create {{ model.name }}")
+
+    # Return the created {{ model.name }}
+    return model
+
+
+@app.post("/{{ model.name.lower() }}s")
+def create_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.name }}]) -> List[{{ model.name }}]:
+    """ Create multiple {{ model.name }}s """
+    logging.info(f"Creating {{ model.name }}s: {str({{model.name.lower()}}s)}")
+
+    # Create the {{ model.name }}s, if failed raise 400
+    models = {{ model.manager_var_name }}.create_many({{model.name.lower()}}s)
+    if models is None:
+        raise HTTPException(status_code=400, detail=f"Failed to create {{ model.name }}s")
+
+    # Return the created {{ model.name }}s
+    return models
+
+{% endfor %}
+
+##############################################
+# Update Endpoints for {{ model_names }}
+##############################################
+
+{% for model in models %}
+@app.put("/{{ model.name.lower() }}")
+def update_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -> {{ model.name }}:
+    """ Update a {{ model.name }} """
+    logging.info(f"Updating {{ model.name }}: {str({{model.name.lower()}})}")
+
+    # Update the {{ model.name }}, if failed raise 400
+    model = {{ model.manager_var_name }}.update({{model.name.lower()}})
+    if model is None:
+        raise HTTPException(status_code=400, detail=f"Failed to update {{ model.name }}")
+
+    # Return the updated {{ model.name }}
+    return model
+
+
+@app.put("/{{ model.name.lower() }}s")
+def update_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.name }}]) -> List[{{ model.name }}]:
+    """ Update multiple {{ model.name }}s """
+    logging.info(f"Updating {{ model.name }}s: {str({{model.name.lower()}}s)}")
+
+    # Update the {{ model.name }}s, if failed raise 400
+    models = {{ model.manager_var_name }}.update_many({{model.name.lower()}}s)
+    if models is None:
+        raise HTTPException(status_code=400, detail=f"Failed to update {{ model.name }}s")
+
+    # Return the updated {{ model.name }}s
+    return models
+
+{% endfor %}
+
+##############################################
+# Delete Endpoints for {{ model_names }}
+##############################################
+
+{% for model in models %}
+@app.delete("/{{ model.name.lower() }}")
+def delete_{{ model.name.lower()}}({{ model.model_id_var_name }}: str) -> {{ model.name }}:
+    """ Delete a {{ model.name }} """
+    logging.info(f"Deleting {{ model.name }} with id: {id}")
+
+    # Delete the {{ model.name }}, if failed raise 404
+    model = {{ model.manager_var_name }}.delete({{ model.model_id_var_name }}={{ model.model_id_var_name }})
+    if model is None:
+        raise HTTPException(status_code=404, detail=f"Failed to delete {{ model.name }}")
+
+    # Return the deleted {{ model.name }}
+    return model
+
+
+@app.delete("/{{ model.name.lower() }}s")
+def delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s: List[str]) -> List[{{ model.name }}]:
+    """ Delete multiple {{ model.name }}s """
+    logging.info(f"Deleting {{ model.name }}s: {str({{ model.model_id_var_name }}s)}")
+
+    # Delete the {{ model.name }}s, if failed raise 404
+    models = {{ model.manager_var_name }}.delete_many({{ model.model_id_var_name }}s={{ model.model_id_var_name }}s)
+    if models is None:
+        raise HTTPException(status_code=404, detail=f"Failed to delete {{ model.name }}s")
+
+    # Return the deleted {{ model.name }}s
+    return models
+
+{% endfor %}
+
+def init_logging():
+    """ Initialize Logging """
+    logging.basicConfig(level=logging.INFO)
+    logging.getLogger("uvicorn").setLevel(logging.INFO)
+    logging.getLogger("uvicorn.error").setLevel(logging.INFO)
+    logging.getLogger("uvicorn.access").setLevel(logging.INFO)
+
+
+def parse_args():
+    """ Parse Command Line Arguments """
+    parser = argparse.ArgumentParser(description="Run the FastAPI Server")
+    parser.add_argument("--host", type=str, default="localhost", help="Host to run the server on")
+    parser.add_argument("--port", type=int, default=8000, help="Port to run the server on")
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    # Initialize Logging
+    init_logging()
+    # Parse Command Line Arguments
+    args = parse_args()
+    # Start the server
+    uvicorn.run(app, host=args.host, port=args.port)

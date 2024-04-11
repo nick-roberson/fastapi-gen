@@ -42,10 +42,16 @@ class ReviewManager:
         logging.info(f"Retrieving Review record with ID: {id}")
         try:
             with self.session_factory() as session:
+
                 # Retrieve the Review record by its ID
                 item = session.query(DBReview).get(id)
+                if not item:
+                    return None
+
+                # Return the Review record
                 logging.info(f"Successfully retrieved Review record: {item}")
                 return Review.from_orm(item)
+
         except Exception as e:
             logging.error(f"Failed to retrieve Review record: {e}")
             raise e
@@ -57,10 +63,16 @@ class ReviewManager:
         logging.info("Retrieving all Review records")
         try:
             with self.session_factory() as session:
+
                 # Retrieve all Review records
                 items = session.query(DBReview).all()
+                if not items:
+                    return []
+
+                # Return the Review records
                 logging.info(f"Successfully retrieved all Review records: {items}")
                 return [Review.from_orm(item) for item in items]
+
         except Exception as e:
             logging.error(f"Failed to retrieve all Review records: {e}")
             raise e
@@ -72,8 +84,12 @@ class ReviewManager:
         logging.info(f"Creating new Review record: {data}")
         try:
             with self.session_factory() as session:
+
                 # Create a new Review record
                 new_item = DBReview(**data.dict())
+
+                # Clear the id of the new model to ensure it is created as a new record
+                new_item.id = None
 
                 # Add the new Review record to the session and commit
                 session.add(new_item)
@@ -83,6 +99,7 @@ class ReviewManager:
                 session.refresh(new_item)
                 logging.info(f"Successfully created new Review record: {new_item}")
                 return Review.from_orm(new_item)
+
         except Exception as e:
             logging.error(f"Failed to create new Review record: {e}")
             raise e
@@ -94,8 +111,13 @@ class ReviewManager:
         logging.info(f"Creating multiple new Review records: {data}")
         try:
             with self.session_factory() as session:
+
                 # Create new Review records
                 new_items = [DBReview(**item.dict()) for item in data]
+
+                # Clear the ids of the new models to ensure they are created as new records
+                for item in new_items:
+                    item.id = None
 
                 # Add the new Review records to the session and commit
                 session.add_all(new_items)
@@ -108,19 +130,27 @@ class ReviewManager:
                     f"Successfully created multiple new Review records: {new_items}"
                 )
                 return [Review.from_orm(item) for item in new_items]
+
         except Exception as e:
             logging.error(f"Failed to create multiple new Review records: {e}")
             raise e
         finally:
             self.close_session()
 
-    def update(self, id: int, data: Review) -> Review:
+    def update(self, data: Review) -> Review:
         """Update an existing Review record in the database."""
         logging.info(f"Updating Review record with ID {id}: {data}")
         try:
             with self.session_factory() as session:
+
+                # If id is not present on update, raise an exception
+                if not data.id:
+                    raise Exception("ID is required to update Review record")
+
                 # Retrieve the Review record by its ID
-                item = session.query(DBReview).get(id)
+                item = session.query(DBReview).get(data.id)
+                if not item:
+                    raise Exception("Review record does not exist")
 
                 # Update the Review record with the new data
                 for key, value in data.dict().items():
@@ -134,6 +164,7 @@ class ReviewManager:
                 session.refresh(item)
                 logging.info(f"Successfully updated Review record: {item}")
                 return Review.from_orm(item)
+
         except Exception as e:
             logging.error(f"Failed to update Review record: {e}")
             raise e
@@ -147,16 +178,22 @@ class ReviewManager:
             with self.session_factory() as session:
                 # Update the Review records with the new data
                 updated_items = []
-                for item_data in data:
-                    # Retrieve the Review record by its ID
-                    item = session.query(DBReview).get(item_data.id)
 
-                    # Update the Review record with the new data
-                    for key, value in item_data.dict().items():
+                # Get all the items by id, raise exception if any are missing
+                model_ids = [item.id for item in data]
+                items = session.query(DBReview).filter(DBReview.id.in_(model_ids)).all()
+                if len(items) != len(model_ids):
+                    raise Exception("Some Review records do not exist")
+
+                item_map = {item.id: item for item in items}
+                update_map = {item.id: item for item in data}
+
+                # Update the items with the new data
+                for id, item in item_map.items():
+                    new_update = update_map[id]
+                    for key, value in new_update.dict().items():
                         setattr(item, key, value)
                     item.updated_at = datetime.now()
-
-                    # Add the updated Review record to the list
                     updated_items.append(item)
 
                 # Commit the changes
@@ -165,10 +202,13 @@ class ReviewManager:
                 # Refresh and return the updated Review records
                 for item in updated_items:
                     session.refresh(item)
+
+                # Return the updated items
                 logging.info(
                     f"Successfully updated multiple Review records: {updated_items}"
                 )
                 return [Review.from_orm(item) for item in updated_items]
+
         except Exception as e:
             logging.error(f"Failed to update multiple Review records: {e}")
             raise e
@@ -180,15 +220,20 @@ class ReviewManager:
         logging.info(f"Deleting Review record with ID: {id}")
         try:
             with self.session_factory() as session:
+
                 # Retrieve the Review record by its ID
                 item = session.query(DBReview).get(id)
+                if not item:
+                    raise Exception("Review record does not exist")
 
                 # Delete the Review record
                 session.delete(item)
                 session.commit()
 
+                # Return the deleted Review record
                 logging.info(f"Successfully deleted Review record: {item}")
                 return Review.from_orm(item)
+
         except Exception as e:
             logging.error(f"Failed to delete Review record: {e}")
             raise e
@@ -200,16 +245,23 @@ class ReviewManager:
         logging.info(f"Deleting multiple Review records with IDs: {ids}")
         try:
             with self.session_factory() as session:
+
                 # Retrieve the Review records by their IDs
                 items = session.query(DBReview).filter(DBReview.id.in_(ids)).all()
+                if len(items) != len(ids):
+                    raise Exception("Some Review records do not exist")
 
                 # Delete the Review records
                 for item in items:
                     session.delete(item)
+
+                # Commit the changes
                 session.commit()
 
+                # Return the deleted Review records
                 logging.info(f"Successfully deleted multiple Review records: {items}")
                 return [Review.from_orm(item) for item in items]
+
         except Exception as e:
             logging.error(f"Failed to delete multiple Review records: {e}")
             raise e

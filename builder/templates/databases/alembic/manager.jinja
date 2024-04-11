@@ -43,10 +43,16 @@ class {{ model.name }}Manager:
         logging.info(f"Retrieving {{ model.name }} record with ID: {id}")
         try:
             with self.session_factory() as session:
+
                 # Retrieve the {{ model.name }} record by its ID
                 item = session.query(DB{{ model.name }}).get(id)
+                if not item:
+                    return None
+
+                # Return the {{ model.name }} record
                 logging.info(f"Successfully retrieved {{ model.name }} record: {item}")
                 return {{ model.name }}.from_orm(item)
+
         except Exception as e:
             logging.error(f"Failed to retrieve {{ model.name }} record: {e}")
             raise e
@@ -58,10 +64,16 @@ class {{ model.name }}Manager:
         logging.info("Retrieving all {{ model.name }} records")
         try:
             with self.session_factory() as session:
+
                 # Retrieve all {{ model.name }} records
                 items = session.query(DB{{ model.name }}).all()
+                if not items:
+                    return []
+
+                # Return the {{ model.name }} records
                 logging.info(f"Successfully retrieved all {{ model.name }} records: {items}")
                 return [{{ model.name }}.from_orm(item) for item in items]
+
         except Exception as e:
             logging.error(f"Failed to retrieve all {{ model.name }} records: {e}")
             raise e
@@ -73,8 +85,12 @@ class {{ model.name }}Manager:
         logging.info(f"Creating new {{ model.name }} record: {data}")
         try:
             with self.session_factory() as session:
+
                 # Create a new {{ model.name }} record
                 new_item = DB{{ model.name }}(**data.dict())
+
+                # Clear the id of the new model to ensure it is created as a new record
+                new_item.id = None
 
                 # Add the new {{ model.name }} record to the session and commit
                 session.add(new_item)
@@ -84,6 +100,7 @@ class {{ model.name }}Manager:
                 session.refresh(new_item)
                 logging.info(f"Successfully created new {{ model.name }} record: {new_item}")
                 return {{ model.name }}.from_orm(new_item)
+
         except Exception as e:
             logging.error(f"Failed to create new {{ model.name }} record: {e}")
             raise e
@@ -95,8 +112,13 @@ class {{ model.name }}Manager:
         logging.info(f"Creating multiple new {{ model.name }} records: {data}")
         try:
             with self.session_factory() as session:
+
                 # Create new {{ model.name }} records
                 new_items = [DB{{ model.name }}(**item.dict()) for item in data]
+
+                # Clear the ids of the new models to ensure they are created as new records
+                for item in new_items:
+                    item.id = None
 
                 # Add the new {{ model.name }} records to the session and commit
                 session.add_all(new_items)
@@ -107,19 +129,27 @@ class {{ model.name }}Manager:
                     session.refresh(item)
                 logging.info(f"Successfully created multiple new {{ model.name }} records: {new_items}")
                 return [{{ model.name }}.from_orm(item) for item in new_items]
+
         except Exception as e:
             logging.error(f"Failed to create multiple new {{ model.name }} records: {e}")
             raise e
         finally:
             self.close_session()
 
-    def update(self, id: int, data: {{ model.name }}) -> {{ model.name }}:
+    def update(self, data: {{ model.name }}) -> {{ model.name }}:
         """Update an existing {{ model.name }} record in the database."""
         logging.info(f"Updating {{ model.name }} record with ID {id}: {data}")
         try:
             with self.session_factory() as session:
+
+                # If id is not present on update, raise an exception
+                if not data.id:
+                    raise Exception("ID is required to update {{ model.name }} record")
+
                 # Retrieve the {{ model.name }} record by its ID
-                item = session.query(DB{{ model.name }}).get(id)
+                item = session.query(DB{{ model.name }}).get(data.id)
+                if not item:
+                    raise Exception("{{ model.name }} record does not exist")
 
                 # Update the {{ model.name }} record with the new data
                 for key, value in data.dict().items():
@@ -133,6 +163,7 @@ class {{ model.name }}Manager:
                 session.refresh(item)
                 logging.info(f"Successfully updated {{ model.name }} record: {item}")
                 return {{ model.name }}.from_orm(item)
+
         except Exception as e:
             logging.error(f"Failed to update {{ model.name }} record: {e}")
             raise e
@@ -146,16 +177,22 @@ class {{ model.name }}Manager:
             with self.session_factory() as session:
                 # Update the {{ model.name }} records with the new data
                 updated_items = []
-                for item_data in data:
-                    # Retrieve the {{ model.name }} record by its ID
-                    item = session.query(DB{{ model.name }}).get(item_data.id)
 
-                    # Update the {{ model.name }} record with the new data
-                    for key, value in item_data.dict().items():
+                # Get all the items by id, raise exception if any are missing
+                model_ids = [item.id for item in data]
+                items = session.query(DB{{ model.name }}).filter(DB{{ model.name }}.id.in_(model_ids)).all()
+                if len(items) != len(model_ids):
+                    raise Exception("Some {{ model.name }} records do not exist")
+
+                item_map = {item.id: item for item in items}
+                update_map = {item.id: item for item in data}
+
+                # Update the items with the new data
+                for id, item in item_map.items():
+                    new_update = update_map[id]
+                    for key, value in new_update.dict().items():
                         setattr(item, key, value)
                     item.updated_at = datetime.now()
-
-                    # Add the updated {{ model.name }} record to the list
                     updated_items.append(item)
 
                 # Commit the changes
@@ -164,8 +201,11 @@ class {{ model.name }}Manager:
                 # Refresh and return the updated {{ model.name }} records
                 for item in updated_items:
                     session.refresh(item)
+
+                # Return the updated items
                 logging.info(f"Successfully updated multiple {{ model.name }} records: {updated_items}")
                 return [{{ model.name }}.from_orm(item) for item in updated_items]
+
         except Exception as e:
             logging.error(f"Failed to update multiple {{ model.name }} records: {e}")
             raise e
@@ -178,15 +218,20 @@ class {{ model.name }}Manager:
         logging.info(f"Deleting {{ model.name }} record with ID: {id}")
         try:
             with self.session_factory() as session:
+
                 # Retrieve the {{ model.name }} record by its ID
                 item = session.query(DB{{ model.name }}).get(id)
+                if not item:
+                    raise Exception("{{ model.name }} record does not exist")
 
                 # Delete the {{ model.name }} record
                 session.delete(item)
                 session.commit()
 
+                # Return the deleted {{ model.name }} record
                 logging.info(f"Successfully deleted {{ model.name }} record: {item}")
                 return {{ model.name }}.from_orm(item)
+
         except Exception as e:
             logging.error(f"Failed to delete {{ model.name }} record: {e}")
             raise e
@@ -198,16 +243,23 @@ class {{ model.name }}Manager:
         logging.info(f"Deleting multiple {{ model.name }} records with IDs: {ids}")
         try:
             with self.session_factory() as session:
+
                 # Retrieve the {{ model.name }} records by their IDs
                 items = session.query(DB{{ model.name }}).filter(DB{{ model.name }}.id.in_(ids)).all()
+                if len(items) != len(ids):
+                    raise Exception("Some {{ model.name }} records do not exist")
 
                 # Delete the {{ model.name }} records
                 for item in items:
                     session.delete(item)
+
+                # Commit the changes
                 session.commit()
 
+                # Return the deleted {{ model.name }} records
                 logging.info(f"Successfully deleted multiple {{ model.name }} records: {items}")
                 return [{{ model.name }}.from_orm(item) for item in items]
+
         except Exception as e:
             logging.error(f"Failed to delete multiple {{ model.name }} records: {e}")
             raise e

@@ -14,11 +14,11 @@ VERSIONS_DIR: str = os.path.abspath("versions")
 TEMPLATE_DIR: str = os.path.abspath("builder/templates")
 
 # Backend templates
-MODEL_TEMPLATES: str = f"{TEMPLATE_DIR}/models/"
-SERVICE_TEMPLATES: str = f"{TEMPLATE_DIR}/service/"
-POETRY_TEMPLATES: str = f"{TEMPLATE_DIR}/poetry/"
-README_TEMPLATES: str = f"{TEMPLATE_DIR}/readme/"
-DOCKER_TEMPLATES: str = f"{TEMPLATE_DIR}/docker/"
+MODEL_TEMPLATES: str = f"{TEMPLATE_DIR}/backend/models/"
+SERVICE_TEMPLATES: str = f"{TEMPLATE_DIR}/backend/service/"
+POETRY_TEMPLATES: str = f"{TEMPLATE_DIR}/backend/poetry/"
+README_TEMPLATES: str = f"{TEMPLATE_DIR}/backend/readme/"
+DOCKER_TEMPLATES: str = f"{TEMPLATE_DIR}/backend/docker/"
 
 # Frontend templates
 FRONTEND_TEMPLATES: str = f"{TEMPLATE_DIR}/frontend/"

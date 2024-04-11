@@ -8,6 +8,7 @@
     "/": {
       "get": {
         "summary": "Root",
+        "description": "Root Endpoint",
         "operationId": "root__get",
         "responses": {
           "200": {
@@ -176,6 +177,7 @@
     "/users": {
       "get": {
         "summary": "Get Users",
+        "description": "Get all Users",
         "operationId": "get_users_users_get",
         "responses": {
           "200": {
@@ -485,6 +487,7 @@
     "/restaurants": {
       "get": {
         "summary": "Get Restaurants",
+        "description": "Get all Restaurants",
         "operationId": "get_restaurants_restaurants_get",
         "responses": {
           "200": {
@@ -794,6 +797,7 @@
     "/reservations": {
       "get": {
         "summary": "Get Reservations",
+        "description": "Get all Reservations",
         "operationId": "get_reservations_reservations_get",
         "responses": {
           "200": {
@@ -1103,6 +1107,7 @@
     "/reviews": {
       "get": {
         "summary": "Get Reviews",
+        "description": "Get all Reviews",
         "operationId": "get_reviews_reviews_get",
         "responses": {
           "200": {

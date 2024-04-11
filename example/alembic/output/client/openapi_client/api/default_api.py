@@ -4314,6 +4314,7 @@ class DefaultApi:
     ) -> List[Reservation]:
         """Get Reservations
 
+        Get all Reservations
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4373,6 +4374,7 @@ class DefaultApi:
     ) -> ApiResponse[List[Reservation]]:
         """Get Reservations
 
+        Get all Reservations
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4432,6 +4434,7 @@ class DefaultApi:
     ) -> RESTResponseType:
         """Get Reservations
 
+        Get all Reservations
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4779,6 +4782,7 @@ class DefaultApi:
     ) -> List[Restaurant]:
         """Get Restaurants
 
+        Get all Restaurants
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4838,6 +4842,7 @@ class DefaultApi:
     ) -> ApiResponse[List[Restaurant]]:
         """Get Restaurants
 
+        Get all Restaurants
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4897,6 +4902,7 @@ class DefaultApi:
     ) -> RESTResponseType:
         """Get Restaurants
 
+        Get all Restaurants
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5244,6 +5250,7 @@ class DefaultApi:
     ) -> List[Review]:
         """Get Reviews
 
+        Get all Reviews
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5303,6 +5310,7 @@ class DefaultApi:
     ) -> ApiResponse[List[Review]]:
         """Get Reviews
 
+        Get all Reviews
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5362,6 +5370,7 @@ class DefaultApi:
     ) -> RESTResponseType:
         """Get Reviews
 
+        Get all Reviews
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5709,6 +5718,7 @@ class DefaultApi:
     ) -> List[User]:
         """Get Users
 
+        Get all Users
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5768,6 +5778,7 @@ class DefaultApi:
     ) -> ApiResponse[List[User]]:
         """Get Users
 
+        Get all Users
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5827,6 +5838,7 @@ class DefaultApi:
     ) -> RESTResponseType:
         """Get Users
 
+        Get all Users
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5930,6 +5942,7 @@ class DefaultApi:
     ) -> object:
         """Root
 
+        Root Endpoint
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5989,6 +6002,7 @@ class DefaultApi:
     ) -> ApiResponse[object]:
         """Root
 
+        Root Endpoint
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6048,6 +6062,7 @@ class DefaultApi:
     ) -> RESTResponseType:
         """Root
 
+        Root Endpoint
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
