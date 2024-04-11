@@ -2,7 +2,9 @@
 
 <p align="center" markdown=1>
     <i>
-        Create proof-of-concept FastAPI services with React frontends effortlessly using a simple CLI tool. Database support includes MongoDB, PostgreSQL, and MySQL.
+        Create proof-of-concept FastAPI services with React frontends effortlessly using a simple CLI tool. 
+        Database support includes MongoDB, PostgreSQL, and MySQL.
+        ... Collaborators are always welcome!
     </i>
 </p>
 
@@ -58,9 +60,15 @@
     </a>
 </p>
 
-**NOTE:**
-- This project is actively under development and not yet intended for production usage, although it functions well for general use cases and POCs.
-- While the service templates are robust, the generated code is still being refined, and there are ongoing improvements.
+_**NOTE:**_
+- _This project is actively under development and not yet intended for production usage, although it functions well for general use cases and POCs._
+- _While the service templates are robust, the generated code is still being refined, and there are ongoing improvements._
+
+**That all being said `fastapi-gen` does a really great job of creating working POC frontend and backend services that can be used 
+to quickly prototype ideas and test out new features!** 
+
+So use this and don't worry anymore about some of the more annoying parts of setting up a new services!
+In the future I hope to add far more configurability as well as support for more databases and frontend frameworks. See examples below for more information! 
 
 # Table of Contents
 
@@ -70,9 +78,9 @@
   - [Frontend Code Generation](#frontend-code-generation)
 - [Images](#images)
 - [Loom Video](#loom-video)
+- [Example](#example)
 - [Setup](#setup)
 - [Usage](#usage)
-- [Example](#example)
 - [Running](#running)
   - [Back End](#back-end)
   - [Front End](#front-end)
@@ -128,6 +136,16 @@ All models will have a page similar to the one above, where you can interact wit
 You can find a brief demo here!
 - [Demo Video](https://www.loom.com/share/c49335aed3db41539aa8d4fee8e5c52e?sid=3ba0b976-d0f1-4827-b4ed-dcbc4d5249a4)
 
+## Example
+
+You can find an example config for both `MongoDB` and `MySQL + Alembic` in the `example/` directory
+under their respective folders.
+
+In addition, there is a full generated example of a `Restaurant` service in the `example/alembic/output` directory.
+You should be able to run the service and frontend by following the instructions below so long as you have all the
+correct environment variables set (see the `setup` section for more information).
+
+
 ## Setup
 
 **General**
@@ -154,15 +172,6 @@ All you should need to do before running otherwise is to install the dependencie
 ```bash
 % poetry install
 ```
-
-## Example
-
-You can find an example config for both `MongoDB` and `MySQL + Alembic` in the `example/` directory
-under their respective folders.
-
-In addition, there is a full generated example of a `Restaurant` service in the `example/alembic/output` directory.
-You should be able to run the service and frontend by following the instructions below so long as you have all the
-correct environment variables set (see the `setup` section for more information).
 
 ## Usage
 
