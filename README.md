@@ -191,15 +191,19 @@ Once you have your config ready (or you can use the example config), you can gen
 
 ...
 
-Run the following commands to run the service:
-        % example/alembic/output/backend
-        % poetry install && poetry update
-        % poetry run uvicorn service:app --reload --port 8000
+Run Backend (Poetry):
+    % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend
+    % poetry install && poetry update
+    % poetry run uvicorn service:app --reload --port 8000
 
-Run the following commands to run the frontend:
-        % cd example/alembic/output/reservations-app
-        % npm install
-        % npm run start
+Run Backend (Docker) (Make sure to fill out the generated .env file!):
+    % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend
+    % docker build -t reservations-app .
+    % docker run -p 8000:8000 reservations-app
+
+Run Frontend (NPM):
+    % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app
+    % npm install && npm run start
 ```
 
 ### Generate using Mongo
