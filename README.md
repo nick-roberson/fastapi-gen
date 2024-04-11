@@ -2,8 +2,7 @@
 
 <p align="center" markdown=1>
     <i>
-        Generate POC FastAPI services with React frontends using a simple CLI tool.
-        Database generation is supported for MongoDB, PostgreSQL, and MySQL.
+        Create proof-of-concept FastAPI services with React frontends effortlessly using a simple CLI tool. Database support includes MongoDB, PostgreSQL, and MySQL.
     </i>
 </p>
 
@@ -60,8 +59,8 @@
 </p>
 
 **NOTE:**
-- This project is still in active development and is not yet intended for production use. However, it does work well for general cases as well as for POCs.
-- The templates for services that get set up are solid, but the generated code is not yet perfect. There are still some issues that need to be fixed.
+- This project is actively under development and not yet intended for production usage, although it functions well for general use cases and POCs.
+- While the service templates are robust, the generated code is still being refined, and there are ongoing improvements.
 
 # Table of Contents
 
@@ -87,23 +86,28 @@ This is a simple FastAPI service that can be used as a starting point for a new 
 ## Features
 
 ####  Python Code Generation
-1. Generate FastAPI services with `MongoDB` database support (via model managers)
-2. Generate `pydantic` models for the FastAPI services
-3. Generate Python client code for the FastAPI service using `openapi-generator`
-
+1. Generate FastAPI services with database support for MongoDB, PostgreSQL, and MySQL
+2. Automatically creates CRUD endpoints for each model with async support
+3. Generate `pydantic` models for the FastAPI services and handles conversion to and from the database models
+4. Generate Python client code for the FastAPI service using `openapi-generator` for use elsewhere
 
 #### Database Generation
 
 1. Generate a `MongoDB` database with `Pydantic` models
-2. Generate a `PostgreSQL` database with `SQLAlchemy` models
-3. Generate a `MySQL` database with `SQLAlchemy` models
+2. Generate a `PostgreSQL` database with `SQLAlchemy` + `Alembic` models
+3. Generate a `MySQL` database with `SQLAlchemy` + `Alembic` models
+
+In the event that you are using PostgreSQL or MySQL, you will need to set up a local database or 
+use a cloud service like AWS RDS or Google Cloud SQL.
 
 #### Frontend Code Generation
 
-1. Generate a React frontend with TypeScript
+1. Creates an entire React frontend that can interact with the FastAPI service
    - Create a homepage that displays all the models that have been generated
    - Create a page for each model that allows you to interact with the FastAPI service
-2. Generate TypeScript and Python clients for the FastAPI service using `openapi-generator`
+2. All frontend code is generated using `TypeScript` and `React`
+3. Generated TypeScript client and models are used to interact with the FastAPI service
+4. No work requred on your end to set up the frontend, just run the commands and you are good to go! (assuming you have `npm` installed)
 
 ## Images
 
