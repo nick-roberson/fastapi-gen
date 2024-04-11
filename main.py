@@ -81,21 +81,30 @@ def process_close(result: Dict, output_dir: str, service_config: ServiceConfig):
         service_config (ServiceConfig): The service configuration
     """
     code_dir = "backend"
+    service_name = service_config.service_info.name
 
     # Display the generated files
     print(f"\nGenerated files:")
     print(json.dumps(result, indent=4))
 
     # Display commands for users to go and run the generated files
-    print("\nRun the following commands to run the service:")
-    print(
-        f"\t% cd {output_dir}/{code_dir} && \\ \n\tpoetry run uvicorn service:app --reload --port {DEFAULT_PORT}"
-    )
+    print("")
+    print("Run Backend (Poetry):")
+    print(f"   % cd {output_dir}/{code_dir}")
+    print(f"   % poetry install && poetry update")
+    print(f"   % poetry run uvicorn service:app --reload --port {DEFAULT_PORT}")
+
+    print("")
+    print("Run Backend (Docker) (Make sure to fill out the generated .env file!):")
+    print(f"   % cd {output_dir}/{code_dir}")
+    print(f"   % docker build -t {service_name} .")
+    print(f"   % docker run -p {DEFAULT_PORT}:{DEFAULT_PORT} {service_name}")
 
     # Display the frontend commands
-    service_name = service_config.service_info.name
-    print("\nRun the following commands to run the frontend:")
-    print(f"\t% cd {output_dir}/{service_name} && \\ \n\tnpm start")
+    print("")
+    print("Run Frontend (NPM):")
+    print(f"   % cd {output_dir}/{service_name}")
+    print(f"   % npm install && npm run start")
 
 
 @app.command()

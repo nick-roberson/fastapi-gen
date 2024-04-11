@@ -199,7 +199,7 @@ Run the following commands to run the service:
 Run the following commands to run the frontend:
         % cd example/alembic/output/reservations-app
         % npm install
-        % npm start
+        % npm run start
 ```
 
 ### Generate using Mongo
@@ -211,15 +211,19 @@ Run the following commands to run the frontend:
 
 ...
 
-Run the following commands to run the service:
-    % cd example/alembic/output/backend
+Run Backend (Poetry):
+    % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend
     % poetry install && poetry update
-    % poetry install && poetry run uvicorn service:app --reload --port 8000
+    % poetry run uvicorn service:app --reload --port 8000
 
-Run the following commands to run the frontend:
-    % cd example/alembic/output/reservations-app
-    % npm install
-    % npm start
+Run Backend (Docker) (Make sure to fill out the generated .env file!):
+    % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend
+    % docker build -t reservations-app .
+    % docker run -p 8000:8000 reservations-app
+
+Run Frontend (NPM):
+    % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app
+    % npm install && npm run start
 ```
 
 ## Running
@@ -230,15 +234,14 @@ Run the following commands to run the frontend:
 ```
 % cd example/alembic/output/backend
 % poetry install && poetry update
-% poetry install && poetry run uvicorn service:app --reload --port 8000
+% poetry run uvicorn service:app --reload --port 8000
 ```
 
 **Docker:**
-
 ```
 % cd example/alembic/output/backend
-% docker build -t myfastapiapp .
-% docker run -p 8000:8000 myfastapiapp
+% docker build -t reservations-app .
+% docker run -p 8000:8000 reservations-app
 ```
 
 To view the generated OpenAPI documentation, navigate to [http://localhost:8000/docs](http://localhost:8000/docs).
@@ -247,8 +250,7 @@ To view the generated OpenAPI documentation, navigate to [http://localhost:8000/
 
 ```
 % cd example/alembic/output/reservations-app
-% npm install
-% npm start
+% npm install && npm run start
 ```
 
 ### Regenerating Templated Files

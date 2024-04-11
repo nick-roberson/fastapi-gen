@@ -34,6 +34,12 @@ RUN adduser \
 COPY pyproject.toml poetry.lock ./
 COPY requirements.txt ./
 
+# Copy over environment variables from user environment
+COPY .env ./
+
+# Load environment variables
+RUN set -o allexport; source .env; set +o allexport
+
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
 # Leverage a bind mount to requirements.txt to avoid having to copy them into
@@ -52,4 +58,4 @@ COPY . .
 EXPOSE 8000
 
 # Run the application.
-CMD uvicorn "backend.service:app" --reload --port 8000
+CMD uvicorn "service:app" --reload --port 8000

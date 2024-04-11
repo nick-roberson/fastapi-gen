@@ -38,6 +38,7 @@ class BackendGenerator:
 
     # Docker files
     DOCKERFILES: List[str] = [
+        ".env",
         "Dockerfile",
         "compose.yml",
         ".dockerignore",
