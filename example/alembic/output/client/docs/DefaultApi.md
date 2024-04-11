@@ -4,21 +4,37 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**create_reservation_async_reservation_async_post**](DefaultApi.md#create_reservation_async_reservation_async_post) | **POST** /reservation/async | Create Reservation Async
 [**create_reservation_reservation_post**](DefaultApi.md#create_reservation_reservation_post) | **POST** /reservation | Create Reservation
+[**create_reservations_async_reservations_async_post**](DefaultApi.md#create_reservations_async_reservations_async_post) | **POST** /reservations/async | Create Reservations Async
 [**create_reservations_reservations_post**](DefaultApi.md#create_reservations_reservations_post) | **POST** /reservations | Create Reservations
+[**create_restaurant_async_restaurant_async_post**](DefaultApi.md#create_restaurant_async_restaurant_async_post) | **POST** /restaurant/async | Create Restaurant Async
 [**create_restaurant_restaurant_post**](DefaultApi.md#create_restaurant_restaurant_post) | **POST** /restaurant | Create Restaurant
+[**create_restaurants_async_restaurants_async_post**](DefaultApi.md#create_restaurants_async_restaurants_async_post) | **POST** /restaurants/async | Create Restaurants Async
 [**create_restaurants_restaurants_post**](DefaultApi.md#create_restaurants_restaurants_post) | **POST** /restaurants | Create Restaurants
+[**create_review_async_review_async_post**](DefaultApi.md#create_review_async_review_async_post) | **POST** /review/async | Create Review Async
 [**create_review_review_post**](DefaultApi.md#create_review_review_post) | **POST** /review | Create Review
+[**create_reviews_async_reviews_async_post**](DefaultApi.md#create_reviews_async_reviews_async_post) | **POST** /reviews/async | Create Reviews Async
 [**create_reviews_reviews_post**](DefaultApi.md#create_reviews_reviews_post) | **POST** /reviews | Create Reviews
+[**create_user_async_user_async_post**](DefaultApi.md#create_user_async_user_async_post) | **POST** /user/async | Create User Async
 [**create_user_user_post**](DefaultApi.md#create_user_user_post) | **POST** /user | Create User
+[**create_users_async_users_async_post**](DefaultApi.md#create_users_async_users_async_post) | **POST** /users/async | Create Users Async
 [**create_users_users_post**](DefaultApi.md#create_users_users_post) | **POST** /users | Create Users
+[**delete_reservation_async_reservation_async_delete**](DefaultApi.md#delete_reservation_async_reservation_async_delete) | **DELETE** /reservation/async | Delete Reservation Async
 [**delete_reservation_reservation_delete**](DefaultApi.md#delete_reservation_reservation_delete) | **DELETE** /reservation | Delete Reservation
+[**delete_reservations_async_reservations_async_delete**](DefaultApi.md#delete_reservations_async_reservations_async_delete) | **DELETE** /reservations/async | Delete Reservations Async
 [**delete_reservations_reservations_delete**](DefaultApi.md#delete_reservations_reservations_delete) | **DELETE** /reservations | Delete Reservations
+[**delete_restaurant_async_restaurant_async_delete**](DefaultApi.md#delete_restaurant_async_restaurant_async_delete) | **DELETE** /restaurant/async | Delete Restaurant Async
 [**delete_restaurant_restaurant_delete**](DefaultApi.md#delete_restaurant_restaurant_delete) | **DELETE** /restaurant | Delete Restaurant
+[**delete_restaurants_async_restaurants_async_delete**](DefaultApi.md#delete_restaurants_async_restaurants_async_delete) | **DELETE** /restaurants/async | Delete Restaurants Async
 [**delete_restaurants_restaurants_delete**](DefaultApi.md#delete_restaurants_restaurants_delete) | **DELETE** /restaurants | Delete Restaurants
+[**delete_review_async_review_async_delete**](DefaultApi.md#delete_review_async_review_async_delete) | **DELETE** /review/async | Delete Review Async
 [**delete_review_review_delete**](DefaultApi.md#delete_review_review_delete) | **DELETE** /review | Delete Review
+[**delete_reviews_async_reviews_async_delete**](DefaultApi.md#delete_reviews_async_reviews_async_delete) | **DELETE** /reviews/async | Delete Reviews Async
 [**delete_reviews_reviews_delete**](DefaultApi.md#delete_reviews_reviews_delete) | **DELETE** /reviews | Delete Reviews
+[**delete_user_async_user_async_delete**](DefaultApi.md#delete_user_async_user_async_delete) | **DELETE** /user/async | Delete User Async
 [**delete_user_user_delete**](DefaultApi.md#delete_user_user_delete) | **DELETE** /user | Delete User
+[**delete_users_async_users_async_delete**](DefaultApi.md#delete_users_async_users_async_delete) | **DELETE** /users/async | Delete Users Async
 [**delete_users_users_delete**](DefaultApi.md#delete_users_users_delete) | **DELETE** /users | Delete Users
 [**get_reservation_reservation_get**](DefaultApi.md#get_reservation_reservation_get) | **GET** /reservation | Get Reservation
 [**get_reservations_reservations_get**](DefaultApi.md#get_reservations_reservations_get) | **GET** /reservations | Get Reservations
@@ -28,16 +44,94 @@ Method | HTTP request | Description
 [**get_reviews_reviews_get**](DefaultApi.md#get_reviews_reviews_get) | **GET** /reviews | Get Reviews
 [**get_user_user_get**](DefaultApi.md#get_user_user_get) | **GET** /user | Get User
 [**get_users_users_get**](DefaultApi.md#get_users_users_get) | **GET** /users | Get Users
+[**health_health_get**](DefaultApi.md#health_health_get) | **GET** /health | Health
 [**root_get**](DefaultApi.md#root_get) | **GET** / | Root
+[**update_reservation_async_reservation_async_put**](DefaultApi.md#update_reservation_async_reservation_async_put) | **PUT** /reservation/async | Update Reservation Async
 [**update_reservation_reservation_put**](DefaultApi.md#update_reservation_reservation_put) | **PUT** /reservation | Update Reservation
+[**update_reservations_async_reservations_async_put**](DefaultApi.md#update_reservations_async_reservations_async_put) | **PUT** /reservations/async | Update Reservations Async
 [**update_reservations_reservations_put**](DefaultApi.md#update_reservations_reservations_put) | **PUT** /reservations | Update Reservations
+[**update_restaurant_async_restaurant_async_put**](DefaultApi.md#update_restaurant_async_restaurant_async_put) | **PUT** /restaurant/async | Update Restaurant Async
 [**update_restaurant_restaurant_put**](DefaultApi.md#update_restaurant_restaurant_put) | **PUT** /restaurant | Update Restaurant
+[**update_restaurants_async_restaurants_async_put**](DefaultApi.md#update_restaurants_async_restaurants_async_put) | **PUT** /restaurants/async | Update Restaurants Async
 [**update_restaurants_restaurants_put**](DefaultApi.md#update_restaurants_restaurants_put) | **PUT** /restaurants | Update Restaurants
+[**update_review_async_review_async_put**](DefaultApi.md#update_review_async_review_async_put) | **PUT** /review/async | Update Review Async
 [**update_review_review_put**](DefaultApi.md#update_review_review_put) | **PUT** /review | Update Review
+[**update_reviews_async_reviews_async_put**](DefaultApi.md#update_reviews_async_reviews_async_put) | **PUT** /reviews/async | Update Reviews Async
 [**update_reviews_reviews_put**](DefaultApi.md#update_reviews_reviews_put) | **PUT** /reviews | Update Reviews
+[**update_user_async_user_async_put**](DefaultApi.md#update_user_async_user_async_put) | **PUT** /user/async | Update User Async
 [**update_user_user_put**](DefaultApi.md#update_user_user_put) | **PUT** /user | Update User
+[**update_users_async_users_async_put**](DefaultApi.md#update_users_async_users_async_put) | **PUT** /users/async | Update Users Async
 [**update_users_users_put**](DefaultApi.md#update_users_users_put) | **PUT** /users | Update Users
 
+
+# **create_reservation_async_reservation_async_post**
+> object create_reservation_async_reservation_async_post(reservation)
+
+Create Reservation Async
+
+Create a Reservation asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.reservation import Reservation
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    reservation = openapi_client.Reservation() # Reservation |
+
+    try:
+        # Create Reservation Async
+        api_response = api_instance.create_reservation_async_reservation_async_post(reservation)
+        print("The response of DefaultApi->create_reservation_async_reservation_async_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->create_reservation_async_reservation_async_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **reservation** | [**Reservation**](Reservation.md)|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_reservation_reservation_post**
 > Reservation create_reservation_reservation_post(reservation)
@@ -89,6 +183,75 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Reservation**](Reservation.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_reservations_async_reservations_async_post**
+> object create_reservations_async_reservations_async_post(reservation)
+
+Create Reservations Async
+
+Create multiple Reservations asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.reservation import Reservation
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    reservation = [openapi_client.Reservation()] # List[Reservation] |
+
+    try:
+        # Create Reservations Async
+        api_response = api_instance.create_reservations_async_reservations_async_post(reservation)
+        print("The response of DefaultApi->create_reservations_async_reservations_async_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->create_reservations_async_reservations_async_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **reservation** | [**List[Reservation]**](Reservation.md)|  |
+
+### Return type
+
+**object**
 
 ### Authorization
 
@@ -177,6 +340,75 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **create_restaurant_async_restaurant_async_post**
+> object create_restaurant_async_restaurant_async_post(restaurant)
+
+Create Restaurant Async
+
+Create a Restaurant asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.restaurant import Restaurant
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    restaurant = openapi_client.Restaurant() # Restaurant |
+
+    try:
+        # Create Restaurant Async
+        api_response = api_instance.create_restaurant_async_restaurant_async_post(restaurant)
+        print("The response of DefaultApi->create_restaurant_async_restaurant_async_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->create_restaurant_async_restaurant_async_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **restaurant** | [**Restaurant**](Restaurant.md)|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **create_restaurant_restaurant_post**
 > Restaurant create_restaurant_restaurant_post(restaurant)
 
@@ -227,6 +459,75 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Restaurant**](Restaurant.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_restaurants_async_restaurants_async_post**
+> object create_restaurants_async_restaurants_async_post(restaurant)
+
+Create Restaurants Async
+
+Create multiple Restaurants asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.restaurant import Restaurant
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    restaurant = [openapi_client.Restaurant()] # List[Restaurant] |
+
+    try:
+        # Create Restaurants Async
+        api_response = api_instance.create_restaurants_async_restaurants_async_post(restaurant)
+        print("The response of DefaultApi->create_restaurants_async_restaurants_async_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->create_restaurants_async_restaurants_async_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **restaurant** | [**List[Restaurant]**](Restaurant.md)|  |
+
+### Return type
+
+**object**
 
 ### Authorization
 
@@ -315,6 +616,75 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **create_review_async_review_async_post**
+> object create_review_async_review_async_post(review)
+
+Create Review Async
+
+Create a Review asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.review import Review
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    review = openapi_client.Review() # Review |
+
+    try:
+        # Create Review Async
+        api_response = api_instance.create_review_async_review_async_post(review)
+        print("The response of DefaultApi->create_review_async_review_async_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->create_review_async_review_async_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **review** | [**Review**](Review.md)|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **create_review_review_post**
 > Review create_review_review_post(review)
 
@@ -365,6 +735,75 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Review**](Review.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_reviews_async_reviews_async_post**
+> object create_reviews_async_reviews_async_post(review)
+
+Create Reviews Async
+
+Create multiple Reviews asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.review import Review
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    review = [openapi_client.Review()] # List[Review] |
+
+    try:
+        # Create Reviews Async
+        api_response = api_instance.create_reviews_async_reviews_async_post(review)
+        print("The response of DefaultApi->create_reviews_async_reviews_async_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->create_reviews_async_reviews_async_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **review** | [**List[Review]**](Review.md)|  |
+
+### Return type
+
+**object**
 
 ### Authorization
 
@@ -453,6 +892,75 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **create_user_async_user_async_post**
+> object create_user_async_user_async_post(user)
+
+Create User Async
+
+Create a User asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.user import User
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    user = openapi_client.User() # User |
+
+    try:
+        # Create User Async
+        api_response = api_instance.create_user_async_user_async_post(user)
+        print("The response of DefaultApi->create_user_async_user_async_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->create_user_async_user_async_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **user** | [**User**](User.md)|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **create_user_user_post**
 > User create_user_user_post(user)
 
@@ -503,6 +1011,75 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**User**](User.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_users_async_users_async_post**
+> object create_users_async_users_async_post(user)
+
+Create Users Async
+
+Create multiple Users asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.user import User
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    user = [openapi_client.User()] # List[User] |
+
+    try:
+        # Create Users Async
+        api_response = api_instance.create_users_async_users_async_post(user)
+        print("The response of DefaultApi->create_users_async_users_async_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->create_users_async_users_async_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **user** | [**List[User]**](User.md)|  |
+
+### Return type
+
+**object**
 
 ### Authorization
 
@@ -591,6 +1168,74 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **delete_reservation_async_reservation_async_delete**
+> object delete_reservation_async_reservation_async_delete(reservation_id)
+
+Delete Reservation Async
+
+Delete a Reservation asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    reservation_id = 'reservation_id_example' # str |
+
+    try:
+        # Delete Reservation Async
+        api_response = api_instance.delete_reservation_async_reservation_async_delete(reservation_id)
+        print("The response of DefaultApi->delete_reservation_async_reservation_async_delete:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->delete_reservation_async_reservation_async_delete: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **reservation_id** | **str**|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **delete_reservation_reservation_delete**
 > Reservation delete_reservation_reservation_delete(reservation_id)
 
@@ -649,6 +1294,74 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_reservations_async_reservations_async_delete**
+> object delete_reservations_async_reservations_async_delete(request_body)
+
+Delete Reservations Async
+
+Delete multiple Reservations asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    request_body = ['request_body_example'] # List[str] |
+
+    try:
+        # Delete Reservations Async
+        api_response = api_instance.delete_reservations_async_reservations_async_delete(request_body)
+        print("The response of DefaultApi->delete_reservations_async_reservations_async_delete:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->delete_reservations_async_reservations_async_delete: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details
@@ -729,6 +1442,74 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **delete_restaurant_async_restaurant_async_delete**
+> object delete_restaurant_async_restaurant_async_delete(restaurant_id)
+
+Delete Restaurant Async
+
+Delete a Restaurant asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    restaurant_id = 'restaurant_id_example' # str |
+
+    try:
+        # Delete Restaurant Async
+        api_response = api_instance.delete_restaurant_async_restaurant_async_delete(restaurant_id)
+        print("The response of DefaultApi->delete_restaurant_async_restaurant_async_delete:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->delete_restaurant_async_restaurant_async_delete: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **restaurant_id** | **str**|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **delete_restaurant_restaurant_delete**
 > Restaurant delete_restaurant_restaurant_delete(restaurant_id)
 
@@ -787,6 +1568,74 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_restaurants_async_restaurants_async_delete**
+> object delete_restaurants_async_restaurants_async_delete(request_body)
+
+Delete Restaurants Async
+
+Delete multiple Restaurants asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    request_body = ['request_body_example'] # List[str] |
+
+    try:
+        # Delete Restaurants Async
+        api_response = api_instance.delete_restaurants_async_restaurants_async_delete(request_body)
+        print("The response of DefaultApi->delete_restaurants_async_restaurants_async_delete:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->delete_restaurants_async_restaurants_async_delete: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details
@@ -867,6 +1716,74 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **delete_review_async_review_async_delete**
+> object delete_review_async_review_async_delete(review_id)
+
+Delete Review Async
+
+Delete a Review asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    review_id = 'review_id_example' # str |
+
+    try:
+        # Delete Review Async
+        api_response = api_instance.delete_review_async_review_async_delete(review_id)
+        print("The response of DefaultApi->delete_review_async_review_async_delete:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->delete_review_async_review_async_delete: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **review_id** | **str**|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **delete_review_review_delete**
 > Review delete_review_review_delete(review_id)
 
@@ -925,6 +1842,74 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_reviews_async_reviews_async_delete**
+> object delete_reviews_async_reviews_async_delete(request_body)
+
+Delete Reviews Async
+
+Delete multiple Reviews asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    request_body = ['request_body_example'] # List[str] |
+
+    try:
+        # Delete Reviews Async
+        api_response = api_instance.delete_reviews_async_reviews_async_delete(request_body)
+        print("The response of DefaultApi->delete_reviews_async_reviews_async_delete:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->delete_reviews_async_reviews_async_delete: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details
@@ -1005,6 +1990,74 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **delete_user_async_user_async_delete**
+> object delete_user_async_user_async_delete(user_id)
+
+Delete User Async
+
+Delete a User asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    user_id = 'user_id_example' # str |
+
+    try:
+        # Delete User Async
+        api_response = api_instance.delete_user_async_user_async_delete(user_id)
+        print("The response of DefaultApi->delete_user_async_user_async_delete:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->delete_user_async_user_async_delete: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **user_id** | **str**|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **delete_user_user_delete**
 > User delete_user_user_delete(user_id)
 
@@ -1063,6 +2116,74 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_users_async_users_async_delete**
+> object delete_users_async_users_async_delete(request_body)
+
+Delete Users Async
+
+Delete multiple Users asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    request_body = ['request_body_example'] # List[str] |
+
+    try:
+        # Delete Users Async
+        api_response = api_instance.delete_users_async_users_async_delete(request_body)
+        print("The response of DefaultApi->delete_users_async_users_async_delete:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->delete_users_async_users_async_delete: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details
@@ -1675,6 +2796,69 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **health_health_get**
+> object health_health_get()
+
+Health
+
+Health Endpoint
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+
+    try:
+        # Health
+        api_response = api_instance.health_health_get()
+        print("The response of DefaultApi->health_health_get:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->health_health_get: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **root_get**
 > object root_get()
 
@@ -1738,6 +2922,75 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **update_reservation_async_reservation_async_put**
+> object update_reservation_async_reservation_async_put(reservation)
+
+Update Reservation Async
+
+Update a Reservation asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.reservation import Reservation
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    reservation = openapi_client.Reservation() # Reservation |
+
+    try:
+        # Update Reservation Async
+        api_response = api_instance.update_reservation_async_reservation_async_put(reservation)
+        print("The response of DefaultApi->update_reservation_async_reservation_async_put:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->update_reservation_async_reservation_async_put: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **reservation** | [**Reservation**](Reservation.md)|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **update_reservation_reservation_put**
 > Reservation update_reservation_reservation_put(reservation)
 
@@ -1788,6 +3041,75 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Reservation**](Reservation.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_reservations_async_reservations_async_put**
+> object update_reservations_async_reservations_async_put(reservation)
+
+Update Reservations Async
+
+Update multiple Reservations asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.reservation import Reservation
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    reservation = [openapi_client.Reservation()] # List[Reservation] |
+
+    try:
+        # Update Reservations Async
+        api_response = api_instance.update_reservations_async_reservations_async_put(reservation)
+        print("The response of DefaultApi->update_reservations_async_reservations_async_put:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->update_reservations_async_reservations_async_put: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **reservation** | [**List[Reservation]**](Reservation.md)|  |
+
+### Return type
+
+**object**
 
 ### Authorization
 
@@ -1876,6 +3198,75 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **update_restaurant_async_restaurant_async_put**
+> object update_restaurant_async_restaurant_async_put(restaurant)
+
+Update Restaurant Async
+
+Update a Restaurant asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.restaurant import Restaurant
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    restaurant = openapi_client.Restaurant() # Restaurant |
+
+    try:
+        # Update Restaurant Async
+        api_response = api_instance.update_restaurant_async_restaurant_async_put(restaurant)
+        print("The response of DefaultApi->update_restaurant_async_restaurant_async_put:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->update_restaurant_async_restaurant_async_put: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **restaurant** | [**Restaurant**](Restaurant.md)|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **update_restaurant_restaurant_put**
 > Restaurant update_restaurant_restaurant_put(restaurant)
 
@@ -1926,6 +3317,75 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Restaurant**](Restaurant.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_restaurants_async_restaurants_async_put**
+> object update_restaurants_async_restaurants_async_put(restaurant)
+
+Update Restaurants Async
+
+Update multiple Restaurants asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.restaurant import Restaurant
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    restaurant = [openapi_client.Restaurant()] # List[Restaurant] |
+
+    try:
+        # Update Restaurants Async
+        api_response = api_instance.update_restaurants_async_restaurants_async_put(restaurant)
+        print("The response of DefaultApi->update_restaurants_async_restaurants_async_put:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->update_restaurants_async_restaurants_async_put: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **restaurant** | [**List[Restaurant]**](Restaurant.md)|  |
+
+### Return type
+
+**object**
 
 ### Authorization
 
@@ -2014,6 +3474,75 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **update_review_async_review_async_put**
+> object update_review_async_review_async_put(review)
+
+Update Review Async
+
+Update a Review asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.review import Review
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    review = openapi_client.Review() # Review |
+
+    try:
+        # Update Review Async
+        api_response = api_instance.update_review_async_review_async_put(review)
+        print("The response of DefaultApi->update_review_async_review_async_put:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->update_review_async_review_async_put: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **review** | [**Review**](Review.md)|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **update_review_review_put**
 > Review update_review_review_put(review)
 
@@ -2064,6 +3593,75 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Review**](Review.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_reviews_async_reviews_async_put**
+> object update_reviews_async_reviews_async_put(review)
+
+Update Reviews Async
+
+Update multiple Reviews asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.review import Review
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    review = [openapi_client.Review()] # List[Review] |
+
+    try:
+        # Update Reviews Async
+        api_response = api_instance.update_reviews_async_reviews_async_put(review)
+        print("The response of DefaultApi->update_reviews_async_reviews_async_put:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->update_reviews_async_reviews_async_put: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **review** | [**List[Review]**](Review.md)|  |
+
+### Return type
+
+**object**
 
 ### Authorization
 
@@ -2152,6 +3750,75 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **update_user_async_user_async_put**
+> object update_user_async_user_async_put(user)
+
+Update User Async
+
+Update a User asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.user import User
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    user = openapi_client.User() # User |
+
+    try:
+        # Update User Async
+        api_response = api_instance.update_user_async_user_async_put(user)
+        print("The response of DefaultApi->update_user_async_user_async_put:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->update_user_async_user_async_put: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **user** | [**User**](User.md)|  |
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **update_user_user_put**
 > User update_user_user_put(user)
 
@@ -2202,6 +3869,75 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**User**](User.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_users_async_users_async_put**
+> object update_users_async_users_async_put(user)
+
+Update Users Async
+
+Update multiple Users asynchronously
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.user import User
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.DefaultApi(api_client)
+    user = [openapi_client.User()] # List[User] |
+
+    try:
+        # Update Users Async
+        api_response = api_instance.update_users_async_users_async_put(user)
+        print("The response of DefaultApi->update_users_async_users_async_put:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->update_users_async_users_async_put: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **user** | [**List[User]**](User.md)|  |
+
+### Return type
+
+**object**
 
 ### Authorization
 

@@ -70,12 +70,12 @@ with openapi_client.ApiClient(configuration) as api_client:
     reservation = openapi_client.Reservation() # Reservation |
 
     try:
-        # Create Reservation
-        api_response = api_instance.create_reservation_reservation_post(reservation)
-        print("The response of DefaultApi->create_reservation_reservation_post:\n")
+        # Create Reservation Async
+        api_response = api_instance.create_reservation_async_reservation_async_post(reservation)
+        print("The response of DefaultApi->create_reservation_async_reservation_async_post:\n")
         pprint(api_response)
     except ApiException as e:
-        print("Exception when calling DefaultApi->create_reservation_reservation_post: %s\n" % e)
+        print("Exception when calling DefaultApi->create_reservation_async_reservation_async_post: %s\n" % e)
 
 ```
 
@@ -85,21 +85,37 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*DefaultApi* | [**create_reservation_async_reservation_async_post**](docs/DefaultApi.md#create_reservation_async_reservation_async_post) | **POST** /reservation/async | Create Reservation Async
 *DefaultApi* | [**create_reservation_reservation_post**](docs/DefaultApi.md#create_reservation_reservation_post) | **POST** /reservation | Create Reservation
+*DefaultApi* | [**create_reservations_async_reservations_async_post**](docs/DefaultApi.md#create_reservations_async_reservations_async_post) | **POST** /reservations/async | Create Reservations Async
 *DefaultApi* | [**create_reservations_reservations_post**](docs/DefaultApi.md#create_reservations_reservations_post) | **POST** /reservations | Create Reservations
+*DefaultApi* | [**create_restaurant_async_restaurant_async_post**](docs/DefaultApi.md#create_restaurant_async_restaurant_async_post) | **POST** /restaurant/async | Create Restaurant Async
 *DefaultApi* | [**create_restaurant_restaurant_post**](docs/DefaultApi.md#create_restaurant_restaurant_post) | **POST** /restaurant | Create Restaurant
+*DefaultApi* | [**create_restaurants_async_restaurants_async_post**](docs/DefaultApi.md#create_restaurants_async_restaurants_async_post) | **POST** /restaurants/async | Create Restaurants Async
 *DefaultApi* | [**create_restaurants_restaurants_post**](docs/DefaultApi.md#create_restaurants_restaurants_post) | **POST** /restaurants | Create Restaurants
+*DefaultApi* | [**create_review_async_review_async_post**](docs/DefaultApi.md#create_review_async_review_async_post) | **POST** /review/async | Create Review Async
 *DefaultApi* | [**create_review_review_post**](docs/DefaultApi.md#create_review_review_post) | **POST** /review | Create Review
+*DefaultApi* | [**create_reviews_async_reviews_async_post**](docs/DefaultApi.md#create_reviews_async_reviews_async_post) | **POST** /reviews/async | Create Reviews Async
 *DefaultApi* | [**create_reviews_reviews_post**](docs/DefaultApi.md#create_reviews_reviews_post) | **POST** /reviews | Create Reviews
+*DefaultApi* | [**create_user_async_user_async_post**](docs/DefaultApi.md#create_user_async_user_async_post) | **POST** /user/async | Create User Async
 *DefaultApi* | [**create_user_user_post**](docs/DefaultApi.md#create_user_user_post) | **POST** /user | Create User
+*DefaultApi* | [**create_users_async_users_async_post**](docs/DefaultApi.md#create_users_async_users_async_post) | **POST** /users/async | Create Users Async
 *DefaultApi* | [**create_users_users_post**](docs/DefaultApi.md#create_users_users_post) | **POST** /users | Create Users
+*DefaultApi* | [**delete_reservation_async_reservation_async_delete**](docs/DefaultApi.md#delete_reservation_async_reservation_async_delete) | **DELETE** /reservation/async | Delete Reservation Async
 *DefaultApi* | [**delete_reservation_reservation_delete**](docs/DefaultApi.md#delete_reservation_reservation_delete) | **DELETE** /reservation | Delete Reservation
+*DefaultApi* | [**delete_reservations_async_reservations_async_delete**](docs/DefaultApi.md#delete_reservations_async_reservations_async_delete) | **DELETE** /reservations/async | Delete Reservations Async
 *DefaultApi* | [**delete_reservations_reservations_delete**](docs/DefaultApi.md#delete_reservations_reservations_delete) | **DELETE** /reservations | Delete Reservations
+*DefaultApi* | [**delete_restaurant_async_restaurant_async_delete**](docs/DefaultApi.md#delete_restaurant_async_restaurant_async_delete) | **DELETE** /restaurant/async | Delete Restaurant Async
 *DefaultApi* | [**delete_restaurant_restaurant_delete**](docs/DefaultApi.md#delete_restaurant_restaurant_delete) | **DELETE** /restaurant | Delete Restaurant
+*DefaultApi* | [**delete_restaurants_async_restaurants_async_delete**](docs/DefaultApi.md#delete_restaurants_async_restaurants_async_delete) | **DELETE** /restaurants/async | Delete Restaurants Async
 *DefaultApi* | [**delete_restaurants_restaurants_delete**](docs/DefaultApi.md#delete_restaurants_restaurants_delete) | **DELETE** /restaurants | Delete Restaurants
+*DefaultApi* | [**delete_review_async_review_async_delete**](docs/DefaultApi.md#delete_review_async_review_async_delete) | **DELETE** /review/async | Delete Review Async
 *DefaultApi* | [**delete_review_review_delete**](docs/DefaultApi.md#delete_review_review_delete) | **DELETE** /review | Delete Review
+*DefaultApi* | [**delete_reviews_async_reviews_async_delete**](docs/DefaultApi.md#delete_reviews_async_reviews_async_delete) | **DELETE** /reviews/async | Delete Reviews Async
 *DefaultApi* | [**delete_reviews_reviews_delete**](docs/DefaultApi.md#delete_reviews_reviews_delete) | **DELETE** /reviews | Delete Reviews
+*DefaultApi* | [**delete_user_async_user_async_delete**](docs/DefaultApi.md#delete_user_async_user_async_delete) | **DELETE** /user/async | Delete User Async
 *DefaultApi* | [**delete_user_user_delete**](docs/DefaultApi.md#delete_user_user_delete) | **DELETE** /user | Delete User
+*DefaultApi* | [**delete_users_async_users_async_delete**](docs/DefaultApi.md#delete_users_async_users_async_delete) | **DELETE** /users/async | Delete Users Async
 *DefaultApi* | [**delete_users_users_delete**](docs/DefaultApi.md#delete_users_users_delete) | **DELETE** /users | Delete Users
 *DefaultApi* | [**get_reservation_reservation_get**](docs/DefaultApi.md#get_reservation_reservation_get) | **GET** /reservation | Get Reservation
 *DefaultApi* | [**get_reservations_reservations_get**](docs/DefaultApi.md#get_reservations_reservations_get) | **GET** /reservations | Get Reservations
@@ -109,14 +125,23 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**get_reviews_reviews_get**](docs/DefaultApi.md#get_reviews_reviews_get) | **GET** /reviews | Get Reviews
 *DefaultApi* | [**get_user_user_get**](docs/DefaultApi.md#get_user_user_get) | **GET** /user | Get User
 *DefaultApi* | [**get_users_users_get**](docs/DefaultApi.md#get_users_users_get) | **GET** /users | Get Users
+*DefaultApi* | [**health_health_get**](docs/DefaultApi.md#health_health_get) | **GET** /health | Health
 *DefaultApi* | [**root_get**](docs/DefaultApi.md#root_get) | **GET** / | Root
+*DefaultApi* | [**update_reservation_async_reservation_async_put**](docs/DefaultApi.md#update_reservation_async_reservation_async_put) | **PUT** /reservation/async | Update Reservation Async
 *DefaultApi* | [**update_reservation_reservation_put**](docs/DefaultApi.md#update_reservation_reservation_put) | **PUT** /reservation | Update Reservation
+*DefaultApi* | [**update_reservations_async_reservations_async_put**](docs/DefaultApi.md#update_reservations_async_reservations_async_put) | **PUT** /reservations/async | Update Reservations Async
 *DefaultApi* | [**update_reservations_reservations_put**](docs/DefaultApi.md#update_reservations_reservations_put) | **PUT** /reservations | Update Reservations
+*DefaultApi* | [**update_restaurant_async_restaurant_async_put**](docs/DefaultApi.md#update_restaurant_async_restaurant_async_put) | **PUT** /restaurant/async | Update Restaurant Async
 *DefaultApi* | [**update_restaurant_restaurant_put**](docs/DefaultApi.md#update_restaurant_restaurant_put) | **PUT** /restaurant | Update Restaurant
+*DefaultApi* | [**update_restaurants_async_restaurants_async_put**](docs/DefaultApi.md#update_restaurants_async_restaurants_async_put) | **PUT** /restaurants/async | Update Restaurants Async
 *DefaultApi* | [**update_restaurants_restaurants_put**](docs/DefaultApi.md#update_restaurants_restaurants_put) | **PUT** /restaurants | Update Restaurants
+*DefaultApi* | [**update_review_async_review_async_put**](docs/DefaultApi.md#update_review_async_review_async_put) | **PUT** /review/async | Update Review Async
 *DefaultApi* | [**update_review_review_put**](docs/DefaultApi.md#update_review_review_put) | **PUT** /review | Update Review
+*DefaultApi* | [**update_reviews_async_reviews_async_put**](docs/DefaultApi.md#update_reviews_async_reviews_async_put) | **PUT** /reviews/async | Update Reviews Async
 *DefaultApi* | [**update_reviews_reviews_put**](docs/DefaultApi.md#update_reviews_reviews_put) | **PUT** /reviews | Update Reviews
+*DefaultApi* | [**update_user_async_user_async_put**](docs/DefaultApi.md#update_user_async_user_async_put) | **PUT** /user/async | Update User Async
 *DefaultApi* | [**update_user_user_put**](docs/DefaultApi.md#update_user_user_put) | **PUT** /user | Update User
+*DefaultApi* | [**update_users_async_users_async_put**](docs/DefaultApi.md#update_users_async_users_async_put) | **PUT** /users/async | Update Users Async
 *DefaultApi* | [**update_users_users_put**](docs/DefaultApi.md#update_users_users_put) | **PUT** /users | Update Users
 
 

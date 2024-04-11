@@ -33,64 +33,128 @@ import {
   UserToJSON,
 } from "../models/index";
 
+export interface CreateReservationAsyncReservationAsyncPostRequest {
+  reservation: Reservation;
+}
+
 export interface CreateReservationReservationPostRequest {
   reservation: Reservation;
+}
+
+export interface CreateReservationsAsyncReservationsAsyncPostRequest {
+  reservation: Array<Reservation>;
 }
 
 export interface CreateReservationsReservationsPostRequest {
   reservation: Array<Reservation>;
 }
 
+export interface CreateRestaurantAsyncRestaurantAsyncPostRequest {
+  restaurant: Restaurant;
+}
+
 export interface CreateRestaurantRestaurantPostRequest {
   restaurant: Restaurant;
+}
+
+export interface CreateRestaurantsAsyncRestaurantsAsyncPostRequest {
+  restaurant: Array<Restaurant>;
 }
 
 export interface CreateRestaurantsRestaurantsPostRequest {
   restaurant: Array<Restaurant>;
 }
 
+export interface CreateReviewAsyncReviewAsyncPostRequest {
+  review: Review;
+}
+
 export interface CreateReviewReviewPostRequest {
   review: Review;
+}
+
+export interface CreateReviewsAsyncReviewsAsyncPostRequest {
+  review: Array<Review>;
 }
 
 export interface CreateReviewsReviewsPostRequest {
   review: Array<Review>;
 }
 
+export interface CreateUserAsyncUserAsyncPostRequest {
+  user: User;
+}
+
 export interface CreateUserUserPostRequest {
   user: User;
+}
+
+export interface CreateUsersAsyncUsersAsyncPostRequest {
+  user: Array<User>;
 }
 
 export interface CreateUsersUsersPostRequest {
   user: Array<User>;
 }
 
+export interface DeleteReservationAsyncReservationAsyncDeleteRequest {
+  reservationId: string;
+}
+
 export interface DeleteReservationReservationDeleteRequest {
   reservationId: string;
+}
+
+export interface DeleteReservationsAsyncReservationsAsyncDeleteRequest {
+  requestBody: Array<string>;
 }
 
 export interface DeleteReservationsReservationsDeleteRequest {
   requestBody: Array<string>;
 }
 
+export interface DeleteRestaurantAsyncRestaurantAsyncDeleteRequest {
+  restaurantId: string;
+}
+
 export interface DeleteRestaurantRestaurantDeleteRequest {
   restaurantId: string;
+}
+
+export interface DeleteRestaurantsAsyncRestaurantsAsyncDeleteRequest {
+  requestBody: Array<string>;
 }
 
 export interface DeleteRestaurantsRestaurantsDeleteRequest {
   requestBody: Array<string>;
 }
 
+export interface DeleteReviewAsyncReviewAsyncDeleteRequest {
+  reviewId: string;
+}
+
 export interface DeleteReviewReviewDeleteRequest {
   reviewId: string;
+}
+
+export interface DeleteReviewsAsyncReviewsAsyncDeleteRequest {
+  requestBody: Array<string>;
 }
 
 export interface DeleteReviewsReviewsDeleteRequest {
   requestBody: Array<string>;
 }
 
+export interface DeleteUserAsyncUserAsyncDeleteRequest {
+  userId: string;
+}
+
 export interface DeleteUserUserDeleteRequest {
   userId: string;
+}
+
+export interface DeleteUsersAsyncUsersAsyncDeleteRequest {
+  requestBody: Array<string>;
 }
 
 export interface DeleteUsersUsersDeleteRequest {
@@ -113,32 +177,64 @@ export interface GetUserUserGetRequest {
   userId: string;
 }
 
+export interface UpdateReservationAsyncReservationAsyncPutRequest {
+  reservation: Reservation;
+}
+
 export interface UpdateReservationReservationPutRequest {
   reservation: Reservation;
+}
+
+export interface UpdateReservationsAsyncReservationsAsyncPutRequest {
+  reservation: Array<Reservation>;
 }
 
 export interface UpdateReservationsReservationsPutRequest {
   reservation: Array<Reservation>;
 }
 
+export interface UpdateRestaurantAsyncRestaurantAsyncPutRequest {
+  restaurant: Restaurant;
+}
+
 export interface UpdateRestaurantRestaurantPutRequest {
   restaurant: Restaurant;
+}
+
+export interface UpdateRestaurantsAsyncRestaurantsAsyncPutRequest {
+  restaurant: Array<Restaurant>;
 }
 
 export interface UpdateRestaurantsRestaurantsPutRequest {
   restaurant: Array<Restaurant>;
 }
 
+export interface UpdateReviewAsyncReviewAsyncPutRequest {
+  review: Review;
+}
+
 export interface UpdateReviewReviewPutRequest {
   review: Review;
+}
+
+export interface UpdateReviewsAsyncReviewsAsyncPutRequest {
+  review: Array<Review>;
 }
 
 export interface UpdateReviewsReviewsPutRequest {
   review: Array<Review>;
 }
 
+export interface UpdateUserAsyncUserAsyncPutRequest {
+  user: User;
+}
+
 export interface UpdateUserUserPutRequest {
   user: User;
+}
+
+export interface UpdateUsersAsyncUsersAsyncPutRequest {
+  user: Array<User>;
 }
 
 export interface UpdateUsersUsersPutRequest {
@@ -149,6 +245,60 @@ export interface UpdateUsersUsersPutRequest {
  *
  */
 export class DefaultApi extends runtime.BaseAPI {
+  /**
+   * Create a Reservation asynchronously
+   * Create Reservation Async
+   */
+  async createReservationAsyncReservationAsyncPostRaw(
+    requestParameters: CreateReservationAsyncReservationAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["reservation"] == null) {
+      throw new runtime.RequiredError(
+        "reservation",
+        'Required parameter "reservation" was null or undefined when calling createReservationAsyncReservationAsyncPost().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/reservation/async`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: ReservationToJSON(requestParameters["reservation"]),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Create a Reservation asynchronously
+   * Create Reservation Async
+   */
+  async createReservationAsyncReservationAsyncPost(
+    requestParameters: CreateReservationAsyncReservationAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.createReservationAsyncReservationAsyncPostRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
   /**
    * Create a Reservation
    * Create Reservation
@@ -195,6 +345,60 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Reservation> {
     const response = await this.createReservationReservationPostRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
+   * Create multiple Reservations asynchronously
+   * Create Reservations Async
+   */
+  async createReservationsAsyncReservationsAsyncPostRaw(
+    requestParameters: CreateReservationsAsyncReservationsAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["reservation"] == null) {
+      throw new runtime.RequiredError(
+        "reservation",
+        'Required parameter "reservation" was null or undefined when calling createReservationsAsyncReservationsAsyncPost().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/reservations/async`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: requestParameters["reservation"]!.map(ReservationToJSON),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Create multiple Reservations asynchronously
+   * Create Reservations Async
+   */
+  async createReservationsAsyncReservationsAsyncPost(
+    requestParameters: CreateReservationsAsyncReservationsAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.createReservationsAsyncReservationsAsyncPostRaw(
       requestParameters,
       initOverrides,
     );
@@ -254,6 +458,60 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Create a Restaurant asynchronously
+   * Create Restaurant Async
+   */
+  async createRestaurantAsyncRestaurantAsyncPostRaw(
+    requestParameters: CreateRestaurantAsyncRestaurantAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["restaurant"] == null) {
+      throw new runtime.RequiredError(
+        "restaurant",
+        'Required parameter "restaurant" was null or undefined when calling createRestaurantAsyncRestaurantAsyncPost().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/restaurant/async`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: RestaurantToJSON(requestParameters["restaurant"]),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Create a Restaurant asynchronously
+   * Create Restaurant Async
+   */
+  async createRestaurantAsyncRestaurantAsyncPost(
+    requestParameters: CreateRestaurantAsyncRestaurantAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.createRestaurantAsyncRestaurantAsyncPostRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
    * Create a Restaurant
    * Create Restaurant
    */
@@ -299,6 +557,60 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Restaurant> {
     const response = await this.createRestaurantRestaurantPostRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
+   * Create multiple Restaurants asynchronously
+   * Create Restaurants Async
+   */
+  async createRestaurantsAsyncRestaurantsAsyncPostRaw(
+    requestParameters: CreateRestaurantsAsyncRestaurantsAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["restaurant"] == null) {
+      throw new runtime.RequiredError(
+        "restaurant",
+        'Required parameter "restaurant" was null or undefined when calling createRestaurantsAsyncRestaurantsAsyncPost().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/restaurants/async`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: requestParameters["restaurant"]!.map(RestaurantToJSON),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Create multiple Restaurants asynchronously
+   * Create Restaurants Async
+   */
+  async createRestaurantsAsyncRestaurantsAsyncPost(
+    requestParameters: CreateRestaurantsAsyncRestaurantsAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.createRestaurantsAsyncRestaurantsAsyncPostRaw(
       requestParameters,
       initOverrides,
     );
@@ -358,6 +670,60 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Create a Review asynchronously
+   * Create Review Async
+   */
+  async createReviewAsyncReviewAsyncPostRaw(
+    requestParameters: CreateReviewAsyncReviewAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["review"] == null) {
+      throw new runtime.RequiredError(
+        "review",
+        'Required parameter "review" was null or undefined when calling createReviewAsyncReviewAsyncPost().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/review/async`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: ReviewToJSON(requestParameters["review"]),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Create a Review asynchronously
+   * Create Review Async
+   */
+  async createReviewAsyncReviewAsyncPost(
+    requestParameters: CreateReviewAsyncReviewAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.createReviewAsyncReviewAsyncPostRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
    * Create a Review
    * Create Review
    */
@@ -403,6 +769,60 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Review> {
     const response = await this.createReviewReviewPostRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
+   * Create multiple Reviews asynchronously
+   * Create Reviews Async
+   */
+  async createReviewsAsyncReviewsAsyncPostRaw(
+    requestParameters: CreateReviewsAsyncReviewsAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["review"] == null) {
+      throw new runtime.RequiredError(
+        "review",
+        'Required parameter "review" was null or undefined when calling createReviewsAsyncReviewsAsyncPost().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/reviews/async`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: requestParameters["review"]!.map(ReviewToJSON),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Create multiple Reviews asynchronously
+   * Create Reviews Async
+   */
+  async createReviewsAsyncReviewsAsyncPost(
+    requestParameters: CreateReviewsAsyncReviewsAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.createReviewsAsyncReviewsAsyncPostRaw(
       requestParameters,
       initOverrides,
     );
@@ -462,6 +882,60 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Create a User asynchronously
+   * Create User Async
+   */
+  async createUserAsyncUserAsyncPostRaw(
+    requestParameters: CreateUserAsyncUserAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["user"] == null) {
+      throw new runtime.RequiredError(
+        "user",
+        'Required parameter "user" was null or undefined when calling createUserAsyncUserAsyncPost().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/user/async`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: UserToJSON(requestParameters["user"]),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Create a User asynchronously
+   * Create User Async
+   */
+  async createUserAsyncUserAsyncPost(
+    requestParameters: CreateUserAsyncUserAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.createUserAsyncUserAsyncPostRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
    * Create a User
    * Create User
    */
@@ -514,6 +988,60 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Create multiple Users asynchronously
+   * Create Users Async
+   */
+  async createUsersAsyncUsersAsyncPostRaw(
+    requestParameters: CreateUsersAsyncUsersAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["user"] == null) {
+      throw new runtime.RequiredError(
+        "user",
+        'Required parameter "user" was null or undefined when calling createUsersAsyncUsersAsyncPost().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/users/async`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: requestParameters["user"]!.map(UserToJSON),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Create multiple Users asynchronously
+   * Create Users Async
+   */
+  async createUsersAsyncUsersAsyncPost(
+    requestParameters: CreateUsersAsyncUsersAsyncPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.createUsersAsyncUsersAsyncPostRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
    * Create multiple Users
    * Create Users
    */
@@ -559,6 +1087,61 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<User>> {
     const response = await this.createUsersUsersPostRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
+   * Delete a Reservation asynchronously
+   * Delete Reservation Async
+   */
+  async deleteReservationAsyncReservationAsyncDeleteRaw(
+    requestParameters: DeleteReservationAsyncReservationAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["reservationId"] == null) {
+      throw new runtime.RequiredError(
+        "reservationId",
+        'Required parameter "reservationId" was null or undefined when calling deleteReservationAsyncReservationAsyncDelete().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    if (requestParameters["reservationId"] != null) {
+      queryParameters["reservation_id"] = requestParameters["reservationId"];
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/reservation/async`,
+        method: "DELETE",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Delete a Reservation asynchronously
+   * Delete Reservation Async
+   */
+  async deleteReservationAsyncReservationAsyncDelete(
+    requestParameters: DeleteReservationAsyncReservationAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.deleteReservationAsyncReservationAsyncDeleteRaw(
       requestParameters,
       initOverrides,
     );
@@ -619,6 +1202,61 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Delete multiple Reservations asynchronously
+   * Delete Reservations Async
+   */
+  async deleteReservationsAsyncReservationsAsyncDeleteRaw(
+    requestParameters: DeleteReservationsAsyncReservationsAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["requestBody"] == null) {
+      throw new runtime.RequiredError(
+        "requestBody",
+        'Required parameter "requestBody" was null or undefined when calling deleteReservationsAsyncReservationsAsyncDelete().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/reservations/async`,
+        method: "DELETE",
+        headers: headerParameters,
+        query: queryParameters,
+        body: requestParameters["requestBody"],
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Delete multiple Reservations asynchronously
+   * Delete Reservations Async
+   */
+  async deleteReservationsAsyncReservationsAsyncDelete(
+    requestParameters: DeleteReservationsAsyncReservationsAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response =
+      await this.deleteReservationsAsyncReservationsAsyncDeleteRaw(
+        requestParameters,
+        initOverrides,
+      );
+    return await response.value();
+  }
+
+  /**
    * Delete multiple Reservations
    * Delete Reservations
    */
@@ -664,6 +1302,61 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<Reservation>> {
     const response = await this.deleteReservationsReservationsDeleteRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
+   * Delete a Restaurant asynchronously
+   * Delete Restaurant Async
+   */
+  async deleteRestaurantAsyncRestaurantAsyncDeleteRaw(
+    requestParameters: DeleteRestaurantAsyncRestaurantAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["restaurantId"] == null) {
+      throw new runtime.RequiredError(
+        "restaurantId",
+        'Required parameter "restaurantId" was null or undefined when calling deleteRestaurantAsyncRestaurantAsyncDelete().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    if (requestParameters["restaurantId"] != null) {
+      queryParameters["restaurant_id"] = requestParameters["restaurantId"];
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/restaurant/async`,
+        method: "DELETE",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Delete a Restaurant asynchronously
+   * Delete Restaurant Async
+   */
+  async deleteRestaurantAsyncRestaurantAsyncDelete(
+    requestParameters: DeleteRestaurantAsyncRestaurantAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.deleteRestaurantAsyncRestaurantAsyncDeleteRaw(
       requestParameters,
       initOverrides,
     );
@@ -724,6 +1417,60 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Delete multiple Restaurants asynchronously
+   * Delete Restaurants Async
+   */
+  async deleteRestaurantsAsyncRestaurantsAsyncDeleteRaw(
+    requestParameters: DeleteRestaurantsAsyncRestaurantsAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["requestBody"] == null) {
+      throw new runtime.RequiredError(
+        "requestBody",
+        'Required parameter "requestBody" was null or undefined when calling deleteRestaurantsAsyncRestaurantsAsyncDelete().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/restaurants/async`,
+        method: "DELETE",
+        headers: headerParameters,
+        query: queryParameters,
+        body: requestParameters["requestBody"],
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Delete multiple Restaurants asynchronously
+   * Delete Restaurants Async
+   */
+  async deleteRestaurantsAsyncRestaurantsAsyncDelete(
+    requestParameters: DeleteRestaurantsAsyncRestaurantsAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.deleteRestaurantsAsyncRestaurantsAsyncDeleteRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
    * Delete multiple Restaurants
    * Delete Restaurants
    */
@@ -769,6 +1516,61 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<Restaurant>> {
     const response = await this.deleteRestaurantsRestaurantsDeleteRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
+   * Delete a Review asynchronously
+   * Delete Review Async
+   */
+  async deleteReviewAsyncReviewAsyncDeleteRaw(
+    requestParameters: DeleteReviewAsyncReviewAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["reviewId"] == null) {
+      throw new runtime.RequiredError(
+        "reviewId",
+        'Required parameter "reviewId" was null or undefined when calling deleteReviewAsyncReviewAsyncDelete().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    if (requestParameters["reviewId"] != null) {
+      queryParameters["review_id"] = requestParameters["reviewId"];
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/review/async`,
+        method: "DELETE",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Delete a Review asynchronously
+   * Delete Review Async
+   */
+  async deleteReviewAsyncReviewAsyncDelete(
+    requestParameters: DeleteReviewAsyncReviewAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.deleteReviewAsyncReviewAsyncDeleteRaw(
       requestParameters,
       initOverrides,
     );
@@ -829,6 +1631,60 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Delete multiple Reviews asynchronously
+   * Delete Reviews Async
+   */
+  async deleteReviewsAsyncReviewsAsyncDeleteRaw(
+    requestParameters: DeleteReviewsAsyncReviewsAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["requestBody"] == null) {
+      throw new runtime.RequiredError(
+        "requestBody",
+        'Required parameter "requestBody" was null or undefined when calling deleteReviewsAsyncReviewsAsyncDelete().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/reviews/async`,
+        method: "DELETE",
+        headers: headerParameters,
+        query: queryParameters,
+        body: requestParameters["requestBody"],
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Delete multiple Reviews asynchronously
+   * Delete Reviews Async
+   */
+  async deleteReviewsAsyncReviewsAsyncDelete(
+    requestParameters: DeleteReviewsAsyncReviewsAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.deleteReviewsAsyncReviewsAsyncDeleteRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
    * Delete multiple Reviews
    * Delete Reviews
    */
@@ -874,6 +1730,61 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<Review>> {
     const response = await this.deleteReviewsReviewsDeleteRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
+   * Delete a User asynchronously
+   * Delete User Async
+   */
+  async deleteUserAsyncUserAsyncDeleteRaw(
+    requestParameters: DeleteUserAsyncUserAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["userId"] == null) {
+      throw new runtime.RequiredError(
+        "userId",
+        'Required parameter "userId" was null or undefined when calling deleteUserAsyncUserAsyncDelete().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    if (requestParameters["userId"] != null) {
+      queryParameters["user_id"] = requestParameters["userId"];
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/user/async`,
+        method: "DELETE",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Delete a User asynchronously
+   * Delete User Async
+   */
+  async deleteUserAsyncUserAsyncDelete(
+    requestParameters: DeleteUserAsyncUserAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.deleteUserAsyncUserAsyncDeleteRaw(
       requestParameters,
       initOverrides,
     );
@@ -927,6 +1838,60 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<User> {
     const response = await this.deleteUserUserDeleteRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
+   * Delete multiple Users asynchronously
+   * Delete Users Async
+   */
+  async deleteUsersAsyncUsersAsyncDeleteRaw(
+    requestParameters: DeleteUsersAsyncUsersAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["requestBody"] == null) {
+      throw new runtime.RequiredError(
+        "requestBody",
+        'Required parameter "requestBody" was null or undefined when calling deleteUsersAsyncUsersAsyncDelete().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/users/async`,
+        method: "DELETE",
+        headers: headerParameters,
+        query: queryParameters,
+        body: requestParameters["requestBody"],
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Delete multiple Users asynchronously
+   * Delete Users Async
+   */
+  async deleteUsersAsyncUsersAsyncDelete(
+    requestParameters: DeleteUsersAsyncUsersAsyncDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.deleteUsersAsyncUsersAsyncDeleteRaw(
       requestParameters,
       initOverrides,
     );
@@ -1347,6 +2312,45 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Health Endpoint
+   * Health
+   */
+  async healthHealthGetRaw(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/health`,
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Health Endpoint
+   * Health
+   */
+  async healthHealthGet(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.healthHealthGetRaw(initOverrides);
+    return await response.value();
+  }
+
+  /**
    * Root Endpoint
    * Root
    */
@@ -1382,6 +2386,60 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<any> {
     const response = await this.rootGetRaw(initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Update a Reservation asynchronously
+   * Update Reservation Async
+   */
+  async updateReservationAsyncReservationAsyncPutRaw(
+    requestParameters: UpdateReservationAsyncReservationAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["reservation"] == null) {
+      throw new runtime.RequiredError(
+        "reservation",
+        'Required parameter "reservation" was null or undefined when calling updateReservationAsyncReservationAsyncPut().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/reservation/async`,
+        method: "PUT",
+        headers: headerParameters,
+        query: queryParameters,
+        body: ReservationToJSON(requestParameters["reservation"]),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Update a Reservation asynchronously
+   * Update Reservation Async
+   */
+  async updateReservationAsyncReservationAsyncPut(
+    requestParameters: UpdateReservationAsyncReservationAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.updateReservationAsyncReservationAsyncPutRaw(
+      requestParameters,
+      initOverrides,
+    );
     return await response.value();
   }
 
@@ -1431,6 +2489,60 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Reservation> {
     const response = await this.updateReservationReservationPutRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
+   * Update multiple Reservations asynchronously
+   * Update Reservations Async
+   */
+  async updateReservationsAsyncReservationsAsyncPutRaw(
+    requestParameters: UpdateReservationsAsyncReservationsAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["reservation"] == null) {
+      throw new runtime.RequiredError(
+        "reservation",
+        'Required parameter "reservation" was null or undefined when calling updateReservationsAsyncReservationsAsyncPut().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/reservations/async`,
+        method: "PUT",
+        headers: headerParameters,
+        query: queryParameters,
+        body: requestParameters["reservation"]!.map(ReservationToJSON),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Update multiple Reservations asynchronously
+   * Update Reservations Async
+   */
+  async updateReservationsAsyncReservationsAsyncPut(
+    requestParameters: UpdateReservationsAsyncReservationsAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.updateReservationsAsyncReservationsAsyncPutRaw(
       requestParameters,
       initOverrides,
     );
@@ -1490,6 +2602,60 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Update a Restaurant asynchronously
+   * Update Restaurant Async
+   */
+  async updateRestaurantAsyncRestaurantAsyncPutRaw(
+    requestParameters: UpdateRestaurantAsyncRestaurantAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["restaurant"] == null) {
+      throw new runtime.RequiredError(
+        "restaurant",
+        'Required parameter "restaurant" was null or undefined when calling updateRestaurantAsyncRestaurantAsyncPut().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/restaurant/async`,
+        method: "PUT",
+        headers: headerParameters,
+        query: queryParameters,
+        body: RestaurantToJSON(requestParameters["restaurant"]),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Update a Restaurant asynchronously
+   * Update Restaurant Async
+   */
+  async updateRestaurantAsyncRestaurantAsyncPut(
+    requestParameters: UpdateRestaurantAsyncRestaurantAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.updateRestaurantAsyncRestaurantAsyncPutRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
    * Update a Restaurant
    * Update Restaurant
    */
@@ -1535,6 +2701,60 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Restaurant> {
     const response = await this.updateRestaurantRestaurantPutRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
+   * Update multiple Restaurants asynchronously
+   * Update Restaurants Async
+   */
+  async updateRestaurantsAsyncRestaurantsAsyncPutRaw(
+    requestParameters: UpdateRestaurantsAsyncRestaurantsAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["restaurant"] == null) {
+      throw new runtime.RequiredError(
+        "restaurant",
+        'Required parameter "restaurant" was null or undefined when calling updateRestaurantsAsyncRestaurantsAsyncPut().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/restaurants/async`,
+        method: "PUT",
+        headers: headerParameters,
+        query: queryParameters,
+        body: requestParameters["restaurant"]!.map(RestaurantToJSON),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Update multiple Restaurants asynchronously
+   * Update Restaurants Async
+   */
+  async updateRestaurantsAsyncRestaurantsAsyncPut(
+    requestParameters: UpdateRestaurantsAsyncRestaurantsAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.updateRestaurantsAsyncRestaurantsAsyncPutRaw(
       requestParameters,
       initOverrides,
     );
@@ -1594,6 +2814,60 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Update a Review asynchronously
+   * Update Review Async
+   */
+  async updateReviewAsyncReviewAsyncPutRaw(
+    requestParameters: UpdateReviewAsyncReviewAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["review"] == null) {
+      throw new runtime.RequiredError(
+        "review",
+        'Required parameter "review" was null or undefined when calling updateReviewAsyncReviewAsyncPut().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/review/async`,
+        method: "PUT",
+        headers: headerParameters,
+        query: queryParameters,
+        body: ReviewToJSON(requestParameters["review"]),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Update a Review asynchronously
+   * Update Review Async
+   */
+  async updateReviewAsyncReviewAsyncPut(
+    requestParameters: UpdateReviewAsyncReviewAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.updateReviewAsyncReviewAsyncPutRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
    * Update a Review
    * Update Review
    */
@@ -1639,6 +2913,60 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Review> {
     const response = await this.updateReviewReviewPutRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
+   * Update multiple Reviews asynchronously
+   * Update Reviews Async
+   */
+  async updateReviewsAsyncReviewsAsyncPutRaw(
+    requestParameters: UpdateReviewsAsyncReviewsAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["review"] == null) {
+      throw new runtime.RequiredError(
+        "review",
+        'Required parameter "review" was null or undefined when calling updateReviewsAsyncReviewsAsyncPut().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/reviews/async`,
+        method: "PUT",
+        headers: headerParameters,
+        query: queryParameters,
+        body: requestParameters["review"]!.map(ReviewToJSON),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Update multiple Reviews asynchronously
+   * Update Reviews Async
+   */
+  async updateReviewsAsyncReviewsAsyncPut(
+    requestParameters: UpdateReviewsAsyncReviewsAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.updateReviewsAsyncReviewsAsyncPutRaw(
       requestParameters,
       initOverrides,
     );
@@ -1698,6 +3026,60 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Update a User asynchronously
+   * Update User Async
+   */
+  async updateUserAsyncUserAsyncPutRaw(
+    requestParameters: UpdateUserAsyncUserAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["user"] == null) {
+      throw new runtime.RequiredError(
+        "user",
+        'Required parameter "user" was null or undefined when calling updateUserAsyncUserAsyncPut().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/user/async`,
+        method: "PUT",
+        headers: headerParameters,
+        query: queryParameters,
+        body: UserToJSON(requestParameters["user"]),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Update a User asynchronously
+   * Update User Async
+   */
+  async updateUserAsyncUserAsyncPut(
+    requestParameters: UpdateUserAsyncUserAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.updateUserAsyncUserAsyncPutRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
    * Update a User
    * Update User
    */
@@ -1743,6 +3125,60 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<User> {
     const response = await this.updateUserUserPutRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
+   * Update multiple Users asynchronously
+   * Update Users Async
+   */
+  async updateUsersAsyncUsersAsyncPutRaw(
+    requestParameters: UpdateUsersAsyncUsersAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<any>> {
+    if (requestParameters["user"] == null) {
+      throw new runtime.RequiredError(
+        "user",
+        'Required parameter "user" was null or undefined when calling updateUsersAsyncUsersAsyncPut().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/users/async`,
+        method: "PUT",
+        headers: headerParameters,
+        query: queryParameters,
+        body: requestParameters["user"]!.map(UserToJSON),
+      },
+      initOverrides,
+    );
+
+    if (this.isJsonMime(response.headers.get("content-type"))) {
+      return new runtime.JSONApiResponse<any>(response);
+    } else {
+      return new runtime.TextApiResponse(response) as any;
+    }
+  }
+
+  /**
+   * Update multiple Users asynchronously
+   * Update Users Async
+   */
+  async updateUsersAsyncUsersAsyncPut(
+    requestParameters: UpdateUsersAsyncUsersAsyncPutRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<any> {
+    const response = await this.updateUsersAsyncUsersAsyncPutRaw(
       requestParameters,
       initOverrides,
     );

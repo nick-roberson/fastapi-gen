@@ -26,10 +26,24 @@ class TestDefaultApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_create_reservation_async_reservation_async_post(self) -> None:
+        """Test case for create_reservation_async_reservation_async_post
+
+        Create Reservation Async
+        """
+        pass
+
     def test_create_reservation_reservation_post(self) -> None:
         """Test case for create_reservation_reservation_post
 
         Create Reservation
+        """
+        pass
+
+    def test_create_reservations_async_reservations_async_post(self) -> None:
+        """Test case for create_reservations_async_reservations_async_post
+
+        Create Reservations Async
         """
         pass
 
@@ -40,10 +54,24 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_create_restaurant_async_restaurant_async_post(self) -> None:
+        """Test case for create_restaurant_async_restaurant_async_post
+
+        Create Restaurant Async
+        """
+        pass
+
     def test_create_restaurant_restaurant_post(self) -> None:
         """Test case for create_restaurant_restaurant_post
 
         Create Restaurant
+        """
+        pass
+
+    def test_create_restaurants_async_restaurants_async_post(self) -> None:
+        """Test case for create_restaurants_async_restaurants_async_post
+
+        Create Restaurants Async
         """
         pass
 
@@ -54,10 +82,24 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_create_review_async_review_async_post(self) -> None:
+        """Test case for create_review_async_review_async_post
+
+        Create Review Async
+        """
+        pass
+
     def test_create_review_review_post(self) -> None:
         """Test case for create_review_review_post
 
         Create Review
+        """
+        pass
+
+    def test_create_reviews_async_reviews_async_post(self) -> None:
+        """Test case for create_reviews_async_reviews_async_post
+
+        Create Reviews Async
         """
         pass
 
@@ -68,10 +110,24 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_create_user_async_user_async_post(self) -> None:
+        """Test case for create_user_async_user_async_post
+
+        Create User Async
+        """
+        pass
+
     def test_create_user_user_post(self) -> None:
         """Test case for create_user_user_post
 
         Create User
+        """
+        pass
+
+    def test_create_users_async_users_async_post(self) -> None:
+        """Test case for create_users_async_users_async_post
+
+        Create Users Async
         """
         pass
 
@@ -82,10 +138,24 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_delete_reservation_async_reservation_async_delete(self) -> None:
+        """Test case for delete_reservation_async_reservation_async_delete
+
+        Delete Reservation Async
+        """
+        pass
+
     def test_delete_reservation_reservation_delete(self) -> None:
         """Test case for delete_reservation_reservation_delete
 
         Delete Reservation
+        """
+        pass
+
+    def test_delete_reservations_async_reservations_async_delete(self) -> None:
+        """Test case for delete_reservations_async_reservations_async_delete
+
+        Delete Reservations Async
         """
         pass
 
@@ -96,10 +166,24 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_delete_restaurant_async_restaurant_async_delete(self) -> None:
+        """Test case for delete_restaurant_async_restaurant_async_delete
+
+        Delete Restaurant Async
+        """
+        pass
+
     def test_delete_restaurant_restaurant_delete(self) -> None:
         """Test case for delete_restaurant_restaurant_delete
 
         Delete Restaurant
+        """
+        pass
+
+    def test_delete_restaurants_async_restaurants_async_delete(self) -> None:
+        """Test case for delete_restaurants_async_restaurants_async_delete
+
+        Delete Restaurants Async
         """
         pass
 
@@ -110,10 +194,24 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_delete_review_async_review_async_delete(self) -> None:
+        """Test case for delete_review_async_review_async_delete
+
+        Delete Review Async
+        """
+        pass
+
     def test_delete_review_review_delete(self) -> None:
         """Test case for delete_review_review_delete
 
         Delete Review
+        """
+        pass
+
+    def test_delete_reviews_async_reviews_async_delete(self) -> None:
+        """Test case for delete_reviews_async_reviews_async_delete
+
+        Delete Reviews Async
         """
         pass
 
@@ -124,10 +222,24 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_delete_user_async_user_async_delete(self) -> None:
+        """Test case for delete_user_async_user_async_delete
+
+        Delete User Async
+        """
+        pass
+
     def test_delete_user_user_delete(self) -> None:
         """Test case for delete_user_user_delete
 
         Delete User
+        """
+        pass
+
+    def test_delete_users_async_users_async_delete(self) -> None:
+        """Test case for delete_users_async_users_async_delete
+
+        Delete Users Async
         """
         pass
 
@@ -194,10 +306,24 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_health_health_get(self) -> None:
+        """Test case for health_health_get
+
+        Health
+        """
+        pass
+
     def test_root_get(self) -> None:
         """Test case for root_get
 
         Root
+        """
+        pass
+
+    def test_update_reservation_async_reservation_async_put(self) -> None:
+        """Test case for update_reservation_async_reservation_async_put
+
+        Update Reservation Async
         """
         pass
 
@@ -208,10 +334,24 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_update_reservations_async_reservations_async_put(self) -> None:
+        """Test case for update_reservations_async_reservations_async_put
+
+        Update Reservations Async
+        """
+        pass
+
     def test_update_reservations_reservations_put(self) -> None:
         """Test case for update_reservations_reservations_put
 
         Update Reservations
+        """
+        pass
+
+    def test_update_restaurant_async_restaurant_async_put(self) -> None:
+        """Test case for update_restaurant_async_restaurant_async_put
+
+        Update Restaurant Async
         """
         pass
 
@@ -222,10 +362,24 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_update_restaurants_async_restaurants_async_put(self) -> None:
+        """Test case for update_restaurants_async_restaurants_async_put
+
+        Update Restaurants Async
+        """
+        pass
+
     def test_update_restaurants_restaurants_put(self) -> None:
         """Test case for update_restaurants_restaurants_put
 
         Update Restaurants
+        """
+        pass
+
+    def test_update_review_async_review_async_put(self) -> None:
+        """Test case for update_review_async_review_async_put
+
+        Update Review Async
         """
         pass
 
@@ -236,6 +390,13 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_update_reviews_async_reviews_async_put(self) -> None:
+        """Test case for update_reviews_async_reviews_async_put
+
+        Update Reviews Async
+        """
+        pass
+
     def test_update_reviews_reviews_put(self) -> None:
         """Test case for update_reviews_reviews_put
 
@@ -243,10 +404,24 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_update_user_async_user_async_put(self) -> None:
+        """Test case for update_user_async_user_async_put
+
+        Update User Async
+        """
+        pass
+
     def test_update_user_user_put(self) -> None:
         """Test case for update_user_user_put
 
         Update User
+        """
+        pass
+
+    def test_update_users_async_users_async_put(self) -> None:
+        """Test case for update_users_async_users_async_put
+
+        Update Users Async
         """
         pass
 
