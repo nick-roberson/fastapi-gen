@@ -124,10 +124,8 @@ All models will have a page similar to the one above, where you can interact wit
 
 ## Loom Video
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0;">
-  <iframe src="https://www.loom.com/embed/c49335aed3db41539aa8d4fee8e5c52e?sid=861c2b94-7385-411e-8ef2-25c175963a60" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-  </iframe>
-</div>
+You can find a brief demo here!
+- [Demo Video](https://www.loom.com/share/c49335aed3db41539aa8d4fee8e5c52e?sid=3ba0b976-d0f1-4827-b4ed-dcbc4d5249a4)
 
 ## Setup
 
