@@ -42,13 +42,6 @@ class MongoDBConfig(DBConfig):
             "db_uri": os.getenv(data["db_uri_env"]),
         }
 
-        # Check for missing environment variables
-        missing_env_vars = [k for k, v in data["config"].items() if v is None]
-        if missing_env_vars:
-            raise ValueError(
-                f"One or more environment variables are missing: {missing_env_vars}"
-            )
-
         # Call the parent constructor
         super().__init__(**data)
 
@@ -85,13 +78,6 @@ class RelationalDBConfig(DBConfig):
             "password": os.getenv(data["password_env"]),
             "db_name": os.getenv(data["db_name_env"]),
         }
-
-        # Check for missing environment variables
-        missing_env_vars = [k for k, v in data["config"].items() if v is None]
-        if missing_env_vars:
-            raise ValueError(
-                f"One or more environment variables are missing: {missing_env_vars}"
-            )
 
         # Call the parent constructor
         super().__init__(**data)
