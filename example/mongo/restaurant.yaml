@@ -10,8 +10,10 @@ service:
 
 # Database Configuration
 database:
+  # Define the database type here
   db_type: mongo
-  db_uri_env_var: MONGO_DB_URI
+  # Define the environment variables for the database connection here
+  db_uri_env: MONGO_URI
 
 # Model Definitions
 models:

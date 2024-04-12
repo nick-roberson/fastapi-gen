@@ -3,11 +3,11 @@ import tempfile
 import pytest
 
 from builder.config.parse import load_config, parse_config
-from builder.constants import SAMPLE_INPUT_FILE
+from builder.constants import TEST_MONGO_CONFIG, TEST_MYSQL_CONFIG
 from builder.generate.backend.generator import BackendGenerator
 
 
-@pytest.mark.parametrize("config", [SAMPLE_INPUT_FILE])
+@pytest.mark.parametrize("config", [TEST_MYSQL_CONFIG, TEST_MONGO_CONFIG])
 def test_generate(config):
     """Simple test to validate the example config"""
     with tempfile.TemporaryDirectory() as output_dir:

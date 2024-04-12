@@ -3,6 +3,10 @@ import os
 # Directory containing the generated code within the output directory
 CODEGEN_DIR_NAME: str = "backend"
 
+# Test configs
+TEST_MYSQL_CONFIG: str = os.path.abspath("example/alembic/restaurant.yaml")
+TEST_MONGO_CONFIG: str = os.path.abspath("example/mongo/restaurant.yaml")
+
 # Sample input file and output dir
 SAMPLE_INPUT_FILE: str = os.path.abspath("example/mongo/restaurant.yaml")
 SAMPLE_OUTPUT_DIR: str = os.path.abspath("example/mongo/output")

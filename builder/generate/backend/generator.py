@@ -262,20 +262,16 @@ class BackendGenerator:
             str: File name of the generated database
         """
         db_type = self.config.database.db_type
-        # If the db_type is MONGO, generate the mongo files
-        if db_type == DatabaseTypes.MONGO.value:
 
+        relational_db_types = [DatabaseTypes.POSTGRES.value, DatabaseTypes.MYSQL.value]
+        mongo_db_types = [DatabaseTypes.MONGO.value]
+
+        # If the db_type is MONGO, generate the mongo files
+        if db_type in mongo_db_types:
             created_files = self._generate_mongo_db()
             return created_files
-        # If the db_type is POSTGRES or MYSQL, generate the alembic files
-        if (
-            db_type == DatabaseTypes.POSTGRES.value
-            or db_type == DatabaseTypes.MYSQL.value
-        ):
-            # Generate the alembic files
+        if db_type in relational_db_types:
             created_files = self._generate_alembic_db()
-            # Generate and apply the alembic migration files
-            self._update_alembic_db()
             return created_files
         # Otherwise, raise an error
         else:
@@ -345,7 +341,10 @@ class BackendGenerator:
             template_dir=ALEMBIC_TEMPLATES,
             template_name="constants.jinja",
             output_path=output_path,
-            context={"models": self.config.models},
+            context={
+                "models": self.config.models,
+                "db_config": self.config.database,
+            },
         )
 
         # Handle alembic/env.py
@@ -354,8 +353,14 @@ class BackendGenerator:
             template_dir=ALEMBIC_TEMPLATES,
             template_name="alembic/env.jinja",
             output_path=output_path,
-            context={"models": self.config.models},
+            context={
+                "models": self.config.models,
+                "db_config": self.config.database,
+            },
         )
+
+        # Use alembic to generate the migration files
+        self._update_alembic_db()
 
         # Return all created files
         return alembic_files + manager_file_names + [output_path]
