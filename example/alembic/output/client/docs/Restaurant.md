@@ -5,12 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | [**Id1**](Id1.md) |  | [optional]
-**name** | **str** | The name of the alembic |
-**location** | **str** | The physical location of the alembic |
-**cuisine** | [**Cuisine**](Cuisine.md) |  | [optional]
-**rating** | [**Rating**](Rating.md) |  | [optional]
-**price_range** | [**PriceRange**](PriceRange.md) |  | [optional]
+**id** | [**Id1**](Id1.md) |  | [optional] 
+**name** | **str** | The name of the alembic | 
+**location** | **str** | The physical location of the alembic | 
+**cuisine** | [**Cuisine**](Cuisine.md) |  | [optional] 
+**rating** | [**Rating**](Rating.md) |  | [optional] 
+**price_range** | [**PriceRange**](PriceRange.md) |  | [optional] 
 
 ## Example
 
@@ -30,3 +30,5 @@ restaurant_dict = restaurant_instance.to_dict()
 restaurant_form_dict = restaurant.from_dict(restaurant_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

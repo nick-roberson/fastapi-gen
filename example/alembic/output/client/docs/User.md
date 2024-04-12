@@ -5,12 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | [**Id3**](Id3.md) |  | [optional]
-**username** | **str** | The username of the user |
-**email** | **str** | The email address of the user |
-**phone_number** | [**PhoneNumber**](PhoneNumber.md) |  | [optional]
-**preferences** | [**Preferences**](Preferences.md) |  | [optional]
-**role** | [**Role**](Role.md) |  | [optional]
+**id** | [**Id3**](Id3.md) |  | [optional] 
+**username** | **str** | The username of the user | 
+**email** | **str** | The email address of the user | 
+**phone_number** | [**PhoneNumber**](PhoneNumber.md) |  | [optional] 
+**preferences** | [**Preferences**](Preferences.md) |  | [optional] 
+**role** | [**Role**](Role.md) |  | [optional] 
 
 ## Example
 
@@ -30,3 +30,5 @@ user_dict = user_instance.to_dict()
 user_form_dict = user.from_dict(user_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

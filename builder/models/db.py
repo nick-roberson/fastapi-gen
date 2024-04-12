@@ -16,6 +16,7 @@ POSTGRES_DRIVER = "postgresql"
 # Mongo DB Type
 MONGO = "mongo"
 
+
 class DBConfig(BaseModel):
     """Base class for database config."""
 
@@ -34,7 +35,7 @@ class MongoDBConfig(DBConfig):
         """Initialize the MongoDB config."""
         # Check for valid db_type
         if data["db_type"] != MONGO:
-            raise ValueError(f"db_type {data["db_type"]} must be {MONGO}")
+            raise ValueError(f"db_type {data['db_type']} must be {MONGO}")
 
         # Load the environment variables
         data["config"] = {
@@ -44,7 +45,9 @@ class MongoDBConfig(DBConfig):
         # Check for missing environment variables
         missing_env_vars = [k for k, v in data["config"].items() if v is None]
         if missing_env_vars:
-            raise ValueError(f"One or more environment variables are missing: {missing_env_vars}")
+            raise ValueError(
+                f"One or more environment variables are missing: {missing_env_vars}"
+            )
 
         # Call the parent constructor
         super().__init__(**data)
@@ -86,7 +89,9 @@ class RelationalDBConfig(DBConfig):
         # Check for missing environment variables
         missing_env_vars = [k for k, v in data["config"].items() if v is None]
         if missing_env_vars:
-            raise ValueError(f"One or more environment variables are missing: {missing_env_vars}")
+            raise ValueError(
+                f"One or more environment variables are missing: {missing_env_vars}"
+            )
 
         # Call the parent constructor
         super().__init__(**data)

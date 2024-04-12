@@ -5,11 +5,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | [**Id2**](Id2.md) |  | [optional]
-**restaurant_id** | **int** | The ID of the alembic being reviewed |
-**user_id** | **int** | The ID of the user who wrote the review |
-**rating** | **float** | The rating given by the user |
-**comment** | [**Comment**](Comment.md) |  | [optional]
+**id** | [**Id2**](Id2.md) |  | [optional] 
+**restaurant_id** | **int** | The ID of the alembic being reviewed | 
+**user_id** | **int** | The ID of the user who wrote the review | 
+**rating** | **float** | The rating given by the user | 
+**comment** | [**Comment**](Comment.md) |  | [optional] 
 
 ## Example
 
@@ -29,3 +29,5 @@ review_dict = review_instance.to_dict()
 review_form_dict = review.from_dict(review_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

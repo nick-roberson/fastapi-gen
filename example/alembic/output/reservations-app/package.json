@@ -15,7 +15,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.96",
-    "@types/react": "^18.2.76",
+    "@types/react": "^18.2.77",
     "@types/react-dom": "^18.2.25",
     "axios": "^1.6.8",
     "eslint": "^8.57.0",

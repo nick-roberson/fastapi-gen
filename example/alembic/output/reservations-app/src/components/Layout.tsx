@@ -9,18 +9,18 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
-import { ThemeProvider} from '@mui/material';
-import { createTheme } from '@mui/material/styles';
-import { green, blue } from '@mui/material/colors';
-
 
 function Layout() {
   // Define the pages and their routes
   const [pages_map] = React.useState<Record<string, string>>({
     Home: "/home",
+
     User: "/user",
+
     Restaurant: "/restaurant",
+
     Reservation: "/reservation",
+
     Review: "/review",
   });
 
@@ -33,7 +33,6 @@ function Layout() {
   // Render
   return (
     <>
-    <ThemeProvider theme={theme}>
       <nav>
         <AppBar position="static">
           <Box>
@@ -57,7 +56,6 @@ function Layout() {
           </Box>
         </AppBar>
       </nav>
-      </ThemeProvider>
       <Outlet />
     </>
   );

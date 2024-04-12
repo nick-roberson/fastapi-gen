@@ -47,7 +47,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.RestaurantApi(api_client)
-    restaurant = openapi_client.Restaurant() # Restaurant |
+    restaurant = openapi_client.Restaurant() # Restaurant | 
 
     try:
         # Create Restaurant Async
@@ -65,7 +65,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **restaurant** | [**Restaurant**](Restaurant.md)|  |
+ **restaurant** | [**Restaurant**](Restaurant.md)|  | 
 
 ### Return type
 
@@ -116,7 +116,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.RestaurantApi(api_client)
-    restaurant = openapi_client.Restaurant() # Restaurant |
+    restaurant = openapi_client.Restaurant() # Restaurant | 
 
     try:
         # Create Restaurant
@@ -134,7 +134,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **restaurant** | [**Restaurant**](Restaurant.md)|  |
+ **restaurant** | [**Restaurant**](Restaurant.md)|  | 
 
 ### Return type
 
@@ -185,7 +185,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.RestaurantApi(api_client)
-    restaurant = [openapi_client.Restaurant()] # List[Restaurant] |
+    restaurant = [openapi_client.Restaurant()] # List[Restaurant] | 
 
     try:
         # Create Restaurants Async
@@ -203,7 +203,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **restaurant** | [**List[Restaurant]**](Restaurant.md)|  |
+ **restaurant** | [**List[Restaurant]**](Restaurant.md)|  | 
 
 ### Return type
 
@@ -254,7 +254,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.RestaurantApi(api_client)
-    restaurant = [openapi_client.Restaurant()] # List[Restaurant] |
+    restaurant = [openapi_client.Restaurant()] # List[Restaurant] | 
 
     try:
         # Create Restaurants
@@ -272,7 +272,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **restaurant** | [**List[Restaurant]**](Restaurant.md)|  |
+ **restaurant** | [**List[Restaurant]**](Restaurant.md)|  | 
 
 ### Return type
 
@@ -322,7 +322,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.RestaurantApi(api_client)
-    restaurant_id = 'restaurant_id_example' # str |
+    restaurant_id = 'restaurant_id_example' # str | 
 
     try:
         # Delete Restaurant Async
@@ -340,7 +340,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **restaurant_id** | **str**|  |
+ **restaurant_id** | **str**|  | 
 
 ### Return type
 
@@ -391,7 +391,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.RestaurantApi(api_client)
-    restaurant_id = 'restaurant_id_example' # str |
+    restaurant_id = 'restaurant_id_example' # str | 
 
     try:
         # Delete Restaurant
@@ -409,7 +409,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **restaurant_id** | **str**|  |
+ **restaurant_id** | **str**|  | 
 
 ### Return type
 
@@ -459,7 +459,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.RestaurantApi(api_client)
-    request_body = ['request_body_example'] # List[str] |
+    request_body = ['request_body_example'] # List[str] | 
 
     try:
         # Delete Restaurants Async
@@ -477,7 +477,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**List[str]**](str.md)|  |
+ **request_body** | [**List[str]**](str.md)|  | 
 
 ### Return type
 
@@ -528,7 +528,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.RestaurantApi(api_client)
-    request_body = ['request_body_example'] # List[str] |
+    request_body = ['request_body_example'] # List[str] | 
 
     try:
         # Delete Restaurants
@@ -546,7 +546,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**List[str]**](str.md)|  |
+ **request_body** | [**List[str]**](str.md)|  | 
 
 ### Return type
 
@@ -597,7 +597,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.RestaurantApi(api_client)
-    restaurant_id = 'restaurant_id_example' # str |
+    restaurant_id = 'restaurant_id_example' # str | 
 
     try:
         # Get Restaurant
@@ -615,7 +615,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **restaurant_id** | **str**|  |
+ **restaurant_id** | **str**|  | 
 
 ### Return type
 
@@ -730,7 +730,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.RestaurantApi(api_client)
-    restaurant = openapi_client.Restaurant() # Restaurant |
+    restaurant = openapi_client.Restaurant() # Restaurant | 
 
     try:
         # Update Restaurant Async
@@ -748,7 +748,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **restaurant** | [**Restaurant**](Restaurant.md)|  |
+ **restaurant** | [**Restaurant**](Restaurant.md)|  | 
 
 ### Return type
 
@@ -799,7 +799,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.RestaurantApi(api_client)
-    restaurant = openapi_client.Restaurant() # Restaurant |
+    restaurant = openapi_client.Restaurant() # Restaurant | 
 
     try:
         # Update Restaurant
@@ -817,7 +817,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **restaurant** | [**Restaurant**](Restaurant.md)|  |
+ **restaurant** | [**Restaurant**](Restaurant.md)|  | 
 
 ### Return type
 
@@ -868,7 +868,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.RestaurantApi(api_client)
-    restaurant = [openapi_client.Restaurant()] # List[Restaurant] |
+    restaurant = [openapi_client.Restaurant()] # List[Restaurant] | 
 
     try:
         # Update Restaurants Async
@@ -886,7 +886,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **restaurant** | [**List[Restaurant]**](Restaurant.md)|  |
+ **restaurant** | [**List[Restaurant]**](Restaurant.md)|  | 
 
 ### Return type
 
@@ -937,7 +937,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.RestaurantApi(api_client)
-    restaurant = [openapi_client.Restaurant()] # List[Restaurant] |
+    restaurant = [openapi_client.Restaurant()] # List[Restaurant] | 
 
     try:
         # Update Restaurants
@@ -955,7 +955,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **restaurant** | [**List[Restaurant]**](Restaurant.md)|  |
+ **restaurant** | [**List[Restaurant]**](Restaurant.md)|  | 
 
 ### Return type
 
@@ -978,3 +978,4 @@ No authorization required
 **422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+

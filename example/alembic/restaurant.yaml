@@ -17,7 +17,6 @@ database:
   port_env: DB_PORT
   user_env: DB_USER
   password_env: DB_PASSWORD
-  name_env: DB_NAME
   db_name_env: DB_NAME
 
 

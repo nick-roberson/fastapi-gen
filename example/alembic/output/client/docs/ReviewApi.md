@@ -47,7 +47,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    review = openapi_client.Review() # Review |
+    review = openapi_client.Review() # Review | 
 
     try:
         # Create Review Async
@@ -65,7 +65,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **review** | [**Review**](Review.md)|  |
+ **review** | [**Review**](Review.md)|  | 
 
 ### Return type
 
@@ -116,7 +116,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    review = openapi_client.Review() # Review |
+    review = openapi_client.Review() # Review | 
 
     try:
         # Create Review
@@ -134,7 +134,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **review** | [**Review**](Review.md)|  |
+ **review** | [**Review**](Review.md)|  | 
 
 ### Return type
 
@@ -185,7 +185,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    review = [openapi_client.Review()] # List[Review] |
+    review = [openapi_client.Review()] # List[Review] | 
 
     try:
         # Create Reviews Async
@@ -203,7 +203,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **review** | [**List[Review]**](Review.md)|  |
+ **review** | [**List[Review]**](Review.md)|  | 
 
 ### Return type
 
@@ -254,7 +254,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    review = [openapi_client.Review()] # List[Review] |
+    review = [openapi_client.Review()] # List[Review] | 
 
     try:
         # Create Reviews
@@ -272,7 +272,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **review** | [**List[Review]**](Review.md)|  |
+ **review** | [**List[Review]**](Review.md)|  | 
 
 ### Return type
 
@@ -322,7 +322,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    review_id = 'review_id_example' # str |
+    review_id = 'review_id_example' # str | 
 
     try:
         # Delete Review Async
@@ -340,7 +340,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **review_id** | **str**|  |
+ **review_id** | **str**|  | 
 
 ### Return type
 
@@ -391,7 +391,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    review_id = 'review_id_example' # str |
+    review_id = 'review_id_example' # str | 
 
     try:
         # Delete Review
@@ -409,7 +409,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **review_id** | **str**|  |
+ **review_id** | **str**|  | 
 
 ### Return type
 
@@ -459,7 +459,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    request_body = ['request_body_example'] # List[str] |
+    request_body = ['request_body_example'] # List[str] | 
 
     try:
         # Delete Reviews Async
@@ -477,7 +477,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**List[str]**](str.md)|  |
+ **request_body** | [**List[str]**](str.md)|  | 
 
 ### Return type
 
@@ -528,7 +528,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    request_body = ['request_body_example'] # List[str] |
+    request_body = ['request_body_example'] # List[str] | 
 
     try:
         # Delete Reviews
@@ -546,7 +546,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**List[str]**](str.md)|  |
+ **request_body** | [**List[str]**](str.md)|  | 
 
 ### Return type
 
@@ -597,7 +597,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    review_id = 'review_id_example' # str |
+    review_id = 'review_id_example' # str | 
 
     try:
         # Get Review
@@ -615,7 +615,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **review_id** | **str**|  |
+ **review_id** | **str**|  | 
 
 ### Return type
 
@@ -730,7 +730,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    review = openapi_client.Review() # Review |
+    review = openapi_client.Review() # Review | 
 
     try:
         # Update Review Async
@@ -748,7 +748,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **review** | [**Review**](Review.md)|  |
+ **review** | [**Review**](Review.md)|  | 
 
 ### Return type
 
@@ -799,7 +799,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    review = openapi_client.Review() # Review |
+    review = openapi_client.Review() # Review | 
 
     try:
         # Update Review
@@ -817,7 +817,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **review** | [**Review**](Review.md)|  |
+ **review** | [**Review**](Review.md)|  | 
 
 ### Return type
 
@@ -868,7 +868,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    review = [openapi_client.Review()] # List[Review] |
+    review = [openapi_client.Review()] # List[Review] | 
 
     try:
         # Update Reviews Async
@@ -886,7 +886,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **review** | [**List[Review]**](Review.md)|  |
+ **review** | [**List[Review]**](Review.md)|  | 
 
 ### Return type
 
@@ -937,7 +937,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    review = [openapi_client.Review()] # List[Review] |
+    review = [openapi_client.Review()] # List[Review] | 
 
     try:
         # Update Reviews
@@ -955,7 +955,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **review** | [**List[Review]**](Review.md)|  |
+ **review** | [**List[Review]**](Review.md)|  | 
 
 ### Return type
 
@@ -978,3 +978,4 @@ No authorization required
 **422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
