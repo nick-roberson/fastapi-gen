@@ -10,11 +10,15 @@ service:
 
 # Database Configuration
 database:
+  # Define the database type here
   db_type: mysql
-  # TODO: If you are using this config just ignore if you dont have this ready at the moment
-  # I am working on updating the database configuration to use environment variables depending on type of database
-  # you are using.
-  db_uri_env_var: DB_URI
+  # Define the environment variables for the database connection here
+  host_env: DB_HOST
+  port_env: DB_PORT
+  user_env: DB_USER
+  password_env: DB_PASSWORD
+  db_name_env: DB_NAME
+
 
 # Model Definitions
 models:

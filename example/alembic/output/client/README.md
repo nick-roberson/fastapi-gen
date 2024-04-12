@@ -67,7 +67,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReservationApi(api_client)
-    reservation = openapi_client.Reservation() # Reservation |
+    reservation = openapi_client.Reservation() # Reservation | 
 
     try:
         # Create Reservation Async
@@ -175,3 +175,7 @@ Endpoints do not require authorization.
 
 
 ## Author
+
+
+
+

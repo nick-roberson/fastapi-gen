@@ -25,3 +25,5 @@ cuisine_dict = cuisine_instance.to_dict()
 cuisine_form_dict = cuisine.from_dict(cuisine_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

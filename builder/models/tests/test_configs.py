@@ -1,16 +1,7 @@
 import pytest
 
-from builder.models.configs import (DatabaseConfig, FieldDefinition,
-                                    ModelConfig, ServiceConfig)
+from builder.models.configs import FieldDefinition, ModelConfig
 from builder.models.enum import FieldDataType
-
-
-def test_validate_db_type():
-    # Invalid
-    with pytest.raises(ValueError):
-        DatabaseConfig(db_type="alembic", db_uri_env_var="DB_URI")
-    # Valid
-    DatabaseConfig(db_type="mongo", db_uri_env_var="DB_URI")
 
 
 def test_model_config():

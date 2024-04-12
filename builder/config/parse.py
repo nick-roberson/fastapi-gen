@@ -1,13 +1,14 @@
 import os
-from typing import Dict
+from typing import Any, Dict
 
 import yaml
 from pydantic.fields import FieldInfo
 
 from builder.constants import PYTHON_DEPENDENCIES, REQUIRED_DB_ENV_VARS
-from builder.models import (DatabaseConfig, DatabaseTypes, DependencyConfig,
-                            FieldDefinition, ModelConfig, ServiceConfig,
-                            ServiceInfo)
+from builder.models import (DatabaseTypes, DependencyConfig, FieldDefinition,
+                            ModelConfig, ServiceConfig, ServiceInfo)
+from builder.models.db import (MONGO, MYSQL, POSTGRES, DBConfig, MongoDBConfig,
+                               RelationalDBConfig)
 
 # Pull output the fields from the models
 FIELD_DEFINITION_FIELDS: dict[str, FieldInfo] = FieldDefinition.model_fields
@@ -71,34 +72,24 @@ def validate_config(config: Dict) -> None:
         )
 
     # (2) For each DatabaseConfig confirm fields are valid
+    db_type = None
     database = config["database"]
     for field_name in database:
-        if field_name not in DatabaseConfig.model_fields.keys():
-            raise ValueError(f"Invalid field name in DatabaseConfig '{field_name}'")
-        if (
-            field_name == "db_type"
-            and database[field_name] not in DatabaseTypes.choices()
-        ):
-            raise ValueError(
-                f"Invalid db_type '{database[field_name]}', allowed types are {DatabaseConfig.db_type_choices}"
-            )
-
-        # Check the db_type is present and all vars are present
         if field_name == "db_type" and database[field_name] is None:
             db_type = database["db_type"]
-            if db_type == DatabaseTypes.postgres.value:
+            if db_type == DatabaseTypes.POSTGRES.value:
                 for env_var in REQUIRED_DB_ENV_VARS["postgres"]:
                     if env_var not in os.environ or not os.environ[env_var]:
                         raise ValueError(
                             f"Missing required environment variable '{env_var}' for postgres"
                         )
-            elif db_type == DatabaseTypes.mysql.value:
+            elif db_type == DatabaseTypes.MYSQL.value:
                 for env_var in REQUIRED_DB_ENV_VARS["mysql"]:
                     if env_var not in os.environ or not os.environ[env_var]:
                         raise ValueError(
                             f"Missing required environment variable '{env_var}' for mysql"
                         )
-            elif db_type == DatabaseTypes.mongo.value:
+            elif db_type == DatabaseTypes.MONGO.value:
                 for env_var in REQUIRED_DB_ENV_VARS["mongo"]:
                     if env_var not in os.environ or not os.environ[env_var]:
                         raise ValueError(
@@ -106,7 +97,7 @@ def validate_config(config: Dict) -> None:
                         )
             else:
                 raise ValueError(
-                    f"Invalid db_type '{db_type}', allowed types are {DatabaseConfig.db_type_choices}"
+                    f"Invalid db_type '{db_type}', allowed types are {DatabaseTypes.choices()}"
                 )
 
     # (3) For each ModelConfig confirm fields are valid
@@ -162,6 +153,21 @@ def validate_config(config: Dict) -> None:
 ########################################
 
 
+def parse_service_info(config: Dict[str, Any]) -> ServiceInfo:
+    """Parse the service info."""
+    return ServiceInfo(**config)
+
+
+def parse_db_config(config: Dict[str, Any]) -> DBConfig:
+    """Parse the database config."""
+    if config["db_type"] == MONGO:
+        return MongoDBConfig(**config)
+    elif config["db_type"] in [MYSQL, POSTGRES]:
+        return RelationalDBConfig(**config)
+    else:
+        raise ValueError(f"Invalid db_type {config['db_type']}")
+
+
 def parse_config(config) -> ServiceConfig:
     """Parse the model definition from the config.
     Args:
@@ -170,10 +176,10 @@ def parse_config(config) -> ServiceConfig:
         Config
     """
     # (1) Parse the service info
-    service_info = ServiceInfo(**config["service"])
+    service_info = parse_service_info(config["service"])
 
     # (2) Parse the DB connection
-    database_config = DatabaseConfig(**config["database"])
+    database_config = parse_db_config(config["database"])
 
     # (3) Parse the models
     models_config = []

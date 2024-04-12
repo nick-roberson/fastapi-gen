@@ -25,3 +25,5 @@ rating_dict = rating_instance.to_dict()
 rating_form_dict = rating.from_dict(rating_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

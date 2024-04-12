@@ -4,7 +4,8 @@ from pydantic import BaseModel, ConfigDict, field_validator
 from pydantic.fields import FieldInfo
 
 from builder.constants import DEFAULT_SERVICE_NAME
-from builder.models.enum import DatabaseTypes, FieldDataType
+from builder.models.db import DBConfig
+from builder.models.enum import FieldDataType
 
 
 class FieldDefinition(BaseModel):
@@ -189,21 +190,6 @@ class DependencyConfig(BaseModel):
         return f"DependencyConfig(name={self.name}, version={self.version})"
 
 
-class DatabaseConfig(BaseModel):
-    """Database configuration"""
-
-    model_config = ConfigDict(extra="ignore", from_attributes=True)
-
-    db_type: str
-    db_uri_env_var: str
-
-    @field_validator("db_type")
-    def validate_db_type(cls, v):
-        if v not in DatabaseTypes.choices():
-            raise ValueError(f"db_type must be one of {DatabaseTypes.choices()}")
-        return v
-
-
 class ServiceInfo(BaseModel):
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
@@ -221,7 +207,7 @@ class ServiceConfig(BaseModel):
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
     service_info: ServiceInfo
-    database: DatabaseConfig
+    database: DBConfig
     models: List[ModelConfig] = []
     dependencies: List[DependencyConfig] = []
 
