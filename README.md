@@ -60,6 +60,8 @@
     </a>
 </p>
 
+**Mongo DB Integration is lagging behind the MySQL / PostrgreSQL implementation... working to bring them back into sync!**
+
 _**NOTE:**_
 - _This project is actively under development and not yet intended for production usage, although it functions well for general use cases and POCs._
 - _While the service templates are robust, the generated code is still being refined, and there are ongoing improvements._
