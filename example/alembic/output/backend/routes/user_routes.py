@@ -26,6 +26,14 @@ def query_user(query: UserQuery) -> List[User]:
     """Query Users"""
     logging.info(f"Querying Users with query: {str(query)}")
 
+    # If all fields are None in the query return 400
+    if not any(query.dict().values()):
+        allowed_fields = ", ".join(
+            [field_name for field_name in UserQuery.__fields__.keys()]
+        )
+        detail = f"Query fields cannot all be None, must have at least one field set. Allowed fields: {allowed_fields}"
+        raise HTTPException(status_code=400, detail=detail)
+
     # Query the Users with the given query, if none found raise 404
     models = user_manager.query(query)
     if not models:

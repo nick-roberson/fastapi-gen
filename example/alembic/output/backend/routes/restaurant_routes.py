@@ -26,6 +26,14 @@ def query_restaurant(query: RestaurantQuery) -> List[Restaurant]:
     """Query Restaurants"""
     logging.info(f"Querying Restaurants with query: {str(query)}")
 
+    # If all fields are None in the query return 400
+    if not any(query.dict().values()):
+        allowed_fields = ", ".join(
+            [field_name for field_name in RestaurantQuery.__fields__.keys()]
+        )
+        detail = f"Query fields cannot all be None, must have at least one field set. Allowed fields: {allowed_fields}"
+        raise HTTPException(status_code=400, detail=detail)
+
     # Query the Restaurants with the given query, if none found raise 404
     models = restaurant_manager.query(query)
     if not models:
