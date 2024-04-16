@@ -13,7 +13,7 @@ from typing import List
 
 from db.constants import DB_URL
 from db.models import DBRestaurant
-from models.models import Restaurant
+from models.models import Restaurant, RestaurantQuery
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -58,6 +58,31 @@ class RestaurantManager:
         finally:
             self.close_session()
 
+    def get_many(self, ids: List[int]) -> List[Restaurant]:
+        """Retrieve multiple Restaurant records from the database by their IDs."""
+        logging.info(f"Retrieving multiple Restaurant records with IDs: {ids}")
+        try:
+            with self.session_factory() as session:
+
+                # Retrieve the Restaurant records by their IDs
+                items = (
+                    session.query(DBRestaurant).filter(DBRestaurant.id.in_(ids)).all()
+                )
+                if not items:
+                    return []
+
+                # Return the Restaurant records
+                logging.info(
+                    f"Successfully retrieved multiple Restaurant records: {items}"
+                )
+                return [Restaurant.from_orm(item) for item in items]
+
+        except Exception as e:
+            logging.error(f"Failed to retrieve multiple Restaurant records: {e}")
+            raise e
+        finally:
+            self.close_session()
+
     def get_all(self) -> List[Restaurant]:
         """Retrieve all Restaurant records from the database."""
         logging.info("Retrieving all Restaurant records")
@@ -75,6 +100,35 @@ class RestaurantManager:
 
         except Exception as e:
             logging.error(f"Failed to retrieve all Restaurant records: {e}")
+            raise e
+        finally:
+            self.close_session()
+
+    def query(self, query: RestaurantQuery) -> List[Restaurant]:
+        """Query the Restaurant records from the database."""
+        logging.info(f"Querying Restaurant records: {query}")
+        try:
+            with self.session_factory() as session:
+
+                # Build the query
+                query_builder = session.query(DBRestaurant)
+                for key, value in query.dict().items():
+                    if value is not None:
+                        query_builder = query_builder.filter(
+                            getattr(DBRestaurant, key) == value
+                        )
+
+                # Execute the query
+                items = query_builder.all()
+                if not items:
+                    return []
+
+                # Return the Restaurant records
+                logging.info(f"Successfully queried Restaurant records: {items}")
+                return [Restaurant.from_orm(item) for item in items]
+
+        except Exception as e:
+            logging.error(f"Failed to query Restaurant records: {e}")
             raise e
         finally:
             self.close_session()

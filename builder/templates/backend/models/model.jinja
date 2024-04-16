@@ -14,4 +14,12 @@ class {{ model.name }}(BaseModel):
     def to_dict(self) -> Dict:
         return self.dict()
 
+class {{ model.name }}Query(BaseModel):
+    model_config = ConfigDict(extra='ignore', from_attributes=True)
+
+    {% for field in model.fields %}{{ field.name }}: Optional[{{ field.type }}] = None
+    {% endfor %}
+
+    def to_dict(self) -> Dict:
+        return self.dict()
 {% endfor %}

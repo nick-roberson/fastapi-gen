@@ -5,7 +5,7 @@ from typing import List
 import uvicorn
 from db.user_manager import get_user_manager
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from models.models import User
+from models.models import User, UserQuery
 
 # Create instances of managers for each model
 
@@ -14,6 +14,25 @@ user_manager = get_user_manager()
 
 # Define Router
 router = APIRouter()
+
+
+########################################################################################################################
+# Query Endpoints for User
+########################################################################################################################
+
+
+@router.post("/user/query")
+def query_user(query: UserQuery) -> List[User]:
+    """Query Users"""
+    logging.info(f"Querying Users with query: {str(query)}")
+
+    # Query the Users with the given query, if none found raise 404
+    models = user_manager.query(query)
+    if not models:
+        raise HTTPException(status_code=404, detail=f"No Users found")
+
+    # Return the Users
+    return models
 
 
 ########################################################################################################################

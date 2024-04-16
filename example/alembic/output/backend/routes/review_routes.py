@@ -5,7 +5,7 @@ from typing import List
 import uvicorn
 from db.review_manager import get_review_manager
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from models.models import Review
+from models.models import Review, ReviewQuery
 
 # Create instances of managers for each model
 
@@ -14,6 +14,25 @@ review_manager = get_review_manager()
 
 # Define Router
 router = APIRouter()
+
+
+########################################################################################################################
+# Query Endpoints for Review
+########################################################################################################################
+
+
+@router.post("/review/query")
+def query_review(query: ReviewQuery) -> List[Review]:
+    """Query Reviews"""
+    logging.info(f"Querying Reviews with query: {str(query)}")
+
+    # Query the Reviews with the given query, if none found raise 404
+    models = review_manager.query(query)
+    if not models:
+        raise HTTPException(status_code=404, detail=f"No Reviews found")
+
+    # Return the Reviews
+    return models
 
 
 ########################################################################################################################

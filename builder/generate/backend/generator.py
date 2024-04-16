@@ -430,10 +430,14 @@ class BackendGenerator:
         """
         # Get list of model names for imports
         model_names = ", ".join([model.name for model in self.config.models])
+        query_model_names = ", ".join(
+            [f"{model.name}Query" for model in self.config.models]
+        )
         manager_names = [f"{model.name}Manager" for model in self.config.models]
         context = {
             "models": self.config.models,
             "model_names": model_names,
+            "query_model_names": query_model_names,
             "manager_names": manager_names,
         }
 
@@ -450,7 +454,8 @@ class BackendGenerator:
         for model in self.config.models:
             context = {
                 "models": [model],
-                "model_names": model.name,
+                "model_name": model.name,
+                "query_model_name": f"{model.name}Query",
                 "manager_names": [f"{model.name}Manager"],
             }
             file_name = f"{model.name.lower()}_routes.py"

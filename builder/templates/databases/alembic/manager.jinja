@@ -16,7 +16,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from db.constants import DB_URL
-from models.models import {{ model.name }}
+from models.models import {{ model.name }}, {{ model.name }}Query
 from db.models import DB{{ model.name }}
 
 
@@ -59,6 +59,27 @@ class {{ model.name }}Manager:
         finally:
             self.close_session()
 
+    def get_many(self, ids: List[int]) -> List[{{ model.name }}]:
+        """Retrieve multiple {{ model.name }} records from the database by their IDs."""
+        logging.info(f"Retrieving multiple {{ model.name }} records with IDs: {ids}")
+        try:
+            with self.session_factory() as session:
+
+                # Retrieve the {{ model.name }} records by their IDs
+                items = session.query(DB{{ model.name }}).filter(DB{{ model.name }}.id.in_(ids)).all()
+                if not items:
+                    return []
+
+                # Return the {{ model.name }} records
+                logging.info(f"Successfully retrieved multiple {{ model.name }} records: {items}")
+                return [{{ model.name }}.from_orm(item) for item in items]
+
+        except Exception as e:
+            logging.error(f"Failed to retrieve multiple {{ model.name }} records: {e}")
+            raise e
+        finally:
+            self.close_session()
+
     def get_all(self) -> List[{{ model.name }}]:
         """Retrieve all {{ model.name }} records from the database."""
         logging.info("Retrieving all {{ model.name }} records")
@@ -76,6 +97,33 @@ class {{ model.name }}Manager:
 
         except Exception as e:
             logging.error(f"Failed to retrieve all {{ model.name }} records: {e}")
+            raise e
+        finally:
+            self.close_session()
+
+    def query(self, query: {{ model.name }}Query) -> List[{{ model.name }}]:
+        """Query the {{ model.name }} records from the database."""
+        logging.info(f"Querying {{ model.name }} records: {query}")
+        try:
+            with self.session_factory() as session:
+
+                # Build the query
+                query_builder = session.query(DB{{ model.name }})
+                for key, value in query.dict().items():
+                    if value is not None:
+                        query_builder = query_builder.filter(getattr(DB{{ model.name }}, key) == value)
+
+                # Execute the query
+                items = query_builder.all()
+                if not items:
+                    return []
+
+                # Return the {{ model.name }} records
+                logging.info(f"Successfully queried {{ model.name }} records: {items}")
+                return [{{ model.name }}.from_orm(item) for item in items]
+
+        except Exception as e:
+            logging.error(f"Failed to query {{ model.name }} records: {e}")
             raise e
         finally:
             self.close_session()

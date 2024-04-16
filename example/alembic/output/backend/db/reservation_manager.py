@@ -13,7 +13,7 @@ from typing import List
 
 from db.constants import DB_URL
 from db.models import DBReservation
-from models.models import Reservation
+from models.models import Reservation, ReservationQuery
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -58,6 +58,31 @@ class ReservationManager:
         finally:
             self.close_session()
 
+    def get_many(self, ids: List[int]) -> List[Reservation]:
+        """Retrieve multiple Reservation records from the database by their IDs."""
+        logging.info(f"Retrieving multiple Reservation records with IDs: {ids}")
+        try:
+            with self.session_factory() as session:
+
+                # Retrieve the Reservation records by their IDs
+                items = (
+                    session.query(DBReservation).filter(DBReservation.id.in_(ids)).all()
+                )
+                if not items:
+                    return []
+
+                # Return the Reservation records
+                logging.info(
+                    f"Successfully retrieved multiple Reservation records: {items}"
+                )
+                return [Reservation.from_orm(item) for item in items]
+
+        except Exception as e:
+            logging.error(f"Failed to retrieve multiple Reservation records: {e}")
+            raise e
+        finally:
+            self.close_session()
+
     def get_all(self) -> List[Reservation]:
         """Retrieve all Reservation records from the database."""
         logging.info("Retrieving all Reservation records")
@@ -75,6 +100,35 @@ class ReservationManager:
 
         except Exception as e:
             logging.error(f"Failed to retrieve all Reservation records: {e}")
+            raise e
+        finally:
+            self.close_session()
+
+    def query(self, query: ReservationQuery) -> List[Reservation]:
+        """Query the Reservation records from the database."""
+        logging.info(f"Querying Reservation records: {query}")
+        try:
+            with self.session_factory() as session:
+
+                # Build the query
+                query_builder = session.query(DBReservation)
+                for key, value in query.dict().items():
+                    if value is not None:
+                        query_builder = query_builder.filter(
+                            getattr(DBReservation, key) == value
+                        )
+
+                # Execute the query
+                items = query_builder.all()
+                if not items:
+                    return []
+
+                # Return the Reservation records
+                logging.info(f"Successfully queried Reservation records: {items}")
+                return [Reservation.from_orm(item) for item in items]
+
+        except Exception as e:
+            logging.error(f"Failed to query Reservation records: {e}")
             raise e
         finally:
             self.close_session()

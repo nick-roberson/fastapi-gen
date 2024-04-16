@@ -5,7 +5,8 @@ import argparse
 from typing import List
 from fastapi import APIRouter, HTTPException, BackgroundTasks
 
-from models.models import {{ model_names }}
+from models.models import {{ model_name }}
+from models.models import {{ query_model_name }}
 {% for model in models %}from db.{{ model.name.lower() }}_manager import get_{{ model.manager_var_name }}
 {% endfor %}
 
@@ -19,7 +20,28 @@ router = APIRouter()
 
 
 ########################################################################################################################
-# Get Endpoints for {{ model_names }}
+# Query Endpoints for {{ model_name }}
+########################################################################################################################
+
+{% for model in models %}
+
+@router.post("/{{ model.name.lower() }}/query")
+def query_{{ model.name.lower() }}(query: {{ query_model_name }}) -> List[{{ model.name }}]:
+    """ Query {{ model.name }}s """
+    logging.info(f"Querying {{ model.name }}s with query: {str(query)}")
+
+    # Query the {{ model.name }}s with the given query, if none found raise 404
+    models = {{ model.manager_var_name }}.query(query)
+    if not models:
+        raise HTTPException(status_code=404, detail=f"No {{ model.name }}s found")
+
+    # Return the {{ model.name }}s
+    return models
+
+{% endfor %}
+
+########################################################################################################################
+# Get Endpoints for {{ model_name }}
 ########################################################################################################################
 
 {% for model in models %}
@@ -35,7 +57,6 @@ def get_{{ model.name.lower() }}({{ model.model_id_var_name }}: str) -> {{ model
 
     # Return the {{ model.name }}
     return model
-
 
 @router.get("/{{ model.name.lower() }}s")
 def get_{{ model.name.lower() }}s() -> List[{{ model.name }}]:
@@ -54,7 +75,7 @@ def get_{{ model.name.lower() }}s() -> List[{{ model.name }}]:
 {% endfor %}
 
 ########################################################################################################################
-# Create Endpoints for {{ model_names }}
+# Create Endpoints for {{ model_name }}
 ########################################################################################################################
 
 {% for model in models %}
@@ -117,7 +138,7 @@ def create_{{ model.name.lower() }}s_async({{model.name.lower()}}s: List[{{ mode
 {% endfor %}
 
 ########################################################################################################################
-# Update Endpoints for {{ model_names }}
+# Update Endpoints for {{ model_name }}
 ########################################################################################################################
 
 {% for model in models %}
@@ -179,7 +200,7 @@ def update_{{ model.name.lower() }}s_async({{model.name.lower()}}s: List[{{ mode
 {% endfor %}
 
 ########################################################################################################################
-# Delete Endpoints for {{ model_names }}
+# Delete Endpoints for {{ model_name }}
 ########################################################################################################################
 
 {% for model in models %}

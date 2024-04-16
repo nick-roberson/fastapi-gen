@@ -13,7 +13,7 @@ from typing import List
 
 from db.constants import DB_URL
 from db.models import DBUser
-from models.models import User
+from models.models import User, UserQuery
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -58,6 +58,27 @@ class UserManager:
         finally:
             self.close_session()
 
+    def get_many(self, ids: List[int]) -> List[User]:
+        """Retrieve multiple User records from the database by their IDs."""
+        logging.info(f"Retrieving multiple User records with IDs: {ids}")
+        try:
+            with self.session_factory() as session:
+
+                # Retrieve the User records by their IDs
+                items = session.query(DBUser).filter(DBUser.id.in_(ids)).all()
+                if not items:
+                    return []
+
+                # Return the User records
+                logging.info(f"Successfully retrieved multiple User records: {items}")
+                return [User.from_orm(item) for item in items]
+
+        except Exception as e:
+            logging.error(f"Failed to retrieve multiple User records: {e}")
+            raise e
+        finally:
+            self.close_session()
+
     def get_all(self) -> List[User]:
         """Retrieve all User records from the database."""
         logging.info("Retrieving all User records")
@@ -75,6 +96,35 @@ class UserManager:
 
         except Exception as e:
             logging.error(f"Failed to retrieve all User records: {e}")
+            raise e
+        finally:
+            self.close_session()
+
+    def query(self, query: UserQuery) -> List[User]:
+        """Query the User records from the database."""
+        logging.info(f"Querying User records: {query}")
+        try:
+            with self.session_factory() as session:
+
+                # Build the query
+                query_builder = session.query(DBUser)
+                for key, value in query.dict().items():
+                    if value is not None:
+                        query_builder = query_builder.filter(
+                            getattr(DBUser, key) == value
+                        )
+
+                # Execute the query
+                items = query_builder.all()
+                if not items:
+                    return []
+
+                # Return the User records
+                logging.info(f"Successfully queried User records: {items}")
+                return [User.from_orm(item) for item in items]
+
+        except Exception as e:
+            logging.error(f"Failed to query User records: {e}")
             raise e
         finally:
             self.close_session()

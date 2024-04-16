@@ -5,7 +5,7 @@ from typing import List
 import uvicorn
 from db.reservation_manager import get_reservation_manager
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from models.models import Reservation
+from models.models import Reservation, ReservationQuery
 
 # Create instances of managers for each model
 
@@ -14,6 +14,25 @@ reservation_manager = get_reservation_manager()
 
 # Define Router
 router = APIRouter()
+
+
+########################################################################################################################
+# Query Endpoints for Reservation
+########################################################################################################################
+
+
+@router.post("/reservation/query")
+def query_reservation(query: ReservationQuery) -> List[Reservation]:
+    """Query Reservations"""
+    logging.info(f"Querying Reservations with query: {str(query)}")
+
+    # Query the Reservations with the given query, if none found raise 404
+    models = reservation_manager.query(query)
+    if not models:
+        raise HTTPException(status_code=404, detail=f"No Reservations found")
+
+    # Return the Reservations
+    return models
 
 
 ########################################################################################################################

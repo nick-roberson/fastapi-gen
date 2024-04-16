@@ -13,7 +13,7 @@ from typing import List
 
 from db.constants import DB_URL
 from db.models import DBReview
-from models.models import Review
+from models.models import Review, ReviewQuery
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -58,6 +58,27 @@ class ReviewManager:
         finally:
             self.close_session()
 
+    def get_many(self, ids: List[int]) -> List[Review]:
+        """Retrieve multiple Review records from the database by their IDs."""
+        logging.info(f"Retrieving multiple Review records with IDs: {ids}")
+        try:
+            with self.session_factory() as session:
+
+                # Retrieve the Review records by their IDs
+                items = session.query(DBReview).filter(DBReview.id.in_(ids)).all()
+                if not items:
+                    return []
+
+                # Return the Review records
+                logging.info(f"Successfully retrieved multiple Review records: {items}")
+                return [Review.from_orm(item) for item in items]
+
+        except Exception as e:
+            logging.error(f"Failed to retrieve multiple Review records: {e}")
+            raise e
+        finally:
+            self.close_session()
+
     def get_all(self) -> List[Review]:
         """Retrieve all Review records from the database."""
         logging.info("Retrieving all Review records")
@@ -75,6 +96,35 @@ class ReviewManager:
 
         except Exception as e:
             logging.error(f"Failed to retrieve all Review records: {e}")
+            raise e
+        finally:
+            self.close_session()
+
+    def query(self, query: ReviewQuery) -> List[Review]:
+        """Query the Review records from the database."""
+        logging.info(f"Querying Review records: {query}")
+        try:
+            with self.session_factory() as session:
+
+                # Build the query
+                query_builder = session.query(DBReview)
+                for key, value in query.dict().items():
+                    if value is not None:
+                        query_builder = query_builder.filter(
+                            getattr(DBReview, key) == value
+                        )
+
+                # Execute the query
+                items = query_builder.all()
+                if not items:
+                    return []
+
+                # Return the Review records
+                logging.info(f"Successfully queried Review records: {items}")
+                return [Review.from_orm(item) for item in items]
+
+        except Exception as e:
+            logging.error(f"Failed to query Review records: {e}")
             raise e
         finally:
             self.close_session()

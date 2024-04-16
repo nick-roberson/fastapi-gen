@@ -5,7 +5,7 @@ from typing import List
 import uvicorn
 from db.restaurant_manager import get_restaurant_manager
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from models.models import Restaurant
+from models.models import Restaurant, RestaurantQuery
 
 # Create instances of managers for each model
 
@@ -14,6 +14,25 @@ restaurant_manager = get_restaurant_manager()
 
 # Define Router
 router = APIRouter()
+
+
+########################################################################################################################
+# Query Endpoints for Restaurant
+########################################################################################################################
+
+
+@router.post("/restaurant/query")
+def query_restaurant(query: RestaurantQuery) -> List[Restaurant]:
+    """Query Restaurants"""
+    logging.info(f"Querying Restaurants with query: {str(query)}")
+
+    # Query the Restaurants with the given query, if none found raise 404
+    models = restaurant_manager.query(query)
+    if not models:
+        raise HTTPException(status_code=404, detail=f"No Restaurants found")
+
+    # Return the Restaurants
+    return models
 
 
 ########################################################################################################################

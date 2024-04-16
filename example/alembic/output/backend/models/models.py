@@ -29,6 +29,20 @@ class User(BaseModel):
         return self.dict()
 
 
+class UserQuery(BaseModel):
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
+
+    id: Optional[int] = None
+    username: Optional[str] = None
+    email: Optional[str] = None
+    phone_number: Optional[str] = None
+    preferences: Optional[list] = None
+    role: Optional[str] = None
+
+    def to_dict(self) -> Dict:
+        return self.dict()
+
+
 class Restaurant(BaseModel):
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
@@ -50,6 +64,20 @@ class Restaurant(BaseModel):
     price_range: Optional[str] = FieldInfo(
         default=None, description="The price range of the alembic", required=False
     )
+
+    def to_dict(self) -> Dict:
+        return self.dict()
+
+
+class RestaurantQuery(BaseModel):
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
+
+    id: Optional[int] = None
+    name: Optional[str] = None
+    location: Optional[str] = None
+    cuisine: Optional[str] = None
+    rating: Optional[float] = None
+    price_range: Optional[str] = None
 
     def to_dict(self) -> Dict:
         return self.dict()
@@ -85,6 +113,20 @@ class Reservation(BaseModel):
         return self.dict()
 
 
+class ReservationQuery(BaseModel):
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
+
+    id: Optional[int] = None
+    restaurant_id: Optional[int] = None
+    user_id: Optional[int] = None
+    reservation_time: Optional[datetime] = None
+    party_size: Optional[int] = None
+    special_requests: Optional[str] = None
+
+    def to_dict(self) -> Dict:
+        return self.dict()
+
+
 class Review(BaseModel):
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
@@ -101,6 +143,19 @@ class Review(BaseModel):
     comment: Optional[str] = FieldInfo(
         default=None, description="The textual comment of the review", required=False
     )
+
+    def to_dict(self) -> Dict:
+        return self.dict()
+
+
+class ReviewQuery(BaseModel):
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
+
+    id: Optional[int] = None
+    restaurant_id: Optional[int] = None
+    user_id: Optional[int] = None
+    rating: Optional[float] = None
+    comment: Optional[str] = None
 
     def to_dict(self) -> Dict:
         return self.dict()
