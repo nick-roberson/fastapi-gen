@@ -1,5 +1,3 @@
-""" Template to store the DB models of the application """
-
 from sqlalchemy import (JSON, Boolean, Column, DateTime, Float, Integer,
                         String, Text)
 from sqlalchemy.ext.declarative import declarative_base

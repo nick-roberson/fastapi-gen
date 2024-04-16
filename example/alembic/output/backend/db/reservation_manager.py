@@ -1,12 +1,3 @@
-""" Template for alembic model manager, includes the following endpoints:
-- create_model
-- create_models
-- get_model
-- get_models
-- update_model
-- delete_model
-"""
-
 import logging
 from datetime import datetime
 from typing import List
