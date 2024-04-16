@@ -287,26 +287,32 @@ To view the generated OpenAPI documentation, navigate to [http://localhost:8000/
 
 If you want to regenerate the templates for the frontend or backend, you can use the `regenerate-templates` command.
 
+Alembic Example:
 ```bash
 % poetry run python main.py regenerate-templates frontend \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
-
-...
-
-Regenerated frontend templates!
+```
+Mongo Example:
+```bash
+% poetry run python main.py regenerate-templates frontend \
+    --config example/mongo/restaurant.yaml \
+    --output-dir example/mongo/output
 ```
 
 If you want to regenerate the backend templates, you can use the following command:
 
+Alembic Example:
 ```bash
 % poetry run python main.py regenerate-templates backend \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
-
-...
-
-Regenerated backend templates!
+```
+Mongo Example:
+```bash
+% poetry run python main.py regenerate-templates backend \
+    --config example/mongo/restaurant.yaml \
+    --output-dir example/mongo/output
 ```
 
 ## Test Data

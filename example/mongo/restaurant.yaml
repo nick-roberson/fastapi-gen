@@ -1,6 +1,9 @@
-# NOTE: If you want to generate your own config file from this one, honestly ChatGPT is a really good way to do it.
-# Just plug in this file and ask it to generate a .yaml file for you for other models or objects and it generally
-# does a pretty good job.
+# NOTES:
+#   > If you want to generate your own config file from this one, honestly ChatGPT is a really good way to do it.
+#   Just plug in this file and ask it to generate a .yaml file for you for other models or objects and it generally
+#   does a pretty good job.
+#   > Ids in alembic for example are integers, while in mongo they are strings. This is a good example of how the
+#   database type can affect the model definitions.
 
 # Service Configuration
 service:

@@ -1,0 +1,42 @@
+[
+  {
+    "id": 2210,
+    "name": "Willis-Jones",
+    "location": "362 Smith Forge Suite 707\nLake Rachelbury, OH 46587",
+    "cuisine": "Chinese",
+    "rating": 1.1,
+    "price_range": "$$$"
+  },
+  {
+    "id": 2834,
+    "name": "Robbins and Sons",
+    "location": "7480 Steven Station Suite 436\nNew Michael, CO 79437",
+    "cuisine": "American",
+    "rating": 2.6,
+    "price_range": "$$"
+  },
+  {
+    "id": 920,
+    "name": "Hill-Gonzalez",
+    "location": "69985 Ross Land\nChristinabury, PA 65340",
+    "cuisine": "Chinese",
+    "rating": 1.1,
+    "price_range": "$$"
+  },
+  {
+    "id": 3997,
+    "name": "Johnson PLC",
+    "location": "8245 Kevin Heights Suite 940\nSmithmouth, MI 94663",
+    "cuisine": "Japanese",
+    "rating": 3.5,
+    "price_range": "$$"
+  },
+  {
+    "id": 4204,
+    "name": "Rollins, Cohen and Flores",
+    "location": "209 Mike Stravenue\nNorth Jonathan, MN 66908",
+    "cuisine": "American",
+    "rating": 2.7,
+    "price_range": "$$$"
+  }
+]

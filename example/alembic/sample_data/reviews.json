@@ -1,0 +1,37 @@
+[
+  {
+    "id": 3000,
+    "restaurant_id": 2834,
+    "user_id": 7284,
+    "rating": 1.4,
+    "comment": "Federal way improve show represent. Easy bed condition American paper list hotel. Remain resource meeting often building major across."
+  },
+  {
+    "id": 782,
+    "restaurant_id": 2834,
+    "user_id": 7284,
+    "rating": 2.5,
+    "comment": "Process interest trade bed. Happen return happy media test probably say. At billion dinner system culture."
+  },
+  {
+    "id": 9749,
+    "restaurant_id": 2834,
+    "user_id": 1617,
+    "rating": 4.4,
+    "comment": "Sign son speech financial yard whatever cell window. History part rule general center. Heart yard plant similar technology manage even."
+  },
+  {
+    "id": 8005,
+    "restaurant_id": 3997,
+    "user_id": 7284,
+    "rating": 4.0,
+    "comment": "Now them project. Between reflect left energy current.\nOffer ability hospital subject training space month. Office other certain product debate law ahead."
+  },
+  {
+    "id": 7845,
+    "restaurant_id": 3997,
+    "user_id": 1617,
+    "rating": 4.8,
+    "comment": "Painting stay rather conference light here quite. Staff mother happen technology build machine."
+  }
+]

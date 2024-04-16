@@ -1,0 +1,57 @@
+[
+  {
+    "id": 7284,
+    "username": "justin62",
+    "email": "velasquezwilliam@example.org",
+    "phone_number": "553-233-1900",
+    "preferences": [
+      "japanese",
+      "japanese"
+    ],
+    "role": "restaurant_owner"
+  },
+  {
+    "id": 2884,
+    "username": "timothymartin",
+    "email": "rogerballard@example.com",
+    "phone_number": "665-830-7507",
+    "preferences": [
+      "mexican",
+      "italian"
+    ],
+    "role": "restaurant_owner"
+  },
+  {
+    "id": 1617,
+    "username": "teresaromero",
+    "email": "flemingtammy@example.org",
+    "phone_number": "296-310-7372",
+    "preferences": [
+      "chinese",
+      "japanese"
+    ],
+    "role": "restaurant_owner"
+  },
+  {
+    "id": 7695,
+    "username": "ismith",
+    "email": "suttonbrian@example.org",
+    "phone_number": "001-225-348-1971x7311",
+    "preferences": [
+      "mexican",
+      "vegan"
+    ],
+    "role": "restaurant_owner"
+  },
+  {
+    "id": 3963,
+    "username": "andremcdonald",
+    "email": "martinmorales@example.com",
+    "phone_number": "(268)712-4119x85865",
+    "preferences": [
+      "italian",
+      "italian"
+    ],
+    "role": "user"
+  }
+]

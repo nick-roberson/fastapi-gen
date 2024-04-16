@@ -1,0 +1,82 @@
+[
+  {
+    "id": "2878",
+    "name": "Norman Inc",
+    "location": "896 Rachel Drives Suite 368\nSouth Nicoleville, MS 06898",
+    "cuisine": "Mexican",
+    "rating": 2.0,
+    "price_range": "$$$$"
+  },
+  {
+    "id": "2223",
+    "name": "Campbell, Green and Grimes",
+    "location": "783 Johnson Burg Apt. 618\nEast Keithchester, WA 82651",
+    "cuisine": "Japanese",
+    "rating": 3.0,
+    "price_range": "$$"
+  },
+  {
+    "id": "8858",
+    "name": "Rich and Sons",
+    "location": "USNV Cunningham\nFPO AP 17487",
+    "cuisine": "Mexican",
+    "rating": 4.4,
+    "price_range": "$$"
+  },
+  {
+    "id": "2227",
+    "name": "Murphy Inc",
+    "location": "6121 Norton Underpass\nCollinsport, WI 90272",
+    "cuisine": "Mexican",
+    "rating": 4.2,
+    "price_range": "$$"
+  },
+  {
+    "id": "9828",
+    "name": "Singleton-Benson",
+    "location": "822 Perkins Brooks Apt. 837\nWest Daniel, TX 08939",
+    "cuisine": "Italian",
+    "rating": 2.0,
+    "price_range": "$$"
+  },
+  {
+    "id": "3188",
+    "name": "Weaver-Mcdaniel",
+    "location": "0219 Greer Union Apt. 830\nPort Seanstad, CT 58153",
+    "cuisine": "Mexican",
+    "rating": 1.0,
+    "price_range": "$$"
+  },
+  {
+    "id": "5991",
+    "name": "Baker, Stewart and Johnson",
+    "location": "989 Hunter Divide\nReginaldport, NH 67292",
+    "cuisine": "Italian",
+    "rating": 4.8,
+    "price_range": "$$"
+  },
+  {
+    "id": "5728",
+    "name": "Golden Group",
+    "location": "479 Tammy Ridges\nArianaview, VT 73362",
+    "cuisine": "Italian",
+    "rating": 1.1,
+    "price_range": "$"
+  },
+  {
+    "id": "7683",
+    "name": "Fields Ltd",
+    "location": "2886 Nelson Plaza Apt. 754\nSandrashire, AS 05994",
+    "cuisine": "Italian",
+    "rating": 1.7,
+    "price_range": "$$$$"
+  },
+  {
+    "id": "8727",
+    "name": "Harrison-Green",
+    "location": "506 Brown Light\nRussellfurt, PR 76635",
+    "cuisine": "Italian",
+    "rating": 3.9,
+    "price_range": "$$"
+  }
+]
