@@ -13,12 +13,18 @@
  */
 
 import * as runtime from "../runtime";
-import type { HTTPValidationError, Restaurant } from "../models/index";
+import type {
+  HTTPValidationError,
+  Restaurant,
+  RestaurantQuery,
+} from "../models/index";
 import {
   HTTPValidationErrorFromJSON,
   HTTPValidationErrorToJSON,
   RestaurantFromJSON,
   RestaurantToJSON,
+  RestaurantQueryFromJSON,
+  RestaurantQueryToJSON,
 } from "../models/index";
 
 export interface CreateRestaurantAsyncRestaurantAsyncPostRequest {
@@ -55,6 +61,10 @@ export interface DeleteRestaurantsRestaurantsDeleteRequest {
 
 export interface GetRestaurantRestaurantGetRequest {
   restaurantId: string;
+}
+
+export interface QueryRestaurantRestaurantQueryPostRequest {
+  restaurantQuery: RestaurantQuery;
 }
 
 export interface UpdateRestaurantAsyncRestaurantAsyncPutRequest {
@@ -590,6 +600,58 @@ export class RestaurantApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<Restaurant>> {
     const response = await this.getRestaurantsRestaurantsGetRaw(initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Query Restaurants
+   * Query Restaurant
+   */
+  async queryRestaurantRestaurantQueryPostRaw(
+    requestParameters: QueryRestaurantRestaurantQueryPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<Array<Restaurant>>> {
+    if (requestParameters["restaurantQuery"] == null) {
+      throw new runtime.RequiredError(
+        "restaurantQuery",
+        'Required parameter "restaurantQuery" was null or undefined when calling queryRestaurantRestaurantQueryPost().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/restaurant/query`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: RestaurantQueryToJSON(requestParameters["restaurantQuery"]),
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(RestaurantFromJSON),
+    );
+  }
+
+  /**
+   * Query Restaurants
+   * Query Restaurant
+   */
+  async queryRestaurantRestaurantQueryPost(
+    requestParameters: QueryRestaurantRestaurantQueryPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<Array<Restaurant>> {
+    const response = await this.queryRestaurantRestaurantQueryPostRaw(
+      requestParameters,
+      initOverrides,
+    );
     return await response.value();
   }
 

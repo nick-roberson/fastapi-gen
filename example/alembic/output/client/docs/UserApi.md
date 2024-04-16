@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**delete_users_users_delete**](UserApi.md#delete_users_users_delete) | **DELETE** /users | Delete Users
 [**get_user_user_get**](UserApi.md#get_user_user_get) | **GET** /user | Get User
 [**get_users_users_get**](UserApi.md#get_users_users_get) | **GET** /users | Get Users
+[**query_user_user_query_post**](UserApi.md#query_user_user_query_post) | **POST** /user/query | Query User
 [**update_user_async_user_async_put**](UserApi.md#update_user_async_user_async_put) | **PUT** /user/async | Update User Async
 [**update_user_user_put**](UserApi.md#update_user_user_put) | **PUT** /user | Update User
 [**update_users_async_users_async_put**](UserApi.md#update_users_async_users_async_put) | **PUT** /users/async | Update Users Async
@@ -700,6 +701,76 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful Response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **query_user_user_query_post**
+> List[User] query_user_user_query_post(user_query)
+
+Query User
+
+Query Users
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.user import User
+from openapi_client.models.user_query import UserQuery
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.UserApi(api_client)
+    user_query = openapi_client.UserQuery() # UserQuery | 
+
+    try:
+        # Query User
+        api_response = api_instance.query_user_user_query_post(user_query)
+        print("The response of UserApi->query_user_user_query_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling UserApi->query_user_user_query_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **user_query** | [**UserQuery**](UserQuery.md)|  | 
+
+### Return type
+
+[**List[User]**](User.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

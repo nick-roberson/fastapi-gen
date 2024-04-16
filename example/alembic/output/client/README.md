@@ -95,6 +95,7 @@ Class | Method | HTTP request | Description
 *ReservationApi* | [**delete_reservations_reservations_delete**](docs/ReservationApi.md#delete_reservations_reservations_delete) | **DELETE** /reservations | Delete Reservations
 *ReservationApi* | [**get_reservation_reservation_get**](docs/ReservationApi.md#get_reservation_reservation_get) | **GET** /reservation | Get Reservation
 *ReservationApi* | [**get_reservations_reservations_get**](docs/ReservationApi.md#get_reservations_reservations_get) | **GET** /reservations | Get Reservations
+*ReservationApi* | [**query_reservation_reservation_query_post**](docs/ReservationApi.md#query_reservation_reservation_query_post) | **POST** /reservation/query | Query Reservation
 *ReservationApi* | [**update_reservation_async_reservation_async_put**](docs/ReservationApi.md#update_reservation_async_reservation_async_put) | **PUT** /reservation/async | Update Reservation Async
 *ReservationApi* | [**update_reservation_reservation_put**](docs/ReservationApi.md#update_reservation_reservation_put) | **PUT** /reservation | Update Reservation
 *ReservationApi* | [**update_reservations_async_reservations_async_put**](docs/ReservationApi.md#update_reservations_async_reservations_async_put) | **PUT** /reservations/async | Update Reservations Async
@@ -109,6 +110,7 @@ Class | Method | HTTP request | Description
 *RestaurantApi* | [**delete_restaurants_restaurants_delete**](docs/RestaurantApi.md#delete_restaurants_restaurants_delete) | **DELETE** /restaurants | Delete Restaurants
 *RestaurantApi* | [**get_restaurant_restaurant_get**](docs/RestaurantApi.md#get_restaurant_restaurant_get) | **GET** /restaurant | Get Restaurant
 *RestaurantApi* | [**get_restaurants_restaurants_get**](docs/RestaurantApi.md#get_restaurants_restaurants_get) | **GET** /restaurants | Get Restaurants
+*RestaurantApi* | [**query_restaurant_restaurant_query_post**](docs/RestaurantApi.md#query_restaurant_restaurant_query_post) | **POST** /restaurant/query | Query Restaurant
 *RestaurantApi* | [**update_restaurant_async_restaurant_async_put**](docs/RestaurantApi.md#update_restaurant_async_restaurant_async_put) | **PUT** /restaurant/async | Update Restaurant Async
 *RestaurantApi* | [**update_restaurant_restaurant_put**](docs/RestaurantApi.md#update_restaurant_restaurant_put) | **PUT** /restaurant | Update Restaurant
 *RestaurantApi* | [**update_restaurants_async_restaurants_async_put**](docs/RestaurantApi.md#update_restaurants_async_restaurants_async_put) | **PUT** /restaurants/async | Update Restaurants Async
@@ -123,6 +125,7 @@ Class | Method | HTTP request | Description
 *ReviewApi* | [**delete_reviews_reviews_delete**](docs/ReviewApi.md#delete_reviews_reviews_delete) | **DELETE** /reviews | Delete Reviews
 *ReviewApi* | [**get_review_review_get**](docs/ReviewApi.md#get_review_review_get) | **GET** /review | Get Review
 *ReviewApi* | [**get_reviews_reviews_get**](docs/ReviewApi.md#get_reviews_reviews_get) | **GET** /reviews | Get Reviews
+*ReviewApi* | [**query_review_review_query_post**](docs/ReviewApi.md#query_review_review_query_post) | **POST** /review/query | Query Review
 *ReviewApi* | [**update_review_async_review_async_put**](docs/ReviewApi.md#update_review_async_review_async_put) | **PUT** /review/async | Update Review Async
 *ReviewApi* | [**update_review_review_put**](docs/ReviewApi.md#update_review_review_put) | **PUT** /review | Update Review
 *ReviewApi* | [**update_reviews_async_reviews_async_put**](docs/ReviewApi.md#update_reviews_async_reviews_async_put) | **PUT** /reviews/async | Update Reviews Async
@@ -137,6 +140,7 @@ Class | Method | HTTP request | Description
 *UserApi* | [**delete_users_users_delete**](docs/UserApi.md#delete_users_users_delete) | **DELETE** /users | Delete Users
 *UserApi* | [**get_user_user_get**](docs/UserApi.md#get_user_user_get) | **GET** /user | Get User
 *UserApi* | [**get_users_users_get**](docs/UserApi.md#get_users_users_get) | **GET** /users | Get Users
+*UserApi* | [**query_user_user_query_post**](docs/UserApi.md#query_user_user_query_post) | **POST** /user/query | Query User
 *UserApi* | [**update_user_async_user_async_put**](docs/UserApi.md#update_user_async_user_async_put) | **PUT** /user/async | Update User Async
 *UserApi* | [**update_user_user_put**](docs/UserApi.md#update_user_user_put) | **PUT** /user | Update User
 *UserApi* | [**update_users_async_users_async_put**](docs/UserApi.md#update_users_async_users_async_put) | **PUT** /users/async | Update Users Async
@@ -148,22 +152,43 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [Comment](docs/Comment.md)
+ - [Comment1](docs/Comment1.md)
  - [Cuisine](docs/Cuisine.md)
+ - [Cuisine1](docs/Cuisine1.md)
+ - [Email](docs/Email.md)
  - [HTTPValidationError](docs/HTTPValidationError.md)
  - [Id](docs/Id.md)
  - [Id1](docs/Id1.md)
  - [Id2](docs/Id2.md)
  - [Id3](docs/Id3.md)
+ - [Id4](docs/Id4.md)
+ - [Location](docs/Location.md)
+ - [Name](docs/Name.md)
+ - [PartySize](docs/PartySize.md)
  - [PhoneNumber](docs/PhoneNumber.md)
+ - [PhoneNumber1](docs/PhoneNumber1.md)
  - [Preferences](docs/Preferences.md)
+ - [Preferences1](docs/Preferences1.md)
  - [PriceRange](docs/PriceRange.md)
+ - [PriceRange1](docs/PriceRange1.md)
  - [Rating](docs/Rating.md)
+ - [Rating1](docs/Rating1.md)
  - [Reservation](docs/Reservation.md)
+ - [ReservationQuery](docs/ReservationQuery.md)
+ - [ReservationTime](docs/ReservationTime.md)
  - [Restaurant](docs/Restaurant.md)
+ - [RestaurantId](docs/RestaurantId.md)
+ - [RestaurantQuery](docs/RestaurantQuery.md)
  - [Review](docs/Review.md)
+ - [ReviewQuery](docs/ReviewQuery.md)
  - [Role](docs/Role.md)
+ - [Role1](docs/Role1.md)
  - [SpecialRequests](docs/SpecialRequests.md)
+ - [SpecialRequests1](docs/SpecialRequests1.md)
  - [User](docs/User.md)
+ - [UserId](docs/UserId.md)
+ - [UserQuery](docs/UserQuery.md)
+ - [Username](docs/Username.md)
  - [ValidationError](docs/ValidationError.md)
  - [ValidationErrorLocInner](docs/ValidationErrorLocInner.md)
 

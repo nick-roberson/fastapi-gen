@@ -1,6 +1,5 @@
 # Id1
 
-The unique identifier of the alembic
 
 ## Properties
 

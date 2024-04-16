@@ -31,22 +31,43 @@ from openapi_client.exceptions import (ApiAttributeError, ApiException,
                                        ApiValueError, OpenApiException)
 # import models into sdk package
 from openapi_client.models.comment import Comment
+from openapi_client.models.comment1 import Comment1
 from openapi_client.models.cuisine import Cuisine
+from openapi_client.models.cuisine1 import Cuisine1
+from openapi_client.models.email import Email
 from openapi_client.models.http_validation_error import HTTPValidationError
 from openapi_client.models.id import Id
 from openapi_client.models.id1 import Id1
 from openapi_client.models.id2 import Id2
 from openapi_client.models.id3 import Id3
+from openapi_client.models.id4 import Id4
+from openapi_client.models.location import Location
+from openapi_client.models.name import Name
+from openapi_client.models.party_size import PartySize
 from openapi_client.models.phone_number import PhoneNumber
+from openapi_client.models.phone_number1 import PhoneNumber1
 from openapi_client.models.preferences import Preferences
+from openapi_client.models.preferences1 import Preferences1
 from openapi_client.models.price_range import PriceRange
+from openapi_client.models.price_range1 import PriceRange1
 from openapi_client.models.rating import Rating
+from openapi_client.models.rating1 import Rating1
 from openapi_client.models.reservation import Reservation
+from openapi_client.models.reservation_query import ReservationQuery
+from openapi_client.models.reservation_time import ReservationTime
 from openapi_client.models.restaurant import Restaurant
+from openapi_client.models.restaurant_id import RestaurantId
+from openapi_client.models.restaurant_query import RestaurantQuery
 from openapi_client.models.review import Review
+from openapi_client.models.review_query import ReviewQuery
 from openapi_client.models.role import Role
+from openapi_client.models.role1 import Role1
 from openapi_client.models.special_requests import SpecialRequests
+from openapi_client.models.special_requests1 import SpecialRequests1
 from openapi_client.models.user import User
+from openapi_client.models.user_id import UserId
+from openapi_client.models.user_query import UserQuery
+from openapi_client.models.username import Username
 from openapi_client.models.validation_error import ValidationError
 from openapi_client.models.validation_error_loc_inner import \
     ValidationErrorLocInner

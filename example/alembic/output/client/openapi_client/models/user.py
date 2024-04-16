@@ -19,7 +19,7 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from openapi_client.models.id3 import Id3
+from openapi_client.models.id4 import Id4
 from openapi_client.models.phone_number import PhoneNumber
 from openapi_client.models.preferences import Preferences
 from openapi_client.models.role import Role
@@ -32,7 +32,7 @@ class User(BaseModel):
     User
     """  # noqa: E501
 
-    id: Optional[Id3] = None
+    id: Optional[Id4] = None
     username: StrictStr = Field(description="The username of the user")
     email: StrictStr = Field(description="The email address of the user")
     phone_number: Optional[PhoneNumber] = None
@@ -109,7 +109,7 @@ class User(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "id": Id3.from_dict(obj["id"]) if obj.get("id") is not None else None,
+                "id": Id4.from_dict(obj["id"]) if obj.get("id") is not None else None,
                 "username": obj.get("username"),
                 "email": obj.get("email"),
                 "phone_number": (

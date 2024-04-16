@@ -96,6 +96,13 @@ class TestUserApi(unittest.TestCase):
         """
         pass
 
+    def test_query_user_user_query_post(self) -> None:
+        """Test case for query_user_user_query_post
+
+        Query User
+        """
+        pass
+
     def test_update_user_async_user_async_put(self) -> None:
         """Test case for update_user_async_user_async_put
 

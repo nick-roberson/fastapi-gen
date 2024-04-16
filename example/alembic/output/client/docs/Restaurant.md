@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | [**Id1**](Id1.md) |  | [optional] 
+**id** | [**Id2**](Id2.md) |  | [optional] 
 **name** | **str** | The name of the alembic | 
 **location** | **str** | The physical location of the alembic | 
 **cuisine** | [**Cuisine**](Cuisine.md) |  | [optional] 

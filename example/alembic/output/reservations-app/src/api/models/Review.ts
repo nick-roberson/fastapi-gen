@@ -19,8 +19,8 @@ import {
   CommentFromJSONTyped,
   CommentToJSON,
 } from "./Comment";
-import type { Id2 } from "./Id2";
-import { Id2FromJSON, Id2FromJSONTyped, Id2ToJSON } from "./Id2";
+import type { Id3 } from "./Id3";
+import { Id3FromJSON, Id3FromJSONTyped, Id3ToJSON } from "./Id3";
 
 /**
  *
@@ -30,10 +30,10 @@ import { Id2FromJSON, Id2FromJSONTyped, Id2ToJSON } from "./Id2";
 export interface Review {
   /**
    *
-   * @type {Id2}
+   * @type {Id3}
    * @memberof Review
    */
-  id?: Id2;
+  id?: Id3;
   /**
    * The ID of the alembic being reviewed
    * @type {number}
@@ -82,7 +82,7 @@ export function ReviewFromJSONTyped(
     return json;
   }
   return {
-    id: json["id"] == null ? undefined : Id2FromJSON(json["id"]),
+    id: json["id"] == null ? undefined : Id3FromJSON(json["id"]),
     restaurantId: json["restaurant_id"],
     userId: json["user_id"],
     rating: json["rating"],
@@ -96,7 +96,7 @@ export function ReviewToJSON(value?: Review | null): any {
     return value;
   }
   return {
-    id: Id2ToJSON(value["id"]),
+    id: Id3ToJSON(value["id"]),
     restaurant_id: value["restaurantId"],
     user_id: value["userId"],
     rating: value["rating"],

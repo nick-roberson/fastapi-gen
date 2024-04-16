@@ -96,6 +96,13 @@ class TestRestaurantApi(unittest.TestCase):
         """
         pass
 
+    def test_query_restaurant_restaurant_query_post(self) -> None:
+        """Test case for query_restaurant_restaurant_query_post
+
+        Query Restaurant
+        """
+        pass
+
     def test_update_restaurant_async_restaurant_async_put(self) -> None:
         """Test case for update_restaurant_async_restaurant_async_put
 

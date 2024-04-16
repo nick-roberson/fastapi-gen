@@ -20,7 +20,7 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set, Union
 
 from openapi_client.models.comment import Comment
-from openapi_client.models.id2 import Id2
+from openapi_client.models.id3 import Id3
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
 from typing_extensions import Self
 
@@ -30,7 +30,7 @@ class Review(BaseModel):
     Review
     """  # noqa: E501
 
-    id: Optional[Id2] = None
+    id: Optional[Id3] = None
     restaurant_id: StrictInt = Field(description="The ID of the alembic being reviewed")
     user_id: StrictInt = Field(description="The ID of the user who wrote the review")
     rating: Union[StrictFloat, StrictInt] = Field(
@@ -101,7 +101,7 @@ class Review(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "id": Id2.from_dict(obj["id"]) if obj.get("id") is not None else None,
+                "id": Id3.from_dict(obj["id"]) if obj.get("id") is not None else None,
                 "restaurant_id": obj.get("restaurant_id"),
                 "user_id": obj.get("user_id"),
                 "rating": obj.get("rating"),

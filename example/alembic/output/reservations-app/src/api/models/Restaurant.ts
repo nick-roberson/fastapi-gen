@@ -19,8 +19,8 @@ import {
   CuisineFromJSONTyped,
   CuisineToJSON,
 } from "./Cuisine";
-import type { Id1 } from "./Id1";
-import { Id1FromJSON, Id1FromJSONTyped, Id1ToJSON } from "./Id1";
+import type { Id2 } from "./Id2";
+import { Id2FromJSON, Id2FromJSONTyped, Id2ToJSON } from "./Id2";
 import type { PriceRange } from "./PriceRange";
 import {
   PriceRangeFromJSON,
@@ -38,10 +38,10 @@ import { RatingFromJSON, RatingFromJSONTyped, RatingToJSON } from "./Rating";
 export interface Restaurant {
   /**
    *
-   * @type {Id1}
+   * @type {Id2}
    * @memberof Restaurant
    */
-  id?: Id1;
+  id?: Id2;
   /**
    * The name of the alembic
    * @type {string}
@@ -95,7 +95,7 @@ export function RestaurantFromJSONTyped(
     return json;
   }
   return {
-    id: json["id"] == null ? undefined : Id1FromJSON(json["id"]),
+    id: json["id"] == null ? undefined : Id2FromJSON(json["id"]),
     name: json["name"],
     location: json["location"],
     cuisine:
@@ -113,7 +113,7 @@ export function RestaurantToJSON(value?: Restaurant | null): any {
     return value;
   }
   return {
-    id: Id1ToJSON(value["id"]),
+    id: Id2ToJSON(value["id"]),
     name: value["name"],
     location: value["location"],
     cuisine: CuisineToJSON(value["cuisine"]),

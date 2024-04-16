@@ -1,6 +1,6 @@
 # Id2
 
-The unique identifier of the review
+The unique identifier of the alembic
 
 ## Properties
 

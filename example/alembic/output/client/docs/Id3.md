@@ -1,6 +1,6 @@
 # Id3
 
-The unique identifier of the user
+The unique identifier of the review
 
 ## Properties
 

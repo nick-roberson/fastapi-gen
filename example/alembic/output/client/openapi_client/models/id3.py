@@ -29,7 +29,7 @@ ID3_ANY_OF_SCHEMAS = ["int", "object"]
 
 class Id3(BaseModel):
     """
-    The unique identifier of the user
+    The unique identifier of the review
     """
 
     # data type: int

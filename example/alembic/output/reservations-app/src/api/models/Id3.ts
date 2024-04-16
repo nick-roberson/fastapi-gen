@@ -14,7 +14,7 @@
 
 import { mapValues } from "../runtime";
 /**
- * The unique identifier of the user
+ * The unique identifier of the review
  * @export
  * @interface Id3
  */

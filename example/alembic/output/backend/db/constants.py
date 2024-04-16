@@ -22,11 +22,8 @@ DB_TYPE = "mysql"
 
 def get_url() -> str:
     """Get the database URL from the environment variables"""
-
     # Validate that all environment variables are set
-    if not all(ALL_ENVS):
-        raise ValueError(f"Missing environment variables: {', '.join(ALL_ENVS)}")
-    if not all(ALL_VARS):
+    if not all(v is not None for v in ALL_VARS):
         raise ValueError(f"Missing environment variables: {', '.join(ALL_VARS)}")
 
     # Validate that the DB_TYPE is set

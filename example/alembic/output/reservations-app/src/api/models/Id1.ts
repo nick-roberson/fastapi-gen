@@ -14,7 +14,7 @@
 
 import { mapValues } from "../runtime";
 /**
- * The unique identifier of the alembic
+ *
  * @export
  * @interface Id1
  */

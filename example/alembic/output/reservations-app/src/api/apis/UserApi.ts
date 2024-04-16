@@ -13,12 +13,14 @@
  */
 
 import * as runtime from "../runtime";
-import type { HTTPValidationError, User } from "../models/index";
+import type { HTTPValidationError, User, UserQuery } from "../models/index";
 import {
   HTTPValidationErrorFromJSON,
   HTTPValidationErrorToJSON,
   UserFromJSON,
   UserToJSON,
+  UserQueryFromJSON,
+  UserQueryToJSON,
 } from "../models/index";
 
 export interface CreateUserAsyncUserAsyncPostRequest {
@@ -55,6 +57,10 @@ export interface DeleteUsersUsersDeleteRequest {
 
 export interface GetUserUserGetRequest {
   userId: string;
+}
+
+export interface QueryUserUserQueryPostRequest {
+  userQuery: UserQuery;
 }
 
 export interface UpdateUserAsyncUserAsyncPutRequest {
@@ -590,6 +596,58 @@ export class UserApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<User>> {
     const response = await this.getUsersUsersGetRaw(initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Query Users
+   * Query User
+   */
+  async queryUserUserQueryPostRaw(
+    requestParameters: QueryUserUserQueryPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<Array<User>>> {
+    if (requestParameters["userQuery"] == null) {
+      throw new runtime.RequiredError(
+        "userQuery",
+        'Required parameter "userQuery" was null or undefined when calling queryUserUserQueryPost().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/user/query`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: UserQueryToJSON(requestParameters["userQuery"]),
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(UserFromJSON),
+    );
+  }
+
+  /**
+   * Query Users
+   * Query User
+   */
+  async queryUserUserQueryPost(
+    requestParameters: QueryUserUserQueryPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<Array<User>> {
+    const response = await this.queryUserUserQueryPostRaw(
+      requestParameters,
+      initOverrides,
+    );
     return await response.value();
   }
 

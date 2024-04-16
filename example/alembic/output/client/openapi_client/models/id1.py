@@ -29,7 +29,7 @@ ID1_ANY_OF_SCHEMAS = ["int", "object"]
 
 class Id1(BaseModel):
     """
-    The unique identifier of the alembic
+    Id1
     """
 
     # data type: int

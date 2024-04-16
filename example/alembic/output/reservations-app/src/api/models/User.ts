@@ -13,8 +13,8 @@
  */
 
 import { mapValues } from "../runtime";
-import type { Id3 } from "./Id3";
-import { Id3FromJSON, Id3FromJSONTyped, Id3ToJSON } from "./Id3";
+import type { Id4 } from "./Id4";
+import { Id4FromJSON, Id4FromJSONTyped, Id4ToJSON } from "./Id4";
 import type { PhoneNumber } from "./PhoneNumber";
 import {
   PhoneNumberFromJSON,
@@ -38,10 +38,10 @@ import { RoleFromJSON, RoleFromJSONTyped, RoleToJSON } from "./Role";
 export interface User {
   /**
    *
-   * @type {Id3}
+   * @type {Id4}
    * @memberof User
    */
-  id?: Id3;
+  id?: Id4;
   /**
    * The username of the user
    * @type {string}
@@ -95,7 +95,7 @@ export function UserFromJSONTyped(
     return json;
   }
   return {
-    id: json["id"] == null ? undefined : Id3FromJSON(json["id"]),
+    id: json["id"] == null ? undefined : Id4FromJSON(json["id"]),
     username: json["username"],
     email: json["email"],
     phoneNumber:
@@ -115,7 +115,7 @@ export function UserToJSON(value?: User | null): any {
     return value;
   }
   return {
-    id: Id3ToJSON(value["id"]),
+    id: Id4ToJSON(value["id"]),
     username: value["username"],
     email: value["email"],
     phone_number: PhoneNumberToJSON(value["phoneNumber"]),

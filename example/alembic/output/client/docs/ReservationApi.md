@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**delete_reservations_reservations_delete**](ReservationApi.md#delete_reservations_reservations_delete) | **DELETE** /reservations | Delete Reservations
 [**get_reservation_reservation_get**](ReservationApi.md#get_reservation_reservation_get) | **GET** /reservation | Get Reservation
 [**get_reservations_reservations_get**](ReservationApi.md#get_reservations_reservations_get) | **GET** /reservations | Get Reservations
+[**query_reservation_reservation_query_post**](ReservationApi.md#query_reservation_reservation_query_post) | **POST** /reservation/query | Query Reservation
 [**update_reservation_async_reservation_async_put**](ReservationApi.md#update_reservation_async_reservation_async_put) | **PUT** /reservation/async | Update Reservation Async
 [**update_reservation_reservation_put**](ReservationApi.md#update_reservation_reservation_put) | **PUT** /reservation | Update Reservation
 [**update_reservations_async_reservations_async_put**](ReservationApi.md#update_reservations_async_reservations_async_put) | **PUT** /reservations/async | Update Reservations Async
@@ -700,6 +701,76 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful Response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **query_reservation_reservation_query_post**
+> List[Reservation] query_reservation_reservation_query_post(reservation_query)
+
+Query Reservation
+
+Query Reservations
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.reservation import Reservation
+from openapi_client.models.reservation_query import ReservationQuery
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.ReservationApi(api_client)
+    reservation_query = openapi_client.ReservationQuery() # ReservationQuery | 
+
+    try:
+        # Query Reservation
+        api_response = api_instance.query_reservation_reservation_query_post(reservation_query)
+        print("The response of ReservationApi->query_reservation_reservation_query_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ReservationApi->query_reservation_reservation_query_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **reservation_query** | [**ReservationQuery**](ReservationQuery.md)|  | 
+
+### Return type
+
+[**List[Reservation]**](Reservation.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

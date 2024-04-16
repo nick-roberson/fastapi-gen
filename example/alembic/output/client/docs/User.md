@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | [**Id3**](Id3.md) |  | [optional] 
+**id** | [**Id4**](Id4.md) |  | [optional] 
 **username** | **str** | The username of the user | 
 **email** | **str** | The email address of the user | 
 **phone_number** | [**PhoneNumber**](PhoneNumber.md) |  | [optional] 

@@ -13,12 +13,18 @@
  */
 
 import * as runtime from "../runtime";
-import type { HTTPValidationError, Reservation } from "../models/index";
+import type {
+  HTTPValidationError,
+  Reservation,
+  ReservationQuery,
+} from "../models/index";
 import {
   HTTPValidationErrorFromJSON,
   HTTPValidationErrorToJSON,
   ReservationFromJSON,
   ReservationToJSON,
+  ReservationQueryFromJSON,
+  ReservationQueryToJSON,
 } from "../models/index";
 
 export interface CreateReservationAsyncReservationAsyncPostRequest {
@@ -55,6 +61,10 @@ export interface DeleteReservationsReservationsDeleteRequest {
 
 export interface GetReservationReservationGetRequest {
   reservationId: string;
+}
+
+export interface QueryReservationReservationQueryPostRequest {
+  reservationQuery: ReservationQuery;
 }
 
 export interface UpdateReservationAsyncReservationAsyncPutRequest {
@@ -592,6 +602,58 @@ export class ReservationApi extends runtime.BaseAPI {
   ): Promise<Array<Reservation>> {
     const response =
       await this.getReservationsReservationsGetRaw(initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Query Reservations
+   * Query Reservation
+   */
+  async queryReservationReservationQueryPostRaw(
+    requestParameters: QueryReservationReservationQueryPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<Array<Reservation>>> {
+    if (requestParameters["reservationQuery"] == null) {
+      throw new runtime.RequiredError(
+        "reservationQuery",
+        'Required parameter "reservationQuery" was null or undefined when calling queryReservationReservationQueryPost().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/reservation/query`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: ReservationQueryToJSON(requestParameters["reservationQuery"]),
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(ReservationFromJSON),
+    );
+  }
+
+  /**
+   * Query Reservations
+   * Query Reservation
+   */
+  async queryReservationReservationQueryPost(
+    requestParameters: QueryReservationReservationQueryPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<Array<Reservation>> {
+    const response = await this.queryReservationReservationQueryPostRaw(
+      requestParameters,
+      initOverrides,
+    );
     return await response.value();
   }
 

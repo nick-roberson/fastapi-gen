@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**delete_reviews_reviews_delete**](ReviewApi.md#delete_reviews_reviews_delete) | **DELETE** /reviews | Delete Reviews
 [**get_review_review_get**](ReviewApi.md#get_review_review_get) | **GET** /review | Get Review
 [**get_reviews_reviews_get**](ReviewApi.md#get_reviews_reviews_get) | **GET** /reviews | Get Reviews
+[**query_review_review_query_post**](ReviewApi.md#query_review_review_query_post) | **POST** /review/query | Query Review
 [**update_review_async_review_async_put**](ReviewApi.md#update_review_async_review_async_put) | **PUT** /review/async | Update Review Async
 [**update_review_review_put**](ReviewApi.md#update_review_review_put) | **PUT** /review | Update Review
 [**update_reviews_async_reviews_async_put**](ReviewApi.md#update_reviews_async_reviews_async_put) | **PUT** /reviews/async | Update Reviews Async
@@ -700,6 +701,76 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful Response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **query_review_review_query_post**
+> List[Review] query_review_review_query_post(review_query)
+
+Query Review
+
+Query Reviews
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.review import Review
+from openapi_client.models.review_query import ReviewQuery
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.ReviewApi(api_client)
+    review_query = openapi_client.ReviewQuery() # ReviewQuery | 
+
+    try:
+        # Query Review
+        api_response = api_instance.query_review_review_query_post(review_query)
+        print("The response of ReviewApi->query_review_review_query_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ReviewApi->query_review_review_query_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **review_query** | [**ReviewQuery**](ReviewQuery.md)|  | 
+
+### Return type
+
+[**List[Review]**](Review.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

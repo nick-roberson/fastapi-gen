@@ -29,7 +29,7 @@ ID2_ANY_OF_SCHEMAS = ["int", "object"]
 
 class Id2(BaseModel):
     """
-    The unique identifier of the review
+    The unique identifier of the alembic
     """
 
     # data type: int

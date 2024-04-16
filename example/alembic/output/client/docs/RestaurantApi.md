@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**delete_restaurants_restaurants_delete**](RestaurantApi.md#delete_restaurants_restaurants_delete) | **DELETE** /restaurants | Delete Restaurants
 [**get_restaurant_restaurant_get**](RestaurantApi.md#get_restaurant_restaurant_get) | **GET** /restaurant | Get Restaurant
 [**get_restaurants_restaurants_get**](RestaurantApi.md#get_restaurants_restaurants_get) | **GET** /restaurants | Get Restaurants
+[**query_restaurant_restaurant_query_post**](RestaurantApi.md#query_restaurant_restaurant_query_post) | **POST** /restaurant/query | Query Restaurant
 [**update_restaurant_async_restaurant_async_put**](RestaurantApi.md#update_restaurant_async_restaurant_async_put) | **PUT** /restaurant/async | Update Restaurant Async
 [**update_restaurant_restaurant_put**](RestaurantApi.md#update_restaurant_restaurant_put) | **PUT** /restaurant | Update Restaurant
 [**update_restaurants_async_restaurants_async_put**](RestaurantApi.md#update_restaurants_async_restaurants_async_put) | **PUT** /restaurants/async | Update Restaurants Async
@@ -700,6 +701,76 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful Response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **query_restaurant_restaurant_query_post**
+> List[Restaurant] query_restaurant_restaurant_query_post(restaurant_query)
+
+Query Restaurant
+
+Query Restaurants
+
+### Example
+
+
+```python
+import openapi_client
+from openapi_client.models.restaurant import Restaurant
+from openapi_client.models.restaurant_query import RestaurantQuery
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.RestaurantApi(api_client)
+    restaurant_query = openapi_client.RestaurantQuery() # RestaurantQuery | 
+
+    try:
+        # Query Restaurant
+        api_response = api_instance.query_restaurant_restaurant_query_post(restaurant_query)
+        print("The response of RestaurantApi->query_restaurant_restaurant_query_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling RestaurantApi->query_restaurant_restaurant_query_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **restaurant_query** | [**RestaurantQuery**](RestaurantQuery.md)|  | 
+
+### Return type
+
+[**List[Restaurant]**](Restaurant.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

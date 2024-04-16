@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | [**Id2**](Id2.md) |  | [optional] 
+**id** | [**Id3**](Id3.md) |  | [optional] 
 **restaurant_id** | **int** | The ID of the alembic being reviewed | 
 **user_id** | **int** | The ID of the user who wrote the review | 
 **rating** | **float** | The rating given by the user | 

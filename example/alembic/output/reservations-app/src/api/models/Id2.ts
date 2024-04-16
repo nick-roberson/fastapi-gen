@@ -14,7 +14,7 @@
 
 import { mapValues } from "../runtime";
 /**
- * The unique identifier of the review
+ * The unique identifier of the alembic
  * @export
  * @interface Id2
  */

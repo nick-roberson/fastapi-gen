@@ -13,12 +13,14 @@
  */
 
 import * as runtime from "../runtime";
-import type { HTTPValidationError, Review } from "../models/index";
+import type { HTTPValidationError, Review, ReviewQuery } from "../models/index";
 import {
   HTTPValidationErrorFromJSON,
   HTTPValidationErrorToJSON,
   ReviewFromJSON,
   ReviewToJSON,
+  ReviewQueryFromJSON,
+  ReviewQueryToJSON,
 } from "../models/index";
 
 export interface CreateReviewAsyncReviewAsyncPostRequest {
@@ -55,6 +57,10 @@ export interface DeleteReviewsReviewsDeleteRequest {
 
 export interface GetReviewReviewGetRequest {
   reviewId: string;
+}
+
+export interface QueryReviewReviewQueryPostRequest {
+  reviewQuery: ReviewQuery;
 }
 
 export interface UpdateReviewAsyncReviewAsyncPutRequest {
@@ -590,6 +596,58 @@ export class ReviewApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<Review>> {
     const response = await this.getReviewsReviewsGetRaw(initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Query Reviews
+   * Query Review
+   */
+  async queryReviewReviewQueryPostRaw(
+    requestParameters: QueryReviewReviewQueryPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<Array<Review>>> {
+    if (requestParameters["reviewQuery"] == null) {
+      throw new runtime.RequiredError(
+        "reviewQuery",
+        'Required parameter "reviewQuery" was null or undefined when calling queryReviewReviewQueryPost().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    const response = await this.request(
+      {
+        path: `/review/query`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: ReviewQueryToJSON(requestParameters["reviewQuery"]),
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(ReviewFromJSON),
+    );
+  }
+
+  /**
+   * Query Reviews
+   * Query Review
+   */
+  async queryReviewReviewQueryPost(
+    requestParameters: QueryReviewReviewQueryPostRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<Array<Review>> {
+    const response = await this.queryReviewReviewQueryPostRaw(
+      requestParameters,
+      initOverrides,
+    );
     return await response.value();
   }
 

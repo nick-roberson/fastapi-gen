@@ -20,7 +20,7 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set
 
 from openapi_client.models.cuisine import Cuisine
-from openapi_client.models.id1 import Id1
+from openapi_client.models.id2 import Id2
 from openapi_client.models.price_range import PriceRange
 from openapi_client.models.rating import Rating
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
@@ -32,7 +32,7 @@ class Restaurant(BaseModel):
     Restaurant
     """  # noqa: E501
 
-    id: Optional[Id1] = None
+    id: Optional[Id2] = None
     name: StrictStr = Field(description="The name of the alembic")
     location: StrictStr = Field(description="The physical location of the alembic")
     cuisine: Optional[Cuisine] = None
@@ -109,7 +109,7 @@ class Restaurant(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "id": Id1.from_dict(obj["id"]) if obj.get("id") is not None else None,
+                "id": Id2.from_dict(obj["id"]) if obj.get("id") is not None else None,
                 "name": obj.get("name"),
                 "location": obj.get("location"),
                 "cuisine": (

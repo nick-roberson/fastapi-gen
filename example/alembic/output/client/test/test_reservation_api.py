@@ -96,6 +96,13 @@ class TestReservationApi(unittest.TestCase):
         """
         pass
 
+    def test_query_reservation_reservation_query_post(self) -> None:
+        """Test case for query_reservation_reservation_query_post
+
+        Query Reservation
+        """
+        pass
+
     def test_update_reservation_async_reservation_async_put(self) -> None:
         """Test case for update_reservation_async_reservation_async_put
 
