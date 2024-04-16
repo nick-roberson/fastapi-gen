@@ -94,10 +94,18 @@ This is a simple FastAPI service that can be used as a starting point for a new 
 ## Features
 
 ####  Python Code Generation
-1. Generate FastAPI services with database support for MongoDB, PostgreSQL, and MySQL
-2. Automatically creates CRUD endpoints for each model with async support
-3. Generate `pydantic` models for the FastAPI services and handles conversion to and from the database models
-4. Generate Python client code for the FastAPI service using `openapi-generator` for use elsewhere
+
+1. Generate FastAPI services with database support for MongoDB, PostgreSQL, or MySQL
+2. Automatically creates endpoints that cover the following areas:
+   1. _Synchronous and Asynchronous_
+      1. `/create` + `/create_many`
+      2. `/update` + `/update_many`
+      3. `/delete` + `/delete_many`
+   2. _Synchronous Only_
+      1. `/get` + `/get_many`, + `/get_all`
+      2. `/query`
+3. Generate `pydantic` models for the FastAPI services and handle conversion to and from the database models
+4. Generate Python client code for the FastAPI service + other python services using `openapi-generator` for use elsewhere
 
 #### Database Generation
 
