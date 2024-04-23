@@ -12,6 +12,7 @@ from builder.generate.backend.generator import BackendGenerator
 from builder.generate.frontend.generator import FrontendGenerator
 from builder.models.configs import ServiceConfig
 from builder.run import generate as generate_service
+from builder.test_data.create_fake_data import create_fake_data
 
 app = typer.Typer()
 
@@ -263,6 +264,38 @@ def regenerate_templates(
     else:
         print("Component must be either 'frontend' or 'backend'")
         typer.Exit(code=1)
+
+
+@app.command()
+def generate_test_data(
+    config: Optional[str] = typer.Option(
+        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+    ),
+    output_dir: Optional[str] = typer.Option(
+        SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
+    ),
+):
+    """Generate fake data for the service"""
+    # Validate the inputs, get absolute paths, clean the service name, build the context
+    service_config = validate_config(config)
+    output_dir = validate_output_dir(output_dir)
+    context = {
+        "service_config": service_config,
+        "output_dir": output_dir,
+    }
+
+    # Log the inputs
+    service_name = service_config.service_info.name
+    print(f"Generating fake data for app `{service_name}`")
+    print(f"\tconfig:     {config}")
+    print(f"\toutput_dir: {output_dir}\n")
+
+    # Generate the fake data and close out
+    result = create_fake_data(**context)
+    print(f"Generated fake data at")
+    for model_name, file_path in result.items():
+        print(f"\t{model_name}: {file_path}")
+    print(f"\nYou can now use this data to seed your database.")
 
 
 if __name__ == "__main__":

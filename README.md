@@ -199,6 +199,7 @@ This is the CLI interface for the service generator:
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │ generate-app                                        Generate a FastAPI backend and React frontend from the input yaml config.                                                                                                   │
 │ generate-python-app                                 Generate a FastAPI backend from the input yaml config.                                                                                                                      │
+│ generate-test-data                                  Generate fake data for the service                                                                                                                                          │
 │ generate-typescript-app                             Generate a React frontend from the input yaml config.                                                                                                                       │
 │ regenerate-templates                                Just regenerate the frontend or backend templates, do not recreate the application                                                                                          │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
@@ -317,10 +318,58 @@ Mongo Example:
 
 ## Test Data
 
-Right now I am working on a script that will generate test data for the FastAPI service, but it is not yet complete.
+To create some fake data that you can insert into the database, you can use the following command:
 
-There is a script that works for the example in the `builder/scripts/create_restaurant_app_data.py` file.
-You can use a method similar to that in order to create and insert fake data.
+```bash
+% poetry run python main.py generate-test-data \
+    --config example/alembic/restaurant.yaml \
+    --output-dir example/alembic/output
 
-Once that is done you can just copy the contents of the files into postman and submit them
-to the create many endpoints of the FastAPI service.
+Creating fake data at /Users/nicholas/Code/fastapi-gen/example/alembic/output/data
+Creating fake data for User at /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/User.json
+Creating fake data for Restaurant at /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/Restaurant.json
+Creating fake data for Reservation at /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/Reservation.json
+Creating fake data for Review at /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/Review.json
+Generated fake data at
+        User: /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/User.json
+        Restaurant: /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/Restaurant.json
+        Reservation: /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/Reservation.json
+        Review: /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/Review.json
+```
+
+This data may not be all that useful for your specific use case, but it can be a good starting point for testing out the service.
+Feel free to modify the data as you see fit!
+
+For this specific use case in the example you can run the service given the commands provided above and then use postman 
+to POST the data to the service. For example:
+
+```commandline
+POST - localhost:8000/users
+BODY: 
+[
+  {
+    "id": 71,
+    "username": "serious",
+    "email": "authority",
+    "phone_number": "management",
+    "preferences": [
+      "although",
+      "manager",
+      "computer"
+    ],
+    "role": "anyone"
+  },
+  {
+    "id": 63,
+    "username": "he",
+    "email": "class",
+    "phone_number": "full",
+    "preferences": [
+      "involve",
+      "share",
+      "seem"
+    ],
+    "role": "draw"
+  }
+]
+```
