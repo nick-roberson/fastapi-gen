@@ -30,11 +30,12 @@ class BackendGenerator:
     REQUIREMENTS_TXT: str = "requirements.txt"
 
     # Python code directories
-    SRC_DIR: str = "backend"
+    BACKEND_DIR: str = "backend"
     MODELS_DIR: str = "models"
-    MANAGERS_DIR: str = "managers"
+    DB_DIR: str = "db"
     CLIENT_DIR: str = "client"
-    ROUTES_DIR: str = "routes"
+    SRC_CODE_DIR: str = "src"
+    ALEMBIC_DIR: str = "alembic"
 
     # Docker files
     DOCKERFILES: List[str] = [
@@ -68,42 +69,42 @@ class BackendGenerator:
         self.config = config
         self.output_dir = output_dir
 
-        # Generated python service and client code
-        self.code_dir = os.path.join(self.output_dir, self.SRC_DIR)
+        # Top level dir for generated python client code
         self.client_dir = os.path.join(self.output_dir, self.CLIENT_DIR)
 
-        # Set constant python file names
-        self.service_file = os.path.join(self.code_dir, self.SERVICE_FILE)
-        self.models_file = os.path.join(
-            self.code_dir, self.MODELS_DIR, self.MODELS_FILE
-        )
+        # Top level dir for generated python code
+        self.code_dir = os.path.join(self.output_dir, self.BACKEND_DIR)
 
-        # Set dependency files
+        # Hold backend/service.py files
+        self.service_file = os.path.join(self.code_dir, self.SERVICE_FILE)
+        # Hold backend/src/*.py files
+        self.src_code_dir = os.path.join(self.code_dir, self.SRC_CODE_DIR)
+        # Hold backend/src/db/*.py files
+        self.db_dir = os.path.join(self.src_code_dir, self.DB_DIR)
+        self.alembic_dir = os.path.join(self.db_dir, self.ALEMBIC_DIR)
+        # Hold backend/src/models/*.py files
+        self.models_dir = os.path.join(self.src_code_dir, self.MODELS_DIR)
+        self.models_file = os.path.join(self.models_dir, self.MODELS_FILE)
+
+        # Hold the poetry files and requirements file
         self.poetry_toml = os.path.join(self.code_dir, self.POETRY_TOML)
         self.poetry_lock = os.path.join(self.code_dir, self.POETRY_LOCK)
         self.requirements_txt = os.path.join(self.code_dir, self.REQUIREMENTS_TXT)
 
-        # Set docker files
+        # Hold the docker files
         self.docker_files = [
             os.path.join(self.code_dir, file) for file in self.DOCKERFILES
         ]
 
-    def generate_templated_components(self):
-        """Generate the templated components for the backend service."""
-        model_file = self.generate_models()
-        service_file = self.generate_services()
-        database_files = self.generate_database()
-        readme_file = self.generate_readme()
-        poetry_file = self.generate_poetry_toml()
-        docker_files = self.copy_dockerfiles()
-        return {
-            "Pydantic Models": model_file,
-            "FastAPI Service": service_file,
-            "Database": database_files,
-            "Poetry": poetry_file,
-            "README.md": readme_file,
-            "Docker Files": docker_files,
-        }
+        # Ensure that the directories exist
+        os.makedirs(self.code_dir, exist_ok=True)
+        os.makedirs(self.src_code_dir, exist_ok=True)
+        os.makedirs(self.db_dir, exist_ok=True)
+        os.makedirs(self.models_dir, exist_ok=True)
+
+    ####################################################################################################################
+    # Main Functions for Generating Backend Code
+    ####################################################################################################################
 
     def generate_all(self, clear: bool = True) -> Dict:
         """Generate the backend code for the service.
@@ -123,6 +124,7 @@ class BackendGenerator:
         # Generate the models, services, managers, and mongo files
         print("\t2. Generating the backend code...")
         templated_files = self.generate_templated_components()
+        self.create_init_files()
 
         # Generate the python client code
         print("\t3. Exporting OpenAPI JSON file...")
@@ -147,113 +149,29 @@ class BackendGenerator:
             },
         }
 
-    def clear_output(self):
-        """Clear the output python code directory"""
-        # Clear the python code dirs
-        clear_directory(self.code_dir)
-        clear_directory(self.client_dir)
+    def generate_templated_components(self):
+        """Generate the templated components for the backend service."""
+        # Generate the models, services, and database files
+        model_file = self.generate_models()
+        service_file = self.generate_services()
+        database_files = self.generate_database()
+        readme_file = self.generate_readme()
 
-        # Clear the poetry files
-        clear_file(self.poetry_toml)
-        clear_file(self.poetry_lock)
-        clear_file(self.requirements_txt)
-
-        # Clear the openapi spec file
-
-        # Clear the docker files
-        for docker_file in self.docker_files:
-            clear_file(docker_file)
-
-        # Clear models managers and service files
-        clear_file(self.models_file)
-        clear_file(self.service_file)
-
-    def generate_readme(self):
-        """Use the JINJA Template to generate the README file.
-
-        Returns:
-            str: File name of the generated README file
-        """
-        # Populate the README template
-        template_name = "README.jinja"
-        output_path = f"{self.code_dir}/README.md"
-
-        # Generate the README file and return the file name
-        return populate_template(
-            template_dir=README_TEMPLATES,
-            template_name=template_name,
-            output_path=output_path,
-        )
-
-    def install_backend_deps(self) -> None:
-        """Install the backend dependencies using poetry"""
-        # Select the python version and install
-        run_command(f"poetry env use {PYTHON_VERSION}", cwd=self.code_dir)
-        run_command("poetry install", cwd=self.code_dir)
-
-        # Check that all files are created
-        toml_file = os.path.join(self.code_dir, "pyproject.toml")
-        lock_file = os.path.join(self.code_dir, "poetry.lock")
-        if not os.path.exists(toml_file) or not os.path.exists(lock_file):
-            raise ValueError(f"Poetry files not found in {self.code_dir}")
-
-        # Generate the requirements file
-        req_file = "requirements.txt"
-        run_command(
-            f"poetry export -f {req_file} --output {req_file}", cwd=self.code_dir
-        )
-
-    def copy_dockerfiles(self):
-        """Use the JINJA Template to generate the Dockerfile.
-
-        Returns:
-            str: File name of the generated Dockerfile
-        """
-        # Copy all files into the output directory
-        dockerfiles = []
-        for file in self.DOCKERFILES:
-            src = os.path.join(DOCKER_TEMPLATES, file)
-            dst = os.path.join(self.code_dir, file)
-            run_command(f"cp {src} {dst}", cwd=self.code_dir)
-            dockerfiles.append(dst)
-
-        # Return the file names
-        return dockerfiles
-
-    def generate_openapi_file(self):
-        return export_openapi(code_dir=self.code_dir)
-
-    def generate_poetry_toml(self) -> str:
-        """Use the JINJA Template to generate the poetry toml file.
-
-        Returns:
-            str: File name of the generated poetry toml file
-        """
-        # Create the dependency rows
-        dependency_rows = []
-        for dep in self.config.dependencies:
-            if dep.version:
-                dependency_rows.append(f'{dep.name} = "{dep.version}"')
-            else:
-                dependency_rows.append(f'{dep.name} = "*"')
-        dependency_rows = "\n".join(dependency_rows)
-
-        # Create the context for the template
-        context = {
-            "name": self.config.service_info.name,
-            "version": self.config.service_info.version,
-            "description": self.config.service_info.description,
-            "email": "<enter your email>",
-            "dependency_rows": dependency_rows,
+        # Generate the poetry file and docker files
+        poetry_file = self.generate_poetry_toml()
+        docker_files = self.copy_dockerfiles()
+        return {
+            "Pydantic Models": model_file,
+            "FastAPI Service": service_file,
+            "Database": database_files,
+            "Poetry": poetry_file,
+            "README.md": readme_file,
+            "Docker Files": docker_files,
         }
 
-        # Generate the poetry toml file and return the file name
-        return populate_template(
-            template_dir=POETRY_TEMPLATES,
-            template_name="toml.jinja",
-            output_path=self.poetry_toml,
-            context=context,
-        )
+    ####################################################################################################################
+    # Generate Models, Services, and Database
+    ####################################################################################################################
 
     def generate_database(self):
         """Use the JINJA Template to generate the database file.
@@ -282,13 +200,12 @@ class BackendGenerator:
     def _update_alembic_db(self):
         """Generate the Alembic migration files."""
         # Create the alembic migration files
-        db_dir = os.path.join(self.code_dir, "db")
         run_command(
             "poetry run alembic revision --autogenerate -m 'Initial Migration'",
-            cwd=db_dir,
+            cwd=self.db_dir,
         )
         # Apply the alembic migration files
-        run_command("poetry run alembic upgrade head", cwd=db_dir)
+        run_command("poetry run alembic upgrade head", cwd=self.db_dir)
 
     def _generate_alembic_db(self):
         """Generate the Alembic database files."""
@@ -296,18 +213,18 @@ class BackendGenerator:
         alembic_files = []
         for file in self.ALEMBIC_CP_FILES:
             src = os.path.join(ALEMBIC_TEMPLATES, file)
-            dst = os.path.join(self.code_dir, "db", file)
+            dst = os.path.join(self.db_dir, file)
             if not os.path.exists(os.path.dirname(dst)):
                 os.makedirs(os.path.dirname(dst), exist_ok=True)
             run_command(f"cp {src} {dst}", cwd=self.code_dir)
             alembic_files.append(dst)
 
         # Create versions dir for alembic
-        versions_dir = os.path.join(self.code_dir, "db", "alembic", "versions")
+        versions_dir = os.path.join(self.alembic_dir, "versions")
         os.makedirs(versions_dir, exist_ok=True)
 
         # Handle models.py
-        output_path = os.path.join(self.code_dir, "db", "models.py")
+        output_path = os.path.join(self.db_dir, "models.py")
         populate_template(
             template_dir=ALEMBIC_TEMPLATES,
             template_name="models.jinja",
@@ -319,9 +236,7 @@ class BackendGenerator:
         manager_file_names = []
         for model in self.config.models:
             # Create inputs for the model template
-            output_path = os.path.join(
-                self.code_dir, "db", f"{model.manager_var_name}.py"
-            )
+            output_path = os.path.join(self.db_dir, f"{model.manager_var_name}.py")
             context = {
                 "model": model,
             }
@@ -336,7 +251,7 @@ class BackendGenerator:
             manager_file_names.append(output_file)
 
         # Handle constants.py
-        output_path = os.path.join(self.code_dir, "db", "constants.py")
+        output_path = os.path.join(self.db_dir, "constants.py")
         populate_template(
             template_dir=ALEMBIC_TEMPLATES,
             template_name="constants.jinja",
@@ -348,7 +263,7 @@ class BackendGenerator:
         )
 
         # Handle alembic/env.py
-        output_path = os.path.join(self.code_dir, "db", "alembic", "env.py")
+        output_path = os.path.join(self.alembic_dir, "env.py")
         populate_template(
             template_dir=ALEMBIC_TEMPLATES,
             template_name="alembic/env.jinja",
@@ -459,7 +374,7 @@ class BackendGenerator:
                 "manager_names": [f"{model.name}Manager"],
             }
             file_name = f"{model.name.lower()}_routes.py"
-            output_path = os.path.join(self.code_dir, self.ROUTES_DIR, file_name)
+            output_path = os.path.join(self.code_dir, self.SRC_CODE_DIR, file_name)
             route_file = populate_template(
                 template_dir=SERVICE_TEMPLATES,
                 template_name="route.jinja",
@@ -470,6 +385,130 @@ class BackendGenerator:
 
         # Return the service file and route files
         return [service_file] + route_files
+
+    ####################################################################################################################
+    # Clear Output and Generated Files
+    ####################################################################################################################
+
+    def clear_output(self):
+        """Clear the output python code directory"""
+        # Clear the python code dirs
+        clear_directory(self.code_dir)
+        clear_directory(self.client_dir)
+
+        # Clear the poetry files
+        clear_file(self.poetry_toml)
+        clear_file(self.poetry_lock)
+        clear_file(self.requirements_txt)
+
+        # Clear the openapi spec file
+
+        # Clear the docker files
+        for docker_file in self.docker_files:
+            clear_file(docker_file)
+
+        # Clear models managers and service files
+        clear_file(self.models_file)
+        clear_file(self.service_file)
+
+    ####################################################################################################################
+    # Generate README and Docker Files
+    ####################################################################################################################
+
+    def generate_readme(self):
+        """Use the JINJA Template to generate the README file.
+
+        Returns:
+            str: File name of the generated README file
+        """
+        # Populate the README template
+        template_name = "README.jinja"
+        output_path = f"{self.code_dir}/README.md"
+
+        # Generate the README file and return the file name
+        return populate_template(
+            template_dir=README_TEMPLATES,
+            template_name=template_name,
+            output_path=output_path,
+        )
+
+    def copy_dockerfiles(self):
+        """Use the JINJA Template to generate the Dockerfile.
+
+        Returns:
+            str: File name of the generated Dockerfile
+        """
+        # Copy all files into the output directory
+        dockerfiles = []
+        for file in self.DOCKERFILES:
+            src = os.path.join(DOCKER_TEMPLATES, file)
+            dst = os.path.join(self.code_dir, file)
+            run_command(f"cp {src} {dst}", cwd=self.code_dir)
+            dockerfiles.append(dst)
+
+        # Return the file names
+        return dockerfiles
+
+    ####################################################################################################################
+    # Handle Dependencies and Linting
+    ####################################################################################################################
+    def install_backend_deps(self) -> None:
+        """Install the backend dependencies using poetry"""
+        # Select the python version and install
+        run_command(f"poetry env use {PYTHON_VERSION}", cwd=self.code_dir)
+        run_command("poetry install", cwd=self.code_dir)
+
+        # Check that all files are created
+        toml_file = os.path.join(self.code_dir, "pyproject.toml")
+        lock_file = os.path.join(self.code_dir, "poetry.lock")
+        if not os.path.exists(toml_file) or not os.path.exists(lock_file):
+            raise ValueError(f"Poetry files not found in {self.code_dir}")
+
+        # Generate the requirements file
+        req_file = "requirements.txt"
+        run_command(
+            f"poetry export -f {req_file} --output {req_file}", cwd=self.code_dir
+        )
+
+    def generate_poetry_toml(self) -> str:
+        """Use the JINJA Template to generate the poetry toml file.
+
+        Returns:
+            str: File name of the generated poetry toml file
+        """
+        # Create the dependency rows
+        dependency_rows = []
+        for dep in self.config.dependencies:
+            if dep.version:
+                dependency_rows.append(f'{dep.name} = "{dep.version}"')
+            else:
+                dependency_rows.append(f'{dep.name} = "*"')
+        dependency_rows = "\n".join(dependency_rows)
+
+        # Create the context for the template
+        context = {
+            "name": self.config.service_info.name,
+            "version": self.config.service_info.version,
+            "description": self.config.service_info.description,
+            "email": "<enter your email>",
+            "dependency_rows": dependency_rows,
+        }
+
+        # Generate the poetry toml file and return the file name
+        return populate_template(
+            template_dir=POETRY_TEMPLATES,
+            template_name="toml.jinja",
+            output_path=self.poetry_toml,
+            context=context,
+        )
+
+    ####################################################################################################################
+    # Generate OpenAPI and Python Client
+    ####################################################################################################################
+
+    def generate_openapi_file(self):
+        """Generate the OpenAPI JSON file"""
+        return export_openapi(code_dir=self.code_dir)
 
     def generate_python_client(self):
         """Generate the python client code"""
@@ -482,3 +521,21 @@ class BackendGenerator:
             openapi_spec=OPENAPI_SPEC_FN, output_dir=self.client_dir
         )
         run_command(cmd=command, cwd=self.code_dir)
+
+    ####################################################################################################################
+    # Create __init__.py Files under each directory
+    ####################################################################################################################
+
+    def create_init_files(self):
+        """Create __init__.py files under each directory"""
+        # Create the __init__.py file for the code directory
+        init_file = os.path.join(self.code_dir, "__init__.py")
+        if not os.path.exists(init_file):
+            run_command(f"touch {init_file}")
+
+        # For each directory in the code dir create an __init__.py file if it does not exist
+        for root, dirs, files in os.walk(self.code_dir):
+            for dir in dirs:
+                init_file = os.path.join(root, dir, "__init__.py")
+                if not os.path.exists(init_file):
+                    run_command(f"touch {init_file}")

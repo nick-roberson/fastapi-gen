@@ -1,8 +1,9 @@
 import uuid
 import logging
 from typing import List, Union
-from models.models import {{ model.name }}, {{ model.name }}Query
-from db.utils import get_collection, get_client
+
+from src.models.models import {{ model.name }}, {{ model.name }}Query
+from src.db.utils import get_collection, get_client
 
 logger = logging.getLogger(__name__)
 

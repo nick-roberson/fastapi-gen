@@ -1,11 +1,9 @@
-import argparse
 import logging
 from typing import List
 
-import uvicorn
-from db.review_manager import get_review_manager
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from models.models import Review, ReviewQuery
+from src.db.review_manager import get_review_manager
+from src.models.models import Review, ReviewQuery
 
 # Create instances of managers for each model
 

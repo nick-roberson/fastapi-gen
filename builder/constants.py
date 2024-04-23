@@ -49,6 +49,7 @@ PYTHON_DEPENDENCIES = [
     ("alembic", "^1.13.1"),
     ("sqlalchemy", "^2.0.29"),
     ("pymysql", "^1.0.2"),
+    ("httpx", "^0.27.0"),
 ]
 
 # Node Dependencies

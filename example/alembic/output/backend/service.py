@@ -4,10 +4,10 @@ import logging
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes.reservation_routes import router as ReservationRoutes
-from routes.restaurant_routes import router as RestaurantRoutes
-from routes.review_routes import router as ReviewRoutes
-from routes.user_routes import router as UserRoutes
+from src.reservation_routes import router as reservation_rotes
+from src.restaurant_routes import router as restaurant_rotes
+from src.review_routes import router as review_rotes
+from src.user_routes import router as user_rotes
 
 # Create FastAPI App and Allow CORS
 app = FastAPI()
@@ -24,10 +24,10 @@ DEFAULT_HOST = "localhost"
 DEFAULT_PORT = 8000
 
 # Add the API Routes
-app.include_router(UserRoutes, tags=["User"])
-app.include_router(RestaurantRoutes, tags=["Restaurant"])
-app.include_router(ReservationRoutes, tags=["Reservation"])
-app.include_router(ReviewRoutes, tags=["Review"])
+app.include_router(user_rotes, tags=["User"])
+app.include_router(restaurant_rotes, tags=["Restaurant"])
+app.include_router(reservation_rotes, tags=["Reservation"])
+app.include_router(review_rotes, tags=["Review"])
 
 
 ########################################################################################################################

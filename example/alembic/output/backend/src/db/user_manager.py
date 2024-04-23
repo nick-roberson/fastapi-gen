@@ -2,11 +2,11 @@ import logging
 from datetime import datetime
 from typing import List
 
-from db.constants import DB_URL
-from db.models import DBUser
-from models.models import User, UserQuery
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from src.db.constants import DB_URL
+from src.db.models import DBUser
+from src.models.models import User, UserQuery
 
 # Singleton Manager for User
 __USER_MANAGER = None

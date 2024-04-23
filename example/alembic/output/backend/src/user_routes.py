@@ -1,11 +1,9 @@
-import argparse
 import logging
 from typing import List
 
-import uvicorn
-from db.user_manager import get_user_manager
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from models.models import User, UserQuery
+from src.db.user_manager import get_user_manager
+from src.models.models import User, UserQuery
 
 # Create instances of managers for each model
 

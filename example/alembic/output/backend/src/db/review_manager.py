@@ -2,11 +2,11 @@ import logging
 from datetime import datetime
 from typing import List
 
-from db.constants import DB_URL
-from db.models import DBReview
-from models.models import Review, ReviewQuery
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from src.db.constants import DB_URL
+from src.db.models import DBReview
+from src.models.models import Review, ReviewQuery
 
 # Singleton Manager for Review
 __REVIEW_MANAGER = None

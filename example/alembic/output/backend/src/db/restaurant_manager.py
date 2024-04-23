@@ -2,11 +2,11 @@ import logging
 from datetime import datetime
 from typing import List
 
-from db.constants import DB_URL
-from db.models import DBRestaurant
-from models.models import Restaurant, RestaurantQuery
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from src.db.constants import DB_URL
+from src.db.models import DBRestaurant
+from src.models.models import Restaurant, RestaurantQuery
 
 # Singleton Manager for Restaurant
 __RESTAURANT_MANAGER = None

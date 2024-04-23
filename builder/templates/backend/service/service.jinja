@@ -5,7 +5,7 @@ import argparse
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-{% for model in models %}from routes.{{ model.name.lower() }}_routes import router as {{ model.name }}Routes
+{% for model in models %}from src.{{ model.name.lower() }}_routes import router as {{ model.name.lower() }}_rotes
 {% endfor %}
 
 # Create FastAPI App and Allow CORS
@@ -23,7 +23,7 @@ DEFAULT_HOST = "localhost"
 DEFAULT_PORT = 8000
 
 # Add the API Routes
-{% for model in models %}app.include_router({{ model.name }}Routes, tags=["{{ model.name }}"])
+{% for model in models %}app.include_router({{ model.name.lower() }}_rotes, tags=["{{ model.name }}"])
 {% endfor %}
 
 ########################################################################################################################

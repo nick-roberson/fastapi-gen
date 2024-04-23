@@ -1,11 +1,9 @@
-import argparse
 import logging
 from typing import List
 
-import uvicorn
-from db.restaurant_manager import get_restaurant_manager
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from models.models import Restaurant, RestaurantQuery
+from src.db.restaurant_manager import get_restaurant_manager
+from src.models.models import Restaurant, RestaurantQuery
 
 # Create instances of managers for each model
 

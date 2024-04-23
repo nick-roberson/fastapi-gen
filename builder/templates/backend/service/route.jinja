@@ -1,13 +1,11 @@
 import logging
-import uvicorn
-import argparse
 
 from typing import List
 from fastapi import APIRouter, HTTPException, BackgroundTasks
 
-from models.models import {{ model_name }}
-from models.models import {{ query_model_name }}
-{% for model in models %}from db.{{ model.name.lower() }}_manager import get_{{ model.manager_var_name }}
+from src.models.models import {{ model_name }}
+from src.models.models import {{ query_model_name }}
+{% for model in models %}from src.db.{{ model.name.lower() }}_manager import get_{{ model.manager_var_name }}
 {% endfor %}
 
 # Create instances of managers for each model
