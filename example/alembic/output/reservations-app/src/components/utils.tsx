@@ -1,5 +1,4 @@
 import { Configuration } from "../api";
-import { DefaultApi } from "../api";
 
 import { UserApi } from "../api";
 

@@ -17,8 +17,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 // Import Models
 import { Reservation, ReservationFromJSON } from "../api";
-// Replace with your Host and Port
-const basePath = "http://localhost:8000";
 
 function ReservationPage() {
   // Declare API Client

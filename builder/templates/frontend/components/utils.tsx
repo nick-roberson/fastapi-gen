@@ -1,5 +1,4 @@
 import { Configuration } from "../api";
-import { DefaultApi } from "../api";
 {% for model in config.models %}
 import { {{ model.name }}Api } from "../api";
 {% endfor %}

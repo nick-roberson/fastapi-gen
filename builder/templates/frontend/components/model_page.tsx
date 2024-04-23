@@ -17,8 +17,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 // Import Models
 import { {{ model.name }}, {{ model.name }}FromJSON } from "../api";
-// Replace with your Host and Port
-const basePath = "http://localhost:8000";
 
 function {{ model.name }}Page() {
 
