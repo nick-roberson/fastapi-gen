@@ -161,7 +161,13 @@ correct environment variables set (see the `setup` section for more information)
 **General**
 - Poetry installed
 - Python 3.12.2 installed (can install via poetry)
--
+- `docker` installed (for backend running)
+  - https://docs.docker.com/engine/install/
+- `openapi-generator generate` command line tool installed (for python client generation)
+  - https://openapi-generator.tech/docs/installation/
+- `npm` installed (for frontend running)
+  - https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+
 **Database**
 - If using **MongoDB** as the database, you will need to set up a free tier MongoDB Atlas database as well as have `MONGO_URI` set in your environment variables.
 - If using **PostgreSQL** or **MySQL** as the database, you will need to set up either database locally or somewhere else and have the following environment variables set:
