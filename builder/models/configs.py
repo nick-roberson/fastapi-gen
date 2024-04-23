@@ -1,5 +1,6 @@
 from typing import Any, Dict, List, Optional
 
+from faker import Faker
 from pydantic import BaseModel, ConfigDict, field_validator
 from pydantic.fields import FieldInfo
 
@@ -154,6 +155,26 @@ class FieldDefinition(BaseModel):
         else:
             raise ValueError(f"Invalid type {self.type}")
 
+    def generate_fake_data(self):
+        """Generate fake data for the field"""
+        fake = Faker()
+        if self.type == FieldDataType.STRING.value:
+            return fake.word()
+        elif self.type == FieldDataType.INTEGER.value:
+            return fake.random_int(min=1, max=100)
+        elif self.type == FieldDataType.FLOAT.value:
+            return float(fake.random_number(digits=2))
+        elif self.type == FieldDataType.BOOLEAN.value:
+            return fake.boolean()
+        elif self.type == FieldDataType.DATETIME.value:
+            return fake.date_time_this_decade().isoformat()
+        elif self.type == FieldDataType.LIST.value:
+            return [fake.word() for _ in range(3)]
+        elif self.type == FieldDataType.DICT.value:
+            return {fake.word(): fake.word() for _ in range(3)}
+        else:
+            return None
+
 
 class ModelConfig(BaseModel):
     """Model definition"""
@@ -177,6 +198,10 @@ class ModelConfig(BaseModel):
 
     def __str__(self):
         return f"ModelConfig(name={self.name}, fields={self.fields})"
+
+    def create_fake_data(self):
+        """Create fake data for the model"""
+        return {field.name: field.generate_fake_data() for field in self.fields}
 
 
 class DependencyConfig(BaseModel):

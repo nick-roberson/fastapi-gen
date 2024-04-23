@@ -1,0 +1,42 @@
+[
+  {
+    "id": 37,
+    "restaurant_id": 32,
+    "user_id": 78,
+    "reservation_time": "2020-01-14T01:08:40.324035",
+    "party_size": 46,
+    "special_requests": "across"
+  },
+  {
+    "id": 18,
+    "restaurant_id": 26,
+    "user_id": 66,
+    "reservation_time": "2022-01-06T04:29:55.338603",
+    "party_size": 67,
+    "special_requests": "effort"
+  },
+  {
+    "id": 21,
+    "restaurant_id": 33,
+    "user_id": 66,
+    "reservation_time": "2022-01-08T18:36:56.120452",
+    "party_size": 57,
+    "special_requests": "want"
+  },
+  {
+    "id": 25,
+    "restaurant_id": 77,
+    "user_id": 91,
+    "reservation_time": "2023-02-09T12:02:24.408576",
+    "party_size": 53,
+    "special_requests": "carry"
+  },
+  {
+    "id": 43,
+    "restaurant_id": 49,
+    "user_id": 21,
+    "reservation_time": "2023-03-22T11:53:07.611008",
+    "party_size": 40,
+    "special_requests": "discover"
+  }
+]

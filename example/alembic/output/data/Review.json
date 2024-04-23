@@ -1,0 +1,37 @@
+[
+  {
+    "id": 3,
+    "restaurant_id": 93,
+    "user_id": 50,
+    "rating": 79.0,
+    "comment": "amount"
+  },
+  {
+    "id": 97,
+    "restaurant_id": 78,
+    "user_id": 10,
+    "rating": 95.0,
+    "comment": "finish"
+  },
+  {
+    "id": 63,
+    "restaurant_id": 45,
+    "user_id": 97,
+    "rating": 34.0,
+    "comment": "plant"
+  },
+  {
+    "id": 83,
+    "restaurant_id": 78,
+    "user_id": 33,
+    "rating": 64.0,
+    "comment": "whole"
+  },
+  {
+    "id": 7,
+    "restaurant_id": 49,
+    "user_id": 67,
+    "rating": 11.0,
+    "comment": "child"
+  }
+]
