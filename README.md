@@ -343,9 +343,8 @@ Feel free to modify the data as you see fit!
 For this specific use case in the example you can run the service given the commands provided above and then use postman 
 to POST the data to the service. For example:
 
-```commandline
-POST - localhost:8000/users
-BODY: 
+```json
+(POST) http://localhost:8000/users
 [
   {
     "id": 71,
