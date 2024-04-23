@@ -1,0 +1,42 @@
+[
+  {
+    "id": 66,
+    "restaurant_id": 77,
+    "user_id": 51,
+    "reservation_time": "2021-10-06T10:39:11.033103",
+    "party_size": 80,
+    "special_requests": "official"
+  },
+  {
+    "id": 33,
+    "restaurant_id": 13,
+    "user_id": 39,
+    "reservation_time": "2023-12-15T08:54:58.218920",
+    "party_size": 43,
+    "special_requests": "kitchen"
+  },
+  {
+    "id": 2,
+    "restaurant_id": 63,
+    "user_id": 60,
+    "reservation_time": "2022-12-30T02:53:56.255794",
+    "party_size": 23,
+    "special_requests": "hair"
+  },
+  {
+    "id": 100,
+    "restaurant_id": 32,
+    "user_id": 35,
+    "reservation_time": "2020-01-30T12:10:53.911117",
+    "party_size": 43,
+    "special_requests": "arrive"
+  },
+  {
+    "id": 7,
+    "restaurant_id": 59,
+    "user_id": 41,
+    "reservation_time": "2020-08-29T02:23:39.103621",
+    "party_size": 62,
+    "special_requests": "across"
+  }
+]
