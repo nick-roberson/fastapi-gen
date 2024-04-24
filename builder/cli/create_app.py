@@ -8,8 +8,6 @@ from builder.app_manager import ApplicationManager
 from builder.cli.utils import (process_close, validate_config,
                                validate_output_dir)
 from builder.constants import SAMPLE_INPUT_FILE, SAMPLE_OUTPUT_DIR
-from builder.generate.backend.generator import BackendGenerator
-from builder.generate.frontend.generator import FrontendGenerator
 
 app = typer.Typer()
 
@@ -89,34 +87,22 @@ def reload(
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
     output_dir = validate_output_dir(output_dir)
+    manager = ApplicationManager(service_config=service_config, output_dir=output_dir)
 
     if frontend_only and not backend_only:
-        # Create frontend generator
-        frontend_generator = FrontendGenerator(
-            config=service_config, output_dir=output_dir
-        )
-
         # Recreate the frontend templates
-        created_files = frontend_generator.generate_templated_components()
+        created_files = manager.regenerate_frontend()
         print(f"Regenerated frontend templates!")
         print(f"Created files: {json.dumps(created_files, indent=4)}")
 
     elif backend_only and not frontend_only:
-        # Create backend generator
-        backend_generator = BackendGenerator(
-            config=service_config, output_dir=output_dir
-        )
-
         # Recreate the backend templates
-        created_files = backend_generator.generate_templated_components()
+        created_files = manager.regenerate_backend()
         print(f"Regenerated backend templates!")
         print(f"Created files: {json.dumps(created_files, indent=4)}")
 
     else:
         # Regenerate both frontend and backend
-        manager = ApplicationManager(
-            service_config=service_config, output_dir=output_dir
-        )
         result = manager.regenerate(
             frontend_only=frontend_only, backend_only=backend_only
         )
