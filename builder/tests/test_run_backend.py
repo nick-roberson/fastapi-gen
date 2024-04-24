@@ -10,6 +10,7 @@ import requests
 from builder.config.parse import load_config, parse_config
 from builder.constants import TEST_MYSQL_CONFIG
 from builder.generate.backend.generator import BackendGenerator
+from builder.generate.poetry.generator import PoetryGenerator
 
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8000
@@ -36,6 +37,13 @@ def service():
         generator.generate_database()
         generator.generate_readme()
         generator.lint_backend()
+
+        # Init the poetry generator
+        poetry_generator = PoetryGenerator(config=config, output_dir=output_dir)
+
+        # Generate the poetry code
+        poetry_generator.generate_poetry_toml()
+        poetry_generator.install_dependencies()
 
         # Start the FastAPI app with Uvicorn in a subprocess
         service_dir = os.path.join(output_dir, "backend")
