@@ -50,6 +50,7 @@ ALL_TEST_PARAMS = TEST_RESTAURANT_PARAMS + TEST_EVENTS_PARAMS
 def service(request):
     """Fixture to create and manage the service based on the configuration passed via test parameters."""
     # Get the configuration from test parameters
+    print(f"Test parameters: {request}")
     config = request.param[2]
 
     # Create and configure service
