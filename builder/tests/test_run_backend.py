@@ -18,9 +18,9 @@ DEFAULT_PORT = 8000
 # Fixture to create the code and start the service
 @pytest.fixture
 def service():
-    """Fixture to create the code and start the service."""
-    # Start the FastAPI app with Uvicorn in a subprocess
-    with tempfile.TemporaryDirectory(delete=False) as output_dir:
+    """Fixture to create the code and start the service, and ensure cleanup after tests."""
+    # Create a temporary directory that will be cleaned up automatically
+    with tempfile.TemporaryDirectory() as output_dir:
         print(f"Output directory: {output_dir}")
         # Parse the model definitions
         config_def = load_config(TEST_MYSQL_CONFIG)
@@ -39,7 +39,7 @@ def service():
 
         # Start the FastAPI app with Uvicorn in a subprocess
         service_dir = os.path.join(output_dir, "backend")
-        print("Starting FastAPI app with Uvicorn from dir {service_dir}...")
+        print(f"Starting FastAPI app with Uvicorn from dir {service_dir}...")
         proc = subprocess.Popen(
             [
                 "uvicorn",
@@ -53,13 +53,20 @@ def service():
             cwd=service_dir,
         )
 
-    return proc, output_dir
+        # Yield the process and output directory to the test function
+        yield proc, output_dir
+
+        # Cleanup after the test runs
+        print("Terminating the Uvicorn server...")
+        proc.kill()
+        proc.wait()
+        print(f"Deleted output directory: {output_dir}")
 
 
 @pytest.mark.parametrize("config", [TEST_MYSQL_CONFIG])
-def test_root_endpoints(service: Tuple, config: str):
+def test_root_endpoints(service: Tuple):
     """Simple test to validate the example config and check the health endpoint."""
-    # Unpack the service tuple and load the config
+    # Unpack the service tuple
     proc, output_dir = service
 
     # Check the health endpoint
@@ -83,12 +90,3 @@ def test_root_endpoints(service: Tuple, config: str):
     except Exception as e:
         print(f"An error occurred: {e}")
         raise
-
-    finally:
-        # Terminate the Uvicorn server and cleanup
-        print("Terminating the Uvicorn server...")
-        proc.kill()
-        proc.wait()
-        # Force delete the output directory and all of its contents
-        print(f"Deleting output directory: {output_dir}")
-        subprocess.run(["rm", "-rf", output_dir])
