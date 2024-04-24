@@ -45,6 +45,13 @@ jobs:
           pip install poetry coverage
           poetry install
 
+      # Create necessary databases
+      - name: Create Additional Databases
+        run: |
+          mysql --host 127.0.0.1 --port 3306 --user root --password=root -e "CREATE DATABASE IF NOT EXISTS test_events_app;"
+          mysql --host 127.0.0.1 --port 3306 --user root --password=root -e "CREATE DATABASE IF NOT EXISTS test_restaurant_app;"
+
+      # Run tests for the sample apps
       - name: Test Sample Events App
         run: |
           echo "Running Tests"
@@ -68,11 +75,12 @@ jobs:
           export DB_PORT=3306
           export DB_USER=root
           export DB_PASSWORD=root
-          export DB_NAME=test_restaurant_app
+          export DB_NAME=test_restaurant_app        
           # Run Tests
           poetry run coverage run -m pytest builder/tests/test_restaurant_app.py --verbose
           poetry run coverage report -m
 
+      # Run unit tests
       - name: Run Unit Tests
         run: |
           echo "Running Unit Tests"
