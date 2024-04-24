@@ -16,6 +16,7 @@ from builder.test_data.create_fake_data import create_fake_data
 
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8000
+BASE_URL = f"http://{DEFAULT_HOST}:{DEFAULT_PORT}"
 NUM_MODELS = 5
 
 
@@ -63,6 +64,9 @@ def service():
             ],
             cwd=service_dir,
         )
+
+        # Give Uvicorn a moment to start
+        time.sleep(5)
 
         # Generate the Alembic migrations
         db_dir = os.path.join(service_dir, "src/db")
@@ -119,26 +123,18 @@ def test_root_endpoints(service: Tuple):
     proc, output_dir = service
 
     # Check the health endpoint
-    base_url = f"http://{DEFAULT_HOST}:{DEFAULT_PORT}"
-    print(f"Running Uvicorn on {base_url} and hitting the health endpoint...")
-    try:
-        # Give Uvicorn a moment to start
-        time.sleep(3)  # Adjust sleep time if necessary
+    BASE_URL = f"http://{DEFAULT_HOST}:{DEFAULT_PORT}"
+    print(f"Running Uvicorn on {BASE_URL} and hitting the health endpoint...")
 
-        # Perform HTTP GET request to the health endpoint
-        response = requests.get(f"{base_url}/health")
-        assert response.status_code == 200
-        assert response.json() == {"message": "Healthy"}
+    # Perform HTTP GET request to the health endpoint
+    response = requests.get(f"{BASE_URL}/health")
+    assert response.status_code == 200
+    assert response.json() == {"message": "Healthy"}
 
-        # Perform HTTP GET request to the ready endpoint
-        response = requests.get(f"{base_url}/ready")
-        assert response.status_code == 200
-        assert response.json() == {"message": "Ready"}
-
-    # Handle any exceptions
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        raise
+    # Perform HTTP GET request to the ready endpoint
+    response = requests.get(f"{BASE_URL}/ready")
+    assert response.status_code == 200
+    assert response.json() == {"message": "Ready"}
 
 
 def test_create_users(service: Tuple, fake_data: Dict):
@@ -151,21 +147,17 @@ def test_create_users(service: Tuple, fake_data: Dict):
     assert len(user_data) == NUM_MODELS
 
     # Check the health endpoint
-    base_url = f"http://{DEFAULT_HOST}:{DEFAULT_PORT}"
-    print(f"Running Uvicorn on {base_url} and hitting the health endpoint...")
-
-    # Give Uvicorn a moment to start
-    time.sleep(3)  # Adjust sleep time if necessary
+    print(f"Running Uvicorn on {BASE_URL} and hitting the health endpoint...")
 
     # Create one
     first_user = user_data[0]
-    response = requests.post(f"{base_url}/users", json=first_user)
+    response = requests.post(f"{BASE_URL}/users", json=first_user)
     assert response.status_code == 200
     response_json = response.json()
     assert response_json["id"]
 
     # Create many
-    response = requests.post(f"{base_url}/users", json=user_data)
+    response = requests.post(f"{BASE_URL}/users", json=user_data)
     assert response.status_code == 200
     response_json = response.json()
     assert len(response_json) == NUM_MODELS
