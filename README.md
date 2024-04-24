@@ -268,34 +268,24 @@ Run Frontend (NPM):
 (base) nicholas@Nicks-MBP fastapi-gen % poetry run python main.py generate \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
+
 Generating Frontend and Backend services for app `reservations-app`
-        config:     example/alembic/restaurant.yaml
-        output_dir: /Users/nicholas/Code/fastapi-gen/example/alembic/output
+        config:           example/alembic/restaurant.yaml
+        output_dir:       /Users/nicholas/Code/fastapi-gen/example/alembic/output
+        frontend_only:    False
+        backend_only:     False
 
 
-Generating backend and frontend services...
+Generating backend services...
 
-        1. Clearing the output directory...
-                > 'rm -rf /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend'
+        1. Skipping clearing the output directory...
         2. Generating the backend code...
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/databases/alembic/alembic/script.py.mako
+                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/databases/alembic/alembic/script.py.mako 
 /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/script.py.mako'
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/databases/alembic/alembic/README
-/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/README'
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/databases/alembic/alembic.ini
-/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic.ini'
+                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/databases/alembic/alembic/README /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/README'
+                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/databases/alembic/alembic.ini /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic.ini'
                 > 'poetry run alembic revision --autogenerate -m 'Initial Migration''
                 > 'poetry run alembic upgrade head'
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/.env
-/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/.env'
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/Dockerfile
-/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/Dockerfile'
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/compose.yml
-/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/compose.yml'
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/.dockerignore
-/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/.dockerignore'
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/README.Docker.md
-/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/README.Docker.md'
                 > 'touch /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/__init__.py'
                 > 'touch /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/__init__.py'
                 > 'touch /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/models/__init__.py'
@@ -304,37 +294,51 @@ Generating backend and frontend services...
                 > 'touch /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/__init__.py'
                 > 'touch /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/versions/__init__.py'
                 > 'touch /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/__pycache__/__init__.py'
-        3. Exporting OpenAPI JSON file...
-        4. Generating the python client code...
-                > 'openapi-generator generate -i openapi.json -g python -o
-/Users/nicholas/Code/fastapi-gen/example/alembic/output/client'
-        5. Installing the backend dependencies...
-                > 'poetry env use 3.12.2'
-                > 'poetry install'
-                > 'poetry export -f requirements.txt --output requirements.txt'
-        6. Linting the backend code...
+        3. Linting the backend code...
                 > 'poetry run black /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend'
                 > 'poetry run isort /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend'
 
+Creating Poetry files and installing deps...
+
+                > 'poetry env use 3.12.2'
+                > 'poetry install'
+                > 'poetry export -f requirements.txt --output /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/requirements.txt'
+
+Creating Docker files...
+
+                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/.env /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/.env'
+                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/Dockerfile /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/Dockerfile'
+                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/compose.yml /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/compose.yml'
+                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/.dockerignore /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/.dockerignore'
+                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/README.Docker.md /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/README.Docker.md'
+
+Generating OpenAPI spec...
+
+                > OpenAPI spec generated at: /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/openapi.json
+
+Creating Python Client...
+
+                > 'openapi-generator generate -i openapi.json -g python -o /Users/nicholas/Code/fastapi-gen/example/alembic/output/client'
+
 Generating frontend services...
 
-        1. Clearing generated frontend code...
+        1. Skipping clearing of generated frontend code...
         2. Generating frontend code ...
                 > 'npx create-react-app reservations-app --template typescript'
         3. Installing dependencies...
-                > 'npm install axios @mui/material @mui/icons-material @mui/x-data-grid @mui/styled-engine @mui/lab @emotion/react
-@emotion/styled prettier eslint web-vitals react-router-dom'
+                > 'npm install axios @mui/material @mui/icons-material @mui/x-data-grid @mui/styled-engine @mui/lab @emotion/react @emotion/styled prettier eslint web-vitals react-router-dom'
         4. Generating App main page...
                 > 'rm -f /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/index.tsx'
-        5. Generating Typescript client...
-                > 'openapi-generator generate -i /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/openapi.json -g
-typescript-fetch -o /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/api'
-        6. Linting frontend code and cleaning up...
+        5. Linting frontend code and cleaning up...
                 > 'npx prettier --write .'
                 > 'npx eslint --fix .'
                 > 'rm -f /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/App.css'
                 > 'rm -f /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/App.test.tsx'
                 > 'rm -f /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/App.tsx'
+
+Creating Typescript Client...
+
+                > 'openapi-generator generate -i openapi.json -g typescript-fetch -o /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/api'
 
 Generated files:
 {
@@ -357,20 +361,21 @@ Generated files:
             "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/review_manager.py",
             "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/env.py"
         ],
-        "Poetry": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/pyproject.toml",
-        "README.md": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/README.md",
-        "Docker Files": [
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/.env",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/Dockerfile",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/compose.yml",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/.dockerignore",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/README.Docker.md"
-        ]
+        "README.md": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/README.md"
     },
     "Backend Directories": {
         "Service Code": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend",
         "Python Client Code": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/client"
     },
+    "Poetry Toml": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/pyproject.toml",
+    "Docker Files": [
+        "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/.env",
+        "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/Dockerfile",
+        "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/compose.yml",
+        "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/.dockerignore",
+        "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/README.Docker.md"
+    ],
+    "OpenAPI Spec": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/openapi.json",
     "Frontend Files": {
         "Main Page": {
             "Index.tsx": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/index.tsx",
@@ -406,6 +411,7 @@ Run Backend (Docker) (Make sure to fill out the generated .env file!):
 Run Frontend (NPM):
    % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app
    % npm install && npm run start
+
 ```
 Done!
 </details>

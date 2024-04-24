@@ -9,15 +9,20 @@ from builder.models.configs import ServiceConfig
 DATA_DIR: str = "data"
 
 
-def create_fake_data(service_config: ServiceConfig, output_dir: str) -> Dict:
+def create_fake_data(
+    service_config: ServiceConfig, output_dir: str, num: int = 5, no_ids: bool = False
+) -> Dict:
     """Create fake data for the service
 
     Args:
         service_config (ServiceConfig): Service configuration
         output_dir (str): Output directory for the fake data
+        num (int, optional): Number of fake data entries to create. Defaults to 5.
+        no_ids (bool, optional): Flag to exclude the IDs from the fake data. Defaults to False.
     Returns:
         Dict: Dictionary of model names and their corresponding fake data file paths
     """
+    data = {}
     # Create the output directory and data directory
     data_dir = os.path.join(output_dir, DATA_DIR)
     os.makedirs(data_dir, exist_ok=True)
@@ -25,9 +30,9 @@ def create_fake_data(service_config: ServiceConfig, output_dir: str) -> Dict:
 
     # Get model list and create fake data
     models = service_config.models
-    data = {
-        model.name: [model.create_fake_data() for _ in range(5)] for model in models
-    }
+    for model in models:
+        data[model.name] = [model.create_fake_data(no_ids=no_ids) for _ in range(num)]
+        print(f"Faked data for {model.name} with {num} entries: {data[model.name][0]}")
 
     # Output the fake data each to a JSON file
     result_files = {}

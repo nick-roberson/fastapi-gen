@@ -38,13 +38,19 @@ app.include_router(review_rotes, tags=["Review"])
 @app.get("/")
 async def root():
     """Root Endpoint"""
-    return {"message": "Welcome to the Restaurant Reservation System"}
+    return {"message": "Welcome to reservations-app API"}
 
 
 @app.get("/health")
 async def health():
     """Health Endpoint"""
     return {"message": "Healthy"}
+
+
+@app.get("/ready")
+async def health():
+    """Ready Endpoint"""
+    return {"message": "Ready"}
 
 
 ########################################################################################################################

@@ -199,9 +199,13 @@ class ModelConfig(BaseModel):
     def __str__(self):
         return f"ModelConfig(name={self.name}, fields={self.fields})"
 
-    def create_fake_data(self):
+    def create_fake_data(self, no_ids: bool = False):
         """Create fake data for the model"""
-        return {field.name: field.generate_fake_data() for field in self.fields}
+        return {
+            field.name: field.generate_fake_data()
+            for field in self.fields
+            if field.name != "id" or not no_ids
+        }
 
 
 class DependencyConfig(BaseModel):

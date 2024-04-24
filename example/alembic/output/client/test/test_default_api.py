@@ -33,6 +33,13 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_health_ready_get(self) -> None:
+        """Test case for health_ready_get
+
+        Health
+        """
+        pass
+
     def test_root_get(self) -> None:
         """Test case for root_get
 

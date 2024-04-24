@@ -53,6 +53,38 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Ready Endpoint
+     * Health
+     */
+    async healthReadyGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/ready`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Ready Endpoint
+     * Health
+     */
+    async healthReadyGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.healthReadyGetRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Root Endpoint
      * Root
      */
