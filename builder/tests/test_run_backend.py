@@ -14,46 +14,47 @@ from builder.generate.poetry.generator import PoetryGenerator
 from builder.models.configs import ServiceConfig
 from builder.test_data.create_fake_data import create_fake_data
 
-# Constants to store the default host, port, and base URL of the running service
+# Constants for default service parameters
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8000
 BASE_URL = f"http://{DEFAULT_HOST}:{DEFAULT_PORT}"
 NUM_MODELS = 5
 
-# Constants to store the config and parameters for the tests
+# Paths to configuration files
 TEST_RESTAURANTS_CONFIG_FP: str = os.path.abspath(
     "builder/tests/configs/restaurant.yaml"
 )
 TEST_EVENTS_CONFIG_FP: str = os.path.abspath("builder/tests/configs/events.yaml")
 
-# Load and validate the restaurant config
+# Load and validate configurations
 TEST_RESTAURANT_CONFIG: ServiceConfig = load_and_validate_config(
     TEST_RESTAURANTS_CONFIG_FP
 )
-TEST_RESTAURANT_PARAMS: List[Tuple] = [
-    (model.name, model.name.lower()) for model in TEST_RESTAURANT_CONFIG.models
-]
-
-# TODO: Load and validate the events config and add to tests
 TEST_EVENTS_CONFIG: ServiceConfig = load_and_validate_config(TEST_EVENTS_CONFIG_FP)
+
+# Generate parameters for both configurations
+TEST_RESTAURANT_PARAMS: List[Tuple] = [
+    (model.name, model.name.lower(), TEST_RESTAURANT_CONFIG)
+    for model in TEST_RESTAURANT_CONFIG.models
+]
 TEST_EVENTS_PARAMS: List[Tuple] = [
-    (model.name, model.name.lower()) for model in TEST_EVENTS_CONFIG.models
+    (model.name, model.name.lower(), TEST_EVENTS_CONFIG)
+    for model in TEST_EVENTS_CONFIG.models
 ]
 
+# Combine parameters for parameterized tests
+ALL_TEST_PARAMS = TEST_RESTAURANT_PARAMS + TEST_EVENTS_PARAMS
 
-# Fixture to create the code and start the service
+
 @pytest.fixture(scope="module")
-def service():
-    """Fixture to create the code and start the service, and ensure cleanup after tests."""
-    # Create a temporary directory that will be cleaned up automatically
+def service(request):
+    """Fixture to create and manage the service based on the configuration passed via test parameters."""
+    config = request.param  # Get the configuration from test parameters
+
+    # Create and configure service
     with tempfile.TemporaryDirectory() as output_dir:
         print(f"Output directory: {output_dir}")
-        # Init the backend generator
-        generator = BackendGenerator(
-            config=TEST_RESTAURANT_CONFIG, output_dir=output_dir
-        )
-
-        # Generate the backend code
+        generator = BackendGenerator(config=config, output_dir=output_dir)
         generator.generate_models()
         generator.generate_services()
         generator.generate_templated_components()
@@ -61,16 +62,10 @@ def service():
         generator.generate_readme()
         generator.lint_backend()
 
-        # Init the poetry generator
-        poetry_generator = PoetryGenerator(
-            config=TEST_RESTAURANT_CONFIG, output_dir=output_dir
-        )
-
-        # Generate the poetry code
+        poetry_generator = PoetryGenerator(config=config, output_dir=output_dir)
         poetry_generator.generate_poetry_toml()
         poetry_generator.install_dependencies()
 
-        # Start the FastAPI app with Uvicorn in a subprocess
         service_dir = os.path.join(output_dir, "backend")
         print(f"Starting FastAPI app with Uvicorn from dir {service_dir}...")
         proc = subprocess.Popen(
@@ -85,29 +80,19 @@ def service():
             ],
             cwd=service_dir,
         )
-
-        # Give Uvicorn a moment to start
         time.sleep(5)
 
-        # Generate the Alembic migrations
         db_dir = os.path.join(service_dir, "src/db")
         print("Generating Alembic migrations...")
         subprocess.run(
             ["alembic", "revision", "--autogenerate", "-m", "Initial migration"],
             cwd=db_dir,
         )
-
-        # Run Alembic migrations
         print("Running Alembic migrations...")
-        subprocess.run(
-            ["alembic", "upgrade", "head"],
-            cwd=db_dir,
-        )
+        subprocess.run(["alembic", "upgrade", "head"], cwd=db_dir)
 
-        # Yield the process and output directory to the test function
         yield proc, output_dir
 
-        # Cleanup after the test runs
         print("Terminating the Uvicorn server...")
         proc.kill()
         proc.wait()
@@ -137,6 +122,7 @@ def fake_data(service: Tuple) -> Dict:
     yield fake_data
 
 
+@pytest.mark.parametrize("service", ALL_TEST_PARAMS, indirect=True)
 def test_root_endpoints(service: Tuple):
     """Simple test to validate the example config and check the health endpoint."""
     # Unpack the service tuple
@@ -157,13 +143,9 @@ def test_root_endpoints(service: Tuple):
     assert response.json() == {"message": "Ready"}
 
 
-# Parameterize this test to run for different model types and endpoints
-@pytest.mark.parametrize(
-    "model, endpoint",
-    TEST_RESTAURANT_PARAMS,
-)
+@pytest.mark.parametrize("model, endpoint, config", ALL_TEST_PARAMS)
 def test_create_and_manage_models(
-    service: Tuple, fake_data: Dict, model: str, endpoint: str
+    service: Tuple, fake_data: Dict, model: str, endpoint: str, config: ServiceConfig
 ):
     """Test the creation, deletion, and listing of model instances."""
     # Unpack the service tuple
