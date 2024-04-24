@@ -197,27 +197,40 @@ This is the CLI interface for the service generator:
 
  Usage: main.py [OPTIONS] COMMAND [ARGS]...
 
-╭─ Options ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ --install-completion        [bash|zsh|fish|powershell|pwsh]  Install completion for the specified shell. [default: None]                                                                                │
-│ --show-completion           [bash|zsh|fish|powershell|pwsh]  Show completion for the specified shell, to copy it or customize the installation. [default: None]                                         │
-│ --help                                                       Show this message and exit.                                                                                                                │
-╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ create                   Create a new configuration file interactively.                                                                                                                                 │
-│ generate                 Generate a FastAPI backend and React frontend from the input yaml config.                                                                                                      │
-│ regenerate               Just regenerate the frontend or backend templates, do not recreate the application.                                                                                            │
-│ test-data                Generate fake data for the service                                                                                                                                             │
+│ app          Create a FastAPI backend and/or React frontend from an input yaml config.                                                                                                                  │
+│ config       Interactively create a configuration file that can then be used for generating a FastAPI backend and React frontend.                                                                       │
+│ data         Generate fake data for the service using Faker (https://faker.readthedocs.io/).                                                                                                            │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
-You can find an example config file in the `example/` directory. There should be one for `MongoDB` and one for `MySQL + Alembic`.
-This setup should also work for Postgres, but I have not tested it yet.
+#### Config Commands
+```commandline
+╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ create                     Create a new configuration file interactively.                                                                                                                               │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+```
+
+#### App Commands
+```commandline
+╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ create           Generate a FastAPI backend and React frontend from the input yaml config.                                                                                                              │
+│ reload           Just regenerate the frontend or backend templates, do not recreate the application.                                                                                                    │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+```
+
+#### Data Commands
+```commandline
+╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ create                             Generate fake data for the service                                                                                                                                   │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+```
 
 ### Create Config using CLI
 
 If you want to create a new service from scratch, you can use the `create` command to create a new config file interactively.
 ```bash
-% poetry run python main.py create \
+% poetry run python main.py app generate \
   --output-dir example/new_service
   --config-name new_service.yaml
 ```
@@ -233,7 +246,7 @@ easily copy the configs that I have in the `example/` directory and modify them 
 
 Once you have your config ready (or you can use the example config), you can generate the service using the following command:
 ```bash
-% poetry run python main.py generate \
+% poetry run python main.py app generate \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
 
