@@ -56,11 +56,11 @@ jobs:
           export DB_PASSWORD=root
           export DB_NAME=testdb
           # Run Tests
-          poetry run coverage run -m pytest builder/tests
+          poetry run coverage run -m pytest builder/tests --verbose
           poetry run coverage report -m
 
       - name: Run Unit Tests
         run: |
           echo "Running Unit Tests"
-          poetry run coverage run -m pytest builder/generate
+          poetry run coverage run -m pytest builder/generate --verbose
           poetry run coverage report -m

@@ -100,6 +100,17 @@ def test_root_endpoints(service: Tuple):
         assert response.status_code == 200
         assert response.json() == {"message": "Ready"}
 
+        # Test single post to /user endpoint to create a user
+        json = {
+            "name": "John Doe",
+            "email": "test@test.com",
+            "phone_numer": "123-456-7890",
+            "preferences": ["vegan", "gluten-free"],
+            "role": "admin",
+        }
+        response = requests.post(f"{base_url}/user", json=json)
+        assert response.status_code == 200
+
     # Handle any exceptions
     except Exception as e:
         print(f"An error occurred: {e}")
