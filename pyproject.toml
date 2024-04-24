@@ -1,9 +1,10 @@
 [tool.poetry]
-name = "service-builder"
-version = "0.1.0"
+name = "fastapi-gen"
+version = "1.0.0"
 description = "A service builder for creating RESTful APIs and React frontends"
 authors = ["nick-roberson <nicholas.roberson.95@gmail.com>"]
 readme = "README.md"
+license = "MIT"
 
 [tool.poetry.dependencies]
 python = "3.12.2"
