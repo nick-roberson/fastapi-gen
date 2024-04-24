@@ -157,7 +157,113 @@ def test_create_users(service: Tuple, fake_data: Dict):
     assert response_json["id"]
 
     # Create many
-    response = requests.post(f"{BASE_URL}/users", json=user_data)
+    four_users = user_data[1:5]
+    response = requests.post(f"{BASE_URL}/users", json=four_users)
     assert response.status_code == 200
     response_json = response.json()
-    assert len(response_json) == NUM_MODELS
+    assert len(response_json) == 4
+
+    # Query for all users and check the count
+    response = requests.get(f"{BASE_URL}/users")
+    assert response.status_code == 200
+    response_json = response.json()
+    assert len(response_json) == 5
+
+
+def test_create_reservations(service: Tuple, fake_data: Dict):
+    """Simple test to validate the example config and check the health endpoint."""
+    # Unpack the service tuple
+    proc, output_dir = service
+
+    reservation_data = fake_data["Reservation"]
+    assert reservation_data
+    assert len(reservation_data) == NUM_MODELS
+
+    # Check the health endpoint
+    print(f"Running Uvicorn on {BASE_URL} and hitting the health endpoint...")
+
+    # Create one
+    first_reservation = reservation_data[0]
+    response = requests.post(f"{BASE_URL}/reservation", json=first_reservation)
+    assert response.status_code == 200
+    response_json = response.json()
+    assert response_json["id"]
+
+    # Create many
+    four_reservations = reservation_data[1:5]
+    response = requests.post(f"{BASE_URL}/reservations", json=four_reservations)
+    assert response.status_code == 200
+    response_json = response.json()
+    assert len(response_json) == 4
+
+    # Query for all reservations and check the count
+    response = requests.get(f"{BASE_URL}/reservations")
+    assert response.status_code == 200
+    response_json = response.json()
+    assert len(response_json) == 5
+
+
+def test_create_restaurants(service: Tuple, fake_data: Dict):
+    """Simple test to validate the example config and check the health endpoint."""
+    # Unpack the service tuple
+    proc, output_dir = service
+
+    restaurant_data = fake_data["Restaurant"]
+    assert restaurant_data
+    assert len(restaurant_data) == NUM_MODELS
+
+    # Check the health endpoint
+    print(f"Running Uvicorn on {BASE_URL} and hitting the health endpoint...")
+
+    # Create one
+    first_restaurant = restaurant_data[0]
+    response = requests.post(f"{BASE_URL}/restaurant", json=first_restaurant)
+    assert response.status_code == 200
+    response_json = response.json()
+    assert response_json["id"]
+
+    # Create many
+    four_restaurants = restaurant_data[1:5]
+    response = requests.post(f"{BASE_URL}/restaurants", json=four_restaurants)
+    assert response.status_code == 200
+    response_json = response.json()
+    assert len(response_json) == 4
+
+    # Query for all restaurants and check the count
+    response = requests.get(f"{BASE_URL}/restaurants")
+    assert response.status_code == 200
+    response_json = response.json()
+    assert len(response_json) == 5
+
+
+def test_create_reviews(service: Tuple, fake_data: Dict):
+    """Simple test to validate the example config and check the health endpoint."""
+    # Unpack the service tuple
+    proc, output_dir = service
+
+    review_data = fake_data["Review"]
+    assert review_data
+    assert len(review_data) == NUM_MODELS
+
+    # Check the health endpoint
+    print(f"Running Uvicorn on {BASE_URL} and hitting the health endpoint...")
+
+    # Create one
+    first_review = review_data[0]
+    response = requests.post(f"{BASE_URL}/review", json=first_review)
+    assert response.status_code == 200
+    response_json = response.json()
+    assert response_json["id"]
+
+    # Create many
+    four_reviews = review_data[1:5]
+    response = requests.post(f"{BASE_URL}/reviews", json=four_reviews)
+    assert response.status_code == 200
+    response_json = response.json()
+    assert len(response_json) == 4
+
+    # Query for all reviews and check the count
+    response = requests.get(f"{BASE_URL}/reviews")
+    assert response.status_code == 200
+    response_json = response.json()
+    assert len(response_json) == 5
