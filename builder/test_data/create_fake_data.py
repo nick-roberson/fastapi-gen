@@ -31,9 +31,8 @@ def create_fake_data(
     # Get model list and create fake data
     models = service_config.models
     for model in models:
-        model_data = model.create_fake_data(no_ids=no_ids)
-        data[model.name] = [model_data for _ in range(num)]
-        print(f"Faked data for {model.name} with {num} entries: {model_data[0]}")
+        data[model.name] = [model.create_fake_data(no_ids=no_ids) for _ in range(num)]
+        print(f"Faked data for {model.name} with {num} entries: {data[model.name][0]}")
 
     # Output the fake data each to a JSON file
     result_files = {}
