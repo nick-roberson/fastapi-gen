@@ -90,7 +90,7 @@ def service():
 
 
 @pytest.fixture(scope="module")
-def get_fake_data(service: Tuple) -> Dict:
+def fake_data(service: Tuple) -> Dict:
     """Fixture to create the fake data for the service."""
     # Unpack the service tuple
     proc, output_dir = service
