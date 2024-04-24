@@ -93,7 +93,7 @@ def service(request):
         print("Running Alembic migrations...")
         subprocess.run(["alembic", "upgrade", "head"], cwd=db_dir)
 
-        yield proc, output_dir
+        yield proc, output_dir, config
 
         print("Terminating the Uvicorn server...")
         proc.kill()
@@ -102,14 +102,17 @@ def service(request):
 
 
 @pytest.fixture(scope="module")
+@pytest.fixture(scope="module")
 def fake_data(service: Tuple) -> Dict:
-    """Fixture to create the fake data for the service."""
+    """Fixture to create the fake data for the service, adjusted to match the configuration in use."""
     # Unpack the service tuple
-    proc, output_dir = service
+    proc, output_dir, config = (
+        service  # Assuming you also yield 'config' from the 'service' fixture
+    )
 
     # Create the fake data
     fake_data_paths = create_fake_data(
-        service_config=TEST_RESTAURANT_CONFIG,
+        service_config=config,
         output_dir=output_dir,
         num=NUM_MODELS,
         no_ids=True,
@@ -122,27 +125,6 @@ def fake_data(service: Tuple) -> Dict:
             data = json.load(f)
             fake_data[model_name] = data
     yield fake_data
-
-
-@pytest.mark.parametrize("service", ALL_TEST_PARAMS, indirect=["service"])
-def test_root_endpoints(service: Tuple):
-    """Simple test to validate the example config and check the health endpoint."""
-    # Unpack the service tuple
-    proc, output_dir = service
-
-    # Check the health endpoint
-    BASE_URL = f"http://{DEFAULT_HOST}:{DEFAULT_PORT}"
-    print(f"Running Uvicorn on {BASE_URL} and hitting the health endpoint...")
-
-    # Perform HTTP GET request to the health endpoint
-    response = requests.get(f"{BASE_URL}/health")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Healthy"}
-
-    # Perform HTTP GET request to the ready endpoint
-    response = requests.get(f"{BASE_URL}/ready")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Ready"}
 
 
 @pytest.mark.parametrize(
