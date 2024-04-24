@@ -6,12 +6,9 @@ from rich import print
 
 from builder.constants import (ALEMBIC_TEMPLATES, DOCKER_TEMPLATES,
                                MODEL_TEMPLATES, MONGO_TEMPLATES,
-                               OPENAPI_SPEC_FN, POETRY_TEMPLATES,
-                               PYTHON_VERSION, README_TEMPLATES,
-                               SERVICE_TEMPLATES)
+                               README_TEMPLATES, SERVICE_TEMPLATES)
 from builder.jinja.templates import populate_template
 from builder.models import DatabaseTypes, ServiceConfig
-from builder.openapi.export import export_openapi
 from builder.utils import clear_directory, clear_file, run_command
 
 
@@ -23,11 +20,6 @@ class BackendGenerator:
     # Python file name constants
     SERVICE_FILE: str = "service.py"
     MODELS_FILE: str = "models.py"
-
-    # Poetry file constants
-    POETRY_TOML: str = "pyproject.toml"
-    POETRY_LOCK: str = "poetry.lock"
-    REQUIREMENTS_TXT: str = "requirements.txt"
 
     # Python code directories
     BACKEND_DIR: str = "backend"
@@ -77,19 +69,17 @@ class BackendGenerator:
 
         # Hold backend/service.py files
         self.service_file = os.path.join(self.code_dir, self.SERVICE_FILE)
+
         # Hold backend/src/*.py files
         self.src_code_dir = os.path.join(self.code_dir, self.SRC_CODE_DIR)
+
         # Hold backend/src/db/*.py files
         self.db_dir = os.path.join(self.src_code_dir, self.DB_DIR)
         self.alembic_dir = os.path.join(self.db_dir, self.ALEMBIC_DIR)
+
         # Hold backend/src/models/*.py files
         self.models_dir = os.path.join(self.src_code_dir, self.MODELS_DIR)
         self.models_file = os.path.join(self.models_dir, self.MODELS_FILE)
-
-        # Hold the poetry files and requirements file
-        self.poetry_toml = os.path.join(self.code_dir, self.POETRY_TOML)
-        self.poetry_lock = os.path.join(self.code_dir, self.POETRY_LOCK)
-        self.requirements_txt = os.path.join(self.code_dir, self.REQUIREMENTS_TXT)
 
         # Hold the docker files
         self.docker_files = [
@@ -126,16 +116,7 @@ class BackendGenerator:
         templated_files = self.generate_templated_components()
         self.create_init_files()
 
-        # Generate the python client code
-        print("\t3. Exporting OpenAPI JSON file...")
-        self.generate_openapi_file()
-        print("\t4. Generating the python client code...")
-        self.generate_python_client()
-
-        # Then install the backend dependencies and lint the code
-        print("\t5. Installing the backend dependencies...")
-        self.install_backend_deps()
-        print("\t6. Linting the backend code...")
+        print("\t3. Linting the backend code...")
         self.lint_backend()
 
         # Return the generated files
@@ -156,17 +137,11 @@ class BackendGenerator:
         service_file = self.generate_services()
         database_files = self.generate_database()
         readme_file = self.generate_readme()
-
-        # Generate the poetry file and docker files
-        poetry_file = self.generate_poetry_toml()
-        docker_files = self.copy_dockerfiles()
         return {
             "Pydantic Models": model_file,
             "FastAPI Service": service_file,
             "Database": database_files,
-            "Poetry": poetry_file,
             "README.md": readme_file,
-            "Docker Files": docker_files,
         }
 
     ####################################################################################################################
@@ -354,6 +329,7 @@ class BackendGenerator:
             "model_names": model_names,
             "query_model_names": query_model_names,
             "manager_names": manager_names,
+            "service_name": self.config.service_info.name,
         }
 
         # Generate the service file and return the file name
@@ -395,11 +371,6 @@ class BackendGenerator:
         # Clear the python code dirs
         clear_directory(self.code_dir)
         clear_directory(self.client_dir)
-
-        # Clear the poetry files
-        clear_file(self.poetry_toml)
-        clear_file(self.poetry_lock)
-        clear_file(self.requirements_txt)
 
         # Clear the openapi spec file
 
@@ -448,79 +419,6 @@ class BackendGenerator:
 
         # Return the file names
         return dockerfiles
-
-    ####################################################################################################################
-    # Handle Dependencies and Linting
-    ####################################################################################################################
-    def install_backend_deps(self) -> None:
-        """Install the backend dependencies using poetry"""
-        # Select the python version and install
-        run_command(f"poetry env use {PYTHON_VERSION}", cwd=self.code_dir)
-        run_command("poetry install", cwd=self.code_dir)
-
-        # Check that all files are created
-        toml_file = os.path.join(self.code_dir, "pyproject.toml")
-        lock_file = os.path.join(self.code_dir, "poetry.lock")
-        if not os.path.exists(toml_file) or not os.path.exists(lock_file):
-            raise ValueError(f"Poetry files not found in {self.code_dir}")
-
-        # Generate the requirements file
-        req_file = "requirements.txt"
-        run_command(
-            f"poetry export -f {req_file} --output {req_file}", cwd=self.code_dir
-        )
-
-    def generate_poetry_toml(self) -> str:
-        """Use the JINJA Template to generate the poetry toml file.
-
-        Returns:
-            str: File name of the generated poetry toml file
-        """
-        # Create the dependency rows
-        dependency_rows = []
-        for dep in self.config.dependencies:
-            if dep.version:
-                dependency_rows.append(f'{dep.name} = "{dep.version}"')
-            else:
-                dependency_rows.append(f'{dep.name} = "*"')
-        dependency_rows = "\n".join(dependency_rows)
-
-        # Create the context for the template
-        context = {
-            "name": self.config.service_info.name,
-            "version": self.config.service_info.version,
-            "description": self.config.service_info.description,
-            "email": "<enter your email>",
-            "dependency_rows": dependency_rows,
-        }
-
-        # Generate the poetry toml file and return the file name
-        return populate_template(
-            template_dir=POETRY_TEMPLATES,
-            template_name="toml.jinja",
-            output_path=self.poetry_toml,
-            context=context,
-        )
-
-    ####################################################################################################################
-    # Generate OpenAPI and Python Client
-    ####################################################################################################################
-
-    def generate_openapi_file(self):
-        """Generate the OpenAPI JSON file"""
-        return export_openapi(code_dir=self.code_dir)
-
-    def generate_python_client(self):
-        """Generate the python client code"""
-        # Create the client code directory
-        if not os.path.exists(self.client_dir):
-            os.makedirs(self.client_dir, exist_ok=True)
-
-        # Generate the client code
-        command = self.PYTHON_CLIENT_CMD.substitute(
-            openapi_spec=OPENAPI_SPEC_FN, output_dir=self.client_dir
-        )
-        run_command(cmd=command, cwd=self.code_dir)
 
     ####################################################################################################################
     # Create __init__.py Files under each directory

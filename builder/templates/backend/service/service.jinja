@@ -34,7 +34,7 @@ DEFAULT_PORT = 8000
 @app.get("/")
 async def root():
     """ Root Endpoint """
-    return {"message": "Hello World"}
+    return {"message": "Welcome to {{ service_name }} API"}
 
 
 @app.get("/health")
@@ -42,6 +42,10 @@ async def health():
     """ Health Endpoint """
     return {"message": "Healthy"}
 
+@app.get("/ready")
+async def health():
+    """ Ready Endpoint """
+    return {"message": "Ready"}
 
 ########################################################################################################################
 # Logging

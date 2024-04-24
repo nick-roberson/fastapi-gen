@@ -38,7 +38,7 @@ app.include_router(review_rotes, tags=["Review"])
 @app.get("/")
 async def root():
     """Root Endpoint"""
-    return {"message": "Hello World"}
+    return {"message": "Welcome to the Restaurant Reservation System"}
 
 
 @app.get("/health")

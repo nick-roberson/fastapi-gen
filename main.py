@@ -11,7 +11,7 @@ from builder.constants import (DEFAULT_PORT, SAMPLE_INPUT_FILE,
 from builder.generate.backend.generator import BackendGenerator
 from builder.generate.frontend.generator import FrontendGenerator
 from builder.models.configs import ServiceConfig
-from builder.run import generate as generate_service
+from builder.run import ApplicationManager
 from builder.test_data.create_fake_data import create_fake_data
 
 app = typer.Typer()
@@ -109,86 +109,18 @@ def process_close(result: Dict, output_dir: str, service_config: ServiceConfig):
 
 
 @app.command()
-def generate_typescript_app(
+def generate(
     config: Optional[str] = typer.Option(
         SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
     ),
     output_dir: Optional[str] = typer.Option(
         SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
     ),
-):
-    """Generate a React frontend from the input yaml config.
-
-    Args:
-        config (Optional[str], optional): Path to the input yaml config.
-            Defaults to SAMPLE_INPUT_FILE.
-        output_dir (Optional[str], optional): Path to the output directory.
-            Defaults to SAMPLE_OUTPUT_DIR.
-    """
-    # Validate the inputs, get absolute paths, clean the service name, build the context
-    service_config = validate_config(config)
-    output_dir = validate_output_dir(output_dir)
-    context = {
-        "service_config": service_config,
-        "output_dir": output_dir,
-        "frontend_only": True,
-    }
-
-    # Log the inputs
-    service_name = service_config.service_info.name
-    print(f"Generating Frontend service for app `{service_name}`")
-    print(f"\tconfig:     {config}")
-    print(f"\toutput_dir: {output_dir}\n")
-
-    # Generate the frontend files and close out
-    result = generate_service(**context)
-    process_close(result=result, output_dir=output_dir, service_config=service_config)
-
-
-@app.command()
-def generate_python_app(
-    config: Optional[str] = typer.Option(
-        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+    frontend_only: bool = typer.Option(
+        False, "--frontend-only", "-f", help="Generate only the frontend code."
     ),
-    output_dir: Optional[str] = typer.Option(
-        SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
-    ),
-):
-    """Generate a FastAPI backend from the input yaml config.
-
-    Args:
-        config (Optional[str], optional): Path to the input yaml config.
-            Defaults to SAMPLE_INPUT_FILE.
-        output_dir (Optional[str], optional): Path to the output directory.
-            Defaults to SAMPLE_OUTPUT_DIR.
-    """
-    # Validate the input and get absolute paths
-    service_config = validate_config(config)
-    output_dir = validate_output_dir(output_dir)
-    context = {
-        "service_config": service_config,
-        "output_dir": output_dir,
-        "backend_only": True,
-    }
-
-    # Log the inputs
-    service_name = service_config.service_info.name
-    print(f"Generating Backend services for app `{service_name}`")
-    print(f"\tconfig:     {config}")
-    print(f"\toutput_dir: {output_dir}\n")
-
-    # Generate the backend files and close out
-    result = generate_service(**context)
-    process_close(result=result, output_dir=output_dir, service_config=service_config)
-
-
-@app.command()
-def generate_app(
-    config: Optional[str] = typer.Option(
-        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
-    ),
-    output_dir: Optional[str] = typer.Option(
-        SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
+    backend_only: bool = typer.Option(
+        False, "--backend-only", "-b", help="Generate only the backend code."
     ),
 ):
     """Generate a FastAPI backend and React frontend from the input yaml config.
@@ -198,49 +130,61 @@ def generate_app(
             Defaults to SAMPLE_INPUT_FILE.
         output_dir (Optional[str], optional): Path to the output directory.
             Defaults to SAMPLE_OUTPUT_DIR.
+        frontend_only (bool, optional): Generate only the frontend code.
+            Defaults to False.
+        backend_only (bool, optional): Generate only the backend code.
+            Defaults to False.
     """
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
     output_dir = validate_output_dir(output_dir)
-    context = {
-        "service_config": service_config,
-        "output_dir": output_dir,
-    }
 
     # Log the inputs
     service_name = service_config.service_info.name
     print(f"Generating Frontend and Backend services for app `{service_name}`")
-    print(f"\tconfig:     {config}")
-    print(f"\toutput_dir: {output_dir}\n")
+    print(f"\tconfig:           {config}")
+    print(f"\toutput_dir:       {output_dir}")
+    print(f"\tfrontend_only:    {frontend_only}")
+    print(f"\tbackend_only:     {backend_only}\n")
 
     # Generate the files and close out
-    result = generate_service(**context)
+    manager = ApplicationManager(service_config=service_config, output_dir=output_dir)
+    result = manager.generate(frontend_only=frontend_only, backend_only=backend_only)
     process_close(result=result, output_dir=output_dir, service_config=service_config)
 
 
 @app.command()
-def regenerate_templates(
-    component: str = typer.Argument(
-        ..., help="The component to regenerate templates for (frontend or backend)."
-    ),
+def regenerate(
     config: Optional[str] = typer.Option(
         SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
     ),
     output_dir: Optional[str] = typer.Option(
         SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
     ),
+    frontend_only: bool = typer.Option(
+        False, "--frontend-only", "-f", help="Regenerate only the frontend code."
+    ),
+    backend_only: bool = typer.Option(
+        False, "--backend-only", "-b", help="Regenerate only the backend code."
+    ),
 ):
-    """Just regenerate the frontend or backend templates, do not recreate the application"""
-    # Check that component is either frontend or backend
-    if component not in ["frontend", "backend"]:
-        print("Component must be either frontend or backend")
-        typer.Exit(code=1)
+    """Just regenerate the frontend or backend templates, do not recreate the application.
 
+    Args:
+        config (Optional[str], optional): Path to the input yaml config.
+            Defaults to SAMPLE_INPUT_FILE.
+        output_dir (Optional[str], optional): Path to the output directory.
+            Defaults to SAMPLE_OUTPUT_DIR.
+        frontend_only (bool, optional): Regenerate only the frontend code.
+            Defaults to False.
+        backend_only (bool, optional): Regenerate only the backend code.
+            Defaults to False.
+    """
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
     output_dir = validate_output_dir(output_dir)
 
-    if component == "frontend":
+    if frontend_only and not backend_only:
         # Create frontend generator
         frontend_generator = FrontendGenerator(
             config=service_config, output_dir=output_dir
@@ -251,7 +195,7 @@ def regenerate_templates(
         print(f"Regenerated frontend templates!")
         print(f"Created files: {json.dumps(created_files, indent=4)}")
 
-    elif component == "backend":
+    elif backend_only and not frontend_only:
         # Create backend generator
         backend_generator = BackendGenerator(
             config=service_config, output_dir=output_dir
@@ -261,13 +205,22 @@ def regenerate_templates(
         created_files = backend_generator.generate_templated_components()
         print(f"Regenerated backend templates!")
         print(f"Created files: {json.dumps(created_files, indent=4)}")
+
     else:
-        print("Component must be either 'frontend' or 'backend'")
-        typer.Exit(code=1)
+        # Regenerate both frontend and backend
+        manager = ApplicationManager(
+            service_config=service_config, output_dir=output_dir
+        )
+        result = manager.regenerate(
+            frontend_only=frontend_only, backend_only=backend_only
+        )
+        process_close(
+            result=result, output_dir=output_dir, service_config=service_config
+        )
 
 
 @app.command()
-def generate_test_data(
+def test_data(
     config: Optional[str] = typer.Option(
         SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
     ),
