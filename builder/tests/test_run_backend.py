@@ -102,7 +102,6 @@ def service(request):
 
 
 @pytest.fixture(scope="module")
-@pytest.fixture(scope="module")
 def fake_data(service: Tuple) -> Dict:
     """Fixture to create the fake data for the service, adjusted to match the configuration in use."""
     # Unpack the service tuple
@@ -134,9 +133,6 @@ def test_create_and_manage_models(
     service: Tuple, fake_data: Dict, model: str, endpoint: str, config: ServiceConfig
 ):
     """Test the creation, deletion, and listing of model instances."""
-    # Unpack the service tuple
-    proc, output_dir = service
-
     model_data = fake_data[model]
     assert model_data
     assert len(model_data) == NUM_MODELS
