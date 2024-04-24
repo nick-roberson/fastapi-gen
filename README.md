@@ -203,6 +203,7 @@ This is the CLI interface for the service generator:
 │ --help                                                       Show this message and exit.                                                                                                                │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ create                   Create a new configuration file interactively.                                                                                                                                 │
 │ generate                 Generate a FastAPI backend and React frontend from the input yaml config.                                                                                                      │
 │ regenerate               Just regenerate the frontend or backend templates, do not recreate the application.                                                                                            │
 │ test-data                Generate fake data for the service                                                                                                                                             │
@@ -211,6 +212,22 @@ This is the CLI interface for the service generator:
 
 You can find an example config file in the `example/` directory. There should be one for `MongoDB` and one for `MySQL + Alembic`.
 This setup should also work for Postgres, but I have not tested it yet.
+
+### Create Config using CLI
+
+If you want to create a new service from scratch, you can use the `create` command to create a new config file interactively.
+```bash
+% poetry run python main.py create \
+  --output-dir example/new_service
+  --config-name new_service.yaml
+```
+You will be prompted to enter the information about the following areas:
+- Service Information
+- Database Information
+- Model Information
+
+**_This feature is in development and may not work as expected. If you have any issues, please let me know! You can also 
+easily copy the configs that I have in the `example/` directory and modify them as needed._**
 
 ### Generate using Alembic
 
@@ -411,7 +428,6 @@ Run Backend (Docker) (Make sure to fill out the generated .env file!):
 Run Frontend (NPM):
    % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app
    % npm install && npm run start
-
 ```
 Done!
 </details>
