@@ -49,7 +49,8 @@ ALL_TEST_PARAMS = TEST_RESTAURANT_PARAMS + TEST_EVENTS_PARAMS
 @pytest.fixture(scope="module")
 def service(request):
     """Fixture to create and manage the service based on the configuration passed via test parameters."""
-    config = request.param  # Get the configuration from test parameters
+    # Get the configuration from test parameters
+    config = request.param[2]
 
     # Create and configure service
     with tempfile.TemporaryDirectory() as output_dir:
@@ -143,7 +144,9 @@ def test_root_endpoints(service: Tuple):
     assert response.json() == {"message": "Ready"}
 
 
-@pytest.mark.parametrize("model, endpoint, config", ALL_TEST_PARAMS)
+@pytest.mark.parametrize(
+    "model, endpoint, config", ALL_TEST_PARAMS, indirect=["service"]
+)
 def test_create_and_manage_models(
     service: Tuple, fake_data: Dict, model: str, endpoint: str, config: ServiceConfig
 ):
