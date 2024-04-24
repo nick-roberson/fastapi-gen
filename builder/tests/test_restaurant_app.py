@@ -83,7 +83,7 @@ def service():
         # Give Uvicorn a moment to start
         time.sleep(5)
 
-        # Generate the Alembic migrations
+        # Generate the Alembic migrations in the database
         db_dir = os.path.join(service_dir, "src/db")
         print("Generating Alembic migrations...")
         subprocess.run(

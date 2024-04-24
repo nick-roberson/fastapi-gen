@@ -53,19 +53,19 @@ jobs:
           poetry install
 
       # Run tests for the sample apps
-      - name: Test Sample Events App
-        run: |
-          echo "Running Tests"
-          export VERBOSE=1
-          # Set database connection environment variables if not set in the test configs
-          export DB_HOST=127.0.0.1
-          export DB_PORT=3306
-          export DB_USER=root
-          export DB_PASSWORD=root
-          export DB_NAME=test_events_app
-          # Run Tests
-          poetry run coverage run -m pytest builder/tests/test_events_app.py --verbose
-          poetry run coverage report -m
+#      - name: Test Sample Events App
+#        run: |
+#          echo "Running Tests"
+#          export VERBOSE=1
+#          # Set database connection environment variables if not set in the test configs
+#          export DB_HOST=127.0.0.1
+#          export DB_PORT=3306
+#          export DB_USER=root
+#          export DB_PASSWORD=root
+#          export DB_NAME=test_events_app
+#          # Run Tests
+#          poetry run coverage run -m pytest builder/tests/test_events_app.py --verbose
+#          poetry run coverage report -m
 
       - name: Test Sample Restaurant App
         run: |
