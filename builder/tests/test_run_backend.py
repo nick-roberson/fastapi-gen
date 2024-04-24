@@ -1,8 +1,9 @@
+import json
 import os
 import subprocess
 import tempfile
 import time
-from typing import Tuple
+from typing import Dict, Tuple
 
 import pytest
 import requests
@@ -11,13 +12,15 @@ from builder.config.parse import load_config, parse_config
 from builder.constants import TEST_MYSQL_CONFIG
 from builder.generate.backend.generator import BackendGenerator
 from builder.generate.poetry.generator import PoetryGenerator
+from builder.test_data.create_fake_data import create_fake_data
 
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8000
+NUM_MODELS = 5
 
 
 # Fixture to create the code and start the service
-@pytest.fixture
+@pytest.fixture(scope="module")
 def service():
     """Fixture to create the code and start the service, and ensure cleanup after tests."""
     # Create a temporary directory that will be cleaned up automatically
@@ -86,6 +89,30 @@ def service():
         print(f"Deleted output directory: {output_dir}")
 
 
+@pytest.fixture(scope="module")
+def get_fake_data(service: Tuple) -> Dict:
+    """Fixture to create the fake data for the service."""
+    # Unpack the service tuple
+    proc, output_dir = service
+
+    # Parse the model definitions
+    config_def = load_config(TEST_MYSQL_CONFIG)
+    config = parse_config(config_def)
+
+    # Create the fake data
+    fake_data_paths = create_fake_data(
+        service_config=config, output_dir=output_dir, num=NUM_MODELS
+    )
+
+    # Load fake data from files
+    fake_data = {}
+    for model_name, fake_data_path in fake_data_paths.items():
+        with open(fake_data_path, "r") as f:
+            data = json.load(f)
+            fake_data[model_name] = data
+    yield fake_data
+
+
 def test_root_endpoints(service: Tuple):
     """Simple test to validate the example config and check the health endpoint."""
     # Unpack the service tuple
@@ -108,18 +135,37 @@ def test_root_endpoints(service: Tuple):
         assert response.status_code == 200
         assert response.json() == {"message": "Ready"}
 
-        # Test single post to /user endpoint to create a user
-        json = {
-            "username": "test",
-            "email": "test@test.com",
-            "phone_numer": "123-456-7890",
-            "preferences": ["vegan", "gluten-free"],
-            "role": "admin",
-        }
-        response = requests.post(f"{base_url}/user", json=json)
-        assert response.status_code == 200
-
     # Handle any exceptions
     except Exception as e:
         print(f"An error occurred: {e}")
         raise
+
+
+def test_create_users(service: Tuple, fake_data: Dict):
+    """Simple test to validate the example config and check the health endpoint."""
+    # Unpack the service tuple
+    proc, output_dir = service
+
+    user_data = fake_data["User"]
+    assert user_data
+    assert len(user_data) == NUM_MODELS
+
+    # Check the health endpoint
+    base_url = f"http://{DEFAULT_HOST}:{DEFAULT_PORT}"
+    print(f"Running Uvicorn on {base_url} and hitting the health endpoint...")
+
+    # Give Uvicorn a moment to start
+    time.sleep(3)  # Adjust sleep time if necessary
+
+    # Create one
+    first_user = user_data[0]
+    response = requests.post(f"{base_url}/users", json=first_user)
+    assert response.status_code == 200
+    response_json = response.json()
+    assert response_json["id"]
+
+    # Create many
+    response = requests.post(f"{base_url}/users", json=user_data)
+    assert response.status_code == 200
+    response_json = response.json()
+    assert len(response_json) == NUM_MODELS
