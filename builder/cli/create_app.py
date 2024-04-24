@@ -4,12 +4,12 @@ from typing import Optional
 import typer
 from rich import print
 
+from builder.app_manager import ApplicationManager
 from builder.cli.utils import (process_close, validate_config,
                                validate_output_dir)
 from builder.constants import SAMPLE_INPUT_FILE, SAMPLE_OUTPUT_DIR
 from builder.generate.backend.generator import BackendGenerator
 from builder.generate.frontend.generator import FrontendGenerator
-from builder.run import ApplicationManager
 
 app = typer.Typer()
 
