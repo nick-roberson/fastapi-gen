@@ -9,8 +9,10 @@ from builder.utils import clear_file, run_command
 class DockerGenerator:
     """Class to handle Docker file generation."""
 
-    CODE_DIR = "backend"  # Class constant for the directory name
-    DOCKER_FILES = [  # List of Docker related files
+    # Class constant for the directory name
+    CODE_DIR = "backend"
+    # List of Docker related files
+    DOCKER_FILES = [
         ".env",
         "Dockerfile",
         "compose.yml",

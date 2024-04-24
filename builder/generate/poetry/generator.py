@@ -9,10 +9,15 @@ from builder.utils import clear_file, run_command
 class PoetryGenerator:
     """Class to handle Poetry dependencies and configuration files."""
 
+    # Class constant for the directory name
     CODE_DIR = "backend"
+
+    # Poetry files
     POETRY_TOML_FILE = "pyproject.toml"
     POETRY_LOCK_FILE = "poetry.lock"
     REQUIREMENTS_TXT_FILE = "requirements.txt"
+
+    # Template file
     TEMPLATE_FILE = "toml.jinja"
 
     def __init__(self, config: ServiceConfig, output_dir: str):
