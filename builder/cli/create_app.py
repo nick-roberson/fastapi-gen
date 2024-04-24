@@ -92,15 +92,15 @@ def reload(
     if frontend_only and not backend_only:
         # Recreate the frontend templates
         created_files = manager.regenerate_frontend()
-        print(f"Regenerated frontend templates!")
-        print(f"Created files: {json.dumps(created_files, indent=4)}")
-
+        process_close(
+            result=created_files, output_dir=output_dir, service_config=service_config
+        )
     elif backend_only and not frontend_only:
         # Recreate the backend templates
         created_files = manager.regenerate_backend()
-        print(f"Regenerated backend templates!")
-        print(f"Created files: {json.dumps(created_files, indent=4)}")
-
+        process_close(
+            result=created_files, output_dir=output_dir, service_config=service_config
+        )
     else:
         # Regenerate both frontend and backend
         result = manager.regenerate(
