@@ -181,6 +181,7 @@ def test_create_and_manage_models(
     params = {
         f"{model.lower()}_id": response_json[0]["id"],
     }
+    print(f"Deleting {model} with params: {params}")
     response = requests.delete(f"{BASE_URL}/{endpoint}/", params=params)
     assert response.status_code == 200
 
