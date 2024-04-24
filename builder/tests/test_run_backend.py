@@ -3,21 +3,29 @@ import os
 import subprocess
 import tempfile
 import time
-from typing import Dict, Tuple
+from typing import Dict, List, Tuple
 
 import pytest
 import requests
 
-from builder.config.parse import load_config, parse_config
+from builder.config.parse import load_and_validate_config
 from builder.constants import TEST_MYSQL_CONFIG
 from builder.generate.backend.generator import BackendGenerator
 from builder.generate.poetry.generator import PoetryGenerator
+from builder.models.configs import ServiceConfig
 from builder.test_data.create_fake_data import create_fake_data
 
+# Constants to store the default host, port, and base URL of the running service
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8000
 BASE_URL = f"http://{DEFAULT_HOST}:{DEFAULT_PORT}"
 NUM_MODELS = 5
+
+# Constants to store the config and parameters for the tests
+TEST_CONFIG: ServiceConfig = load_and_validate_config(TEST_MYSQL_CONFIG)
+TEST_PARAMS: List[Tuple] = [
+    (model.name, model.name.lower()) for model in TEST_CONFIG.models
+]
 
 
 # Fixture to create the code and start the service
@@ -27,12 +35,8 @@ def service():
     # Create a temporary directory that will be cleaned up automatically
     with tempfile.TemporaryDirectory() as output_dir:
         print(f"Output directory: {output_dir}")
-        # Parse the model definitions
-        config_def = load_config(TEST_MYSQL_CONFIG)
-        config = parse_config(config_def)
-
         # Init the backend generator
-        generator = BackendGenerator(config=config, output_dir=output_dir)
+        generator = BackendGenerator(config=TEST_CONFIG, output_dir=output_dir)
 
         # Generate the backend code
         generator.generate_models()
@@ -43,7 +47,7 @@ def service():
         generator.lint_backend()
 
         # Init the poetry generator
-        poetry_generator = PoetryGenerator(config=config, output_dir=output_dir)
+        poetry_generator = PoetryGenerator(config=TEST_CONFIG, output_dir=output_dir)
 
         # Generate the poetry code
         poetry_generator.generate_poetry_toml()
@@ -99,13 +103,9 @@ def fake_data(service: Tuple) -> Dict:
     # Unpack the service tuple
     proc, output_dir = service
 
-    # Parse the model definitions
-    config_def = load_config(TEST_MYSQL_CONFIG)
-    config = parse_config(config_def)
-
     # Create the fake data
     fake_data_paths = create_fake_data(
-        service_config=config, output_dir=output_dir, num=NUM_MODELS, no_ids=True
+        service_config=TEST_CONFIG, output_dir=output_dir, num=NUM_MODELS, no_ids=True
     )
 
     # Load fake data from files
@@ -137,133 +137,49 @@ def test_root_endpoints(service: Tuple):
     assert response.json() == {"message": "Ready"}
 
 
-def test_create_users(service: Tuple, fake_data: Dict):
-    """Simple test to validate the example config and check the health endpoint."""
+# Parameterize this test to run for different model types and endpoints
+@pytest.mark.parametrize(
+    "model, endpoint",
+    TEST_PARAMS,
+)
+def test_create_and_manage_models(
+    service: Tuple, fake_data: Dict, model: str, endpoint: str
+):
+    """Test the creation, deletion, and listing of model instances."""
     # Unpack the service tuple
     proc, output_dir = service
 
-    user_data = fake_data["User"]
-    assert user_data
-    assert len(user_data) == NUM_MODELS
-
-    # Check the health endpoint
-    print(f"Running Uvicorn on {BASE_URL} and hitting the health endpoint...")
+    model_data = fake_data[model]
+    assert model_data
+    assert len(model_data) == NUM_MODELS
 
     # Create one
-    first_user = user_data[0]
-    response = requests.post(f"{BASE_URL}/user", json=first_user)
+    first_instance = model_data[0]
+    response = requests.post(f"{BASE_URL}/{endpoint}", json=first_instance)
     assert response.status_code == 200
     response_json = response.json()
     assert response_json["id"]
 
     # Create many
-    four_users = user_data[1:5]
-    response = requests.post(f"{BASE_URL}/users", json=four_users)
+    multiple_instances = model_data[1:5]
+    response = requests.post(f"{BASE_URL}/{endpoint}s", json=multiple_instances)
     assert response.status_code == 200
     response_json = response.json()
     assert len(response_json) == 4
+    assert all("id" in instance and instance["id"] for instance in response_json)
 
-    # Query for all users and check the count
-    response = requests.get(f"{BASE_URL}/users")
+    # Query for all instances and check the count
+    response = requests.get(f"{BASE_URL}/{endpoint}s")
     assert response.status_code == 200
     response_json = response.json()
     assert len(response_json) == 5
 
-
-def test_create_reservations(service: Tuple, fake_data: Dict):
-    """Simple test to validate the example config and check the health endpoint."""
-    # Unpack the service tuple
-    proc, output_dir = service
-
-    reservation_data = fake_data["Reservation"]
-    assert reservation_data
-    assert len(reservation_data) == NUM_MODELS
-
-    # Check the health endpoint
-    print(f"Running Uvicorn on {BASE_URL} and hitting the health endpoint...")
-
-    # Create one
-    first_reservation = reservation_data[0]
-    response = requests.post(f"{BASE_URL}/reservation", json=first_reservation)
+    # Delete one
+    response = requests.delete(f"{BASE_URL}/{endpoint}/{response_json[0]['id']}")
     assert response.status_code == 200
-    response_json = response.json()
-    assert response_json["id"]
 
-    # Create many
-    four_reservations = reservation_data[1:5]
-    response = requests.post(f"{BASE_URL}/reservations", json=four_reservations)
+    # Query for all instances and check the count
+    response = requests.get(f"{BASE_URL}/{endpoint}s")
     assert response.status_code == 200
     response_json = response.json()
     assert len(response_json) == 4
-
-    # Query for all reservations and check the count
-    response = requests.get(f"{BASE_URL}/reservations")
-    assert response.status_code == 200
-    response_json = response.json()
-    assert len(response_json) == 5
-
-
-def test_create_restaurants(service: Tuple, fake_data: Dict):
-    """Simple test to validate the example config and check the health endpoint."""
-    # Unpack the service tuple
-    proc, output_dir = service
-
-    restaurant_data = fake_data["Restaurant"]
-    assert restaurant_data
-    assert len(restaurant_data) == NUM_MODELS
-
-    # Check the health endpoint
-    print(f"Running Uvicorn on {BASE_URL} and hitting the health endpoint...")
-
-    # Create one
-    first_restaurant = restaurant_data[0]
-    response = requests.post(f"{BASE_URL}/restaurant", json=first_restaurant)
-    assert response.status_code == 200
-    response_json = response.json()
-    assert response_json["id"]
-
-    # Create many
-    four_restaurants = restaurant_data[1:5]
-    response = requests.post(f"{BASE_URL}/restaurants", json=four_restaurants)
-    assert response.status_code == 200
-    response_json = response.json()
-    assert len(response_json) == 4
-
-    # Query for all restaurants and check the count
-    response = requests.get(f"{BASE_URL}/restaurants")
-    assert response.status_code == 200
-    response_json = response.json()
-    assert len(response_json) == 5
-
-
-def test_create_reviews(service: Tuple, fake_data: Dict):
-    """Simple test to validate the example config and check the health endpoint."""
-    # Unpack the service tuple
-    proc, output_dir = service
-
-    review_data = fake_data["Review"]
-    assert review_data
-    assert len(review_data) == NUM_MODELS
-
-    # Check the health endpoint
-    print(f"Running Uvicorn on {BASE_URL} and hitting the health endpoint...")
-
-    # Create one
-    first_review = review_data[0]
-    response = requests.post(f"{BASE_URL}/review", json=first_review)
-    assert response.status_code == 200
-    response_json = response.json()
-    assert response_json["id"]
-
-    # Create many
-    four_reviews = review_data[1:5]
-    response = requests.post(f"{BASE_URL}/reviews", json=four_reviews)
-    assert response.status_code == 200
-    response_json = response.json()
-    assert len(response_json) == 4
-
-    # Query for all reviews and check the count
-    response = requests.get(f"{BASE_URL}/reviews")
-    assert response.status_code == 200
-    response_json = response.json()
-    assert len(response_json) == 5
