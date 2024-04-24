@@ -3,12 +3,10 @@ name: Run Tests
 on: [push]
 
 jobs:
-  build_and_setup:
+  build:
     runs-on: ubuntu-latest
-    outputs:
-      mysql_host: ${{ steps.db_setup.outputs.mysql_host }}
-      mysql_port: ${{ steps.db_setup.outputs.mysql_port }}
 
+    # Setup test MYSQL Database
     services:
       mysql:
         image: mysql:5.7
@@ -20,27 +18,33 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10
 
     steps:
+      # Checkout the code
       - uses: actions/checkout@v4
 
+      # Setup Python
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.12.2'
           architecture: 'x64'
 
+      # Setup Node
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
+      # Create necessary databases
       - name: Create Additional Databases
-        id: db_setup
         run: |
           mysql --host 127.0.0.1 --port 3306 --user root --password=root -e "CREATE DATABASE IF NOT EXISTS test_events_app;"
           mysql --host 127.0.0.1 --port 3306 --user root --password=root -e "CREATE DATABASE IF NOT EXISTS test_restaurant_app;"
-          echo "::set-output name=mysql_host::127.0.0.1"
-          echo "::set-output name=mysql_port::3306"
 
+      # Run tests
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+
+      # Install Backend Dependencies
       - name: Install Backend Dependencies
         run: |
           echo "Installing Backend Dependencies"
@@ -48,42 +52,36 @@ jobs:
           pip install poetry coverage
           poetry install
 
-  test:
-    needs: build_and_setup
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.12.2'
-          architecture: 'x64'
-
+      # Run tests for the sample apps
       - name: Test Sample Events App
-        env:
-          DB_HOST: ${{ needs.build_and_setup.outputs.mysql_host }}
-          DB_PORT: ${{ needs.build_and_setup.outputs.mysql_port }}
-          DB_USER: root
-          DB_PASSWORD: root
-          DB_NAME: test_events_app
         run: |
           echo "Running Tests"
+          export VERBOSE=1
+          # Set database connection environment variables if not set in the test configs
+          export DB_HOST=127.0.0.1
+          export DB_PORT=3306
+          export DB_USER=root
+          export DB_PASSWORD=root
+          export DB_NAME=test_events_app
+          # Run Tests
           poetry run coverage run -m pytest builder/tests/test_events_app.py --verbose
           poetry run coverage report -m
 
       - name: Test Sample Restaurant App
-        env:
-          DB_HOST: ${{ needs.build_and_setup.outputs.mysql_host }}
-          DB_PORT: ${{ needs.build_and_setup.outputs.mysql_port }}
-          DB_USER: root
-          DB_PASSWORD: root
-          DB_NAME: test_restaurant_app
         run: |
           echo "Running Tests"
+          export VERBOSE=1
+          # Set database connection environment variables if not set in the test configs
+          export DB_HOST=127.0.0.1
+          export DB_PORT=3306
+          export DB_USER=root
+          export DB_PASSWORD=root
+          export DB_NAME=test_restaurant_app        
+          # Run Tests
           poetry run coverage run -m pytest builder/tests/test_restaurant_app.py --verbose
           poetry run coverage report -m
 
+      # Run unit tests
       - name: Run Unit Tests
         run: |
           echo "Running Unit Tests"
