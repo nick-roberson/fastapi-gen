@@ -215,7 +215,7 @@ This is the CLI interface for the service generator:
 ```commandline
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │ create           Generate a FastAPI backend and React frontend from the input yaml config.                                                                                                              │
-│ reload           Just regenerate the frontend or backend templates, do not recreate the application.                                                                                                    │
+│ reload           Just reload the frontend or backend templates, do not recreate the application.                                                                                                    │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
@@ -246,7 +246,7 @@ easily copy the configs that I have in the `example/` directory and modify them 
 
 Once you have your config ready (or you can use the example config), you can generate the service using the following command:
 ```bash
-% poetry run python main.py app generate \
+% poetry run python main.py app create \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
 
@@ -270,7 +270,7 @@ Run Frontend (NPM):
 ### Generate using Mongo
 
 ```bash
-% poetry run python main.py generate \
+% poetry run python main.py app create \
     --config example/mongo/restaurant.yaml \
     --output-dir example/mongo/output
 
@@ -295,7 +295,7 @@ Run Frontend (NPM):
 <summary>Full Output for Alembic Run (Collapsible) </summary>
 
 ```bash
-(base) nicholas@Nicks-MBP fastapi-gen % poetry run python main.py generate \
+(base) nicholas@Nicks-MBP fastapi-gen % poetry run python main.py app create \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
 
@@ -474,32 +474,32 @@ To view the generated OpenAPI documentation, navigate to [http://localhost:8000/
 
 ### Regenerating Templated Files
 
-If you want to regenerate the templates for the frontend or backend, you can use the `regenerate-templates` command.
+If you want to reload the templates for the frontend or backend, you can use the `reload-templates` command.
 
 Alembic Example:
 ```bash
-% poetry run python main.py regenerate --frontend-only \
+% poetry run python main.py app reload --frontend-only \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
 ```
 Mongo Example:
 ```bash
-% poetry run python main.py regenerate --frontend-only \
+% poetry run python main.py app reload --frontend-only \
     --config example/mongo/restaurant.yaml \
     --output-dir example/mongo/output
 ```
 
-If you want to regenerate the backend templates, you can use the following command:
+If you want to reload the backend templates, you can use the following command:
 
 Alembic Example:
 ```bash
-% poetry run python main.py regenerate --backend-only \
+% poetry run python main.py app reload --backend-only \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
 ```
 Mongo Example:
 ```bash
-% poetry run python main.py regenerate --backend-only \
+% poetry run python main.py app reload --backend-only \
     --config example/mongo/restaurant.yaml \
     --output-dir example/mongo/output
 ```
@@ -509,7 +509,7 @@ Mongo Example:
 To create some fake data that you can insert into the database, you can use the following command:
 
 ```bash
-% poetry run python main.py test-data \
+% poetry run python main.py data create \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
 
