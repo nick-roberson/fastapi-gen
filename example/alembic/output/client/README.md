@@ -146,6 +146,7 @@ Class | Method | HTTP request | Description
 *UserApi* | [**update_users_async_users_async_put**](docs/UserApi.md#update_users_async_users_async_put) | **PUT** /users/async | Update Users Async
 *UserApi* | [**update_users_users_put**](docs/UserApi.md#update_users_users_put) | **PUT** /users | Update Users
 *DefaultApi* | [**health_health_get**](docs/DefaultApi.md#health_health_get) | **GET** /health | Health
+*DefaultApi* | [**health_ready_get**](docs/DefaultApi.md#health_ready_get) | **GET** /ready | Health
 *DefaultApi* | [**root_get**](docs/DefaultApi.md#root_get) | **GET** / | Root
 
 

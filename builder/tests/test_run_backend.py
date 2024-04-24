@@ -21,13 +21,23 @@ BASE_URL = f"http://{DEFAULT_HOST}:{DEFAULT_PORT}"
 NUM_MODELS = 5
 
 # Constants to store the config and parameters for the tests
-TEST_RESTAURANTS_CONFIG: str = os.path.abspath("builder/tests/configs/restaurant.yaml")
-TEST_EVENTS_CONFIG: str = os.path.abspath("builder/tests/configs/events.yaml")
+TEST_RESTAURANTS_CONFIG_FP: str = os.path.abspath(
+    "builder/tests/configs/restaurant.yaml"
+)
+TEST_EVENTS_CONFIG_FP: str = os.path.abspath("builder/tests/configs/events.yaml")
 
-# Load and validate the test config
-TEST_CONFIG: ServiceConfig = load_and_validate_config(TEST_RESTAURANTS_CONFIG)
-TEST_PARAMS: List[Tuple] = [
-    (model.name, model.name.lower()) for model in TEST_CONFIG.models
+# Load and validate the restaurant config
+TEST_RESTAURANT_CONFIG: ServiceConfig = load_and_validate_config(
+    TEST_RESTAURANTS_CONFIG_FP
+)
+TEST_RESTAURANT_PARAMS: List[Tuple] = [
+    (model.name, model.name.lower()) for model in TEST_RESTAURANT_CONFIG.models
+]
+
+# TODO: Load and validate the events config and add to tests
+TEST_EVENTS_CONFIG: ServiceConfig = load_and_validate_config(TEST_EVENTS_CONFIG_FP)
+TEST_EVENTS_PARAMS: List[Tuple] = [
+    (model.name, model.name.lower()) for model in TEST_EVENTS_CONFIG.models
 ]
 
 
@@ -39,7 +49,9 @@ def service():
     with tempfile.TemporaryDirectory() as output_dir:
         print(f"Output directory: {output_dir}")
         # Init the backend generator
-        generator = BackendGenerator(config=TEST_CONFIG, output_dir=output_dir)
+        generator = BackendGenerator(
+            config=TEST_RESTAURANT_CONFIG, output_dir=output_dir
+        )
 
         # Generate the backend code
         generator.generate_models()
@@ -50,7 +62,9 @@ def service():
         generator.lint_backend()
 
         # Init the poetry generator
-        poetry_generator = PoetryGenerator(config=TEST_CONFIG, output_dir=output_dir)
+        poetry_generator = PoetryGenerator(
+            config=TEST_RESTAURANT_CONFIG, output_dir=output_dir
+        )
 
         # Generate the poetry code
         poetry_generator.generate_poetry_toml()
@@ -108,7 +122,10 @@ def fake_data(service: Tuple) -> Dict:
 
     # Create the fake data
     fake_data_paths = create_fake_data(
-        service_config=TEST_CONFIG, output_dir=output_dir, num=NUM_MODELS, no_ids=True
+        service_config=TEST_RESTAURANT_CONFIG,
+        output_dir=output_dir,
+        num=NUM_MODELS,
+        no_ids=True,
     )
 
     # Load fake data from files
@@ -143,7 +160,7 @@ def test_root_endpoints(service: Tuple):
 # Parameterize this test to run for different model types and endpoints
 @pytest.mark.parametrize(
     "model, endpoint",
-    TEST_PARAMS,
+    TEST_RESTAURANT_PARAMS,
 )
 def test_create_and_manage_models(
     service: Tuple, fake_data: Dict, model: str, endpoint: str
