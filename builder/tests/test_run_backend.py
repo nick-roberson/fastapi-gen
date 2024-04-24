@@ -4,12 +4,15 @@ import tempfile
 import time
 from typing import Tuple
 
-import httpx
 import pytest
+import requests
 
 from builder.config.parse import load_config, parse_config
 from builder.constants import TEST_MYSQL_CONFIG
 from builder.generate.backend.generator import BackendGenerator
+
+DEFAULT_HOST = "127.0.0.1"
+DEFAULT_PORT = 8000
 
 
 # Fixture to create the code and start the service
@@ -37,35 +40,42 @@ def service():
         # Start the FastAPI app with Uvicorn in a subprocess
         service_dir = os.path.join(output_dir, "backend")
         print("Starting FastAPI app with Uvicorn from dir {service_dir}...")
-        host = "127.0.0.1"
-        port = 8000
         proc = subprocess.Popen(
-            ["uvicorn", "service:app", "--host", host, "--port", str(port), "--reload"],
+            [
+                "uvicorn",
+                "service:app",
+                "--host",
+                DEFAULT_HOST,
+                "--port",
+                str(DEFAULT_PORT),
+                "--reload",
+            ],
             cwd=service_dir,
         )
 
-    return host, port, proc, output_dir
+    return proc, output_dir
 
 
 @pytest.mark.parametrize("config", [TEST_MYSQL_CONFIG])
 def test_root_endpoints(service: Tuple, config: str):
     """Simple test to validate the example config and check the health endpoint."""
     # Unpack the service tuple and load the config
-    host, port, proc, output_dir = service
+    proc, output_dir = service
 
     # Check the health endpoint
-    print(f"Running Uvicorn on http://{host}:{port} and hitting the health endpoint...")
+    base_url = f"http://{DEFAULT_HOST}:{DEFAULT_PORT}"
+    print(f"Running Uvicorn on {base_url} and hitting the health endpoint...")
     try:
         # Give Uvicorn a moment to start
         time.sleep(3)  # Adjust sleep time if necessary
 
         # Perform HTTP GET request to the health endpoint
-        response = httpx.get(f"http://{host}:{port}/health")
+        response = requests.get(f"{base_url}/health")
         assert response.status_code == 200
         assert response.json() == {"message": "Healthy"}
 
         # Perform HTTP GET request to the ready endpoint
-        response = httpx.get(f"http://{host}:{port}/ready")
+        response = requests.get(f"{base_url}/ready")
         assert response.status_code == 200
         assert response.json() == {"message": "Ready"}
 
