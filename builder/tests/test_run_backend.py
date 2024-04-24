@@ -124,7 +124,7 @@ def fake_data(service: Tuple) -> Dict:
     yield fake_data
 
 
-@pytest.mark.parametrize("service", ALL_TEST_PARAMS, indirect=True)
+@pytest.mark.parametrize("service", ALL_TEST_PARAMS, indirect=["service"])
 def test_root_endpoints(service: Tuple):
     """Simple test to validate the example config and check the health endpoint."""
     # Unpack the service tuple
