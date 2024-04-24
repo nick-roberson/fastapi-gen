@@ -45,12 +45,6 @@ jobs:
           pip install poetry coverage
           poetry install
 
-      - name: Run Unit Tests
-        run: |
-          echo "Running Unit Tests"
-          poetry run coverage run -m pytest builder/generate
-          poetry run coverage report -m
-
       - name: Run End to End Tests
         run: |
           echo "Running Tests"
@@ -63,4 +57,10 @@ jobs:
           export DB_NAME=testdb
           # Run Tests
           poetry run coverage run -m pytest builder/tests
+          poetry run coverage report -m
+
+      - name: Run Unit Tests
+        run: |
+          echo "Running Unit Tests"
+          poetry run coverage run -m pytest builder/generate
           poetry run coverage report -m
