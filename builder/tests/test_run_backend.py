@@ -63,7 +63,6 @@ def service():
         print(f"Deleted output directory: {output_dir}")
 
 
-@pytest.mark.parametrize("config", [TEST_MYSQL_CONFIG])
 def test_root_endpoints(service: Tuple):
     """Simple test to validate the example config and check the health endpoint."""
     # Unpack the service tuple
