@@ -170,6 +170,8 @@ def test_create_and_manage_models(
     # Create one
     first_instance = model_data[0]
     response = requests.post(f"{BASE_URL}/{endpoint}", json=first_instance)
+    if response.status_code != 200:
+        print(f"Failed to create {first_instance} with response: {response.text}")
     assert response.status_code == 200
     response_json = response.json()
     assert response_json["id"]
