@@ -202,13 +202,11 @@ This is the CLI interface for the service generator:
 │ --show-completion           [bash|zsh|fish|powershell|pwsh]  Show completion for the specified shell, to copy it or customize the installation. [default: None]                                         │
 │ --help                                                       Show this message and exit.                                                                                                                │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ generate                                        Generate a FastAPI backend and React frontend from the input yaml config.                                                                                                   │
-│ generate-python-app                                 Generate a FastAPI backend from the input yaml config.                                                                                                                      │
-│ generate-test-data                                  Generate fake data for the service                                                                                                                                          │
-│ generate-typescript-app                             Generate a React frontend from the input yaml config.                                                                                                                       │
-│ regenerate-templates                                Just regenerate the frontend or backend templates, do not recreate the application                                                                                          │
-╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ generate                 Generate a FastAPI backend and React frontend from the input yaml config.                                                                                                      │
+│ regenerate               Just regenerate the frontend or backend templates, do not recreate the application.                                                                                            │
+│ test-data                Generate fake data for the service                                                                                                                                             │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 You can find an example config file in the `example/` directory. There should be one for `MongoDB` and one for `MySQL + Alembic`.
