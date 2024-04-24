@@ -34,12 +34,6 @@ TEST_RESTAURANT_PARAMS: List[Tuple] = [
     (model.name, model.name.lower()) for model in TEST_RESTAURANT_CONFIG.models
 ]
 
-# TODO: Load and validate the events config and add to tests
-TEST_EVENTS_CONFIG: ServiceConfig = load_and_validate_config(TEST_EVENTS_CONFIG_FP)
-TEST_EVENTS_PARAMS: List[Tuple] = [
-    (model.name, model.name.lower()) for model in TEST_EVENTS_CONFIG.models
-]
-
 
 # Fixture to create the code and start the service
 @pytest.fixture(scope="module")
