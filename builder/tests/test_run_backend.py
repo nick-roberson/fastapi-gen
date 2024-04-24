@@ -17,7 +17,7 @@ from builder.generate.backend.generator import BackendGenerator
 def service():
     """Fixture to create the code and start the service."""
     # Start the FastAPI app with Uvicorn in a subprocess
-    with tempfile.TemporaryDirectory() as output_dir:
+    with tempfile.TemporaryDirectory(delete=False) as output_dir:
         print(f"Output directory: {output_dir}")
         # Parse the model definitions
         config_def = load_config(TEST_MYSQL_CONFIG)
@@ -44,14 +44,14 @@ def service():
             cwd=service_dir,
         )
 
-    return host, port, proc
+    return host, port, proc, output_dir
 
 
 @pytest.mark.parametrize("config", [TEST_MYSQL_CONFIG])
 def test_root_endpoints(service: Tuple, config: str):
     """Simple test to validate the example config and check the health endpoint."""
     # Unpack the service tuple and load the config
-    host, port, proc = service
+    host, port, proc, output_dir = service
 
     # Check the health endpoint
     print(f"Running Uvicorn on http://{host}:{port} and hitting the health endpoint...")
@@ -74,7 +74,11 @@ def test_root_endpoints(service: Tuple, config: str):
         print(f"An error occurred: {e}")
         raise
 
-    # Terminate the Uvicorn server
     finally:
+        # Terminate the Uvicorn server and cleanup
+        print("Terminating the Uvicorn server...")
         proc.kill()
         proc.wait()
+        # Delete the output directory
+        print(f"Cleaning up output directory {output_dir}")
+        os.rmdir(output_dir)
