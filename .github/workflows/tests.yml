@@ -62,5 +62,5 @@ jobs:
           export DB_PASSWORD=root
           export DB_NAME=testdb
           # Run Tests
-          poetry run coverage run -m pytest builder/tests/test_run_backend
+          poetry run coverage run -m pytest builder/tests
           poetry run coverage report -m
