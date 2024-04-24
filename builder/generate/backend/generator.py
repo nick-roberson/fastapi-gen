@@ -329,6 +329,7 @@ class BackendGenerator:
             "model_names": model_names,
             "query_model_names": query_model_names,
             "manager_names": manager_names,
+            "service_name": self.config.service_info.name,
         }
 
         # Generate the service file and return the file name

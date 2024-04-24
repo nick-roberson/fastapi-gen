@@ -2,6 +2,7 @@ import os
 import subprocess
 import tempfile
 import time
+from typing import Tuple
 
 import httpx
 import pytest
@@ -11,13 +12,15 @@ from builder.constants import TEST_MYSQL_CONFIG
 from builder.generate.backend.generator import BackendGenerator
 
 
-@pytest.mark.parametrize("config", [TEST_MYSQL_CONFIG])
-def test_generate(config):
-    """Simple test to validate the example config and check the health endpoint."""
-    with tempfile.TemporaryDirectory(delete=False) as output_dir:
+# Fixture to create the code and start the service
+@pytest.fixture
+def service():
+    """Fixture to create the code and start the service."""
+    # Start the FastAPI app with Uvicorn in a subprocess
+    with tempfile.TemporaryDirectory() as output_dir:
         print(f"Output directory: {output_dir}")
         # Parse the model definitions
-        config_def = load_config(config)
+        config_def = load_config(TEST_MYSQL_CONFIG)
         config = parse_config(config_def)
 
         # Init the backend generator
@@ -41,18 +44,37 @@ def test_generate(config):
             cwd=service_dir,
         )
 
-        print(
-            f"Running Uvicorn on http://{host}:{port} and hitting the health endpoint..."
-        )
-        try:
-            # Give Uvicorn a moment to start
-            time.sleep(3)  # Adjust sleep time if necessary
+    return host, port, proc
 
-            # Perform HTTP GET request to the health endpoint
-            response = httpx.get(f"http://{host}:{port}/health")
-            assert response.status_code == 200
-            assert response.json() == {"message": "Healthy"}
-        finally:
-            # Terminate the Uvicorn server
-            proc.kill()
-            proc.wait()
+
+@pytest.mark.parametrize("config", [TEST_MYSQL_CONFIG])
+def test_root_endpoints(service: Tuple, config: str):
+    """Simple test to validate the example config and check the health endpoint."""
+    # Unpack the service tuple and load the config
+    host, port, proc = service
+
+    # Check the health endpoint
+    print(f"Running Uvicorn on http://{host}:{port} and hitting the health endpoint...")
+    try:
+        # Give Uvicorn a moment to start
+        time.sleep(3)  # Adjust sleep time if necessary
+
+        # Perform HTTP GET request to the health endpoint
+        response = httpx.get(f"http://{host}:{port}/health")
+        assert response.status_code == 200
+        assert response.json() == {"message": "Healthy"}
+
+        # Perform HTTP GET request to the ready endpoint
+        response = httpx.get(f"http://{host}:{port}/ready")
+        assert response.status_code == 200
+        assert response.json() == {"message": "Ready"}
+
+    # Handle any exceptions
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        raise
+
+    # Terminate the Uvicorn server
+    finally:
+        proc.kill()
+        proc.wait()
