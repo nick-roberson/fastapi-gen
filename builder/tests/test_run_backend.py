@@ -89,6 +89,6 @@ def test_root_endpoints(service: Tuple, config: str):
         print("Terminating the Uvicorn server...")
         proc.kill()
         proc.wait()
-        # Delete the output directory
-        print(f"Cleaning up output directory {output_dir}")
-        os.rmdir(output_dir)
+        # Force delete the output directory and all of its contents
+        print(f"Deleting output directory: {output_dir}")
+        subprocess.run(["rm", "-rf", output_dir])
