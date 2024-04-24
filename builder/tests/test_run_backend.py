@@ -54,17 +54,18 @@ def service():
         )
 
         # Generate the Alembic migrations
+        db_dir = os.path.join(service_dir, "src/db")
         print("Generating Alembic migrations...")
         subprocess.run(
             ["alembic", "revision", "--autogenerate", "-m", "Initial migration"],
-            cwd=os.path.join(service_dir, "db"),
+            cwd=db_dir,
         )
 
         # Run Alembic migrations
         print("Running Alembic migrations...")
         subprocess.run(
             ["alembic", "upgrade", "head"],
-            cwd=os.path.join(service_dir, "db"),
+            cwd=db_dir,
         )
 
         # Yield the process and output directory to the test function
