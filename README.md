@@ -2,7 +2,7 @@
 
 <p align="center" markdown=1>
     <i>
-        Create proof-of-concept FastAPI services with React frontends effortlessly using a simple CLI tool. 
+        Create and manage FastAPI backends and React/Typescript frontends effortlessly using a simple CLI tool. 
         Database support includes MongoDB, PostgreSQL, and MySQL.
         ... Collaborators are always welcome!
     </i>
