@@ -151,7 +151,7 @@ def test_create_users(service: Tuple, fake_data: Dict):
 
     # Create one
     first_user = user_data[0]
-    response = requests.post(f"{BASE_URL}/users", json=first_user)
+    response = requests.post(f"{BASE_URL}/user", json=first_user)
     assert response.status_code == 200
     response_json = response.json()
     assert response_json["id"]
