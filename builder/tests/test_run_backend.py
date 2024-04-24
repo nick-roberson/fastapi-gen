@@ -105,7 +105,7 @@ def fake_data(service: Tuple) -> Dict:
 
     # Create the fake data
     fake_data_paths = create_fake_data(
-        service_config=config, output_dir=output_dir, num=NUM_MODELS
+        service_config=config, output_dir=output_dir, num=NUM_MODELS, no_ids=True
     )
 
     # Load fake data from files
