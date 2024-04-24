@@ -102,7 +102,7 @@ def test_root_endpoints(service: Tuple):
 
         # Test single post to /user endpoint to create a user
         json = {
-            "name": "John Doe",
+            "username": "test",
             "email": "test@test.com",
             "phone_numer": "123-456-7890",
             "preferences": ["vegan", "gluten-free"],
