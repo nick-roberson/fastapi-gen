@@ -25,6 +25,7 @@ alembic = "^1.13.1"
 sqlalchemy = "^2.0.29"
 pymysql = "^1.1.0"
 httpx = "^0.27.0"
+urllib3 = "^2.2.1"
 
 
 [build-system]

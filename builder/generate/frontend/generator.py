@@ -4,8 +4,7 @@ from string import Template
 from jinja2 import Environment, FileSystemLoader
 from rich import print
 
-from builder.constants import (FRONTEND_TEMPLATES, NODE_DEPENDENCIES,
-                               OPENAPI_SPEC_FN)
+from builder.constants import FRONTEND_TEMPLATES, NODE_DEPENDENCIES
 from builder.models import ServiceConfig
 from builder.utils import clear_directory, clear_file, run_command
 
@@ -16,11 +15,6 @@ class FrontendGenerator:
     # Create React App command
     CREATE_SERVICE_CMD: Template = Template(
         "npx create-react-app $service_name --template typescript"
-    )
-
-    # Create Typescript Client command
-    CREATE_TYPESCRIPT_CLIENT_CMD: Template = Template(
-        "openapi-generator generate -i $openapi_spec -g typescript-fetch -o $output_dir"
     )
 
     # Install dependencies command
@@ -52,9 +46,6 @@ class FrontendGenerator:
         self.src_dir = os.path.join(self.output_dir, service_name, "src")
         self.api_dir = os.path.join(self.output_dir, service_name, "src/api")
 
-        # OpenAPI Spec file
-        self.openapi_spec_fp = os.path.join(self.output_dir, "backend", OPENAPI_SPEC_FN)
-
         # Application Typescript file
         self.index_tsx = os.path.join(self.src_dir, "index.tsx")
 
@@ -64,10 +55,14 @@ class FrontendGenerator:
         self.layout_tsx = os.path.join(self.components_dir, "Layout.tsx")
         self.no_page_tsx = os.path.join(self.components_dir, "NoPage.tsx")
 
-    def generate_all(self):
+    def generate_all(self, clear: bool = False):
         """Generate the frontend code"""
-        print("\t1. Clearing generated frontend code...")
-        self.clear_frontend()
+        # Clear the frontend code
+        if clear:
+            print("\t1. Clearing generated frontend code...")
+            self.clear_frontend()
+        else:
+            print("\t1. Skipping clearing of generated frontend code...")
 
         # Generate the application and install dependencies
         print("\t2. Generating frontend code ...")
@@ -79,12 +74,8 @@ class FrontendGenerator:
         print("\t4. Generating App main page...")
         app_main_page = self.generate_templated_components()
 
-        # Generate the typescript client
-        print("\t5. Generating Typescript client...")
-        self.generate_typescript_client()
-
         # Lint the code
-        print("\t6. Linting frontend code and cleaning up...")
+        print("\t5. Linting frontend code and cleaning up...")
         self.lint_frontend()
         self.remove_auto_generated_files()
 
@@ -195,18 +186,3 @@ class FrontendGenerator:
             "Utils": utils_file,
             "Model Pages": model_page_files,
         }
-
-    def generate_typescript_client(self):
-        """Generate the frontend service client code"""
-        # Clear the client code directory
-        clear_directory(self.api_dir)
-
-        # Create the client code directory
-        if not os.path.exists(self.api_dir):
-            os.makedirs(self.api_dir, exist_ok=True)
-
-        # Generate the client code
-        command = self.CREATE_TYPESCRIPT_CLIENT_CMD.substitute(
-            openapi_spec=self.openapi_spec_fp, output_dir=self.api_dir
-        )
-        run_command(cmd=command, cwd=self.output_dir)

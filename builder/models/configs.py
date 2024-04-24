@@ -219,6 +219,7 @@ class ServiceInfo(BaseModel):
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
     name: str = DEFAULT_SERVICE_NAME
+    email: str = ""
     version: str = "0.1.0"
     description: str = "A service built with builder"
 

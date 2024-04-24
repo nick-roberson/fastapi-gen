@@ -203,7 +203,7 @@ This is the CLI interface for the service generator:
 │ --help                                                       Show this message and exit.                                                                                                                │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ generate-app                                        Generate a FastAPI backend and React frontend from the input yaml config.                                                                                                   │
+│ generate                                        Generate a FastAPI backend and React frontend from the input yaml config.                                                                                                   │
 │ generate-python-app                                 Generate a FastAPI backend from the input yaml config.                                                                                                                      │
 │ generate-test-data                                  Generate fake data for the service                                                                                                                                          │
 │ generate-typescript-app                             Generate a React frontend from the input yaml config.                                                                                                                       │
@@ -218,7 +218,7 @@ This setup should also work for Postgres, but I have not tested it yet.
 
 Once you have your config ready (or you can use the example config), you can generate the service using the following command:
 ```bash
-% poetry run python main.py generate-app \
+% poetry run python main.py generate \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
 
@@ -242,7 +242,7 @@ Run Frontend (NPM):
 ### Generate using Mongo
 
 ```bash
-% poetry run python main.py generate-app \
+% poetry run python main.py generate \
     --config example/mongo/restaurant.yaml \
     --output-dir example/mongo/output
 
@@ -267,7 +267,7 @@ Run Frontend (NPM):
 <summary>Full Output for Alembic Run (Collapsible) </summary>
 
 ```bash
-(base) nicholas@Nicks-MBP fastapi-gen % poetry run python main.py generate-app \
+(base) nicholas@Nicks-MBP fastapi-gen % poetry run python main.py generate \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
 Generating Frontend and Backend services for app `reservations-app`
@@ -445,13 +445,13 @@ If you want to regenerate the templates for the frontend or backend, you can use
 
 Alembic Example:
 ```bash
-% poetry run python main.py regenerate-templates frontend \
+% poetry run python main.py regenerate --frontend-only \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
 ```
 Mongo Example:
 ```bash
-% poetry run python main.py regenerate-templates frontend \
+% poetry run python main.py regenerate --frontend-only \
     --config example/mongo/restaurant.yaml \
     --output-dir example/mongo/output
 ```
@@ -460,13 +460,13 @@ If you want to regenerate the backend templates, you can use the following comma
 
 Alembic Example:
 ```bash
-% poetry run python main.py regenerate-templates backend \
+% poetry run python main.py regenerate --backend-only \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
 ```
 Mongo Example:
 ```bash
-% poetry run python main.py regenerate-templates backend \
+% poetry run python main.py regenerate --backend-only \
     --config example/mongo/restaurant.yaml \
     --output-dir example/mongo/output
 ```
@@ -476,7 +476,7 @@ Mongo Example:
 To create some fake data that you can insert into the database, you can use the following command:
 
 ```bash
-% poetry run python main.py generate-test-data \
+% poetry run python main.py test-data \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
 

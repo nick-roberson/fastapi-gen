@@ -9,6 +9,7 @@
 # Service Configuration
 service:
   name: reservations-app
+  email: test@test.com
   version: 1.0.0
   description: An Alembic + MySQL backed simple Reservations Service
 

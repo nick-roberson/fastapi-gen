@@ -33,17 +33,9 @@ jobs:
           poetry install
 
       # Run backend + frontend tests
-      - name: Run Backend Tests
+      - name: Run Tests
         run: |
-          echo "Running Backend Tests"
+          echo "Running Tests"
           export VERBOSE=1
-          poetry run coverage run -m pytest builder/generate/backend
-          poetry run coverage report -m
-
-      # Run frontend tests
-      - name: Run Frontend Tests
-        run: |
-          echo "Running Frontend Tests"
-          export VERBOSE=1
-          poetry run coverage run -m pytest builder/generate/frontend
+          poetry run coverage run -m pytest builder/
           poetry run coverage report -m

@@ -2,7 +2,7 @@
 name = "reservations-app"
 version = "1.0.0"
 description = "An Alembic + MySQL backed simple Reservations Service"
-authors = ["<enter your email>"]
+authors = ["test@test.com"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
