@@ -34,22 +34,23 @@ jobs:
         with:
           node-version: 18
 
+      # Create necessary databases
+      - name: Create Additional Databases
+        run: |
+          mysql --host 127.0.0.1 --port 3306 --user root --password=root -e "CREATE DATABASE IF NOT EXISTS test_events_app;"
+          mysql --host 127.0.0.1 --port 3306 --user root --password=root -e "CREATE DATABASE IF NOT EXISTS test_restaurant_app;"
+
       # Run tests
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
 
+      # Install Backend Dependencies
       - name: Install Backend Dependencies
         run: |
           echo "Installing Backend Dependencies"
           python -m pip install --upgrade pip
           pip install poetry coverage
           poetry install
-
-      # Create necessary databases
-      - name: Create Additional Databases
-        run: |
-          mysql --host 127.0.0.1 --port 3306 --user root --password=root -e "CREATE DATABASE IF NOT EXISTS test_events_app;"
-          mysql --host 127.0.0.1 --port 3306 --user root --password=root -e "CREATE DATABASE IF NOT EXISTS test_restaurant_app;"
 
       # Run tests for the sample apps
       - name: Test Sample Events App
