@@ -5,6 +5,7 @@ from typing import Dict, Optional
 import typer
 from rich import print
 
+from builder.cli.config_builder import create_config
 from builder.config.parse import load_and_validate_config
 from builder.constants import (DEFAULT_PORT, SAMPLE_INPUT_FILE,
                                SAMPLE_OUTPUT_DIR)
@@ -251,5 +252,47 @@ def test_data(
     print(f"\nYou can now use this data to seed your database.")
 
 
+@app.command()
+def create(
+    output_dir: Optional[str] = typer.Option(
+        None, "--output-dir", "-o", help="Path to the output directory."
+    )
+):
+    """Create a new configuration file interactively.
+
+    Args:
+        output_dir (Optional[str], optional): Path to the output directory.
+            Defaults to SAMPLE_OUTPUT_DIR.
+    """
+    # Print in red color
+    print("[red]This feature is in Beta![/red]")
+
+    # Validate that the output directory exists
+    if output_dir is None:
+        raise typer.BadParameter("Output directory is required")
+    output_dir = validate_output_dir(output_dir)
+
+    # Create Configuration file interactively
+    print(f"Creating a new configuration file interactively!")
+    config_path = create_config(output_dir=output_dir)
+    print(f"Configuration file created at {config_path}")
+
+    # Optionally ask the user if they want to validate the config
+    validate = input("Do you want to validate the config? (y/n): ")
+    if validate.lower() == "y":
+        try:
+            validate_config(config_path)
+            print(f"Config validated successfully!")
+        except Exception as e:
+            print(f"Config validation failed: {e}")
+            print("See the example in the README.md file for reference")
+    else:
+        print(
+            "Please validate the config before you try generating the application! See the example in the README.md "
+            "file for reference"
+        )
+
+
 if __name__ == "__main__":
+    """Run the CLI application."""
     app()
