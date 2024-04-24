@@ -1,4 +1,4 @@
-<h1 align="center"> A CLI for FastAPI + React Service Generation </h1>
+<h2 align="center"> A CLI for FastAPI + React Service Generation and (eventual) Management </h1>
 
 <p align="center" markdown=1>
     <i>
