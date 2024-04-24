@@ -1,0 +1,120 @@
+# Service Configuration
+service:
+  name: events-management-app
+  email: support@eventsapp.com
+  version: 1.0.0
+  description: A simple Event Management Service backed by Alembic and MySQL
+
+# Database Configuration
+database:
+  db_type: mysql
+  host_env: DB_HOST
+  port_env: DB_PORT
+  user_env: DB_USER
+  password_env: DB_PASSWORD
+  db_name_env: DB_NAME
+
+# Model Definitions
+models:
+
+  # Event model
+  - name: Event
+    fields:
+      - name: id
+        type: int
+        required: false
+        default: None
+        description: The unique identifier of the event
+      - name: title
+        type: str
+        required: true
+        description: The title of the event
+      - name: description
+        type: str
+        required: true
+        description: A brief description of the event
+      - name: location
+        type: str
+        required: true
+        description: The physical location where the event will take place
+      - name: start_time
+        type: datetime
+        required: true
+        description: The starting date and time of the event
+      - name: end_time
+        type: datetime
+        required: true
+        description: The ending date and time of the event
+      - name: organizer_id
+        type: int
+        required: true
+        description: The identifier of the organizer of the event
+
+  # Ticket model
+  - name: Ticket
+    fields:
+      - name: id
+        type: int
+        required: false
+        default: None
+        description: The unique identifier of the ticket
+      - name: event_id
+        type: int
+        required: true
+        description: The ID of the event the ticket is for
+      - name: purchaser_id
+        type: int
+        required: true
+        description: The ID of the user who purchased the ticket
+      - name: purchase_time
+        type: datetime
+        required: true
+        description: The date and time when the ticket was purchased
+      - name: price
+        type: float
+        required: true
+        description: The price of the ticket
+
+  # User model
+  - name: User
+    fields:
+      - name: id
+        type: int
+        required: false
+        default: None
+        description: The unique identifier of the user
+      - name: username
+        type: str
+        required: true
+        description: The username of the user
+      - name: email
+        type: str
+        required: true
+        description: The email address of the user
+      - name: phone_number
+        type: str
+        required: false
+        default: None
+        description: The phone number of the user
+      - name: role
+        type: str
+        required: false
+        default: "attendee"
+        description: The role of the user (e.g., attendee, organizer)
+
+  # Organizer model
+  - name: Organizer
+    fields:
+      - name: id
+        type: int
+        required: false
+        default: None
+        description: The unique identifier of the organizer
+      - name: name
+        type: str
+        required: true
+        description: The full name of the organizer
+      - name: contact_info
+        type: str
+        required: true
+        description: The contact information of the organizer

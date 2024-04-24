@@ -9,7 +9,6 @@ import pytest
 import requests
 
 from builder.config.parse import load_and_validate_config
-from builder.constants import TEST_MYSQL_CONFIG
 from builder.generate.backend.generator import BackendGenerator
 from builder.generate.poetry.generator import PoetryGenerator
 from builder.models.configs import ServiceConfig
@@ -22,7 +21,11 @@ BASE_URL = f"http://{DEFAULT_HOST}:{DEFAULT_PORT}"
 NUM_MODELS = 5
 
 # Constants to store the config and parameters for the tests
-TEST_CONFIG: ServiceConfig = load_and_validate_config(TEST_MYSQL_CONFIG)
+TEST_RESTAURANTS_CONFIG: str = os.path.abspath("builder/tests/configs/restaurant.yaml")
+TEST_EVENTS_CONFIG: str = os.path.abspath("builder/tests/configs/events.yaml")
+
+# Load and validate the test config
+TEST_CONFIG: ServiceConfig = load_and_validate_config(TEST_RESTAURANTS_CONFIG)
 TEST_PARAMS: List[Tuple] = [
     (model.name, model.name.lower()) for model in TEST_CONFIG.models
 ]
@@ -175,7 +178,10 @@ def test_create_and_manage_models(
     assert len(response_json) == 5
 
     # Delete one
-    response = requests.delete(f"{BASE_URL}/{endpoint}/{response_json[0]['id']}")
+    params = {
+        f"{model.lower()}_id": response_json[0]["id"],
+    }
+    response = requests.delete(f"{BASE_URL}/{endpoint}/", params=params)
     assert response.status_code == 200
 
     # Query for all instances and check the count
