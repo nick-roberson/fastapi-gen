@@ -1,6 +1,13 @@
 import os
+from typing import Optional
 
+import typer
 import yaml
+from rich import print
+
+from builder.cli.utils import validate_config, validate_output_dir
+
+app = typer.Typer()
 
 
 def input_field(field_name, required=True, default=None):
@@ -100,3 +107,44 @@ def create_config(output_dir: str) -> str:
 
     # Return the path to the configuration file
     return config_file
+
+
+@app.command()
+def create(
+    output_dir: Optional[str] = typer.Option(
+        None, "--output-dir", "-o", help="Path to the output directory."
+    )
+):
+    """Create a new configuration file interactively.
+
+    Args:
+        output_dir (Optional[str], optional): Path to the output directory.
+            Defaults to SAMPLE_OUTPUT_DIR.
+    """
+    # Print in red color
+    print("[red]This feature is in Beta![/red]")
+
+    # Validate that the output directory exists
+    if output_dir is None:
+        raise typer.BadParameter("Output directory is required")
+    output_dir = validate_output_dir(output_dir)
+
+    # Create Configuration file interactively
+    print(f"Creating a new configuration file interactively!")
+    config_path = create_config(output_dir=output_dir)
+    print(f"Configuration file created at {config_path}")
+
+    # Optionally ask the user if they want to validate the config
+    validate = input("Do you want to validate the config? (y/n): ")
+    if validate.lower() == "y":
+        try:
+            validate_config(config_path)
+            print(f"Config validated successfully!")
+        except Exception as e:
+            print(f"Config validation failed: {e}")
+            print("See the example in the README.md file for reference")
+    else:
+        print(
+            "Please validate the config before you try generating the application! See the example in the README.md "
+            "file for reference"
+        )
