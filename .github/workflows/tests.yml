@@ -5,6 +5,18 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    # Setup test MYSQL Database
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testdb
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10
+
     steps:
       # Checkout the code
       - uses: actions/checkout@v4
@@ -25,6 +37,7 @@ jobs:
       # Run tests
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
+
       - name: Install Backend Dependencies
         run: |
           echo "Installing Backend Dependencies"
@@ -32,10 +45,22 @@ jobs:
           pip install poetry coverage
           poetry install
 
-      # Run backend + frontend tests
-      - name: Run Tests
+      - name: Run Unit Tests
+        run: |
+          echo "Running Unit Tests"
+          poetry run coverage run -m pytest builder/generate
+          poetry run coverage report -m
+
+      - name: Run End to End Tests
         run: |
           echo "Running Tests"
           export VERBOSE=1
-          poetry run coverage run -m pytest builder/
+          # Set database connection environment variables if not set in the test configs
+          export DB_HOST=127.0.0.1
+          export DB_PORT=3306
+          export DB_USER=root
+          export DB_PASSWORD=root
+          export DB_NAME=testdb
+          # Run Tests
+          poetry run coverage run -m pytest builder/tests/test_run_backend
           poetry run coverage report -m
