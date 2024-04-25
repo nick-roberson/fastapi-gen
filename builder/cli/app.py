@@ -140,7 +140,7 @@ def run_front(
     print(f"\toutput_dir:       {output_dir}\n")
 
     # Run the application
-    # manager.run_frontend()
+    manager.run_frontend()
 
 
 @app.command()
@@ -172,4 +172,4 @@ def run_backend(
     print(f"\toutput_dir:       {output_dir}\n")
 
     # Run the application
-    # manager.run_backend()
+    manager.run_backend()

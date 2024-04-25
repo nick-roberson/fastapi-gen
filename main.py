@@ -3,6 +3,7 @@ import typer
 from builder.cli.app import app as create_app
 from builder.cli.config import app as create_config
 from builder.cli.data import app as create_test_data
+from builder.cli.db import app as db
 
 # Initialize the main Typer application
 app = typer.Typer()
@@ -12,6 +13,12 @@ app.add_typer(
     create_app,
     name="app",
     help="Create a FastAPI backend and/or React frontend from an input yaml config.",
+)
+# Add subcommands for database migrations
+app.add_typer(
+    db,
+    name="db",
+    help="Create and apply migrations to the database for any models that have been created.",
 )
 # Add subcommands for configs
 app.add_typer(
