@@ -1,8 +1,8 @@
 import typer
 
-from builder.cli.create_app import app as create_app
-from builder.cli.create_config import app as create_config
-from builder.cli.create_test_data import app as create_test_data
+from builder.cli.app import app as create_app
+from builder.cli.config import app as create_config
+from builder.cli.data import app as create_test_data
 
 # Initialize the main Typer application
 app = typer.Typer()
