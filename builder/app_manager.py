@@ -1,3 +1,5 @@
+import os
+from subprocess import run
 from typing import Dict
 
 # Import Generators
@@ -20,8 +22,14 @@ class ApplicationManager:
             service_config (ServiceConfig): Configuration for the service.
             output_dir (str): Directory where generated files will be placed.
         """
-        self.service_config = service_config
         self.output_dir = output_dir
+        self.service_config = service_config
+        self.service_name = service_config.service_info.name
+
+        # Backend and frontend code directories
+        self.backend_dir = os.path.join(output_dir, "backend")
+        self.db_dir = os.path.join(self.backend_dir, "src/db")
+        self.frontend_dir = os.path.join(output_dir, self.service_name)
 
         # Initialize minor generators
         self.docker_generator = DockerGenerator(
@@ -41,6 +49,83 @@ class ApplicationManager:
         self.frontend_generator = FrontendGenerator(
             config=service_config, output_dir=output_dir
         )
+
+    ####################################################################################################################
+    # Commands to run the front and backend services
+    ####################################################################################################################
+
+    def run_backend(self):
+        """Run the backend service."""
+        # Confirm the presence of the backend service
+        if not os.path.exists(self.backend_dir):
+            raise FileNotFoundError(f"Backend service not found at {self.backend_dir}")
+
+        # Run using poetry
+        run(["poetry", "run", "uvicorn", "main:app", "--reload"], cwd=self.backend_dir)
+
+    def run_frontend(self):
+        """Run the frontend service."""
+        # Confirm the presence of the frontend service
+        if not os.path.exists(self.frontend_dir):
+            raise FileNotFoundError(
+                f"Frontend service not found at {self.frontend_dir}"
+            )
+
+        # Run using npm
+        run(["npm", "start"], cwd=self.frontend_dir)
+
+    ####################################################################################################################
+    # Commands to manage DB migrations
+    ####################################################################################################################
+
+    def create_migration(self, message: str):
+        """Create a new migration for the database."""
+        # Confirm the presence of the backend service
+        if not os.path.exists(self.db_dir):
+            raise FileNotFoundError(f"Backend service not found at {self.db_dir}")
+
+        # Run using alembic using poetry
+        commands = [
+            "poetry",
+            "run",
+            "alembic",
+            "revision",
+            "--autogenerate",
+            "-m",
+            message,
+        ]
+        run(commands, cwd=self.db_dir)
+
+    def run_migrations(self):
+        """Run the database migrations."""
+        # Confirm the presence of the backend service
+        if not os.path.exists(self.db_dir):
+            raise FileNotFoundError(f"Backend service not found at {self.db_dir}")
+
+        # Run using alembic using poetry
+        commands = ["poetry", "run", "alembic", "upgrade", "head"]
+        run(commands, cwd=self.db_dir)
+
+    def revert_migration(self, revision: str):
+        """Revert the database to a previous revision."""
+        # Confirm the presence of the backend service
+        if not os.path.exists(self.db_dir):
+            raise FileNotFoundError(f"Backend service not found at {self.db_dir}")
+
+        # Run using alembic using poetry
+        commands = ["poetry", "run", "alembic", "downgrade", revision]
+        run(commands, cwd=self.db_dir)
+
+    def get_migrations(self):
+        """Get a list of all migrations."""
+        # Confirm the presence of the backend service
+        if not os.path.exists(self.db_dir):
+            raise FileNotFoundError(f"Backend service not found at {self.db_dir}")
+
+        # Run using alembic using poetry
+        print(f"Migrations: {self.service_name}")
+        commands = ["poetry", "run", "alembic", "history"]
+        run(commands, cwd=self.db_dir)
 
     ####################################################################################################################
     # Creating new applications from scratch

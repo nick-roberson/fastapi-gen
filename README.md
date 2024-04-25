@@ -171,11 +171,7 @@ correct environment variables set (see the `setup` section for more information)
 **Database**
 - If using **MongoDB** as the database, you will need to set up a free tier MongoDB Atlas database as well as have `MONGO_URI` set in your environment variables.
 - If using **PostgreSQL** or **MySQL** as the database, you will need to set up either database locally or somewhere else and have the following environment variables set:
-  - `DB_USER`
-  - `DB_PASSWORD`
-  - `DB_HOST`
-  - `DB_PORT`
-  - `DB_NAME`
+  - `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_NAME`
 - The options in the config for the `db_type` are `mongo`, `postgres`, and `mysql`
 
 To learn more about how to set up a free tier MongoDB Atlas database,
@@ -186,6 +182,7 @@ see the following link: [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
 
 All you should need to do before running otherwise is to install the dependencies using poetry.
 ```bash
+% pip install poetry
 % poetry install
 ```
 
@@ -201,29 +198,41 @@ This is the CLI interface for the service generator:
 │ app          Create a FastAPI backend and/or React frontend from an input yaml config.                                                                                                                  │
 │ config       Interactively create a configuration file that can then be used for generating a FastAPI backend and React frontend.                                                                       │
 │ data         Generate fake data for the service using Faker (https://faker.readthedocs.io/).                                                                                                            │
+│ db           Create and apply migrations to the database for any models that have been created.                                                                                                         │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 #### Config Commands
 ```commandline
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ create                     Create a new configuration file interactively.                                                                                                                               │
+│ create            Create a new configuration file interactively.                                                                                                                               │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 #### App Commands
 ```commandline
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ create           Generate a FastAPI backend and React frontend from the input yaml config.                                                                                                              │
-│ reload           Just reload the frontend or backend templates, do not recreate the application.                                                                                                    │
+│ create            Generate a FastAPI backend and React frontend from the input yaml config.                                                                                                   │
+│ reload            Just regenerate the frontend or backend templates, do not recreate the application.                                                                                         │
+│ run-backend       BETA: Run the FastAPI backend from the input yaml config.                                                                                                                   │
+│ run-frontend      BETA: Run the React frontend from the input yaml config.                                                                                                                    │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 #### Data Commands
 ```commandline
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ create                             Generate fake data for the service                                                                                                                                   │
+│ create            Generate fake data for the service                                                                                                                                   │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+```
+
+#### Database Commands 
+```commandline
+╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ list                BETA: List all migrations                                                                                                                                                                                   │
+│ migrate             BETA: Create migration and apply to the database for any models that have been created                                                                                                                      │
+│ revert              BETA: Revert the database to a previous revision                                                                                                                                                            │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 ### Create Config using CLI
@@ -242,9 +251,11 @@ You will be prompted to enter the information about the following areas:
 **_This feature is in development and may not work as expected. If you have any issues, please let me know! You can also 
 easily copy the configs that I have in the `example/` directory and modify them as needed._**
 
-### Generate using Alembic
+### Create and Run Application
 
 Once you have your config ready (or you can use the example config), you can generate the service using the following command:
+
+#### Generate using Alembic
 ```bash
 % poetry run python main.py app create \
     --config example/alembic/restaurant.yaml \
@@ -253,21 +264,17 @@ Once you have your config ready (or you can use the example config), you can gen
 ...
 
 Run Backend (Poetry):
-    % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend
-    % poetry install && poetry update
-    % poetry run uvicorn service:app --reload --port 8000
-
-Run Backend (Docker) (Make sure to fill out the generated .env file!):
-    % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend
-    % docker build -t reservations-app .
-    % docker run -p 8000:8000 reservations-app
-
+    % poetry run python main.py app run-backend \
+        --config example/mongo/restaurant.yaml \
+        --output-dir example/mongo/output
+        
 Run Frontend (NPM):
-    % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app
-    % npm install && npm run start
+    % poetry run python main.py app run-frontend \
+        --config example/mongo/restaurant.yaml \
+        --output-dir example/mongo/output
 ```
 
-### Generate using Mongo
+#### Generate using Mongo
 
 ```bash
 % poetry run python main.py app create \
@@ -277,199 +284,43 @@ Run Frontend (NPM):
 ...
 
 Run Backend (Poetry):
-    % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend
-    % poetry install && poetry update
-    % poetry run uvicorn service:app --reload --port 8000
-
-Run Backend (Docker) (Make sure to fill out the generated .env file!):
-    % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend
-    % docker build -t reservations-app .
-    % docker run -p 8000:8000 reservations-app
-
+    % poetry run python main.py app run-backend \
+        --config example/mongo/restaurant.yaml \
+        --output-dir example/mongo/output
+        
 Run Frontend (NPM):
-    % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app
-    % npm install && npm run start
+    % poetry run python main.py app run-frontend \
+        --config example/mongo/restaurant.yaml \
+        --output-dir example/mongo/output
 ```
 
-<details>
-<summary>Full Output for Alembic Run (Collapsible) </summary>
+### Apply Database Migrations
 
-```bash
-(base) nicholas@Nicks-MBP fastapi-gen % poetry run python main.py app create \
+If you are using PostgreSQL or MySQL, you can apply the migrations to the database using the following command:
+```commandline
+% poetry run python main.py db migrate \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
-
-Generating Frontend and Backend services for app `reservations-app`
-        config:           example/alembic/restaurant.yaml
-        output_dir:       /Users/nicholas/Code/fastapi-gen/example/alembic/output
-        frontend_only:    False
-        backend_only:     False
-
-
-Generating backend services...
-
-        1. Skipping clearing the output directory...
-        2. Generating the backend code...
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/databases/alembic/alembic/script.py.mako 
-/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/script.py.mako'
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/databases/alembic/alembic/README /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/README'
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/databases/alembic/alembic.ini /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic.ini'
-                > 'poetry run alembic revision --autogenerate -m 'Initial Migration''
-                > 'poetry run alembic upgrade head'
-                > 'touch /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/__init__.py'
-                > 'touch /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/__init__.py'
-                > 'touch /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/models/__init__.py'
-                > 'touch /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/__init__.py'
-                > 'touch /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/__pycache__/__init__.py'
-                > 'touch /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/__init__.py'
-                > 'touch /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/versions/__init__.py'
-                > 'touch /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/__pycache__/__init__.py'
-        3. Linting the backend code...
-                > 'poetry run black /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend'
-                > 'poetry run isort /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend'
-
-Creating Poetry files and installing deps...
-
-                > 'poetry env use 3.12.2'
-                > 'poetry install'
-                > 'poetry export -f requirements.txt --output /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/requirements.txt'
-
-Creating Docker files...
-
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/.env /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/.env'
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/Dockerfile /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/Dockerfile'
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/compose.yml /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/compose.yml'
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/.dockerignore /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/.dockerignore'
-                > 'cp /Users/nicholas/Code/fastapi-gen/builder/templates/backend/docker/README.Docker.md /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/README.Docker.md'
-
-Generating OpenAPI spec...
-
-                > OpenAPI spec generated at: /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/openapi.json
-
-Creating Python Client...
-
-                > 'openapi-generator generate -i openapi.json -g python -o /Users/nicholas/Code/fastapi-gen/example/alembic/output/client'
-
-Generating frontend services...
-
-        1. Skipping clearing of generated frontend code...
-        2. Generating frontend code ...
-                > 'npx create-react-app reservations-app --template typescript'
-        3. Installing dependencies...
-                > 'npm install axios @mui/material @mui/icons-material @mui/x-data-grid @mui/styled-engine @mui/lab @emotion/react @emotion/styled prettier eslint web-vitals react-router-dom'
-        4. Generating App main page...
-                > 'rm -f /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/index.tsx'
-        5. Linting frontend code and cleaning up...
-                > 'npx prettier --write .'
-                > 'npx eslint --fix .'
-                > 'rm -f /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/App.css'
-                > 'rm -f /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/App.test.tsx'
-                > 'rm -f /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/App.tsx'
-
-Creating Typescript Client...
-
-                > 'openapi-generator generate -i openapi.json -g typescript-fetch -o /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/api'
-
-Generated files:
-{
-    "Backend Files": {
-        "Pydantic Models": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/models/models.py",
-        "FastAPI Service": [
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/service.py",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/user_routes.py",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/restaurant_routes.py",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/reservation_routes.py",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/review_routes.py"
-        ],
-        "Database": [
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/script.py.mako",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/README",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic.ini",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/user_manager.py",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/restaurant_manager.py",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/reservation_manager.py",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/review_manager.py",
-            "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/src/db/alembic/env.py"
-        ],
-        "README.md": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/README.md"
-    },
-    "Backend Directories": {
-        "Service Code": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend",
-        "Python Client Code": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/client"
-    },
-    "Poetry Toml": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/pyproject.toml",
-    "Docker Files": [
-        "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/.env",
-        "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/Dockerfile",
-        "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/compose.yml",
-        "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/.dockerignore",
-        "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/README.Docker.md"
-    ],
-    "OpenAPI Spec": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/backend/openapi.json",
-    "Frontend Files": {
-        "Main Page": {
-            "Index.tsx": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/index.tsx",
-            "Home": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/components/Home.tsx",
-            "Layout": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/components/Layout.tsx",
-            "No Page": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/components/NoPage.tsx",
-            "Utils": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/components/utils.tsx",
-            "Model Pages": [
-                "/Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/components/user_page.tsx",
-                "/Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/components/restaurant_page.tsx",
-                "/Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/components/reservation_page.tsx",
-                "/Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/components/review_page.tsx"
-            ]
-        }
-    },
-    "Frontend Directories": {
-        "Application Directory": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app",
-        "Source Code": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src",
-        "API Client Code": "/Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app/src/api"
-    }
-}
-
-Run Backend (Poetry):
-   % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend
-   % poetry install && poetry update
-   % poetry run uvicorn service:app --reload --port 8000
-
-Run Backend (Docker) (Make sure to fill out the generated .env file!):
-   % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/backend
-   % docker build -t reservations-app .
-   % docker run -p 8000:8000 reservations-app
-
-Run Frontend (NPM):
-   % cd /Users/nicholas/Code/fastapi-gen/example/alembic/output/reservations-app
-   % npm install && npm run start
-```
-Done!
-</details>
-
-## Running
-
-### Back End
-
-**Local:**
-```
-% cd example/alembic/output/backend
-% poetry install && poetry update
-% poetry run uvicorn service:app --reload --port 8000
 ```
 
-**Docker:**
-```
-% cd example/alembic/output/backend
-% docker build -t reservations-app .
-% docker run -p 8000:8000 reservations-app
+### Revert Database Migrations
+
+If you want to revert the migrations that you have applied, you can use the following command:
+```commandline
+% poetry run python main.py db revert \
+    --config example/alembic/restaurant.yaml \
+    --output-dir example/alembic/output \
+    --revision <revision>
 ```
 
-To view the generated OpenAPI documentation, navigate to [http://localhost:8000/docs](http://localhost:8000/docs).
+### Listing Database Migrations
 
-### Front End
-
-```
-% cd example/alembic/output/reservations-app
-% npm install && npm run start
+If you want to list the migrations that have been applied to the database, you can use the following command:
+```commandline
+% poetry run python main.py db list \
+    --config example/alembic/restaurant.yaml \
+    --output-dir example/alembic/output \
+    --list
 ```
 
 ### Regenerating Templated Files
@@ -482,12 +333,6 @@ Alembic Example:
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
 ```
-Mongo Example:
-```bash
-% poetry run python main.py app reload --frontend-only \
-    --config example/mongo/restaurant.yaml \
-    --output-dir example/mongo/output
-```
 
 If you want to reload the backend templates, you can use the following command:
 
@@ -496,12 +341,6 @@ Alembic Example:
 % poetry run python main.py app reload --backend-only \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
-```
-Mongo Example:
-```bash
-% poetry run python main.py app reload --backend-only \
-    --config example/mongo/restaurant.yaml \
-    --output-dir example/mongo/output
 ```
 
 ## Test Data
@@ -513,11 +352,6 @@ To create some fake data that you can insert into the database, you can use the 
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
 
-Creating fake data at /Users/nicholas/Code/fastapi-gen/example/alembic/output/data
-Creating fake data for User at /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/User.json
-Creating fake data for Restaurant at /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/Restaurant.json
-Creating fake data for Reservation at /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/Reservation.json
-Creating fake data for Review at /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/Review.json
 Generated fake data at
         User: /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/User.json
         Restaurant: /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/Restaurant.json

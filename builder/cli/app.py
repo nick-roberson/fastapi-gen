@@ -109,3 +109,75 @@ def reload(
         process_close(
             result=result, output_dir=output_dir, service_config=service_config
         )
+
+
+@app.command()
+def run_frontend(
+    config: Optional[str] = typer.Option(
+        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+    ),
+    output_dir: Optional[str] = typer.Option(
+        SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
+    ),
+):
+    """BETA: Run the React frontend from the input yaml config.
+
+    Args:
+        config (Optional[str], optional): Path to the input yaml config.
+            Defaults to SAMPLE_INPUT_FILE.
+        output_dir (Optional[str], optional): Path to the output directory.
+            Defaults to SAMPLE_OUTPUT_DIR.
+    """
+    print(
+        "[red]This feature is in beta and may not work as expected. Please report any issues on GitHub.[/red]"
+    )
+
+    # Validate the inputs, get absolute paths, clean the service name, build the context
+    service_config = validate_config(config)
+    output_dir = validate_output_dir(output_dir)
+    manager = ApplicationManager(service_config=service_config, output_dir=output_dir)
+
+    # Log the inputs
+    service_name = service_config.service_info.name
+    print(f"Running Frontend and Backend services for app `{service_name}`")
+    print(f"\tconfig:           {config}")
+    print(f"\toutput_dir:       {output_dir}\n")
+
+    # Run the application
+    manager.run_frontend()
+
+
+@app.command()
+def run_backend(
+    config: Optional[str] = typer.Option(
+        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+    ),
+    output_dir: Optional[str] = typer.Option(
+        SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
+    ),
+):
+    """BETA: Run the FastAPI backend from the input yaml config.
+
+    Args:
+        config (Optional[str], optional): Path to the input yaml config.
+            Defaults to SAMPLE_INPUT_FILE.
+        output_dir (Optional[str], optional): Path to the output directory.
+            Defaults to SAMPLE_OUTPUT_DIR.
+    """
+    print(
+        "[red]This feature is in beta and may not work as expected. Please report any issues on GitHub.[/red]"
+    )
+
+    # Validate the inputs, get absolute paths, clean the service name, build the context
+    service_config = validate_config(config)
+    output_dir = validate_output_dir(output_dir)
+    manager = ApplicationManager(service_config=service_config, output_dir=output_dir)
+
+    # Log the inputs
+    service_name = service_config.service_info.name
+    print(f"Running Frontend and Backend services for app `{service_name}`")
+    print(f"\tconfig:           {config}")
+    print(f"\toutput_dir:       {output_dir}\n")
+
+    # Run the application
+    manager.run_backend()
