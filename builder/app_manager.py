@@ -106,6 +106,27 @@ class ApplicationManager:
         commands = ["poetry", "run", "alembic", "upgrade", "head"]
         run(commands, cwd=self.db_dir)
 
+    def revert_migration(self, revision: str):
+        """Revert the database to a previous revision."""
+        # Confirm the presence of the backend service
+        if not os.path.exists(self.db_dir):
+            raise FileNotFoundError(f"Backend service not found at {self.db_dir}")
+
+        # Run using alembic using poetry
+        commands = ["poetry", "run", "alembic", "downgrade", revision]
+        run(commands, cwd=self.db_dir)
+
+    def get_migrations(self):
+        """Get a list of all migrations."""
+        # Confirm the presence of the backend service
+        if not os.path.exists(self.db_dir):
+            raise FileNotFoundError(f"Backend service not found at {self.db_dir}")
+
+        # Run using alembic using poetry
+        print(f"Migrations: {self.service_name}")
+        commands = ["poetry", "run", "alembic", "history"]
+        run(commands, cwd=self.db_dir)
+
     ####################################################################################################################
     # Creating new applications from scratch
     ####################################################################################################################
