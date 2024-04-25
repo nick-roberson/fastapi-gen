@@ -22,7 +22,9 @@ def migrate(
         None, "--message", "-m", help="Message for the migration."
     ),
 ):
-    """Create migration and apply to the database for any models that have been created"""
+    """BETA: Create migration and apply to the database for any models that have been created"""
+    print("\[red]This feature is in Beta![/red]")
+
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
     output_dir = validate_output_dir(output_dir)

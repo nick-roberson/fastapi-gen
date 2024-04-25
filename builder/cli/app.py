@@ -120,7 +120,7 @@ def run_frontend(
         SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
     ),
 ):
-    """Run the React frontend from the input yaml config.
+    """BETA: Run the React frontend from the input yaml config.
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
@@ -128,6 +128,8 @@ def run_frontend(
         output_dir (Optional[str], optional): Path to the output directory.
             Defaults to SAMPLE_OUTPUT_DIR.
     """
+    print("\[red]This feature is in Beta![/red]")
+
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
     output_dir = validate_output_dir(output_dir)
@@ -152,7 +154,7 @@ def run_backend(
         SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
     ),
 ):
-    """Run the FastAPI backend from the input yaml config.
+    """BETA: Run the FastAPI backend from the input yaml config.
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
@@ -160,6 +162,8 @@ def run_backend(
         output_dir (Optional[str], optional): Path to the output directory.
             Defaults to SAMPLE_OUTPUT_DIR.
     """
+    print("\[red]This feature is in Beta![/red]")
+
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
     output_dir = validate_output_dir(output_dir)
