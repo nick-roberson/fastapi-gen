@@ -2,10 +2,10 @@ import json
 import os
 from typing import Dict
 
+import typer
 from rich import print
 
 from builder.config.parse import load_and_validate_config
-from builder.constants import DEFAULT_PORT
 from builder.models.configs import ServiceConfig
 
 
@@ -73,7 +73,6 @@ def process_close(result: Dict, output_dir: str, service_config: ServiceConfig):
         output_dir (str): The output directory
         service_config (ServiceConfig): The service configuration
     """
-    code_dir = "backend"
     service_name = service_config.service_info.name
 
     # Display the generated files
@@ -83,18 +82,11 @@ def process_close(result: Dict, output_dir: str, service_config: ServiceConfig):
     # Display commands for users to go and run the generated files
     print("")
     print("Run Backend (Poetry):")
-    print(f"   % cd {output_dir}/{code_dir}")
-    print(f"   % poetry install && poetry update")
-    print(f"   % poetry run uvicorn service:app --reload --port {DEFAULT_PORT}")
-
-    print("")
-    print("Run Backend (Docker) (Make sure to fill out the generated .env file!):")
-    print(f"   % cd {output_dir}/{code_dir}")
-    print(f"   % docker build -t {service_name} .")
-    print(f"   % docker run -p {DEFAULT_PORT}:{DEFAULT_PORT} {service_name}")
-
-    # Display the frontend commands
+    print(
+        f"   % poetry run python main.py app run-backend --output-dir {output_dir} --config {output_dir}/{service_name}.yaml"
+    )
     print("")
     print("Run Frontend (NPM):")
-    print(f"   % cd {output_dir}/{service_name}")
-    print(f"   % npm install && npm run start")
+    print(
+        f"   % poetry run python main.py app run-frontend --output-dir {output_dir} --config {output_dir}/{service_name}.yaml"
+    )
