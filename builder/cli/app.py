@@ -112,7 +112,7 @@ def reload(
 
 
 @app.command()
-def run_front(
+def run_frontend(
     config: Optional[str] = typer.Option(
         SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
     ),
