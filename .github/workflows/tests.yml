@@ -13,6 +13,11 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: testdb
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_USER: root
+          DB_PASSWORD: root
+          DB_NAME: testdb
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10
@@ -52,21 +57,7 @@ jobs:
           pip install poetry coverage
           poetry install
 
-      # Run tests for the sample apps
-#      - name: Test Sample Events App
-#        run: |
-#          echo "Running Tests"
-#          export VERBOSE=1
-#          # Set database connection environment variables if not set in the test configs
-#          export DB_HOST=127.0.0.1
-#          export DB_PORT=3306
-#          export DB_USER=root
-#          export DB_PASSWORD=root
-#          export DB_NAME=test_events_app
-#          # Run Tests
-#          poetry run coverage run -m pytest builder/tests/test_events_app.py --verbose
-#          poetry run coverage report -m
-
+      # Run end-to-end tests
       - name: Test Sample Restaurant App
         run: |
           echo "Running Tests"
@@ -76,10 +67,20 @@ jobs:
           export DB_PORT=3306
           export DB_USER=root
           export DB_PASSWORD=root
-          export DB_NAME=test_restaurant_app        
+          export DB_NAME=test_restaurant_app
           # Run Tests
           poetry run coverage run -m pytest builder/tests/test_restaurant_app.py --verbose
           poetry run coverage report -m
+
+      # Run test create app
+      # Run end-to-end tests
+      - name: Test Sample Restaurant App
+        run: |
+          echo "Running Tests"
+          export VERBOSE=1
+          mkdir test-create-app
+          poetry run python main.py app create --config example/alembic/restaurant.yaml --output-dir test-create-app
+          poetry run python main.py db migrate --config example/alembic/restaurant.yaml --output-dir test-create-app
 
       # Run unit tests
       - name: Run Unit Tests
