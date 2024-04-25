@@ -23,7 +23,9 @@ def migrate(
     ),
 ):
     """BETA: Create migration and apply to the database for any models that have been created"""
-    print("\[red]This feature is in Beta![/red]")
+    print(
+        "[red]This feature is in beta and may not work as expected. Please report any issues on GitHub.[/red]"
+    )
 
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)

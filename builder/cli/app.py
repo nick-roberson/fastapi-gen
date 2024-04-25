@@ -128,7 +128,9 @@ def run_frontend(
         output_dir (Optional[str], optional): Path to the output directory.
             Defaults to SAMPLE_OUTPUT_DIR.
     """
-    print("\[red]This feature is in Beta![/red]")
+    print(
+        "[red]This feature is in beta and may not work as expected. Please report any issues on GitHub.[/red]"
+    )
 
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
@@ -162,7 +164,9 @@ def run_backend(
         output_dir (Optional[str], optional): Path to the output directory.
             Defaults to SAMPLE_OUTPUT_DIR.
     """
-    print("\[red]This feature is in Beta![/red]")
+    print(
+        "[red]This feature is in beta and may not work as expected. Please report any issues on GitHub.[/red]"
+    )
 
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
