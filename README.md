@@ -63,14 +63,11 @@
 **Mongo DB Integration is lagging behind the MySQL / PostrgreSQL implementation... working to bring them back into sync!**
 
 _**NOTE:**_
-- _This project is actively under development and not yet intended for production usage, although it functions well for general use cases and POCs._
+- _This project is actively under development._
 - _While the service templates are robust, the generated code is still being refined, and there are ongoing improvements._
 
 **That all being said `fastapi-gen` does a really great job of creating working POC frontend and backend services that can be used 
 to quickly prototype ideas and test out new features!** 
-
-So use this and don't worry anymore about some of the more annoying parts of setting up a new services!
-In the future I hope to add far more configurability as well as support for more databases and frontend frameworks. See examples below for more information! 
 
 # Table of Contents
 
@@ -92,34 +89,23 @@ In the future I hope to add far more configurability as well as support for more
 - [Loom Video](#loom-video)
 
 
-This is a simple FastAPI service that can be used as a starting point for a new project.
-
 ## Features
 
-####  Python Code Generation
+**Configuration File Generation**: 
+- Create a new configuration file interactively to generate a new service.
 
-1. Generate FastAPI services with database support for MongoDB, PostgreSQL, or MySQL
-2. Automatically creates endpoints that cover the following areas:
-3. Generate `pydantic` models for the FastAPI services and handle conversion to and from the database models
-4. Generate Python client code for the FastAPI service + other python services using `openapi-generator` for use elsewhere
+**Service Generation**: 
+- Generate a FastAPI backend and React frontend from the input yaml config.
 
-#### Database Generation
+**Database Migrations**: 
+- Create and apply migrations to the database for any models that have been created.
 
-1. Generate a `MongoDB` database with `Pydantic` models
-2. Generate a `PostgreSQL` database with `SQLAlchemy` + `Alembic` models
-3. Generate a `MySQL` database with `SQLAlchemy` + `Alembic` models
+**Data Generation**: 
+- Generate fake data for the service using Faker (https://faker.readthedocs.io/).
 
-In the event that you are using PostgreSQL or MySQL, you will need to set up a local database or 
-use a cloud service like AWS RDS or Google Cloud SQL.
+Additionally `fastapi-gen` provides an interface for simply running your application as well as reloading changes
+to the frontend or backend without having to restart the application.
 
-#### Frontend Code Generation
-
-1. Creates an entire React frontend that can interact with the FastAPI service
-   - Create a homepage that displays all the models that have been generated
-   - Create a page for each model that allows you to interact with the FastAPI service
-2. All frontend code is generated using `TypeScript` and `React`
-3. Generated TypeScript client and models are used to interact with the FastAPI service
-4. No work requred on your end to set up the frontend, just run the commands and you are good to go! (assuming you have `npm` installed)
 
 ## Pre-generated Example Code
 
@@ -221,7 +207,7 @@ If you want to create a new service from scratch, you can use the `create` comma
 ```bash
 % poetry run python main.py app generate \
   --output-dir example/new_service
-  --config-name new_service.yaml
+  --config new_service.yaml
 ```
 You will be prompted to enter the information about the following areas:
 - Service Information
