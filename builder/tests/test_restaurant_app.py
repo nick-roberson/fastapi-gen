@@ -10,6 +10,7 @@ import requests
 
 from builder.config.parse import load_and_validate_config
 from builder.generate.backend.generator import BackendGenerator
+from builder.generate.linting.manager import LintingManager
 from builder.generate.poetry.generator import PoetryGenerator
 from builder.models.configs import ServiceConfig
 from builder.test_data.create_fake_data import create_fake_data
@@ -53,7 +54,12 @@ def service():
         generator.generate_templated_components()
         generator.generate_database()
         generator.generate_readme()
-        generator.lint_backend()
+
+        # Lint
+        linting_manager = LintingManager(
+            config=TEST_RESTAURANT_CONFIG, output_dir=output_dir
+        )
+        linting_manager.lint_backend()
 
         # Init the poetry generator
         poetry_generator = PoetryGenerator(
