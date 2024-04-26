@@ -40,19 +40,19 @@ export interface CreateReviewsReviewsPostRequest {
 }
 
 export interface DeleteReviewAsyncReviewAsyncDeleteRequest {
-  reviewId: string;
+  reviewId: number;
 }
 
 export interface DeleteReviewReviewDeleteRequest {
-  reviewId: string;
+  reviewId: number;
 }
 
 export interface DeleteReviewsAsyncReviewsAsyncDeleteRequest {
-  requestBody: Array<string>;
+  requestBody: Array<number>;
 }
 
 export interface DeleteReviewsReviewsDeleteRequest {
-  requestBody: Array<string>;
+  requestBody: Array<number>;
 }
 
 export interface GetReviewReviewGetRequest {

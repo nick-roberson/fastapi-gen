@@ -215,7 +215,7 @@ def update_restaurants_async(
 ########################################################################################################################
 
 
-def _delete_restaurant(restaurant_id: str) -> Restaurant:
+def _delete_restaurant(restaurant_id: int) -> Restaurant:
     """Delete a Restaurant helper function"""
     logging.info(f"Deleting Restaurant with id: {id}")
 
@@ -229,14 +229,14 @@ def _delete_restaurant(restaurant_id: str) -> Restaurant:
 
 
 @router.delete("/restaurant")
-def delete_restaurant(restaurant_id: str) -> Restaurant:
+def delete_restaurant(restaurant_id: int) -> Restaurant:
     """Delete a Restaurant"""
     # Call the helper function to delete the Restaurant
     return _delete_restaurant(restaurant_id)
 
 
 @router.delete("/restaurant/async")
-def delete_restaurant_async(restaurant_id: str, background_tasks: BackgroundTasks):
+def delete_restaurant_async(restaurant_id: int, background_tasks: BackgroundTasks):
     """Delete a Restaurant asynchronously"""
     logging.info(f"Deleting Restaurant asynchronously with id: {id}")
     # Delete the Restaurant asynchronously
@@ -245,7 +245,7 @@ def delete_restaurant_async(restaurant_id: str, background_tasks: BackgroundTask
     return {"message": "Deleting Restaurant asynchronously"}
 
 
-def _delete_restaurants(restaurant_ids: List[str]) -> List[Restaurant]:
+def _delete_restaurants(restaurant_ids: List[int]) -> List[Restaurant]:
     """Delete multiple Restaurants helper function"""
     logging.info(f"Deleting Restaurants: {str(restaurant_ids)}")
 
@@ -259,7 +259,7 @@ def _delete_restaurants(restaurant_ids: List[str]) -> List[Restaurant]:
 
 
 @router.delete("/restaurants")
-def delete_restaurants(restaurant_ids: List[str]) -> List[Restaurant]:
+def delete_restaurants(restaurant_ids: List[int]) -> List[Restaurant]:
     """Delete multiple Restaurants"""
     # Call the helper function to delete the Restaurants
     return _delete_restaurants(restaurant_ids)
@@ -267,7 +267,7 @@ def delete_restaurants(restaurant_ids: List[str]) -> List[Restaurant]:
 
 @router.delete("/restaurants/async")
 def delete_restaurants_async(
-    restaurant_ids: List[str], background_tasks: BackgroundTasks
+    restaurant_ids: List[int], background_tasks: BackgroundTasks
 ):
     """Delete multiple Restaurants asynchronously"""
     logging.info(f"Deleting Restaurants asynchronously: {str(restaurant_ids)}")

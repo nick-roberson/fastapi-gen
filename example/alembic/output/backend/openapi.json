@@ -186,7 +186,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "integer",
               "title": "User Id"
             }
           }
@@ -348,7 +348,7 @@
             "application/json": {
               "schema": {
                 "items": {
-                  "type": "string"
+                  "type": "integer"
                 },
                 "type": "array",
                 "title": "User Ids"
@@ -475,7 +475,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "integer",
               "title": "User Id"
             }
           }
@@ -599,7 +599,7 @@
             "application/json": {
               "schema": {
                 "items": {
-                  "type": "string"
+                  "type": "integer"
                 },
                 "type": "array",
                 "title": "User Ids"
@@ -811,7 +811,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "integer",
               "title": "Restaurant Id"
             }
           }
@@ -973,7 +973,7 @@
             "application/json": {
               "schema": {
                 "items": {
-                  "type": "string"
+                  "type": "integer"
                 },
                 "type": "array",
                 "title": "Restaurant Ids"
@@ -1100,7 +1100,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "integer",
               "title": "Restaurant Id"
             }
           }
@@ -1224,7 +1224,7 @@
             "application/json": {
               "schema": {
                 "items": {
-                  "type": "string"
+                  "type": "integer"
                 },
                 "type": "array",
                 "title": "Restaurant Ids"
@@ -1436,7 +1436,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "integer",
               "title": "Reservation Id"
             }
           }
@@ -1598,7 +1598,7 @@
             "application/json": {
               "schema": {
                 "items": {
-                  "type": "string"
+                  "type": "integer"
                 },
                 "type": "array",
                 "title": "Reservation Ids"
@@ -1725,7 +1725,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "integer",
               "title": "Reservation Id"
             }
           }
@@ -1849,7 +1849,7 @@
             "application/json": {
               "schema": {
                 "items": {
-                  "type": "string"
+                  "type": "integer"
                 },
                 "type": "array",
                 "title": "Reservation Ids"
@@ -2061,7 +2061,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "integer",
               "title": "Review Id"
             }
           }
@@ -2223,7 +2223,7 @@
             "application/json": {
               "schema": {
                 "items": {
-                  "type": "string"
+                  "type": "integer"
                 },
                 "type": "array",
                 "title": "Review Ids"
@@ -2350,7 +2350,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "integer",
               "title": "Review Id"
             }
           }
@@ -2474,7 +2474,7 @@
             "application/json": {
               "schema": {
                 "items": {
-                  "type": "string"
+                  "type": "integer"
                 },
                 "type": "array",
                 "title": "Review Ids"

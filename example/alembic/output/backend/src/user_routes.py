@@ -209,7 +209,7 @@ def update_users_async(users: List[User], background_tasks: BackgroundTasks):
 ########################################################################################################################
 
 
-def _delete_user(user_id: str) -> User:
+def _delete_user(user_id: int) -> User:
     """Delete a User helper function"""
     logging.info(f"Deleting User with id: {id}")
 
@@ -223,14 +223,14 @@ def _delete_user(user_id: str) -> User:
 
 
 @router.delete("/user")
-def delete_user(user_id: str) -> User:
+def delete_user(user_id: int) -> User:
     """Delete a User"""
     # Call the helper function to delete the User
     return _delete_user(user_id)
 
 
 @router.delete("/user/async")
-def delete_user_async(user_id: str, background_tasks: BackgroundTasks):
+def delete_user_async(user_id: int, background_tasks: BackgroundTasks):
     """Delete a User asynchronously"""
     logging.info(f"Deleting User asynchronously with id: {id}")
     # Delete the User asynchronously
@@ -239,7 +239,7 @@ def delete_user_async(user_id: str, background_tasks: BackgroundTasks):
     return {"message": "Deleting User asynchronously"}
 
 
-def _delete_users(user_ids: List[str]) -> List[User]:
+def _delete_users(user_ids: List[int]) -> List[User]:
     """Delete multiple Users helper function"""
     logging.info(f"Deleting Users: {str(user_ids)}")
 
@@ -253,14 +253,14 @@ def _delete_users(user_ids: List[str]) -> List[User]:
 
 
 @router.delete("/users")
-def delete_users(user_ids: List[str]) -> List[User]:
+def delete_users(user_ids: List[int]) -> List[User]:
     """Delete multiple Users"""
     # Call the helper function to delete the Users
     return _delete_users(user_ids)
 
 
 @router.delete("/users/async")
-def delete_users_async(user_ids: List[str], background_tasks: BackgroundTasks):
+def delete_users_async(user_ids: List[int], background_tasks: BackgroundTasks):
     """Delete multiple Users asynchronously"""
     logging.info(f"Deleting Users asynchronously: {str(user_ids)}")
     # Delete the Users asynchronously

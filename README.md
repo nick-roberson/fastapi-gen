@@ -229,13 +229,13 @@ Once you have your config ready (or you can use the example config), you can gen
 
 Run Backend (Poetry):
     % poetry run python main.py app run-backend \
-        --config example/mongo/restaurant.yaml \
-        --output-dir example/mongo/output
+        --config example/alembic/restaurant.yaml \
+        --output-dir example/alembic/output
         
 Run Frontend (NPM):
     % poetry run python main.py app run-frontend \
-        --config example/mongo/restaurant.yaml \
-        --output-dir example/mongo/output
+        --config example/alembic/restaurant.yaml \
+        --output-dir example/alembic/output
 ```
 
 ### 3. Apply Database Migrations

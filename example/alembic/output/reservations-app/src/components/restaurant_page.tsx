@@ -58,9 +58,7 @@ function RestaurantPage() {
                 return;
               }
               api
-                .deleteRestaurantRestaurantDelete({
-                  restaurantId: model.id as string,
-                })
+                .deleteRestaurantRestaurantDelete({ restaurantId: model.id })
                 .then(() => {
                   fetchRestaurants();
                 });

@@ -40,19 +40,19 @@ export interface CreateUsersUsersPostRequest {
 }
 
 export interface DeleteUserAsyncUserAsyncDeleteRequest {
-  userId: string;
+  userId: number;
 }
 
 export interface DeleteUserUserDeleteRequest {
-  userId: string;
+  userId: number;
 }
 
 export interface DeleteUsersAsyncUsersAsyncDeleteRequest {
-  requestBody: Array<string>;
+  requestBody: Array<number>;
 }
 
 export interface DeleteUsersUsersDeleteRequest {
-  requestBody: Array<string>;
+  requestBody: Array<number>;
 }
 
 export interface GetUserUserGetRequest {

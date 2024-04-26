@@ -44,19 +44,19 @@ export interface CreateReservationsReservationsPostRequest {
 }
 
 export interface DeleteReservationAsyncReservationAsyncDeleteRequest {
-  reservationId: string;
+  reservationId: number;
 }
 
 export interface DeleteReservationReservationDeleteRequest {
-  reservationId: string;
+  reservationId: number;
 }
 
 export interface DeleteReservationsAsyncReservationsAsyncDeleteRequest {
-  requestBody: Array<string>;
+  requestBody: Array<number>;
 }
 
 export interface DeleteReservationsReservationsDeleteRequest {
-  requestBody: Array<string>;
+  requestBody: Array<number>;
 }
 
 export interface GetReservationReservationGetRequest {

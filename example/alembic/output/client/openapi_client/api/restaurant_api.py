@@ -1050,7 +1050,7 @@ class RestaurantApi:
     @validate_call
     def delete_restaurant_async_restaurant_async_delete(
         self,
-        restaurant_id: StrictStr,
+        restaurant_id: StrictInt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1068,7 +1068,7 @@ class RestaurantApi:
         Delete a Restaurant asynchronously
 
         :param restaurant_id: (required)
-        :type restaurant_id: str
+        :type restaurant_id: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1115,7 +1115,7 @@ class RestaurantApi:
     @validate_call
     def delete_restaurant_async_restaurant_async_delete_with_http_info(
         self,
-        restaurant_id: StrictStr,
+        restaurant_id: StrictInt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1133,7 +1133,7 @@ class RestaurantApi:
         Delete a Restaurant asynchronously
 
         :param restaurant_id: (required)
-        :type restaurant_id: str
+        :type restaurant_id: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1180,7 +1180,7 @@ class RestaurantApi:
     @validate_call
     def delete_restaurant_async_restaurant_async_delete_without_preload_content(
         self,
-        restaurant_id: StrictStr,
+        restaurant_id: StrictInt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1198,7 +1198,7 @@ class RestaurantApi:
         Delete a Restaurant asynchronously
 
         :param restaurant_id: (required)
-        :type restaurant_id: str
+        :type restaurant_id: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1294,7 +1294,7 @@ class RestaurantApi:
     @validate_call
     def delete_restaurant_restaurant_delete(
         self,
-        restaurant_id: StrictStr,
+        restaurant_id: StrictInt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1312,7 +1312,7 @@ class RestaurantApi:
         Delete a Restaurant
 
         :param restaurant_id: (required)
-        :type restaurant_id: str
+        :type restaurant_id: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1359,7 +1359,7 @@ class RestaurantApi:
     @validate_call
     def delete_restaurant_restaurant_delete_with_http_info(
         self,
-        restaurant_id: StrictStr,
+        restaurant_id: StrictInt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1377,7 +1377,7 @@ class RestaurantApi:
         Delete a Restaurant
 
         :param restaurant_id: (required)
-        :type restaurant_id: str
+        :type restaurant_id: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1424,7 +1424,7 @@ class RestaurantApi:
     @validate_call
     def delete_restaurant_restaurant_delete_without_preload_content(
         self,
-        restaurant_id: StrictStr,
+        restaurant_id: StrictInt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1442,7 +1442,7 @@ class RestaurantApi:
         Delete a Restaurant
 
         :param restaurant_id: (required)
-        :type restaurant_id: str
+        :type restaurant_id: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1538,7 +1538,7 @@ class RestaurantApi:
     @validate_call
     def delete_restaurants_async_restaurants_async_delete(
         self,
-        request_body: List[StrictStr],
+        request_body: List[StrictInt],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1556,7 +1556,7 @@ class RestaurantApi:
         Delete multiple Restaurants asynchronously
 
         :param request_body: (required)
-        :type request_body: List[str]
+        :type request_body: List[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1603,7 +1603,7 @@ class RestaurantApi:
     @validate_call
     def delete_restaurants_async_restaurants_async_delete_with_http_info(
         self,
-        request_body: List[StrictStr],
+        request_body: List[StrictInt],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1621,7 +1621,7 @@ class RestaurantApi:
         Delete multiple Restaurants asynchronously
 
         :param request_body: (required)
-        :type request_body: List[str]
+        :type request_body: List[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1668,7 +1668,7 @@ class RestaurantApi:
     @validate_call
     def delete_restaurants_async_restaurants_async_delete_without_preload_content(
         self,
-        request_body: List[StrictStr],
+        request_body: List[StrictInt],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1686,7 +1686,7 @@ class RestaurantApi:
         Delete multiple Restaurants asynchronously
 
         :param request_body: (required)
-        :type request_body: List[str]
+        :type request_body: List[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1792,7 +1792,7 @@ class RestaurantApi:
     @validate_call
     def delete_restaurants_restaurants_delete(
         self,
-        request_body: List[StrictStr],
+        request_body: List[StrictInt],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1810,7 +1810,7 @@ class RestaurantApi:
         Delete multiple Restaurants
 
         :param request_body: (required)
-        :type request_body: List[str]
+        :type request_body: List[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1857,7 +1857,7 @@ class RestaurantApi:
     @validate_call
     def delete_restaurants_restaurants_delete_with_http_info(
         self,
-        request_body: List[StrictStr],
+        request_body: List[StrictInt],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1875,7 +1875,7 @@ class RestaurantApi:
         Delete multiple Restaurants
 
         :param request_body: (required)
-        :type request_body: List[str]
+        :type request_body: List[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1922,7 +1922,7 @@ class RestaurantApi:
     @validate_call
     def delete_restaurants_restaurants_delete_without_preload_content(
         self,
-        request_body: List[StrictStr],
+        request_body: List[StrictInt],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1940,7 +1940,7 @@ class RestaurantApi:
         Delete multiple Restaurants
 
         :param request_body: (required)
-        :type request_body: List[str]
+        :type request_body: List[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of

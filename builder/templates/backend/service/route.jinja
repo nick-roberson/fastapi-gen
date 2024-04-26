@@ -209,7 +209,7 @@ def update_{{ model.name.lower() }}s_async({{model.name.lower()}}s: List[{{ mode
 
 {% for model in models %}
 
-def _delete_{{ model.name.lower() }}({{ model.model_id_var_name }}: str) -> {{ model.name }}:
+def _delete_{{ model.name.lower() }}({{ model.model_id_var_name }}: int) -> {{ model.name }}:
     """ Delete a {{ model.name }} helper function """
     logging.info(f"Deleting {{ model.name }} with id: {id}")
 
@@ -222,13 +222,13 @@ def _delete_{{ model.name.lower() }}({{ model.model_id_var_name }}: str) -> {{ m
     return model
 
 @router.delete("/{{ model.name.lower() }}")
-def delete_{{ model.name.lower()}}({{ model.model_id_var_name }}: str) -> {{ model.name }}:
+def delete_{{ model.name.lower()}}({{ model.model_id_var_name }}: int) -> {{ model.name }}:
     """ Delete a {{ model.name }} """
     # Call the helper function to delete the {{ model.name }}
     return _delete_{{ model.name.lower() }}({{ model.model_id_var_name }})
 
 @router.delete("/{{ model.name.lower() }}/async")
-def delete_{{ model.name.lower() }}_async({{ model.model_id_var_name }}: str, background_tasks: BackgroundTasks):
+def delete_{{ model.name.lower() }}_async({{ model.model_id_var_name }}: int, background_tasks: BackgroundTasks):
     """ Delete a {{ model.name }} asynchronously """
     logging.info(f"Deleting {{ model.name }} asynchronously with id: {id}")
     # Delete the {{ model.name }} asynchronously
@@ -236,7 +236,7 @@ def delete_{{ model.name.lower() }}_async({{ model.model_id_var_name }}: str, ba
     # Return the deleted {{ model.name }}
     return {"message": "Deleting {{ model.name }} asynchronously"}
 
-def _delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s: List[str]) -> List[{{ model.name }}]:
+def _delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s: List[int]) -> List[{{ model.name }}]:
     """ Delete multiple {{ model.name }}s helper function """
     logging.info(f"Deleting {{ model.name }}s: {str({{ model.model_id_var_name }}s)}")
 
@@ -249,13 +249,13 @@ def _delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s: List[str])
     return models
 
 @router.delete("/{{ model.name.lower() }}s")
-def delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s: List[str]) -> List[{{ model.name }}]:
+def delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s: List[int]) -> List[{{ model.name }}]:
     """ Delete multiple {{ model.name }}s """
     # Call the helper function to delete the {{ model.name }}s
     return _delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s)
 
 @router.delete("/{{ model.name.lower() }}s/async")
-def delete_{{ model.name.lower() }}s_async({{ model.model_id_var_name }}s: List[str], background_tasks: BackgroundTasks):
+def delete_{{ model.name.lower() }}s_async({{ model.model_id_var_name }}s: List[int], background_tasks: BackgroundTasks):
     """ Delete multiple {{ model.name }}s asynchronously """
     logging.info(f"Deleting {{ model.name }}s asynchronously: {str({{ model.model_id_var_name }}s)}")
     # Delete the {{ model.name }}s asynchronously

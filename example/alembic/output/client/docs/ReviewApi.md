@@ -323,7 +323,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    review_id = 'review_id_example' # str | 
+    review_id = 56 # int | 
 
     try:
         # Delete Review Async
@@ -341,7 +341,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **review_id** | **str**|  | 
+ **review_id** | **int**|  | 
 
 ### Return type
 
@@ -392,7 +392,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    review_id = 'review_id_example' # str | 
+    review_id = 56 # int | 
 
     try:
         # Delete Review
@@ -410,7 +410,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **review_id** | **str**|  | 
+ **review_id** | **int**|  | 
 
 ### Return type
 
@@ -460,7 +460,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    request_body = ['request_body_example'] # List[str] | 
+    request_body = [56] # List[int] | 
 
     try:
         # Delete Reviews Async
@@ -478,7 +478,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**List[str]**](str.md)|  | 
+ **request_body** | [**List[int]**](int.md)|  | 
 
 ### Return type
 
@@ -529,7 +529,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.ReviewApi(api_client)
-    request_body = ['request_body_example'] # List[str] | 
+    request_body = [56] # List[int] | 
 
     try:
         # Delete Reviews
@@ -547,7 +547,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**List[str]**](str.md)|  | 
+ **request_body** | [**List[int]**](int.md)|  | 
 
 ### Return type
 

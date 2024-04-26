@@ -44,19 +44,19 @@ export interface CreateRestaurantsRestaurantsPostRequest {
 }
 
 export interface DeleteRestaurantAsyncRestaurantAsyncDeleteRequest {
-  restaurantId: string;
+  restaurantId: number;
 }
 
 export interface DeleteRestaurantRestaurantDeleteRequest {
-  restaurantId: string;
+  restaurantId: number;
 }
 
 export interface DeleteRestaurantsAsyncRestaurantsAsyncDeleteRequest {
-  requestBody: Array<string>;
+  requestBody: Array<number>;
 }
 
 export interface DeleteRestaurantsRestaurantsDeleteRequest {
-  requestBody: Array<string>;
+  requestBody: Array<number>;
 }
 
 export interface GetRestaurantRestaurantGetRequest {
