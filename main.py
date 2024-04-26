@@ -1,28 +1,28 @@
 import typer
 
-from builder.cli.app import app as create_app
-from builder.cli.config import app as create_config
-from builder.cli.data import app as create_test_data
-from builder.cli.db import app as db
+from builder.cli.app import app as app_cli
+from builder.cli.config import app as config_cli
+from builder.cli.data import app as data_cli
+from builder.cli.db import app as db_cli
 
 # Initialize the main Typer application
 app = typer.Typer()
 
 # Add subcommands for creating applications
 app.add_typer(
-    create_app,
+    app_cli,
     name="app",
     help="Create a FastAPI backend and/or React frontend from an input yaml config.",
 )
 # Add subcommands for database migrations
 app.add_typer(
-    db,
+    db_cli,
     name="db",
     help="Create and apply migrations to the database for any models that have been created.",
 )
 # Add subcommands for configs
 app.add_typer(
-    create_config,
+    config_cli,
     name="config",
     help=(
         "Interactively create a configuration file that can then be used for generating a FastAPI backend and "
@@ -31,7 +31,7 @@ app.add_typer(
 )
 # Add subcommands for test data
 app.add_typer(
-    create_test_data,
+    data_cli,
     name="data",
     help="Generate fake data for the service using Faker (https://faker.readthedocs.io/).",
 )
