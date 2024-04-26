@@ -53,8 +53,15 @@ def create(
 
     # Generate the files and close out
     manager = ApplicationManager(service_config=service_config, output_dir=output_dir)
-    result = manager.generate(frontend_only=frontend_only, backend_only=backend_only)
-    process_close(result=result, output_dir=output_dir, service_config=service_config)
+    created_files = manager.generate(
+        frontend_only=frontend_only, backend_only=backend_only
+    )
+    process_close(
+        result=created_files,
+        output_dir=output_dir,
+        config=config,
+        service_config=service_config,
+    )
 
 
 @app.command()
@@ -93,21 +100,30 @@ def reload(
         # Recreate the frontend templates
         created_files = manager.regenerate_frontend()
         process_close(
-            result=created_files, output_dir=output_dir, service_config=service_config
+            result=created_files,
+            output_dir=output_dir,
+            config=config,
+            service_config=service_config,
         )
     elif backend_only and not frontend_only:
         # Recreate the backend templates
         created_files = manager.regenerate_backend()
         process_close(
-            result=created_files, output_dir=output_dir, service_config=service_config
+            result=created_files,
+            output_dir=output_dir,
+            config=config,
+            service_config=service_config,
         )
     else:
         # Regenerate both frontend and backend
-        result = manager.regenerate(
+        created_files = manager.regenerate(
             frontend_only=frontend_only, backend_only=backend_only
         )
         process_close(
-            result=result, output_dir=output_dir, service_config=service_config
+            result=created_files,
+            output_dir=output_dir,
+            config=config,
+            service_config=service_config,
         )
 
 

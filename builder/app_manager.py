@@ -6,6 +6,7 @@ from typing import Dict
 from builder.generate.backend.generator import BackendGenerator
 from builder.generate.docker.generator import DockerGenerator
 from builder.generate.frontend.generator import FrontendGenerator
+from builder.generate.linting.manager import LintingManager
 from builder.generate.openapi.generator import OpenAPIGenerator
 from builder.generate.poetry.generator import PoetryGenerator
 from builder.models import ServiceConfig
@@ -50,6 +51,11 @@ class ApplicationManager:
             config=service_config, output_dir=output_dir
         )
 
+        # Initialize the linting manager
+        self.linting_manager = LintingManager(
+            config=service_config, output_dir=output_dir
+        )
+
     ####################################################################################################################
     # Commands to run the front and backend services
     ####################################################################################################################
@@ -61,7 +67,10 @@ class ApplicationManager:
             raise FileNotFoundError(f"Backend service not found at {self.backend_dir}")
 
         # Run using poetry
-        run(["poetry", "run", "uvicorn", "main:app", "--reload"], cwd=self.backend_dir)
+        run(
+            ["poetry", "run", "uvicorn", "service:app", "--reload"],
+            cwd=self.backend_dir,
+        )
 
     def run_frontend(self):
         """Run the frontend service."""
@@ -189,8 +198,15 @@ class ApplicationManager:
 
     def generate_full_stack(self, clear: bool = False) -> Dict:
         """Generate both backend and frontend components of the application."""
+        # Create and lint backend
         created_files = self.generate_backend(clear=clear)
+        self.linting_manager.lint_backend()
+
+        # Create and lint front end
         frontend_files = self.generate_frontend(clear=clear)
+        self.linting_manager.lint_frontend()
+
+        # Return the generated files
         return {**created_files, **frontend_files}
 
     ####################################################################################################################
@@ -213,12 +229,18 @@ class ApplicationManager:
             Dict: Dictionary containing paths to the generated files and any other relevant data.
         """
         if frontend_only and not backend_only:
-            return self.regenerate_frontend()
+            regenerated_files = self.regenerate_frontend()
+            self.linting_manager.lint_frontend()
+            return regenerated_files
 
         if backend_only and not frontend_only:
-            return self.regenerate_backend()
+            regenerated_files = self.regenerate_backend()
+            self.linting_manager.lint_backend()
+            return regenerated_files
 
-        return self.regenerate_full_stack()
+        regenerated_files = self.regenerate_full_stack()
+        self.linting_manager.lint_all()
+        return regenerated_files
 
     def regenerate_backend(self) -> Dict:
         """Regenerate only the backend components of the application."""

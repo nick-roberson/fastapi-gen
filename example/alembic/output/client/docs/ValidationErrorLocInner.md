@@ -21,7 +21,7 @@ print(ValidationErrorLocInner.to_json())
 # convert the object into a dict
 validation_error_loc_inner_dict = validation_error_loc_inner_instance.to_dict()
 # create an instance of ValidationErrorLocInner from a dict
-validation_error_loc_inner_form_dict = validation_error_loc_inner.from_dict(validation_error_loc_inner_dict)
+validation_error_loc_inner_from_dict = ValidationErrorLocInner.from_dict(validation_error_loc_inner_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

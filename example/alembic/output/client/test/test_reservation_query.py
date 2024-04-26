@@ -36,12 +36,12 @@ class TestReservationQuery(unittest.TestCase):
         model = ReservationQuery()
         if include_optional:
             return ReservationQuery(
-                id = None,
-                restaurant_id = None,
-                user_id = None,
-                reservation_time = None,
-                party_size = None,
-                special_requests = None
+                id = 56,
+                restaurant_id = 56,
+                user_id = 56,
+                reservation_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                party_size = 56,
+                special_requests = ''
             )
         else:
             return ReservationQuery(

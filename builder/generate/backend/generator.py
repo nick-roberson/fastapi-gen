@@ -13,9 +13,7 @@ from builder.utils import clear_directory, clear_file, run_command
 
 
 class BackendGenerator:
-    """Class to generate all the backend code for a service along with
-    install the dependencies and lint the code.
-    """
+    """Class to generate all the backend code for a service."""
 
     # Python file name constants
     SERVICE_FILE: str = "service.py"
@@ -115,9 +113,6 @@ class BackendGenerator:
         print("\t2. Generating the backend code...")
         templated_files = self.generate_templated_components()
         self.create_init_files()
-
-        print("\t3. Linting the backend code...")
-        self.lint_backend()
 
         # Return the generated files
         return {
@@ -225,6 +220,15 @@ class BackendGenerator:
             )
             manager_file_names.append(output_file)
 
+        # Handle utils.py
+        output_path = os.path.join(self.db_dir, "utils.py")
+        populate_template(
+            template_dir=ALEMBIC_TEMPLATES,
+            template_name="utils.jinja",
+            output_path=output_path,
+            context={"db_models": [f"DB{model.name}" for model in self.config.models]},
+        )
+
         # Handle constants.py
         output_path = os.path.join(self.db_dir, "constants.py")
         populate_template(
@@ -288,11 +292,6 @@ class BackendGenerator:
 
         db_files = manager_file_names + [utils_file]
         return db_files
-
-    def lint_backend(self) -> None:
-        """Lint the code using black and isort"""
-        run_command(f"poetry run black {self.code_dir}")
-        run_command(f"poetry run isort {self.code_dir}")
 
     def generate_models(self) -> str:
         """Use the JINJA Template to generate the models

@@ -5,12 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | [**Id4**](Id4.md) |  | [optional] 
+**id** | **int** |  | [optional] 
 **username** | **str** | The username of the user | 
 **email** | **str** | The email address of the user | 
-**phone_number** | [**PhoneNumber**](PhoneNumber.md) |  | [optional] 
-**preferences** | [**Preferences**](Preferences.md) |  | [optional] 
-**role** | [**Role**](Role.md) |  | [optional] 
+**phone_number** | **str** |  | [optional] 
+**preferences** | **List[object]** |  | [optional] 
+**role** | **str** |  | [optional] 
 
 ## Example
 
@@ -27,7 +27,7 @@ print(User.to_json())
 # convert the object into a dict
 user_dict = user_instance.to_dict()
 # create an instance of User from a dict
-user_form_dict = user.from_dict(user_dict)
+user_from_dict = User.from_dict(user_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

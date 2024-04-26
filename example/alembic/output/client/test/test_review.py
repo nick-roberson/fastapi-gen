@@ -36,11 +36,11 @@ class TestReview(unittest.TestCase):
         model = Review()
         if include_optional:
             return Review(
-                id = None,
+                id = 56,
                 restaurant_id = 56,
                 user_id = 56,
                 rating = 1.337,
-                comment = None
+                comment = ''
             )
         else:
             return Review(

@@ -5,11 +5,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | [**Id3**](Id3.md) |  | [optional] 
+**id** | **int** |  | [optional] 
 **restaurant_id** | **int** | The ID of the alembic being reviewed | 
 **user_id** | **int** | The ID of the user who wrote the review | 
 **rating** | **float** | The rating given by the user | 
-**comment** | [**Comment**](Comment.md) |  | [optional] 
+**comment** | **str** |  | [optional] 
 
 ## Example
 
@@ -26,7 +26,7 @@ print(Review.to_json())
 # convert the object into a dict
 review_dict = review_instance.to_dict()
 # create an instance of Review from a dict
-review_form_dict = review.from_dict(review_dict)
+review_from_dict = Review.from_dict(review_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

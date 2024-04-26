@@ -65,28 +65,34 @@ def validate_config(config_file: str) -> ServiceConfig:
     return config
 
 
-def process_close(result: Dict, output_dir: str, service_config: ServiceConfig):
+def process_close(
+    result: Dict, output_dir: str, config: str, service_config: ServiceConfig
+):
     """Show the results and close the application.
 
     Args:
         result (Dict): The result of the generation
         output_dir (str): The output directory
+        config (str): Config path
         service_config (ServiceConfig): The service configuration
     """
-    service_name = service_config.service_info.name
-
     # Display the generated files
     print(f"\nGenerated files:")
     print(json.dumps(result, indent=4))
+
+    # Get rel path for the output dir
+    rel_output_dir = os.path.relpath(output_dir)
+    # Get rel path for the config file
+    rel_config = os.path.relpath(config)
 
     # Display commands for users to go and run the generated files
     print("")
     print("Run Backend (Poetry):")
     print(
-        f"   % poetry run python main.py app run-backend --output-dir {output_dir} --config {output_dir}/{service_name}.yaml"
+        f"\t% poetry run python main.py app run-backend --output-dir {rel_output_dir} --config {rel_config}"
     )
     print("")
     print("Run Frontend (NPM):")
     print(
-        f"   % poetry run python main.py app run-frontend --output-dir {output_dir} --config {output_dir}/{service_name}.yaml"
+        f"\t% poetry run python main.py app run-frontend --output-dir {rel_output_dir} --config {rel_config}"
     )

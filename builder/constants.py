@@ -39,7 +39,7 @@ DEFAULT_PORT: int = 8000
 # Service Python Dependencies
 PYTHON_VERSION = "3.12.2"
 PYTHON_DEPENDENCIES = [
-    ("python", PYTHON_VERSION),
+    ("python", f"^{PYTHON_VERSION}"),
     ("pydantic", "^2.6.4"),
     ("fastapi", "^0.110.0"),
     ("uvicorn", "^0.28.0"),

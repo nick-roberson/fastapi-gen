@@ -36,12 +36,12 @@ class TestRestaurantQuery(unittest.TestCase):
         model = RestaurantQuery()
         if include_optional:
             return RestaurantQuery(
-                id = None,
-                name = None,
-                location = None,
-                cuisine = None,
-                rating = None,
-                price_range = None
+                id = 56,
+                name = '',
+                location = '',
+                cuisine = '',
+                rating = 1.337,
+                price_range = ''
             )
         else:
             return RestaurantQuery(

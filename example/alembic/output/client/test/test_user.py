@@ -36,12 +36,14 @@ class TestUser(unittest.TestCase):
         model = User()
         if include_optional:
             return User(
-                id = None,
+                id = 56,
                 username = '',
                 email = '',
-                phone_number = None,
-                preferences = None,
-                role = None
+                phone_number = '',
+                preferences = [
+                    null
+                    ],
+                role = ''
             )
         else:
             return User(

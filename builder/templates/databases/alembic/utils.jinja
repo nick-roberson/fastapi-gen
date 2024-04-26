@@ -1,0 +1,17 @@
+from sqlalchemy import create_engine
+from src.db.constants import DB_URL
+from src.db.models import (
+    {% for db_model in db_models %}
+    {{ db_model }},
+    {% endfor %}
+)
+
+
+async def ensure_all_tables():
+    """Create all tables if they do not exist"""
+    engine = create_engine(DB_URL)
+    # Create the tables
+    {% for db_model in db_models %}
+    print(f"Ensuring table for {{ db_model }}")
+    {{ db_model }}.metadata.create_all(engine)
+    {% endfor %}

@@ -6,7 +6,7 @@ authors = ["test@test.com"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.12.2"
+python = "^3.12.2"
 pydantic = "^2.6.4"
 fastapi = "^0.110.0"
 uvicorn = "^0.28.0"

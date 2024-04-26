@@ -17,13 +17,10 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Dict, List, Optional, Set
+from typing import Any, ClassVar, Dict, List, Optional, Set, Union
 
-from openapi_client.models.cuisine import Cuisine
-from openapi_client.models.id2 import Id2
-from openapi_client.models.price_range import PriceRange
-from openapi_client.models.rating import Rating
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import (BaseModel, ConfigDict, Field, StrictFloat, StrictInt,
+                      StrictStr)
 from typing_extensions import Self
 
 
@@ -32,12 +29,12 @@ class Restaurant(BaseModel):
     Restaurant
     """  # noqa: E501
 
-    id: Optional[Id2] = None
+    id: Optional[StrictInt] = None
     name: StrictStr = Field(description="The name of the alembic")
     location: StrictStr = Field(description="The physical location of the alembic")
-    cuisine: Optional[Cuisine] = None
-    rating: Optional[Rating] = None
-    price_range: Optional[PriceRange] = None
+    cuisine: Optional[StrictStr] = None
+    rating: Optional[Union[StrictFloat, StrictInt]] = None
+    price_range: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = [
         "id",
         "name",
@@ -84,18 +81,26 @@ class Restaurant(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of id
-        if self.id:
-            _dict["id"] = self.id.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of cuisine
-        if self.cuisine:
-            _dict["cuisine"] = self.cuisine.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of rating
-        if self.rating:
-            _dict["rating"] = self.rating.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of price_range
-        if self.price_range:
-            _dict["price_range"] = self.price_range.to_dict()
+        # set to None if id (nullable) is None
+        # and model_fields_set contains the field
+        if self.id is None and "id" in self.model_fields_set:
+            _dict["id"] = None
+
+        # set to None if cuisine (nullable) is None
+        # and model_fields_set contains the field
+        if self.cuisine is None and "cuisine" in self.model_fields_set:
+            _dict["cuisine"] = None
+
+        # set to None if rating (nullable) is None
+        # and model_fields_set contains the field
+        if self.rating is None and "rating" in self.model_fields_set:
+            _dict["rating"] = None
+
+        # set to None if price_range (nullable) is None
+        # and model_fields_set contains the field
+        if self.price_range is None and "price_range" in self.model_fields_set:
+            _dict["price_range"] = None
+
         return _dict
 
     @classmethod
@@ -109,24 +114,12 @@ class Restaurant(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "id": Id2.from_dict(obj["id"]) if obj.get("id") is not None else None,
+                "id": obj.get("id"),
                 "name": obj.get("name"),
                 "location": obj.get("location"),
-                "cuisine": (
-                    Cuisine.from_dict(obj["cuisine"])
-                    if obj.get("cuisine") is not None
-                    else None
-                ),
-                "rating": (
-                    Rating.from_dict(obj["rating"])
-                    if obj.get("rating") is not None
-                    else None
-                ),
-                "price_range": (
-                    PriceRange.from_dict(obj["price_range"])
-                    if obj.get("price_range") is not None
-                    else None
-                ),
+                "cuisine": obj.get("cuisine"),
+                "rating": obj.get("rating"),
+                "price_range": obj.get("price_range"),
             }
         )
         return _obj
