@@ -75,20 +75,21 @@ In the future I hope to add far more configurability as well as support for more
 # Table of Contents
 
 - [Features](#features)
-  - [Python Code Generation](#python-code-generation)
-  - [Database Generation](#database-generation)
-  - [Frontend Code Generation](#frontend-code-generation)
-- [Images](#images)
-- [Loom Video](#loom-video)
-- [Example](#example)
+- [Pre-generated Example Code](#pre-generated-example-code)
 - [Setup](#setup)
 - [Usage](#usage)
-- [Running](#running)
-  - [Back End](#back-end)
-  - [Front End](#front-end)
+- [End to End Example](#end-to-end-example)
+  - [1. Create a Configuration File](#1-create-a-configuration-file)
+  - [2. Generate Application Files](#2-generate-application-files)
+  - [3. Apply Database Migrations](#3-apply-database-migrations)
+  - [4. Run the Service Frontend and Backend](#4-run-the-service-frontend-and-backend)
+- [Other Commands](#other-commands)
+  - [Reverting Database Migrations](#reverting-database-migrations)
+  - [Listing Database Migrations](#listing-database-migrations)
   - [Regenerating Templated Files](#regenerating-templated-files)
-- [Test Data](#test-data)
-
+  - [Create Test Data](#create-test-data)
+- [Example Screenshots](#example-screenshots)
+- [Loom Video](#loom-video)
 
 
 This is a simple FastAPI service that can be used as a starting point for a new project.
@@ -99,13 +100,6 @@ This is a simple FastAPI service that can be used as a starting point for a new 
 
 1. Generate FastAPI services with database support for MongoDB, PostgreSQL, or MySQL
 2. Automatically creates endpoints that cover the following areas:
-   1. _Synchronous and Asynchronous_
-      1. `/create` + `/create_many`
-      2. `/update` + `/update_many`
-      3. `/delete` + `/delete_many`
-   2. _Synchronous Only_
-      1. `/get` + `/get_many`, + `/get_all`
-      2. `/query`
 3. Generate `pydantic` models for the FastAPI services and handle conversion to and from the database models
 4. Generate Python client code for the FastAPI service + other python services using `openapi-generator` for use elsewhere
 
@@ -127,26 +121,7 @@ use a cloud service like AWS RDS or Google Cloud SQL.
 3. Generated TypeScript client and models are used to interact with the FastAPI service
 4. No work requred on your end to set up the frontend, just run the commands and you are good to go! (assuming you have `npm` installed)
 
-## Images
-
-<div style="padding: 50px;">
-  <img src="images/home_page.png" alt="Home Page" />
-</div>
-
-Here is an example of the homepage that is generated for the React frontend. It will display all the models that have been generated.
-
-<div style="padding: 100px;">
-  <img src="images/reservation_page.png" alt="Reservations Page" style="width: 100%; height: auto; max-width: 35vw;">
-</div>
-
-All models will have a page similar to the one above, where you can interact with the FastAPI service.
-
-## Loom Video
-
-You can find a brief demo here!
-- [Demo Video](https://www.loom.com/share/c49335aed3db41539aa8d4fee8e5c52e?sid=3ba0b976-d0f1-4827-b4ed-dcbc4d5249a4)
-
-## Example
+## Pre-generated Example Code
 
 You can find an example config for both `MongoDB` and `MySQL + Alembic` in the `example/` directory
 under their respective folders.
@@ -235,7 +210,12 @@ This is the CLI interface for the service generator:
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
-### Create Config using CLI
+## End to End Example
+
+
+### 1. Create a Configuration File
+
+(You can skip this step if you want to use the example configs provided in the `example/` directory)
 
 If you want to create a new service from scratch, you can use the `create` command to create a new config file interactively.
 ```bash
@@ -251,11 +231,9 @@ You will be prompted to enter the information about the following areas:
 **_This feature is in development and may not work as expected. If you have any issues, please let me know! You can also 
 easily copy the configs that I have in the `example/` directory and modify them as needed._**
 
-### Create and Run Application
-
 Once you have your config ready (or you can use the example config), you can generate the service using the following command:
 
-#### Generate using Alembic
+### 2. Generate Application Files
 ```bash
 % poetry run python main.py app create \
     --config example/alembic/restaurant.yaml \
@@ -274,27 +252,7 @@ Run Frontend (NPM):
         --output-dir example/mongo/output
 ```
 
-#### Generate using Mongo
-
-```bash
-% poetry run python main.py app create \
-    --config example/mongo/restaurant.yaml \
-    --output-dir example/mongo/output
-
-...
-
-Run Backend (Poetry):
-    % poetry run python main.py app run-backend \
-        --config example/mongo/restaurant.yaml \
-        --output-dir example/mongo/output
-        
-Run Frontend (NPM):
-    % poetry run python main.py app run-frontend \
-        --config example/mongo/restaurant.yaml \
-        --output-dir example/mongo/output
-```
-
-### Apply Database Migrations
+### 3. Apply Database Migrations
 
 If you are using PostgreSQL or MySQL, you can apply the migrations to the database using the following command:
 ```commandline
@@ -303,9 +261,30 @@ If you are using PostgreSQL or MySQL, you can apply the migrations to the databa
     --output-dir example/alembic/output
 ```
 
-### Revert Database Migrations
+### 4. Run the Service Frontend and Backend
 
-If you want to revert the migrations that you have applied, you can use the following command:
+#### Back End
+
+To run the backend, you can use the following command:
+```bash
+% poetry run python main.py app run-backend \
+    --config example/alembic/restaurant.yaml \
+    --output-dir example/alembic/output
+```
+
+#### Front End
+
+To run the frontend, you can use the following command:
+```bash
+% poetry run python main.py app run-frontend \
+    --config example/alembic/restaurant.yaml \
+    --output-dir example/alembic/output
+```
+
+## Other Commands
+
+### Reverting Database Migrations
+If you want to revert the database to a previous revision, you can use the following command:
 ```commandline
 % poetry run python main.py db revert \
     --config example/alembic/restaurant.yaml \
@@ -314,7 +293,6 @@ If you want to revert the migrations that you have applied, you can use the foll
 ```
 
 ### Listing Database Migrations
-
 If you want to list the migrations that have been applied to the database, you can use the following command:
 ```commandline
 % poetry run python main.py db list \
@@ -325,9 +303,7 @@ If you want to list the migrations that have been applied to the database, you c
 
 ### Regenerating Templated Files
 
-If you want to reload the templates for the frontend or backend, you can use the `reload-templates` command.
-
-Alembic Example:
+If you want to reload the frontend templates, you can use the following command:
 ```bash
 % poetry run python main.py app reload --frontend-only \
     --config example/alembic/restaurant.yaml \
@@ -335,15 +311,16 @@ Alembic Example:
 ```
 
 If you want to reload the backend templates, you can use the following command:
-
-Alembic Example:
 ```bash
 % poetry run python main.py app reload --backend-only \
     --config example/alembic/restaurant.yaml \
     --output-dir example/alembic/output
 ```
 
-## Test Data
+You can run both of these commands while the application is running to see the changes take effect. No need
+to restart the application!
+
+### Create Test Data
 
 To create some fake data that you can insert into the database, you can use the following command:
 
@@ -394,3 +371,22 @@ to POST the data to the service. For example:
   }
 ]
 ```
+
+## Example Screenshots
+
+<div style="padding: 50px;">
+  <img src="images/home_page.png" alt="Home Page" />
+</div>
+
+Here is an example of the homepage that is generated for the React frontend. It will display all the models that have been generated.
+
+<div style="padding: 100px;">
+  <img src="images/reservation_page.png" alt="Reservations Page" style="width: 100%; height: auto; max-width: 35vw;">
+</div>
+
+All models will have a page similar to the one above, where you can interact with the FastAPI service.
+
+## Loom Video
+
+You can find a brief demo here!
+- [Demo Video](https://www.loom.com/share/c49335aed3db41539aa8d4fee8e5c52e?sid=3ba0b976-d0f1-4827-b4ed-dcbc4d5249a4)
