@@ -46,7 +46,6 @@ def service():
         generator.generate_templated_components()
         generator.generate_database()
         generator.generate_readme()
-        generator.lint_backend()
 
         # Init the poetry generator
         poetry_generator = PoetryGenerator(
