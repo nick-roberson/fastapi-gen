@@ -219,7 +219,7 @@ def update_reservations_async(
 ########################################################################################################################
 
 
-def _delete_reservation(reservation_id: str) -> Reservation:
+def _delete_reservation(reservation_id: int) -> Reservation:
     """Delete a Reservation helper function"""
     logging.info(f"Deleting Reservation with id: {id}")
 
@@ -233,14 +233,14 @@ def _delete_reservation(reservation_id: str) -> Reservation:
 
 
 @router.delete("/reservation")
-def delete_reservation(reservation_id: str) -> Reservation:
+def delete_reservation(reservation_id: int) -> Reservation:
     """Delete a Reservation"""
     # Call the helper function to delete the Reservation
     return _delete_reservation(reservation_id)
 
 
 @router.delete("/reservation/async")
-def delete_reservation_async(reservation_id: str, background_tasks: BackgroundTasks):
+def delete_reservation_async(reservation_id: int, background_tasks: BackgroundTasks):
     """Delete a Reservation asynchronously"""
     logging.info(f"Deleting Reservation asynchronously with id: {id}")
     # Delete the Reservation asynchronously
@@ -249,7 +249,7 @@ def delete_reservation_async(reservation_id: str, background_tasks: BackgroundTa
     return {"message": "Deleting Reservation asynchronously"}
 
 
-def _delete_reservations(reservation_ids: List[str]) -> List[Reservation]:
+def _delete_reservations(reservation_ids: List[int]) -> List[Reservation]:
     """Delete multiple Reservations helper function"""
     logging.info(f"Deleting Reservations: {str(reservation_ids)}")
 
@@ -263,7 +263,7 @@ def _delete_reservations(reservation_ids: List[str]) -> List[Reservation]:
 
 
 @router.delete("/reservations")
-def delete_reservations(reservation_ids: List[str]) -> List[Reservation]:
+def delete_reservations(reservation_ids: List[int]) -> List[Reservation]:
     """Delete multiple Reservations"""
     # Call the helper function to delete the Reservations
     return _delete_reservations(reservation_ids)
@@ -271,7 +271,7 @@ def delete_reservations(reservation_ids: List[str]) -> List[Reservation]:
 
 @router.delete("/reservations/async")
 def delete_reservations_async(
-    reservation_ids: List[str], background_tasks: BackgroundTasks
+    reservation_ids: List[int], background_tasks: BackgroundTasks
 ):
     """Delete multiple Reservations asynchronously"""
     logging.info(f"Deleting Reservations asynchronously: {str(reservation_ids)}")

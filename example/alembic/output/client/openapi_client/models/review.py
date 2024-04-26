@@ -19,9 +19,8 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set, Union
 
-from openapi_client.models.comment import Comment
-from openapi_client.models.id3 import Id3
-from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
+from pydantic import (BaseModel, ConfigDict, Field, StrictFloat, StrictInt,
+                      StrictStr)
 from typing_extensions import Self
 
 
@@ -30,13 +29,13 @@ class Review(BaseModel):
     Review
     """  # noqa: E501
 
-    id: Optional[Id3] = None
+    id: Optional[StrictInt] = None
     restaurant_id: StrictInt = Field(description="The ID of the alembic being reviewed")
     user_id: StrictInt = Field(description="The ID of the user who wrote the review")
     rating: Union[StrictFloat, StrictInt] = Field(
         description="The rating given by the user"
     )
-    comment: Optional[Comment] = None
+    comment: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = [
         "id",
         "restaurant_id",
@@ -82,12 +81,16 @@ class Review(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of id
-        if self.id:
-            _dict["id"] = self.id.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of comment
-        if self.comment:
-            _dict["comment"] = self.comment.to_dict()
+        # set to None if id (nullable) is None
+        # and model_fields_set contains the field
+        if self.id is None and "id" in self.model_fields_set:
+            _dict["id"] = None
+
+        # set to None if comment (nullable) is None
+        # and model_fields_set contains the field
+        if self.comment is None and "comment" in self.model_fields_set:
+            _dict["comment"] = None
+
         return _dict
 
     @classmethod
@@ -101,15 +104,11 @@ class Review(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "id": Id3.from_dict(obj["id"]) if obj.get("id") is not None else None,
+                "id": obj.get("id"),
                 "restaurant_id": obj.get("restaurant_id"),
                 "user_id": obj.get("user_id"),
                 "rating": obj.get("rating"),
-                "comment": (
-                    Comment.from_dict(obj["comment"])
-                    if obj.get("comment") is not None
-                    else None
-                ),
+                "comment": obj.get("comment"),
             }
         )
         return _obj

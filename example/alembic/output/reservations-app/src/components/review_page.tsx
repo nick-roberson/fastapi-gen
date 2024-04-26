@@ -55,11 +55,9 @@ function ReviewPage() {
                 console.log("Could not find id for deletion", model);
                 return;
               }
-              api
-                .deleteReviewReviewDelete({ reviewId: model.id as string })
-                .then(() => {
-                  fetchReviews();
-                });
+              api.deleteReviewReviewDelete({ reviewId: model.id }).then(() => {
+                fetchReviews();
+              });
             }}
           />
         );

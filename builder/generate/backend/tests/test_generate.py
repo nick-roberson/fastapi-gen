@@ -24,4 +24,3 @@ def test_generate(config):
         generator.generate_templated_components()
         generator.generate_database()
         generator.generate_readme()
-        generator.lint_backend()

@@ -47,7 +47,7 @@ function {{ model.name }}Page() {
                         console.log("Could not find id for deletion", model);
                         return;
                     }
-                    api.delete{{ model.name }}{{ model.name }}Delete({ {{ model.name.lower() }}Id: model.id as string }).then(() => {
+                    api.delete{{ model.name }}{{ model.name }}Delete({ {{ model.name.lower() }}Id: model.id }).then(() => {
                         fetch{{ model.name }}s();
                     });
                 }} />

@@ -17,15 +17,9 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Dict, List, Optional, Set
+from typing import Any, ClassVar, Dict, List, Optional, Set, Union
 
-from openapi_client.models.cuisine1 import Cuisine1
-from openapi_client.models.id1 import Id1
-from openapi_client.models.location import Location
-from openapi_client.models.name import Name
-from openapi_client.models.price_range1 import PriceRange1
-from openapi_client.models.rating1 import Rating1
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
 from typing_extensions import Self
 
 
@@ -34,12 +28,12 @@ class RestaurantQuery(BaseModel):
     RestaurantQuery
     """  # noqa: E501
 
-    id: Optional[Id1] = None
-    name: Optional[Name] = None
-    location: Optional[Location] = None
-    cuisine: Optional[Cuisine1] = None
-    rating: Optional[Rating1] = None
-    price_range: Optional[PriceRange1] = None
+    id: Optional[StrictInt] = None
+    name: Optional[StrictStr] = None
+    location: Optional[StrictStr] = None
+    cuisine: Optional[StrictStr] = None
+    rating: Optional[Union[StrictFloat, StrictInt]] = None
+    price_range: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = [
         "id",
         "name",
@@ -86,24 +80,36 @@ class RestaurantQuery(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of id
-        if self.id:
-            _dict["id"] = self.id.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of name
-        if self.name:
-            _dict["name"] = self.name.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of location
-        if self.location:
-            _dict["location"] = self.location.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of cuisine
-        if self.cuisine:
-            _dict["cuisine"] = self.cuisine.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of rating
-        if self.rating:
-            _dict["rating"] = self.rating.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of price_range
-        if self.price_range:
-            _dict["price_range"] = self.price_range.to_dict()
+        # set to None if id (nullable) is None
+        # and model_fields_set contains the field
+        if self.id is None and "id" in self.model_fields_set:
+            _dict["id"] = None
+
+        # set to None if name (nullable) is None
+        # and model_fields_set contains the field
+        if self.name is None and "name" in self.model_fields_set:
+            _dict["name"] = None
+
+        # set to None if location (nullable) is None
+        # and model_fields_set contains the field
+        if self.location is None and "location" in self.model_fields_set:
+            _dict["location"] = None
+
+        # set to None if cuisine (nullable) is None
+        # and model_fields_set contains the field
+        if self.cuisine is None and "cuisine" in self.model_fields_set:
+            _dict["cuisine"] = None
+
+        # set to None if rating (nullable) is None
+        # and model_fields_set contains the field
+        if self.rating is None and "rating" in self.model_fields_set:
+            _dict["rating"] = None
+
+        # set to None if price_range (nullable) is None
+        # and model_fields_set contains the field
+        if self.price_range is None and "price_range" in self.model_fields_set:
+            _dict["price_range"] = None
+
         return _dict
 
     @classmethod
@@ -117,30 +123,12 @@ class RestaurantQuery(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "id": Id1.from_dict(obj["id"]) if obj.get("id") is not None else None,
-                "name": (
-                    Name.from_dict(obj["name"]) if obj.get("name") is not None else None
-                ),
-                "location": (
-                    Location.from_dict(obj["location"])
-                    if obj.get("location") is not None
-                    else None
-                ),
-                "cuisine": (
-                    Cuisine1.from_dict(obj["cuisine"])
-                    if obj.get("cuisine") is not None
-                    else None
-                ),
-                "rating": (
-                    Rating1.from_dict(obj["rating"])
-                    if obj.get("rating") is not None
-                    else None
-                ),
-                "price_range": (
-                    PriceRange1.from_dict(obj["price_range"])
-                    if obj.get("price_range") is not None
-                    else None
-                ),
+                "id": obj.get("id"),
+                "name": obj.get("name"),
+                "location": obj.get("location"),
+                "cuisine": obj.get("cuisine"),
+                "rating": obj.get("rating"),
+                "price_range": obj.get("price_range"),
             }
         )
         return _obj

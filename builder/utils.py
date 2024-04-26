@@ -40,7 +40,7 @@ def clear_file(file_path: str) -> None:
 
 
 def run_command(
-    cmd: str, cwd: str = None, tabs: int = 2
+    cmd: str, cwd: str = None, tabs: int = 2, show_output: bool = True
 ) -> subprocess.CompletedProcess:
     """Run a shell command and print the output.
 
@@ -48,17 +48,26 @@ def run_command(
         cmd (str): The shell command to run
         cwd (str): The current working directory
         tabs (int): Number of tabs to print before the command
+        show_output (bool): Whether to show the output
     Returns:
         subprocess.CompletedProcess: The completed process
     """
     try:
-        # Create args for command
-        args = {
-            "shell": True,
-            "stdout": subprocess.PIPE,
-            "stderr": subprocess.PIPE,
-            "text": True,
-        }
+        # Set the arguments based on whether to show output
+        if show_output:
+            args = {
+                "shell": True,
+                "text": True,
+            }
+        else:
+            args = {
+                "shell": True,
+                "stdout": subprocess.PIPE,
+                "stderr": subprocess.PIPE,
+                "text": True,
+            }
+
+        # Add cwd if provided
         if cwd:
             args["cwd"] = cwd
 

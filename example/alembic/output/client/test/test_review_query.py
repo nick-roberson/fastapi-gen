@@ -36,11 +36,11 @@ class TestReviewQuery(unittest.TestCase):
         model = ReviewQuery()
         if include_optional:
             return ReviewQuery(
-                id = None,
-                restaurant_id = None,
-                user_id = None,
-                rating = None,
-                comment = None
+                id = 56,
+                restaurant_id = 56,
+                user_id = 56,
+                rating = 1.337,
+                comment = ''
             )
         else:
             return ReviewQuery(

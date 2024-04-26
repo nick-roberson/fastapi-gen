@@ -36,12 +36,14 @@ class TestUserQuery(unittest.TestCase):
         model = UserQuery()
         if include_optional:
             return UserQuery(
-                id = None,
-                username = None,
-                email = None,
-                phone_number = None,
-                preferences = None,
-                role = None
+                id = 56,
+                username = '',
+                email = '',
+                phone_number = '',
+                preferences = [
+                    null
+                    ],
+                role = ''
             )
         else:
             return UserQuery(

@@ -17,15 +17,10 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
+from datetime import datetime
 from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from openapi_client.models.id1 import Id1
-from openapi_client.models.party_size import PartySize
-from openapi_client.models.reservation_time import ReservationTime
-from openapi_client.models.restaurant_id import RestaurantId
-from openapi_client.models.special_requests1 import SpecialRequests1
-from openapi_client.models.user_id import UserId
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 from typing_extensions import Self
 
 
@@ -34,12 +29,12 @@ class ReservationQuery(BaseModel):
     ReservationQuery
     """  # noqa: E501
 
-    id: Optional[Id1] = None
-    restaurant_id: Optional[RestaurantId] = None
-    user_id: Optional[UserId] = None
-    reservation_time: Optional[ReservationTime] = None
-    party_size: Optional[PartySize] = None
-    special_requests: Optional[SpecialRequests1] = None
+    id: Optional[StrictInt] = None
+    restaurant_id: Optional[StrictInt] = None
+    user_id: Optional[StrictInt] = None
+    reservation_time: Optional[datetime] = None
+    party_size: Optional[StrictInt] = None
+    special_requests: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = [
         "id",
         "restaurant_id",
@@ -86,24 +81,42 @@ class ReservationQuery(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of id
-        if self.id:
-            _dict["id"] = self.id.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of restaurant_id
-        if self.restaurant_id:
-            _dict["restaurant_id"] = self.restaurant_id.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of user_id
-        if self.user_id:
-            _dict["user_id"] = self.user_id.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of reservation_time
-        if self.reservation_time:
-            _dict["reservation_time"] = self.reservation_time.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of party_size
-        if self.party_size:
-            _dict["party_size"] = self.party_size.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of special_requests
-        if self.special_requests:
-            _dict["special_requests"] = self.special_requests.to_dict()
+        # set to None if id (nullable) is None
+        # and model_fields_set contains the field
+        if self.id is None and "id" in self.model_fields_set:
+            _dict["id"] = None
+
+        # set to None if restaurant_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.restaurant_id is None and "restaurant_id" in self.model_fields_set:
+            _dict["restaurant_id"] = None
+
+        # set to None if user_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.user_id is None and "user_id" in self.model_fields_set:
+            _dict["user_id"] = None
+
+        # set to None if reservation_time (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.reservation_time is None
+            and "reservation_time" in self.model_fields_set
+        ):
+            _dict["reservation_time"] = None
+
+        # set to None if party_size (nullable) is None
+        # and model_fields_set contains the field
+        if self.party_size is None and "party_size" in self.model_fields_set:
+            _dict["party_size"] = None
+
+        # set to None if special_requests (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.special_requests is None
+            and "special_requests" in self.model_fields_set
+        ):
+            _dict["special_requests"] = None
+
         return _dict
 
     @classmethod
@@ -117,32 +130,12 @@ class ReservationQuery(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "id": Id1.from_dict(obj["id"]) if obj.get("id") is not None else None,
-                "restaurant_id": (
-                    RestaurantId.from_dict(obj["restaurant_id"])
-                    if obj.get("restaurant_id") is not None
-                    else None
-                ),
-                "user_id": (
-                    UserId.from_dict(obj["user_id"])
-                    if obj.get("user_id") is not None
-                    else None
-                ),
-                "reservation_time": (
-                    ReservationTime.from_dict(obj["reservation_time"])
-                    if obj.get("reservation_time") is not None
-                    else None
-                ),
-                "party_size": (
-                    PartySize.from_dict(obj["party_size"])
-                    if obj.get("party_size") is not None
-                    else None
-                ),
-                "special_requests": (
-                    SpecialRequests1.from_dict(obj["special_requests"])
-                    if obj.get("special_requests") is not None
-                    else None
-                ),
+                "id": obj.get("id"),
+                "restaurant_id": obj.get("restaurant_id"),
+                "user_id": obj.get("user_id"),
+                "reservation_time": obj.get("reservation_time"),
+                "party_size": obj.get("party_size"),
+                "special_requests": obj.get("special_requests"),
             }
         )
         return _obj

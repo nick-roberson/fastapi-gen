@@ -209,7 +209,7 @@ def update_reviews_async(reviews: List[Review], background_tasks: BackgroundTask
 ########################################################################################################################
 
 
-def _delete_review(review_id: str) -> Review:
+def _delete_review(review_id: int) -> Review:
     """Delete a Review helper function"""
     logging.info(f"Deleting Review with id: {id}")
 
@@ -223,14 +223,14 @@ def _delete_review(review_id: str) -> Review:
 
 
 @router.delete("/review")
-def delete_review(review_id: str) -> Review:
+def delete_review(review_id: int) -> Review:
     """Delete a Review"""
     # Call the helper function to delete the Review
     return _delete_review(review_id)
 
 
 @router.delete("/review/async")
-def delete_review_async(review_id: str, background_tasks: BackgroundTasks):
+def delete_review_async(review_id: int, background_tasks: BackgroundTasks):
     """Delete a Review asynchronously"""
     logging.info(f"Deleting Review asynchronously with id: {id}")
     # Delete the Review asynchronously
@@ -239,7 +239,7 @@ def delete_review_async(review_id: str, background_tasks: BackgroundTasks):
     return {"message": "Deleting Review asynchronously"}
 
 
-def _delete_reviews(review_ids: List[str]) -> List[Review]:
+def _delete_reviews(review_ids: List[int]) -> List[Review]:
     """Delete multiple Reviews helper function"""
     logging.info(f"Deleting Reviews: {str(review_ids)}")
 
@@ -253,14 +253,14 @@ def _delete_reviews(review_ids: List[str]) -> List[Review]:
 
 
 @router.delete("/reviews")
-def delete_reviews(review_ids: List[str]) -> List[Review]:
+def delete_reviews(review_ids: List[int]) -> List[Review]:
     """Delete multiple Reviews"""
     # Call the helper function to delete the Reviews
     return _delete_reviews(review_ids)
 
 
 @router.delete("/reviews/async")
-def delete_reviews_async(review_ids: List[str], background_tasks: BackgroundTasks):
+def delete_reviews_async(review_ids: List[int], background_tasks: BackgroundTasks):
     """Delete multiple Reviews asynchronously"""
     logging.info(f"Deleting Reviews asynchronously: {str(review_ids)}")
     # Delete the Reviews asynchronously

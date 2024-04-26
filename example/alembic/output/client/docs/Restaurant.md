@@ -5,12 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | [**Id2**](Id2.md) |  | [optional] 
+**id** | **int** |  | [optional] 
 **name** | **str** | The name of the alembic | 
 **location** | **str** | The physical location of the alembic | 
-**cuisine** | [**Cuisine**](Cuisine.md) |  | [optional] 
-**rating** | [**Rating**](Rating.md) |  | [optional] 
-**price_range** | [**PriceRange**](PriceRange.md) |  | [optional] 
+**cuisine** | **str** |  | [optional] 
+**rating** | **float** |  | [optional] 
+**price_range** | **str** |  | [optional] 
 
 ## Example
 
@@ -27,7 +27,7 @@ print(Restaurant.to_json())
 # convert the object into a dict
 restaurant_dict = restaurant_instance.to_dict()
 # create an instance of Restaurant from a dict
-restaurant_form_dict = restaurant.from_dict(restaurant_dict)
+restaurant_from_dict = Restaurant.from_dict(restaurant_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

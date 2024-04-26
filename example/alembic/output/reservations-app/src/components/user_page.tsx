@@ -57,11 +57,9 @@ function UserPage() {
                 console.log("Could not find id for deletion", model);
                 return;
               }
-              api
-                .deleteUserUserDelete({ userId: model.id as string })
-                .then(() => {
-                  fetchUsers();
-                });
+              api.deleteUserUserDelete({ userId: model.id }).then(() => {
+                fetchUsers();
+              });
             }}
           />
         );

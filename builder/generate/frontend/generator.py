@@ -74,11 +74,6 @@ class FrontendGenerator:
         print("\t4. Generating App main page...")
         app_main_page = self.generate_templated_components()
 
-        # Lint the code
-        print("\t5. Linting frontend code and cleaning up...")
-        self.lint_frontend()
-        self.remove_auto_generated_files()
-
         return {
             "Frontend Files": {
                 "Main Page": app_main_page,
@@ -107,11 +102,6 @@ class FrontendGenerator:
         dependencies = " ".join(NODE_DEPENDENCIES)
         command = self.INSTALL_DEPENDENCIES_CMD.substitute(dependencies=dependencies)
         run_command(cmd=command, cwd=self.app_dir)
-
-    def lint_frontend(self):
-        """Lint the code using prettier"""
-        run_command("npx prettier --write .", cwd=self.src_dir)
-        run_command("npx eslint --fix .", cwd=self.src_dir)
 
     def remove_auto_generated_files(self):
         """Remove auto-generated files"""

@@ -4,6 +4,7 @@ import logging
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from src.db.utils import ensure_all_tables
 from src.reservation_routes import router as reservation_rotes
 from src.restaurant_routes import router as restaurant_rotes
 from src.review_routes import router as review_rotes
@@ -18,6 +19,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# Add startup event to ensure all tables are created
+@app.on_event("startup")
+async def startup_event():
+    """Startup Event"""
+    await ensure_all_tables()
+
 
 # Default Host and Port
 DEFAULT_HOST = "localhost"

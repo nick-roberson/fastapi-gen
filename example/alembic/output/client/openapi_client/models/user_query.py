@@ -19,13 +19,7 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Dict, List, Optional, Set
 
-from openapi_client.models.email import Email
-from openapi_client.models.id1 import Id1
-from openapi_client.models.phone_number1 import PhoneNumber1
-from openapi_client.models.preferences1 import Preferences1
-from openapi_client.models.role1 import Role1
-from openapi_client.models.username import Username
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 from typing_extensions import Self
 
 
@@ -34,12 +28,12 @@ class UserQuery(BaseModel):
     UserQuery
     """  # noqa: E501
 
-    id: Optional[Id1] = None
-    username: Optional[Username] = None
-    email: Optional[Email] = None
-    phone_number: Optional[PhoneNumber1] = None
-    preferences: Optional[Preferences1] = None
-    role: Optional[Role1] = None
+    id: Optional[StrictInt] = None
+    username: Optional[StrictStr] = None
+    email: Optional[StrictStr] = None
+    phone_number: Optional[StrictStr] = None
+    preferences: Optional[List[Any]] = None
+    role: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = [
         "id",
         "username",
@@ -86,24 +80,36 @@ class UserQuery(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of id
-        if self.id:
-            _dict["id"] = self.id.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of username
-        if self.username:
-            _dict["username"] = self.username.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of email
-        if self.email:
-            _dict["email"] = self.email.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of phone_number
-        if self.phone_number:
-            _dict["phone_number"] = self.phone_number.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of preferences
-        if self.preferences:
-            _dict["preferences"] = self.preferences.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of role
-        if self.role:
-            _dict["role"] = self.role.to_dict()
+        # set to None if id (nullable) is None
+        # and model_fields_set contains the field
+        if self.id is None and "id" in self.model_fields_set:
+            _dict["id"] = None
+
+        # set to None if username (nullable) is None
+        # and model_fields_set contains the field
+        if self.username is None and "username" in self.model_fields_set:
+            _dict["username"] = None
+
+        # set to None if email (nullable) is None
+        # and model_fields_set contains the field
+        if self.email is None and "email" in self.model_fields_set:
+            _dict["email"] = None
+
+        # set to None if phone_number (nullable) is None
+        # and model_fields_set contains the field
+        if self.phone_number is None and "phone_number" in self.model_fields_set:
+            _dict["phone_number"] = None
+
+        # set to None if preferences (nullable) is None
+        # and model_fields_set contains the field
+        if self.preferences is None and "preferences" in self.model_fields_set:
+            _dict["preferences"] = None
+
+        # set to None if role (nullable) is None
+        # and model_fields_set contains the field
+        if self.role is None and "role" in self.model_fields_set:
+            _dict["role"] = None
+
         return _dict
 
     @classmethod
@@ -117,32 +123,12 @@ class UserQuery(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "id": Id1.from_dict(obj["id"]) if obj.get("id") is not None else None,
-                "username": (
-                    Username.from_dict(obj["username"])
-                    if obj.get("username") is not None
-                    else None
-                ),
-                "email": (
-                    Email.from_dict(obj["email"])
-                    if obj.get("email") is not None
-                    else None
-                ),
-                "phone_number": (
-                    PhoneNumber1.from_dict(obj["phone_number"])
-                    if obj.get("phone_number") is not None
-                    else None
-                ),
-                "preferences": (
-                    Preferences1.from_dict(obj["preferences"])
-                    if obj.get("preferences") is not None
-                    else None
-                ),
-                "role": (
-                    Role1.from_dict(obj["role"])
-                    if obj.get("role") is not None
-                    else None
-                ),
+                "id": obj.get("id"),
+                "username": obj.get("username"),
+                "email": obj.get("email"),
+                "phone_number": obj.get("phone_number"),
+                "preferences": obj.get("preferences"),
+                "role": obj.get("role"),
             }
         )
         return _obj

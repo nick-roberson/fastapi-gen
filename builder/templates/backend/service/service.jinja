@@ -8,6 +8,8 @@ from fastapi.middleware.cors import CORSMiddleware
 {% for model in models %}from src.{{ model.name.lower() }}_routes import router as {{ model.name.lower() }}_rotes
 {% endfor %}
 
+from src.db.utils import ensure_all_tables
+
 # Create FastAPI App and Allow CORS
 app = FastAPI()
 app.add_middleware(
@@ -17,6 +19,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Add startup event to ensure all tables are created
+@app.on_event("startup")
+async def startup_event():
+    """ Startup Event """
+    await ensure_all_tables()
 
 # Default Host and Port
 DEFAULT_HOST = "localhost"

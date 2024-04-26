@@ -243,7 +243,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -495,7 +495,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -749,7 +749,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -1003,7 +1003,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -1050,7 +1050,7 @@ class ReviewApi:
     @validate_call
     def delete_review_async_review_async_delete(
         self,
-        review_id: StrictStr,
+        review_id: StrictInt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1068,7 +1068,7 @@ class ReviewApi:
         Delete a Review asynchronously
 
         :param review_id: (required)
-        :type review_id: str
+        :type review_id: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1115,7 +1115,7 @@ class ReviewApi:
     @validate_call
     def delete_review_async_review_async_delete_with_http_info(
         self,
-        review_id: StrictStr,
+        review_id: StrictInt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1133,7 +1133,7 @@ class ReviewApi:
         Delete a Review asynchronously
 
         :param review_id: (required)
-        :type review_id: str
+        :type review_id: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1180,7 +1180,7 @@ class ReviewApi:
     @validate_call
     def delete_review_async_review_async_delete_without_preload_content(
         self,
-        review_id: StrictStr,
+        review_id: StrictInt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1198,7 +1198,7 @@ class ReviewApi:
         Delete a Review asynchronously
 
         :param review_id: (required)
-        :type review_id: str
+        :type review_id: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1255,7 +1255,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -1294,7 +1294,7 @@ class ReviewApi:
     @validate_call
     def delete_review_review_delete(
         self,
-        review_id: StrictStr,
+        review_id: StrictInt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1312,7 +1312,7 @@ class ReviewApi:
         Delete a Review
 
         :param review_id: (required)
-        :type review_id: str
+        :type review_id: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1359,7 +1359,7 @@ class ReviewApi:
     @validate_call
     def delete_review_review_delete_with_http_info(
         self,
-        review_id: StrictStr,
+        review_id: StrictInt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1377,7 +1377,7 @@ class ReviewApi:
         Delete a Review
 
         :param review_id: (required)
-        :type review_id: str
+        :type review_id: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1424,7 +1424,7 @@ class ReviewApi:
     @validate_call
     def delete_review_review_delete_without_preload_content(
         self,
-        review_id: StrictStr,
+        review_id: StrictInt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1442,7 +1442,7 @@ class ReviewApi:
         Delete a Review
 
         :param review_id: (required)
-        :type review_id: str
+        :type review_id: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1499,7 +1499,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -1538,7 +1538,7 @@ class ReviewApi:
     @validate_call
     def delete_reviews_async_reviews_async_delete(
         self,
-        request_body: List[StrictStr],
+        request_body: List[StrictInt],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1556,7 +1556,7 @@ class ReviewApi:
         Delete multiple Reviews asynchronously
 
         :param request_body: (required)
-        :type request_body: List[str]
+        :type request_body: List[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1603,7 +1603,7 @@ class ReviewApi:
     @validate_call
     def delete_reviews_async_reviews_async_delete_with_http_info(
         self,
-        request_body: List[StrictStr],
+        request_body: List[StrictInt],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1621,7 +1621,7 @@ class ReviewApi:
         Delete multiple Reviews asynchronously
 
         :param request_body: (required)
-        :type request_body: List[str]
+        :type request_body: List[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1668,7 +1668,7 @@ class ReviewApi:
     @validate_call
     def delete_reviews_async_reviews_async_delete_without_preload_content(
         self,
-        request_body: List[StrictStr],
+        request_body: List[StrictInt],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1686,7 +1686,7 @@ class ReviewApi:
         Delete multiple Reviews asynchronously
 
         :param request_body: (required)
-        :type request_body: List[str]
+        :type request_body: List[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1745,7 +1745,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -1792,7 +1792,7 @@ class ReviewApi:
     @validate_call
     def delete_reviews_reviews_delete(
         self,
-        request_body: List[StrictStr],
+        request_body: List[StrictInt],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1810,7 +1810,7 @@ class ReviewApi:
         Delete multiple Reviews
 
         :param request_body: (required)
-        :type request_body: List[str]
+        :type request_body: List[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1857,7 +1857,7 @@ class ReviewApi:
     @validate_call
     def delete_reviews_reviews_delete_with_http_info(
         self,
-        request_body: List[StrictStr],
+        request_body: List[StrictInt],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1875,7 +1875,7 @@ class ReviewApi:
         Delete multiple Reviews
 
         :param request_body: (required)
-        :type request_body: List[str]
+        :type request_body: List[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1922,7 +1922,7 @@ class ReviewApi:
     @validate_call
     def delete_reviews_reviews_delete_without_preload_content(
         self,
-        request_body: List[StrictStr],
+        request_body: List[StrictInt],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1940,7 +1940,7 @@ class ReviewApi:
         Delete multiple Reviews
 
         :param request_body: (required)
-        :type request_body: List[str]
+        :type request_body: List[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1999,7 +1999,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -2251,7 +2251,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -2479,7 +2479,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -2719,7 +2719,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -2971,7 +2971,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -3223,7 +3223,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -3477,7 +3477,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -3731,7 +3731,7 @@ class ReviewApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[str, Union[str, bytes]] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters

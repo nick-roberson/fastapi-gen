@@ -18,7 +18,7 @@ import json
 import pprint
 import re  # noqa: F401
 from inspect import getfullargspec
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Union
 
 from pydantic import (BaseModel, ConfigDict, Field, StrictInt, StrictStr,
                       ValidationError, field_validator)
@@ -40,7 +40,7 @@ class ValidationErrorLocInner(BaseModel):
         actual_instance: Optional[Union[int, str]] = None
     else:
         actual_instance: Any = None
-    any_of_schemas: List[str] = Field(default=Literal["int", "str"])
+    any_of_schemas: Set[str] = {"int", "str"}
 
     model_config = {
         "validate_assignment": True,

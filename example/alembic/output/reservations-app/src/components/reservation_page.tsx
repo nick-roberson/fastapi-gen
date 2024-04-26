@@ -58,9 +58,7 @@ function ReservationPage() {
                 return;
               }
               api
-                .deleteReservationReservationDelete({
-                  reservationId: model.id as string,
-                })
+                .deleteReservationReservationDelete({ reservationId: model.id })
                 .then(() => {
                   fetchReservations();
                 });
