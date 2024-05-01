@@ -39,6 +39,14 @@ def migrate(
     service_config = validate_config(config)
     manager = ApplicationManager(config=service_config)
 
+    # If the db_type is "mongo" show an error
+    if service_config.database.db_type == "mongo":
+        print(
+            "[red]MongoDB is not supported for migrations. "
+            "Please use a relational database like MySQL or PostgreSQL.[/red]"
+        )
+        return
+
     # Generate new migration file and apply to the database
     manager.create_migration(message or "New Migration")
     manager.run_migrations()
@@ -76,6 +84,14 @@ def revert(
     service_config = validate_config(config)
     manager = ApplicationManager(config=service_config)
 
+    # If the db_type is "mongo" show an error
+    if service_config.database.db_type == "mongo":
+        print(
+            "[red]MongoDB is not supported for migrations. "
+            "Please use a relational database like MySQL or PostgreSQL.[/red]"
+        )
+        return
+
     # Revert the database to the specified revision
     manager.revert_migration(revision)
 
@@ -107,6 +123,14 @@ def list(
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
     manager = ApplicationManager(config=service_config)
+
+    # If the db_type is "mongo" show an error
+    if service_config.database.db_type == "mongo":
+        print(
+            "[red]MongoDB is not supported for migrations. "
+            "Please use a relational database like MySQL or PostgreSQL.[/red]"
+        )
+        return
 
     # List all migrations
     manager.show_migrations()
