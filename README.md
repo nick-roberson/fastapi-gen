@@ -128,6 +128,9 @@ correct environment variables set (see the `setup` section for more information)
   - https://openapi-generator.tech/docs/installation/
 - `npm` installed (for frontend running)
   - https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+- If using postgres as the database
+  - `brew install libpq`
+
 
 **Database**
 - If using **MongoDB** as the database, you will need to set up a free tier MongoDB Atlas database as well as have `MONGO_URI` set in your environment variables.

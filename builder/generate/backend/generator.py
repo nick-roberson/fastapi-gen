@@ -199,7 +199,10 @@ class BackendGenerator:
             template_dir=ALEMBIC_TEMPLATES,
             template_name="models.jinja",
             output_path=output_path,
-            context={"models": self.config.models},
+            context={
+                "models": self.config.models,
+                "schema_name": self.config.service_info.name,
+            },
         )
 
         # Handle *_managers.py
@@ -250,6 +253,7 @@ class BackendGenerator:
             context={
                 "models": self.config.models,
                 "db_config": self.config.database,
+                "schema_name": self.config.service_info.name,
             },
         )
 
@@ -431,8 +435,8 @@ class BackendGenerator:
             run_command(f"touch {init_file}")
 
         # For each directory in the code dir create an __init__.py file if it does not exist
-        for root, dirs, files in os.walk(self.code_dir):
-            for dir in dirs:
-                init_file = os.path.join(root, dir, "__init__.py")
+        for root, directories, files in os.walk(self.code_dir):
+            for directory in directories:
+                init_file = os.path.join(root, directory, "__init__.py")
                 if not os.path.exists(init_file):
                     run_command(f"touch {init_file}")
