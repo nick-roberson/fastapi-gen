@@ -232,21 +232,27 @@ Once you have your config ready (or you can use the example config), you can gen
 
 ...
 
-Run Backend (Poetry):
-    % poetry run python main.py app run-backend \
-        --config example/alembic/restaurant.yaml
-        
-Run Frontend (NPM):
-    % poetry run python main.py app run-frontend \
-        --config example/alembic/restaurant.yaml
+1. Apply new migrations:
+  % poetry run python main.py db migrate \
+      --config example/alembic/restaurant.yaml \
+      --message 'Initial migration for restaurant_app'
+
+2. Run backend:
+  % poetry run python main.py app run-backend \
+      --config example/alembic/restaurant.yaml
+
+3. Run frontend:
+  % poetry run python main.py app run-frontend \
+      --config example/alembic/restaurant.yaml
 ```
 
 ### 3. Create and Apply Database Migrations
 
 If you are using PostgreSQL or MySQL, you can apply the migrations to the database using the following command:
 ```commandline
-% poetry run python main.py db migrate \
-    --config example/alembic/restaurant.yaml 
+poetry run python main.py db migrate \
+    --config example/alembic/restaurant.yaml \
+    --message 'Initial migration for restaurant_app'
 ```
 
 ### 4. Run the Service Frontend and Backend
@@ -254,17 +260,17 @@ If you are using PostgreSQL or MySQL, you can apply the migrations to the databa
 #### Back End
 
 To run the backend, you can use the following command:
-```bash
-% poetry run python main.py app run-backend \
-  --config example/alembic/restaurant.yaml 
+```commandline
+poetry run python main.py app run-backend \
+    --config example/alembic/restaurant.yaml 
 ```
 
 #### Front End
 
 To run the frontend, you can use the following command:
-```bash
-% poetry run python main.py app run-frontend \
-  --config example/alembic/restaurant.yaml 
+```commandline
+poetry run python main.py app run-frontend \
+    --config example/alembic/restaurant.yaml 
 ```
 
 ## Other Commands
@@ -273,7 +279,7 @@ To run the frontend, you can use the following command:
 
 If you want to revert the database to a previous revision, you can use the following command:
 ```commandline
-% poetry run python main.py db revert \
+poetry run python main.py db revert \
     --config example/alembic/restaurant.yaml  \
     --revision <revision>
 ```
@@ -282,22 +288,22 @@ If you want to revert the database to a previous revision, you can use the follo
 
 If you want to list the migrations that have been applied to the database, you can use the following command:
 ```commandline
-% poetry run python main.py db list \
+poetry run python main.py db list \
     --config example/alembic/restaurant.yaml
 ```
 
 ### Regenerating Templated Files
 
 If you want to reload the frontend templates, you can use the following command:
-```bash
-% poetry run python main.py app reload \
-  --config example/alembic/restaurant.yaml \
-  --frontend-only
+```commandline
+poetry run python main.py app reload \
+    --config example/alembic/restaurant.yaml \
+    --frontend-only
 ```
 
 If you want to reload the backend templates, you can use the following command:
-```bash
-% poetry run python main.py app reload \
+```commandline
+poetry run python main.py app reload \
   --config example/alembic/restaurant.yaml \
   --backend-only 
 ```
@@ -309,8 +315,8 @@ to restart the application!
 
 To create some fake data that you can insert into the database, you can use the following command:
 
-```bash
-% poetry run python main.py data create \
+```commandline
+poetry run python main.py data create \
   --config example/alembic/restaurant.yaml 
 
 Generated fake data at
@@ -326,7 +332,7 @@ Feel free to modify the data as you see fit!
 For this specific use case in the example you can run the service given the commands provided above and then use postman 
 to POST the data to the service. For example:
 
-```json
+```
 (POST) http://localhost:8000/users
 [
   {

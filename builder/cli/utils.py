@@ -62,25 +62,39 @@ def process_close(result: Dict, config: ServiceConfig, config_path: str):
         config (ServiceConfig): The service configuration
         config_path (str): The path to the config file
     """
-    output_dir = config.output_dir
-
     # Display the generated files
     print(f"\nGenerated files:")
     print(json.dumps(result, indent=4))
 
-    # Get rel path for the output dir
-    rel_output_dir = os.path.relpath(output_dir)
     # Get rel path for the config file
     rel_config = os.path.relpath(config_path)
 
-    # Display commands for users to go and run the generated files
+    # Display the commands for the user to run
+    migration_lines = [
+        "  % poetry run python main.py db migrate \\",
+        f"\t--config {rel_config} \\",
+        f"\t--message 'Initial migration for {config.service_info.name}'",
+    ]
+    run_backend_lines = [
+        "  % poetry run python main.py app run-backend \\",
+        f"\t--config {rel_config}",
+    ]
+    run_frontend_lines = [
+        "  % poetry run python main.py app run-frontend \\",
+        f"\t--config {rel_config}",
+    ]
+
+    # Display commands for users to create and apply database migrations
     print("")
-    print("Run Backend (Poetry):")
-    print(
-        f"\t% poetry run python main.py app run-backend --output-dir {rel_output_dir} --config {rel_config}"
-    )
+    print("1. Apply new migrations:")
+    print("\n".join(migration_lines))
+
+    # Display commands for users to go and run the backend
     print("")
-    print("Run Frontend (NPM):")
-    print(
-        f"\t% poetry run python main.py app run-frontend --output-dir {rel_output_dir} --config {rel_config}"
-    )
+    print("2. Run backend:")
+    print("\n".join(run_backend_lines))
+
+    # Display commands for users to go and run the frontend
+    print("")
+    print("3. Run frontend:")
+    print("\n".join(run_frontend_lines))

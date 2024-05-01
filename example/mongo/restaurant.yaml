@@ -6,7 +6,7 @@
 #   database type can affect the model definitions.
 
 # Output Directory
-output_dir: example/alembic/output
+output_dir: example/mongo/output
 
 # Service Configuration
 service:
