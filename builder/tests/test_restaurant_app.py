@@ -10,6 +10,7 @@ import requests
 
 from builder.config.parse import load_and_validate_config
 from builder.generate.backend.generator import BackendGenerator
+from builder.generate.db.manager import DBManager
 from builder.generate.linting.manager import LintingManager
 from builder.generate.poetry.generator import PoetryGenerator
 from builder.models.configs import ServiceConfig
@@ -43,34 +44,37 @@ def service():
     # Create a temporary directory that will be cleaned up automatically
     with tempfile.TemporaryDirectory() as output_dir:
         print(f"Output directory: {output_dir}")
-        # Init the backend generator
+        # (1) Generate the backend code
         generator = BackendGenerator(
             config=TEST_RESTAURANT_CONFIG, output_dir=output_dir
         )
-
-        # Generate the backend code
         generator.generate_models()
         generator.generate_services()
         generator.generate_templated_components()
         generator.generate_database()
         generator.generate_readme()
 
-        # Lint
+        # (2) Lint
         linting_manager = LintingManager(
             config=TEST_RESTAURANT_CONFIG, output_dir=output_dir
         )
         linting_manager.lint_backend()
 
-        # Init the poetry generator
+        # (3) Install deps
         poetry_generator = PoetryGenerator(
             config=TEST_RESTAURANT_CONFIG, output_dir=output_dir
         )
-
-        # Generate the poetry code
         poetry_generator.generate_poetry_toml()
         poetry_generator.install_dependencies()
 
-        # Start the FastAPI app with Uvicorn in a subprocess
+        # (4) Create the database and run migrations
+        db_manager = DBManager(
+            service_config=TEST_RESTAURANT_CONFIG, output_dir=output_dir
+        )
+        db_manager.create_migration("Initial migration")
+        db_manager.run_migrations()
+
+        # (5) Start the FastAPI app with Uvicorn in a subprocess
         service_dir = os.path.join(output_dir, "backend")
         print(f"Starting FastAPI app with Uvicorn from dir {service_dir}...")
         proc = subprocess.Popen(
@@ -86,28 +90,12 @@ def service():
             cwd=service_dir,
         )
 
-        # Give Uvicorn a moment to start
         time.sleep(5)
 
-        # Generate the Alembic migrations in the database
-        db_dir = os.path.join(service_dir, "src/db")
-        print("Generating Alembic migrations...")
-        subprocess.run(
-            ["alembic", "revision", "--autogenerate", "-m", "Initial migration"],
-            cwd=db_dir,
-        )
-
-        # Run Alembic migrations
-        print("Running Alembic migrations...")
-        subprocess.run(
-            ["alembic", "upgrade", "head"],
-            cwd=db_dir,
-        )
-
-        # Yield the process and output directory to the test function
+        # (6) Yield the process and output directory to the test function
         yield proc, output_dir
 
-        # Cleanup after the test runs
+        # (7) Cleanup after the test runs
         print("Terminating the Uvicorn server...")
         proc.kill()
         proc.wait()
