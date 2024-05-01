@@ -167,6 +167,7 @@ This is the CLI interface for the service generator:
 ```
 
 #### Config Commands
+
 ```commandline
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │ create            Create a new configuration file interactively.                                                                                                                               │
@@ -174,6 +175,7 @@ This is the CLI interface for the service generator:
 ```
 
 #### App Commands
+
 ```commandline
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │ create            Generate a FastAPI backend and React frontend from the input yaml config.                                                                                                   │
@@ -184,6 +186,7 @@ This is the CLI interface for the service generator:
 ```
 
 #### Data Commands
+
 ```commandline
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │ create            Generate fake data for the service                                                                                                                                   │
@@ -191,6 +194,7 @@ This is the CLI interface for the service generator:
 ```
 
 #### Database Commands 
+
 ```commandline
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │ list                BETA: List all migrations                                                                                                                                                                                   │
@@ -201,7 +205,6 @@ This is the CLI interface for the service generator:
 
 ## End to End Example
 
-
 ### 1. Create a Configuration File
 
 (You can skip this step if you want to use the example configs provided in the `example/` directory)
@@ -209,8 +212,7 @@ This is the CLI interface for the service generator:
 If you want to create a new service from scratch, you can use the `create` command to create a new config file interactively.
 ```bash
 % poetry run python main.py app generate \
-  --output-dir example/new_service
-  --config new_service.yaml
+  --config output/new_service.yaml
 ```
 You will be prompted to enter the information about the following areas:
 - Service Information
@@ -223,22 +225,20 @@ easily copy the configs that I have in the `example/` directory and modify them 
 Once you have your config ready (or you can use the example config), you can generate the service using the following command:
 
 ### 2. Generate Application Files
+
 ```bash
 % poetry run python main.py app create \
-    --config example/alembic/restaurant.yaml \
-    --output-dir example/alembic/output
+  --config example/alembic/restaurant.yaml 
 
 ...
 
 Run Backend (Poetry):
     % poetry run python main.py app run-backend \
-        --config example/alembic/restaurant.yaml \
-        --output-dir example/alembic/output
+        --config example/alembic/restaurant.yaml
         
 Run Frontend (NPM):
     % poetry run python main.py app run-frontend \
-        --config example/alembic/restaurant.yaml \
-        --output-dir example/alembic/output
+        --config example/alembic/restaurant.yaml
 ```
 
 ### 3. Create and Apply Database Migrations
@@ -246,8 +246,7 @@ Run Frontend (NPM):
 If you are using PostgreSQL or MySQL, you can apply the migrations to the database using the following command:
 ```commandline
 % poetry run python main.py db migrate \
-    --config example/alembic/restaurant.yaml \
-    --output-dir example/alembic/output
+    --config example/alembic/restaurant.yaml 
 ```
 
 ### 4. Run the Service Frontend and Backend
@@ -257,8 +256,7 @@ If you are using PostgreSQL or MySQL, you can apply the migrations to the databa
 To run the backend, you can use the following command:
 ```bash
 % poetry run python main.py app run-backend \
-    --config example/alembic/restaurant.yaml \
-    --output-dir example/alembic/output
+  --config example/alembic/restaurant.yaml 
 ```
 
 #### Front End
@@ -266,44 +264,42 @@ To run the backend, you can use the following command:
 To run the frontend, you can use the following command:
 ```bash
 % poetry run python main.py app run-frontend \
-    --config example/alembic/restaurant.yaml \
-    --output-dir example/alembic/output
+  --config example/alembic/restaurant.yaml 
 ```
 
 ## Other Commands
 
 ### Reverting Database Migrations
+
 If you want to revert the database to a previous revision, you can use the following command:
 ```commandline
 % poetry run python main.py db revert \
-    --config example/alembic/restaurant.yaml \
-    --output-dir example/alembic/output \
+    --config example/alembic/restaurant.yaml  \
     --revision <revision>
 ```
 
 ### Listing Database Migrations
+
 If you want to list the migrations that have been applied to the database, you can use the following command:
 ```commandline
 % poetry run python main.py db list \
-    --config example/alembic/restaurant.yaml \
-    --output-dir example/alembic/output \
-    --list
+    --config example/alembic/restaurant.yaml
 ```
 
 ### Regenerating Templated Files
 
 If you want to reload the frontend templates, you can use the following command:
 ```bash
-% poetry run python main.py app reload --frontend-only \
-    --config example/alembic/restaurant.yaml \
-    --output-dir example/alembic/output
+% poetry run python main.py app reload \
+  --config example/alembic/restaurant.yaml \
+  --frontend-only
 ```
 
 If you want to reload the backend templates, you can use the following command:
 ```bash
-% poetry run python main.py app reload --backend-only \
-    --config example/alembic/restaurant.yaml \
-    --output-dir example/alembic/output
+% poetry run python main.py app reload \
+  --config example/alembic/restaurant.yaml \
+  --backend-only 
 ```
 
 You can run both of these commands while the application is running to see the changes take effect. No need
@@ -315,8 +311,7 @@ To create some fake data that you can insert into the database, you can use the 
 
 ```bash
 % poetry run python main.py data create \
-    --config example/alembic/restaurant.yaml \
-    --output-dir example/alembic/output
+  --config example/alembic/restaurant.yaml 
 
 Generated fake data at
         User: /Users/nicholas/Code/fastapi-gen/example/alembic/output/data/User.json

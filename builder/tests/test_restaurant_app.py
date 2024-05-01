@@ -1,3 +1,4 @@
+import copy
 import json
 import os
 import subprocess
@@ -44,10 +45,11 @@ def service():
     # Create a temporary directory that will be cleaned up automatically
     with tempfile.TemporaryDirectory() as output_dir:
         print(f"Output directory: {output_dir}")
+        config = copy.copy(TEST_RESTAURANT_CONFIG)
+        config.output_dir = output_dir
+
         # (1) Generate the backend code
-        generator = BackendGenerator(
-            config=TEST_RESTAURANT_CONFIG, output_dir=output_dir
-        )
+        generator = BackendGenerator(config=config)
         generator.generate_models()
         generator.generate_services()
         generator.generate_templated_components()
@@ -55,22 +57,16 @@ def service():
         generator.generate_readme()
 
         # (2) Lint
-        linting_manager = LintingManager(
-            config=TEST_RESTAURANT_CONFIG, output_dir=output_dir
-        )
+        linting_manager = LintingManager(config=config)
         linting_manager.lint_backend()
 
         # (3) Install deps
-        poetry_generator = PoetryGenerator(
-            config=TEST_RESTAURANT_CONFIG, output_dir=output_dir
-        )
+        poetry_generator = PoetryGenerator(config=config)
         poetry_generator.generate_poetry_toml()
         poetry_generator.install_dependencies()
 
         # (4) Create the database and run migrations
-        db_manager = DBManager(
-            service_config=TEST_RESTAURANT_CONFIG, output_dir=output_dir
-        )
+        db_manager = DBManager(config=config)
         db_manager.create_migration("Initial migration")
         db_manager.run_migrations()
         db_manager.show_migrations()
@@ -111,8 +107,7 @@ def fake_data(service: Tuple) -> Dict:
 
     # Create the fake data
     fake_data_paths = create_fake_data(
-        service_config=TEST_RESTAURANT_CONFIG,
-        output_dir=output_dir,
+        config=TEST_RESTAURANT_CONFIG,
         num=NUM_MODELS,
         no_ids=True,
     )

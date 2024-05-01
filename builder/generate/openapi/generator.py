@@ -22,10 +22,10 @@ TYPESCRIPT_CLIENT_CMD: Template = Template(
 class OpenAPIGenerator:
     """Class to handle the generation and management of OpenAPI specifications."""
 
-    def __init__(self, config: ServiceConfig, output_dir: str):
+    def __init__(self, config: ServiceConfig):
         # Set the config and output directory
         self.config = config
-        self.output_dir = output_dir
+        self.output_dir = config.output_dir
 
         # Set the code directory
         self.backend_code_dir = os.path.join(output_dir, "backend")

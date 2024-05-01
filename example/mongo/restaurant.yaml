@@ -5,6 +5,9 @@
 #   > Ids in alembic for example are integers, while in mongo they are strings. This is a good example of how the
 #   database type can affect the model definitions.
 
+# Output Directory
+output_dir: example/alembic/output
+
 # Service Configuration
 service:
   name: reservations-app

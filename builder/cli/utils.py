@@ -32,17 +32,6 @@ def validate_service_name(service_name: str) -> str:
     return service_name
 
 
-def validate_output_dir(output_dir: str):
-    """Check if the output directory exists and create it if it doesn't.
-
-    Args:
-        output_dir (str): The output directory
-    """
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir, exist_ok=True)
-    return os.path.abspath(output_dir)
-
-
 def validate_config(config_file: str) -> ServiceConfig:
     """Validate the config file and return the absolute path.
 
@@ -65,17 +54,16 @@ def validate_config(config_file: str) -> ServiceConfig:
     return config
 
 
-def process_close(
-    result: Dict, output_dir: str, config: str, service_config: ServiceConfig
-):
-    """Show the results and close the application.
+def process_close(result: Dict, config: ServiceConfig, config_path: str):
+    """Process the close out of the CLI command.
 
     Args:
-        result (Dict): The result of the generation
-        output_dir (str): The output directory
-        config (str): Config path
-        service_config (ServiceConfig): The service configuration
+        result (Dict): The generated files
+        config (ServiceConfig): The service configuration
+        config_path (str): The path to the config file
     """
+    output_dir = config.output_dir
+
     # Display the generated files
     print(f"\nGenerated files:")
     print(json.dumps(result, indent=4))
@@ -83,7 +71,7 @@ def process_close(
     # Get rel path for the output dir
     rel_output_dir = os.path.relpath(output_dir)
     # Get rel path for the config file
-    rel_config = os.path.relpath(config)
+    rel_config = os.path.relpath(config_path)
 
     # Display commands for users to go and run the generated files
     print("")

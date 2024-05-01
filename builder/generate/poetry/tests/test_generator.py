@@ -17,7 +17,7 @@ def test_generate(config):
         config = parse_config(config_def)
 
         # Init the backend generator
-        generator = PoetryGenerator(config=config, output_dir=output_dir)
+        generator = PoetryGenerator(config=config)
 
         # Generate the backend code
         generator.generate_poetry_toml()

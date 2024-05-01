@@ -17,7 +17,7 @@ def test_generate(config):
         config = parse_config(config_def)
 
         # Create the frontend generator
-        frontend_generator = FrontendGenerator(config=config, output_dir=output_dir)
+        frontend_generator = FrontendGenerator(config=config)
 
         # Generate the application
         frontend_generator.generate_application()
@@ -27,5 +27,5 @@ def test_generate(config):
         frontend_generator.generate_templated_components()
 
         # Lint the frontend
-        linting_manager = LintingManager(config=config, output_dir=output_dir)
+        linting_manager = LintingManager(config=config)
         linting_manager.lint_frontend()

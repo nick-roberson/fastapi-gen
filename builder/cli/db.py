@@ -15,9 +15,6 @@ def migrate(
     config: Optional[str] = typer.Option(
         SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
     ),
-    output_dir: Optional[str] = typer.Option(
-        SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
-    ),
     message: Optional[str] = typer.Option(
         None, "--message", "-m", help="Message for the migration."
     ),
@@ -27,8 +24,6 @@ def migrate(
     Args:
         config (Optional[str], optional): Path to the input yaml config.
             Defaults to SAMPLE_INPUT_FILE.
-        output_dir (Optional[str], optional): Path to the output directory.
-            Defaults to SAMPLE_OUTPUT_DIR.
         message (Optional[str], optional): Message for the migration.
 
     Example:
@@ -42,8 +37,7 @@ def migrate(
 
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
-    output_dir = validate_output_dir(output_dir)
-    manager = ApplicationManager(service_config=service_config, output_dir=output_dir)
+    manager = ApplicationManager(config=service_config)
 
     # Generate new migration file and apply to the database
     manager.create_migration(message or "New Migration")
@@ -58,9 +52,6 @@ def revert(
     config: Optional[str] = typer.Option(
         SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
     ),
-    output_dir: Optional[str] = typer.Option(
-        SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
-    ),
     revision: Optional[str] = typer.Option(
         None, "--revision", "-r", help="Revision to revert to."
     ),
@@ -70,8 +61,6 @@ def revert(
     Args:
         config (Optional[str], optional): Path to the input yaml config.
             Defaults to SAMPLE_INPUT_FILE.
-        output_dir (Optional[str], optional): Path to the output directory.
-            Defaults to SAMPLE_OUTPUT_DIR.
         revision (Optional[str], optional): Revision to revert to.
 
     Example:
@@ -85,8 +74,7 @@ def revert(
 
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
-    output_dir = validate_output_dir(output_dir)
-    manager = ApplicationManager(service_config=service_config, output_dir=output_dir)
+    manager = ApplicationManager(config=service_config)
 
     # Revert the database to the specified revision
     manager.revert_migration(revision)
@@ -100,17 +88,12 @@ def list(
     config: Optional[str] = typer.Option(
         SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
     ),
-    output_dir: Optional[str] = typer.Option(
-        SAMPLE_OUTPUT_DIR, "--output-dir", "-o", help="Path to the output directory."
-    ),
 ):
     """BETA: List all migrations
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
             Defaults to SAMPLE_INPUT_FILE.
-        output_dir (Optional[str], optional): Path to the output directory.
-            Defaults to SAMPLE_OUTPUT_DIR.
 
     Example:
         export DB_NAME=restaurants && poetry run python main.py db list \
@@ -123,8 +106,7 @@ def list(
 
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
-    output_dir = validate_output_dir(output_dir)
-    manager = ApplicationManager(service_config=service_config, output_dir=output_dir)
+    manager = ApplicationManager(config=service_config)
 
     # List all migrations
     manager.show_migrations()

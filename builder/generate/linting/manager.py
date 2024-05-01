@@ -8,20 +8,21 @@ from builder.utils import run_command
 class LintingManager:
     """Class to handle linting operations for different parts of a service based on its configuration."""
 
-    def __init__(self, config: ServiceConfig, output_dir: str):
+    def __init__(self, config: ServiceConfig):
         """
         Initialize the LintingManager with the service configuration and output directory.
         Args:
             config (ServiceConfig): The configuration for the service.
-            output_dir (str): The base directory where the service's code is located.
         """
         # Set the configuration and output directory
         self.config = config
-        self.output_dir = output_dir
+        self.output_dir = config.output_dir
 
         # Set the frontend and backend directories
-        self.frontend_dir = os.path.join(output_dir, config.service_info.name, "src")
-        self.backend_dir = os.path.join(output_dir, "backend", "src")
+        self.frontend_dir = os.path.join(
+            self.output_dir, config.service_info.name, "src"
+        )
+        self.backend_dir = os.path.join(self.output_dir, "backend", "src")
 
     def lint_code(self, directory: str, tools: Dict):
         """

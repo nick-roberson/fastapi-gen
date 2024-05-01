@@ -17,7 +17,7 @@ def test_generate(config):
         config = parse_config(config_def)
 
         # Init the backend generator
-        generator = BackendGenerator(config=config, output_dir=output_dir)
+        generator = BackendGenerator(config=config)
 
         # Generate the backend code
         generator.generate_models()
@@ -27,5 +27,5 @@ def test_generate(config):
         generator.generate_readme()
 
         # Lint the frontend
-        linting_manager = LintingManager(config=config, output_dir=output_dir)
+        linting_manager = LintingManager(config=config)
         linting_manager.lint_backend()
