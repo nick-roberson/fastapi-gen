@@ -1,3 +1,4 @@
+import copy
 import json
 import os
 import subprocess
@@ -37,8 +38,11 @@ def service():
     # Create a temporary directory that will be cleaned up automatically
     with tempfile.TemporaryDirectory() as output_dir:
         print(f"Output directory: {output_dir}")
+        config = copy.copy(TEST_EVENTS_CONFIG)
+        config.output_dir = output_dir
+
         # Init the backend generator
-        generator = BackendGenerator(config=TEST_EVENTS_CONFIG, output_dir=output_dir)
+        generator = BackendGenerator(config=config)
 
         # Generate the backend code
         generator.generate_models()
@@ -48,9 +52,7 @@ def service():
         generator.generate_readme()
 
         # Init the poetry generator
-        poetry_generator = PoetryGenerator(
-            config=TEST_EVENTS_CONFIG, output_dir=output_dir
-        )
+        poetry_generator = PoetryGenerator(config=TEST_EVENTS_CONFIG)
 
         # Generate the poetry code
         poetry_generator.generate_poetry_toml()
@@ -108,8 +110,7 @@ def fake_data(service: Tuple) -> Dict:
 
     # Create the fake data
     fake_data_paths = create_fake_data(
-        service_config=TEST_EVENTS_CONFIG,
-        output_dir=output_dir,
+        config=TEST_EVENTS_CONFIG,
         num=NUM_MODELS,
         no_ids=True,
     )

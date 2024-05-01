@@ -20,10 +20,10 @@ class PoetryGenerator:
     # Template file
     TEMPLATE_FILE = "toml.jinja"
 
-    def __init__(self, config: ServiceConfig, output_dir: str):
+    def __init__(self, config: ServiceConfig):
         # Set the config and output directory
         self.config = config
-        self.output_dir = output_dir
+        self.output_dir = config.output_dir
 
         # Define the code directory
         self.code_dir = os.path.join(self.output_dir, self.CODE_DIR)

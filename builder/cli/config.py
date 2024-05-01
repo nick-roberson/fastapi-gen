@@ -5,7 +5,8 @@ import typer
 import yaml
 from rich import print
 
-from builder.cli.utils import validate_config, validate_output_dir
+from builder.cli.utils import validate_config
+from builder.config.parse import validate_output_dir
 
 app = typer.Typer()
 

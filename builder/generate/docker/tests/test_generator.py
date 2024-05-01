@@ -17,7 +17,7 @@ def test_generate(config):
         config = parse_config(config_def)
 
         # Init the backend generator
-        generator = DockerGenerator(config=config, output_dir=output_dir)
+        generator = DockerGenerator(config=config)
 
         # Generate the backend code
         dockerfiles = generator.copy_dockerfiles()

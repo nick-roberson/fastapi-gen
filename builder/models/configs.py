@@ -244,9 +244,16 @@ class ServiceConfig(BaseModel):
 
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
+    # Output directory
+    output_dir: str = "output"
+
+    # Service information
     service_info: ServiceInfo
+    # Database configuration
     database: DBConfig
+    # List of models
     models: List[ModelConfig] = []
+    # List of dependencies
     dependencies: List[DependencyConfig] = []
 
     def __str__(self):

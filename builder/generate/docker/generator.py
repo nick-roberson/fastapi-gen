@@ -20,10 +20,10 @@ class DockerGenerator:
         "README.Docker.md",
     ]
 
-    def __init__(self, config: ServiceConfig, output_dir: str):
+    def __init__(self, config: ServiceConfig):
         # Set the config and output directory
         self.config = config
-        self.output_dir = output_dir
+        self.output_dir = config.output_dir
 
         # Set the code directory
         self.code_dir = os.path.join(self.output_dir, self.CODE_DIR)

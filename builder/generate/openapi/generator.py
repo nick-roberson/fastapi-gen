@@ -22,13 +22,13 @@ TYPESCRIPT_CLIENT_CMD: Template = Template(
 class OpenAPIGenerator:
     """Class to handle the generation and management of OpenAPI specifications."""
 
-    def __init__(self, config: ServiceConfig, output_dir: str):
+    def __init__(self, config: ServiceConfig):
         # Set the config and output directory
         self.config = config
-        self.output_dir = output_dir
+        self.output_dir = config.output_dir
 
         # Set the code directory
-        self.backend_code_dir = os.path.join(output_dir, "backend")
+        self.backend_code_dir = os.path.join(self.output_dir, "backend")
         self.openapi_file_path = os.path.join(self.backend_code_dir, OPENAPI_SPEC_FN)
         if not os.path.exists(self.backend_code_dir):
             os.makedirs(self.backend_code_dir, exist_ok=True)
@@ -36,7 +36,7 @@ class OpenAPIGenerator:
         # Set the client code directories
         self.python_client_dir = os.path.join(self.output_dir, "client")
         self.typescript_client_dir = os.path.join(
-            output_dir, config.service_info.name, "src/api"
+            self.output_dir, config.service_info.name, "src/api"
         )
 
     def generate_openapi_json(self) -> str:

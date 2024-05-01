@@ -15,20 +15,20 @@ class DBManager:
     Handles tasks such as creating, running, and reverting database migrations using Alembic.
     """
 
-    def __init__(self, service_config: ServiceConfig, output_dir: str):
+    def __init__(self, config: ServiceConfig):
         """
         Initializes the DBManager with the service configuration and output directory.
         Sets up directories and database configuration, and initializes the database connection.
         """
         # Setup directories for output and database operations
-        self.output_dir = output_dir
-        self.service_config = service_config
-        self.backend_dir = os.path.join(output_dir, "backend")
+        self.output_dir = config.output_dir
+        self.service_config = config
+        self.backend_dir = os.path.join(self.output_dir, "backend")
         self.db_dir = os.path.join(self.backend_dir, "src/db")
-        self.db_type = service_config.database.db_type
+        self.db_type = config.database.db_type
 
         # Retrieve the database URL from service configuration
-        self.db_url = get_url(service_config.database.db_type)
+        self.db_url = get_url(config.database.db_type)
 
         # Retrieve the database name from the environment
         self.db_name = os.getenv(self.service_config.database.db_name_env)

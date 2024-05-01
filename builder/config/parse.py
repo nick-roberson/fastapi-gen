@@ -1,4 +1,5 @@
 import os
+import tempfile
 from typing import Any, Dict
 
 import yaml
@@ -148,6 +149,17 @@ def validate_config(config: Dict) -> None:
         )
 
 
+def validate_output_dir(output_dir: str):
+    """Check if the output directory exists and create it if it doesn't.
+
+    Args:
+        output_dir (str): The output directory
+    """
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir, exist_ok=True)
+    return os.path.abspath(output_dir)
+
+
 ########################################
 # Parse Model Definition               #
 ########################################
@@ -208,7 +220,13 @@ def parse_config(config) -> ServiceConfig:
         for dependency in config.get("dependencies", []):
             dependencies_config.append(DependencyConfig(**dependency))
 
+    # (5) Get and validate the output directory, or create a temporary one
+    output_dir = config.get("output_dir", tempfile.mkdtemp())
+    output_dir = validate_output_dir(output_dir)
+
+    # (6) Return the parsed config
     return ServiceConfig(
+        output_dir=output_dir,
         service_info=service_info,
         database=database_config,
         models=models_config,

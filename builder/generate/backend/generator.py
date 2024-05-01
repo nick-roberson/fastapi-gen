@@ -54,10 +54,10 @@ class BackendGenerator:
         "openapi-generator generate -i $openapi_spec -g python -o $output_dir"
     )
 
-    def __init__(self, config: ServiceConfig, output_dir: str):
+    def __init__(self, config: ServiceConfig):
         # Set the config and output directory
         self.config = config
-        self.output_dir = output_dir
+        self.output_dir = config.output_dir
 
         # Top level dir for generated python client code
         self.client_dir = os.path.join(self.output_dir, self.CLIENT_DIR)

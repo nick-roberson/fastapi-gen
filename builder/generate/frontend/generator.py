@@ -35,10 +35,10 @@ class FrontendGenerator:
         "App.tsx",
     ]
 
-    def __init__(self, output_dir: str, config: ServiceConfig):
+    def __init__(self, config: ServiceConfig):
         # Set the config and output directory
         self.config = config
-        self.output_dir = output_dir
+        self.output_dir = config.output_dir
 
         # Set the path for the application
         service_name = self.config.service_info.name

@@ -1,3 +1,6 @@
+# Output Path
+output_path: <replace>
+
 # Service Configuration
 service:
   name: events-management-app

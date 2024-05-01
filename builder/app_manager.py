@@ -16,51 +16,36 @@ from builder.models import ServiceConfig
 class ApplicationManager:
     """Class to manage the generation of application components based on configuration."""
 
-    def __init__(self, service_config: ServiceConfig, output_dir: str):
+    def __init__(self, config: ServiceConfig):
         """
         Initialize the ApplicationManager with service configuration and output directory.
 
         Args:
-            service_config (ServiceConfig): Configuration for the service.
-            output_dir (str): Directory where generated files will be placed.
+            config (ServiceConfig): Configuration for the service.
         """
-        self.output_dir = output_dir
-        self.service_config = service_config
-        self.service_name = service_config.service_info.name
+        self.output_dir = config.output_dir
+        self.config = config
+        self.service_name = config.service_info.name
 
         # Backend and frontend code directories
-        self.backend_dir = os.path.join(output_dir, "backend")
+        self.backend_dir = os.path.join(self.output_dir, "backend")
         self.db_dir = os.path.join(self.backend_dir, "src/db")
-        self.frontend_dir = os.path.join(output_dir, self.service_name)
+        self.frontend_dir = os.path.join(self.output_dir, self.service_name)
 
         # Initialize minor generators
-        self.docker_generator = DockerGenerator(
-            config=service_config, output_dir=output_dir
-        )
-        self.poetry_generator = PoetryGenerator(
-            config=service_config, output_dir=output_dir
-        )
-        self.openapi_generator = OpenAPIGenerator(
-            config=service_config, output_dir=output_dir
-        )
+        self.docker_generator = DockerGenerator(config=config)
+        self.poetry_generator = PoetryGenerator(config=config)
+        self.openapi_generator = OpenAPIGenerator(config=config)
 
         # Initialize major generators
-        self.backend_generator = BackendGenerator(
-            config=service_config, output_dir=output_dir
-        )
-        self.frontend_generator = FrontendGenerator(
-            config=service_config, output_dir=output_dir
-        )
+        self.backend_generator = BackendGenerator(config=config)
+        self.frontend_generator = FrontendGenerator(config=config)
 
         # Initialize the linting manager
-        self.linting_manager = LintingManager(
-            config=service_config, output_dir=output_dir
-        )
+        self.linting_manager = LintingManager(config=config)
 
         # Initialize the DB manager
-        self.db_manager = DBManager(
-            service_config=service_config, output_dir=output_dir
-        )
+        self.db_manager = DBManager(config=config)
 
     ####################################################################################################################
     # Commands to run the front and backend services
