@@ -121,19 +121,6 @@ class DBManager:
             print(f"Database {self.db_name} created.")
             cursor.close()
 
-    def ensure_schema(self):
-        """
-        Ensures that the database schema exists by creating it if necessary.
-        """
-        self.db_code_exists()
-        with self.get_db_connection() as connection:
-            cursor = connection.cursor()
-            sql = f"CREATE SCHEMA IF NOT EXISTS {self.db_name}"
-            print(f"Creating database schema with command: {sql}")
-            cursor.execute(sql)
-            print(f"Database schema {self.db_name} created.")
-            cursor.close()
-
     def create_migration(self, message: str):
         """
         Generates a new database migration file using Alembic with the specified message.

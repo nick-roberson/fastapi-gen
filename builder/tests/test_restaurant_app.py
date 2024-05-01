@@ -73,6 +73,7 @@ def service():
         )
         db_manager.create_migration("Initial migration")
         db_manager.run_migrations()
+        db_manager.show_migrations()
 
         # (5) Start the FastAPI app with Uvicorn in a subprocess
         service_dir = os.path.join(output_dir, "backend")
