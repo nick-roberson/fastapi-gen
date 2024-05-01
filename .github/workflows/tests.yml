@@ -33,13 +33,14 @@ jobs:
           python-version: '3.12.2'
           architecture: 'x64'
 
-      # Install Homebrew and Deps
-#      - name: Install Homebrew and Deps
-#        run: |
-#          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-#          echo "eval \$($(brew --prefix)/bin/brew shellenv)" >> $GITHUB_ENV
-#          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-#          brew install openapi-generator
+      # Install Homebrew and OpenAPI Generator
+      - name: Install Homebrew and OpenAPI Generator
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $GITHUB_ENV
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          brew install openapi-generator
+
 
       # Setup Node
       - name: Setup Node
