@@ -54,9 +54,21 @@ jobs:
           mysql --host 127.0.0.1 --port 3306 --user root --password=root -e "CREATE DATABASE IF NOT EXISTS test_events_app;"
           mysql --host 127.0.0.1 --port 3306 --user root --password=root -e "CREATE DATABASE IF NOT EXISTS test_restaurant_app;"
 
-      # Run tests
+      # Python Version
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
+
+      # Test CLI Interface
+      - name: Test CLI Interface
+        run: |
+          echo "Testing --help"
+          poetry run python main.py --help
+          poetry run python main.py config --help
+          poetry run python main.py app --help
+          poetry run python main.py db --help
+          poetry run python main.py data --help
+          echo "Testing Creat Entire App"
+          poetry run python main.py app create --config example/alembic/restaurant.yaml
 
       # Install Backend Dependencies
       - name: Install Backend Dependencies
