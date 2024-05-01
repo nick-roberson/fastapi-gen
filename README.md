@@ -152,57 +152,26 @@ All you should need to do before running otherwise is to install the dependencie
 
 ## Usage
 
-This is the CLI interface for the service generator:
-```bash
-% poetry run python main.py --help
-
- Usage: main.py [OPTIONS] COMMAND [ARGS]...
-
-╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ app          Create a FastAPI backend and/or React frontend from an input yaml config.                                                                                                                  │
-│ config       Interactively create a configuration file that can then be used for generating a FastAPI backend and React frontend.                                                                       │
-│ data         Generate fake data for the service using Faker (https://faker.readthedocs.io/).                                                                                                            │
-│ db           Create and apply migrations to the database for any models that have been created.                                                                                                         │
-╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-```
-
-#### Config Commands
-
+Overall CLI structure:
 ```commandline
-╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ create            Create a new configuration file interactively.                                                                                                                               │
-╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+main
+  |_ config                  - Configuration file management.
+  |     \_ create            - Create a new configuration file interactively.
+  |
+  |_ app                     - Application management.      
+  |     |_ create            - Generate a FastAPI backend and React frontend from the input yaml config.
+  |     |_ reload            - Just regenerate the frontend or backend templates, do not recreate the application.
+  |     |_ run-backend       - Run the FastAPI backend from the input yaml config.
+  |     \_ run-frontend      - Run the React frontend from the input yaml config.
+  |
+  |_ data                    - Data management.
+  |     \_ create            - Generate fake data for the service.
+  |
+  |_ db                      - Database management.
+        |_ list              - List all migrations.
+        |_ migrate           - Create migration and apply to the database for any models that have been created.
+        \_ revert            - Revert the database to a previous revision.
 ```
-
-#### App Commands
-
-```commandline
-╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ create            Generate a FastAPI backend and React frontend from the input yaml config.                                                                                                   │
-│ reload            Just regenerate the frontend or backend templates, do not recreate the application.                                                                                         │
-│ run-backend       BETA: Run the FastAPI backend from the input yaml config.                                                                                                                   │
-│ run-frontend      BETA: Run the React frontend from the input yaml config.                                                                                                                    │
-╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-```
-
-#### Data Commands
-
-```commandline
-╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ create            Generate fake data for the service                                                                                                                                   │
-╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-```
-
-#### Database Commands 
-
-```commandline
-╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ list                BETA: List all migrations                                                                                                                                                                                   │
-│ migrate             BETA: Create migration and apply to the database for any models that have been created                                                                                                                      │
-│ revert              BETA: Revert the database to a previous revision                                                                                                                                                            │
-╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-```
-
 ## End to End Example
 
 ### 1. Create a Configuration File

@@ -114,7 +114,7 @@ def run_frontend(
         SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
     ),
 ):
-    """BETA: Run the React frontend from the input yaml config.
+    """Run the React frontend from the input yaml config.
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
@@ -122,10 +122,6 @@ def run_frontend(
         output_dir (Optional[str], optional): Path to the output directory.
             Defaults to SAMPLE_OUTPUT_DIR.
     """
-    print(
-        "[red]This feature is in beta and may not work as expected. Please report any issues on GitHub.[/red]"
-    )
-
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
     manager = ApplicationManager(config=service_config)
@@ -145,16 +141,12 @@ def run_backend(
         SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
     ),
 ):
-    """BETA: Run the FastAPI backend from the input yaml config.
+    """Run the FastAPI backend from the input yaml config.
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
             Defaults to SAMPLE_INPUT_FILE.
     """
-    print(
-        "[red]This feature is in beta and may not work as expected. Please report any issues on GitHub.[/red]"
-    )
-
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
     manager = ApplicationManager(config=service_config)

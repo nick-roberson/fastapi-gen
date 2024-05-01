@@ -36,7 +36,7 @@ def migrate(
         None, "--message", "-m", help="Message for the migration."
     ),
 ):
-    """BETA: Create migration and apply to the database for any models that have been created
+    """ Create migration and apply to the database for any models that have been created
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
@@ -68,7 +68,7 @@ def revert(
         None, "--revision", "-r", help="Revision to revert to."
     ),
 ):
-    """BETA: Revert the database to a previous revision
+    """ Revert the database to a previous revision
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
@@ -96,7 +96,7 @@ def list(
         SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
     ),
 ):
-    """BETA: List all migrations
+    """ List all migrations
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
