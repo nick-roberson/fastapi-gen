@@ -10,6 +10,23 @@ from builder.constants import SAMPLE_INPUT_FILE
 app = typer.Typer()
 
 
+def _get_manager(config: str) -> ApplicationManager:
+    """Get the ApplicationManager object from the config file."""
+    # Validate the inputs, get absolute paths, clean the service name, build the context
+    service_config = validate_config(config)
+    manager = ApplicationManager(config=service_config)
+
+    # If the db_type is "mongo" show an error
+    if service_config.database.db_type == "mongo":
+        print(
+            "[red]MongoDB is not supported for migrations. "
+            "Please use a relational database like MySQL or PostgreSQL.[/red]"
+        )
+        typer.Exit(code=1)
+
+    return manager
+
+
 @app.command()
 def migrate(
     config: Optional[str] = typer.Option(
@@ -31,21 +48,8 @@ def migrate(
             --config example/alembic/restaurant.yaml \
             --output-dir example/alembic/output
     """
-    print(
-        "[red]This feature is in beta and may not work as expected. Please report any issues on GitHub.[/red]"
-    )
-
-    # Validate the inputs, get absolute paths, clean the service name, build the context
-    service_config = validate_config(config)
-    manager = ApplicationManager(config=service_config)
-
-    # If the db_type is "mongo" show an error
-    if service_config.database.db_type == "mongo":
-        print(
-            "[red]MongoDB is not supported for migrations. "
-            "Please use a relational database like MySQL or PostgreSQL.[/red]"
-        )
-        return
+    # Get the ApplicationManager object from the config file
+    manager = _get_manager(config)
 
     # Generate new migration file and apply to the database
     manager.create_migration(message or "New Migration")
@@ -76,21 +80,8 @@ def revert(
             --config example/alembic/restaurant.yaml \
             --output-dir example/alembic/output
     """
-    print(
-        "[red]This feature is in beta and may not work as expected. Please report any issues on GitHub.[/red]"
-    )
-
-    # Validate the inputs, get absolute paths, clean the service name, build the context
-    service_config = validate_config(config)
-    manager = ApplicationManager(config=service_config)
-
-    # If the db_type is "mongo" show an error
-    if service_config.database.db_type == "mongo":
-        print(
-            "[red]MongoDB is not supported for migrations. "
-            "Please use a relational database like MySQL or PostgreSQL.[/red]"
-        )
-        return
+    # Get the ApplicationManager object from the config file
+    manager = _get_manager(config)
 
     # Revert the database to the specified revision
     manager.revert_migration(revision)
@@ -116,21 +107,8 @@ def list(
             --config example/alembic/restaurant.yaml \
             --output-dir example/alembic/output
     """
-    print(
-        "[red]This feature is in beta and may not work as expected. Please report any issues on GitHub.[/red]"
-    )
-
-    # Validate the inputs, get absolute paths, clean the service name, build the context
-    service_config = validate_config(config)
-    manager = ApplicationManager(config=service_config)
-
-    # If the db_type is "mongo" show an error
-    if service_config.database.db_type == "mongo":
-        print(
-            "[red]MongoDB is not supported for migrations. "
-            "Please use a relational database like MySQL or PostgreSQL.[/red]"
-        )
-        return
+    # Get the ApplicationManager object from the config file
+    manager = _get_manager(config)
 
     # List all migrations
     manager.show_migrations()

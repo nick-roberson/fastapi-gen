@@ -1,4 +1,3 @@
-import json
 from typing import Optional
 
 import typer
@@ -6,7 +5,7 @@ from rich import print
 
 from builder.app_manager import ApplicationManager
 from builder.cli.utils import process_close, validate_config
-from builder.constants import SAMPLE_INPUT_FILE, SAMPLE_OUTPUT_DIR
+from builder.constants import SAMPLE_INPUT_FILE
 
 app = typer.Typer()
 
