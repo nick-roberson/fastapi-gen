@@ -77,7 +77,7 @@ jobs:
           export DB_PASSWORD=root
           export DB_NAME=test_restaurant_app
           # Run Tests
-          poetry run coverage run -m pytest builder/tests/test_restaurant_app.py --verbose
+          poetry run coverage run --source=builder -m pytest builder/tests/test_restaurant_app.py --verbose
           poetry run coverage report -m
 
       # Run test create app
@@ -100,7 +100,7 @@ jobs:
       - name: Run Unit Tests
         run: |
           echo "Running Unit Tests"
-          poetry run coverage run -m pytest builder/generate --verbose
+          poetry run coverage run --source=builder -m pytest builder/generate --verbose
           poetry run coverage report -m
 
 

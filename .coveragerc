@@ -1,4 +1,4 @@
-[pytest]
-addopts =
-    --cov=my_project
-    --cov-config=.coveragerc
+[run]
+omit =
+    */__init__.py
+    */tests/*
