@@ -23,15 +23,15 @@ def get_url(db_type: str) -> str:
     """Get the database URL from the environment variables"""
     # Validate that all environment variables are set
     if not all(v is not None for v in ALL_VARS):
-        raise ValueError(f"Missing environment variables: {', '.join(ALL_VARS)}")
+        message = f"ERROR: Missing environment variables: {', '.join(ALL_VARS)}"
+        print(message)
+        raise ValueError(message)
 
-    # Validate that the DB_TYPE is set
-    if db_type is None:
-        raise ValueError("DB_TYPE environment variable must be set")
+    # Validate the database type
     if db_type not in DB_TYPES:
-        raise ValueError(
-            f"Invalid database type {db_type} must be 'postgres' or 'mysql'"
-        )
+        message = f"ERROR: Unsupported database type: {db_type}"
+        print(message)
+        raise ValueError(message)
 
     # Return the database URL based on the type
     if db_type == "postgres":

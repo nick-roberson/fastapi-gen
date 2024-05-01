@@ -37,6 +37,8 @@ jobs:
       - name: Install Homebrew and OpenAPI Generator
         run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bashrc
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
           brew install openapi-generator
 
       # Setup Node
@@ -51,13 +53,22 @@ jobs:
           mysql --host 127.0.0.1 --port 3306 --user root --password=root -e "CREATE DATABASE IF NOT EXISTS test_events_app;"
           mysql --host 127.0.0.1 --port 3306 --user root --password=root -e "CREATE DATABASE IF NOT EXISTS test_restaurant_app;"
 
-      # Python Version
-      - name: Display Python version
-        run: python -c "import sys; print(sys.version)"
+      # Install Backend Dependencies
+      - name: Install Backend Dependencies
+        run: |
+          echo "Installing Backend Dependencies"
+          python -m pip install --upgrade pip
+          pip install poetry coverage
+          poetry install
 
       # Test CLI Interface
       - name: Test CLI Interface
         run: |
+          export DB_HOST=127.0.0.1
+          export DB_PORT=3306
+          export DB_USER=root
+          export DB_PASSWORD=root
+          export DB_NAME=test_restaurant_app
           echo "Testing --help"
           poetry run python main.py --help
           poetry run python main.py config --help
@@ -66,14 +77,6 @@ jobs:
           poetry run python main.py data --help
           echo "Testing Creat Entire App"
           poetry run python main.py app create --config example/alembic/restaurant.yaml
-
-      # Install Backend Dependencies
-      - name: Install Backend Dependencies
-        run: |
-          echo "Installing Backend Dependencies"
-          python -m pip install --upgrade pip
-          pip install poetry coverage
-          poetry install
 
       # Run end-to-end tests
       - name: Test Unit and End to End

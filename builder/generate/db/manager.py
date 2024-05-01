@@ -57,7 +57,9 @@ class DBManager:
         elif self.db_type == "postgres":
             return {**db_config_common, "dbname": self.db_name}
         else:
-            raise ValueError("Unsupported database type")
+            message = f"ERROR: Unsupported database type: {self.db_type}"
+            print(message)
+            raise ValueError(message)
 
     def _initialize_database(self):
         """
@@ -66,7 +68,10 @@ class DBManager:
         try:
             self.connection = self.get_db_connection()
         except Exception as e:
-            print(f"Failed to connect to the database, creating schema now: {e}")
+            message = (
+                f"ERROR: Failed to connect to the database, creating schema now: {e}"
+            )
+            print(message)
             self.ensure_database()
 
     def db_code_exists(self):
@@ -74,7 +79,9 @@ class DBManager:
         Checks if the database code directory exists in the specified backend directory.
         """
         if not os.path.exists(self.db_dir):
-            raise FileNotFoundError(f"Database service not found at {self.db_dir}")
+            message = f"ERROR: Database service not found at {self.db_dir}"
+            print(message)
+            raise FileNotFoundError(message)
 
     def get_db_connection(self, with_db: bool = True):
         """
@@ -98,11 +105,15 @@ class DBManager:
             elif self.db_type == "postgres":
                 connection = psycopg2.connect(**config)
             else:
-                raise ValueError("Unsupported database type")
+                message = f"ERROR: Unsupported database type: {self.db_type}"
+                print(message)
+                raise ValueError(message)
             print("Database connection successful.")
             return connection
         except Exception as e:
-            raise Exception(f"Failed to connect to the database: {e}")
+            message = f"ERROR: Failed to connect to the database: {e}"
+            print(message)
+            raise ConnectionError(message)
 
     def ensure_database(self):
         """
