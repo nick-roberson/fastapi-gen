@@ -3,6 +3,7 @@ from subprocess import run
 
 import psycopg2
 import pymysql
+from rich import print
 
 from builder.generate.db.constants import get_url
 from builder.models import ServiceConfig
@@ -10,83 +11,92 @@ from builder.models import ServiceConfig
 
 class DBManager:
     """
-    Manages database operations based on the given service configuration and output directory.
-    This class handles tasks such as creating, running, and reverting database migrations
-    using Alembic through Poetry-managed environments.
+    Manages database operations based on the service configuration and output directory.
+    Handles tasks such as creating, running, and reverting database migrations using Alembic.
     """
 
     def __init__(self, service_config: ServiceConfig, output_dir: str):
         """
-        Initialize the DBManager with service configuration and output directory.
-
-        Args:
-            service_config (ServiceConfig): Configuration object containing details about the service,
-                                            including database configurations and service metadata.
-            output_dir (str): Base directory where the output and generated files will be managed.
-                              This typically includes generated code and migration files.
+        Initializes the DBManager with the service configuration and output directory.
+        Sets up directories and database configuration, and initializes the database connection.
         """
-        # Initialize the output directory and service configuration
+        # Setup directories for output and database operations
         self.output_dir = output_dir
         self.service_config = service_config
-
-        # Initialize the service name
-        self.service_name = service_config.service_info.name
-
-        # Initialize backend and database directories
         self.backend_dir = os.path.join(output_dir, "backend")
         self.db_dir = os.path.join(self.backend_dir, "src/db")
+        self.db_type = service_config.database.db_type
 
-        # Get the DB URL based on the service configuration
+        # Retrieve the database URL from service configuration
         self.db_url = get_url(service_config.database.db_type)
 
-        # Get DB Environment Variables
-        self.db_port_env = service_config.database.port_env
-        self.db_host_env = service_config.database.host_env
-        self.db_user_env = service_config.database.user_env
-        self.db_name_env = service_config.database.db_name_env
-        self.db_password_env = service_config.database.password_env
+        # Retrieve the database name from the environment
+        self.db_name = os.getenv(self.service_config.database.db_name_env)
 
-        # Create DB Config
-        self.mysql_db_config = {
-            "host": os.getenv(self.db_host_env),
-            "port": int(os.getenv(self.db_port_env)),
-            "user": os.getenv(self.db_user_env),
-            "password": os.getenv(self.db_password_env),
-            "db": "",  # self.service_name # os.getenv(self.db_name_env),
-        }
-        self.postgres_db_config = {
-            "dbname": os.getenv(self.db_name_env),
-            "user": os.getenv(self.db_user_env),
-            "password": os.getenv(self.db_password_env),
-            "host": os.getenv(self.db_host_env),
-            "port": int(os.getenv(self.db_port_env)),
+        # Setup database configuration from environment variables
+        self.db_config = self._setup_db_config()
+
+        # Initialize the database connection or create schema if connection fails
+        self._initialize_database()
+
+    def _setup_db_config(self):
+        """
+        Sets up and returns the database configuration for MySQL and PostgreSQL based on environment variables.
+        """
+        # Common configuration for both database types
+        db_config_common = {
+            "host": os.getenv(self.service_config.database.host_env),
+            "port": int(os.getenv(self.service_config.database.port_env)),
+            "user": os.getenv(self.service_config.database.user_env),
+            "password": os.getenv(self.service_config.database.password_env),
         }
 
-        # Check if a connection can be made to the database
-        self.get_db_connection()
+        # Return configuration specific to the database type
+        if self.db_type == "mysql":
+            return {**db_config_common, "db": self.db_name}
+        elif self.db_type == "postgres":
+            return {**db_config_common, "dbname": self.db_name}
+        else:
+            raise ValueError("Unsupported database type")
+
+    def _initialize_database(self):
+        """
+        Tries to establish a database connection; if unsuccessful, it attempts to create the database schema and the database itself.
+        """
+        try:
+            self.connection = self.get_db_connection()
+        except Exception as e:
+            print(f"Failed to connect to the database, creating schema now: {e}")
+            self.ensure_database()
 
     def db_code_exists(self):
         """
-        Checks if the database code directory exists in the backend directory.
-
-        Raises:
-            FileNotFoundError: If the database directory does not exist.
+        Checks if the database code directory exists in the specified backend directory.
         """
         if not os.path.exists(self.db_dir):
             raise FileNotFoundError(f"Database service not found at {self.db_dir}")
 
-    def get_db_connection(self) -> object:
+    def get_db_connection(self, with_db: bool = True):
         """
-        Checks that a connection can be made to the database.
-        Supports both MySQL and PostgreSQL databases.
+        Attempts to establish and return a database connection using the configured settings for MySQL or PostgreSQL.
         """
+        print(f"Getting database connection for {self.db_name}")
         self.db_code_exists()
-        db_type = self.service_config.database.db_type
         try:
-            if db_type == "mysql":
-                connection = pymysql.connect(**self.mysql_db_config)
-            elif db_type == "postgres":
-                connection = psycopg2.connect(**self.postgres_db_config)
+            # If we are getting a connection to create the database, we don't need to specify the database name
+            config = self.db_config.copy()
+            if not with_db:
+                print(f"Connecting to database without specifying a database name.")
+                if self.db_type == "mysql":
+                    config["db"] = ""
+                elif self.db_type == "postgres":
+                    config["dbname"] = "postgres"
+
+            # Connect to the database based on the type
+            if self.db_type == "mysql":
+                connection = pymysql.connect(**config)
+            elif self.db_type == "postgres":
+                connection = psycopg2.connect(**config)
             else:
                 raise ValueError("Unsupported database type")
             print("Database connection successful.")
@@ -94,41 +104,39 @@ class DBManager:
         except Exception as e:
             raise Exception(f"Failed to connect to the database: {e}")
 
-    def create_schema(self):
+    def ensure_database(self):
         """
-        Create the database schema named after the service name using connections
-        to MySQL or PostgreSQL databases.
+        Creates the database if it does not exist using the configuration provided.
         """
         self.db_code_exists()
-        db_type = self.service_config.database.db_type
-        try:
-            if db_type == "mysql":
-                connection = pymysql.connect(**self.mysql_db_config)
-                with connection.cursor() as cursor:
-                    sql = f"CREATE SCHEMA IF NOT EXISTS {self.service_name}"
-                    print(f"Creating database schema {sql}")
-                    cursor.execute(sql)
-                print(f"Database schema {self.mysql_db_config['db']} created.")
-            elif db_type == "postgres":
-                connection = psycopg2.connect(**self.postgres_db_config)
-                with connection.cursor() as cursor:
-                    sql = f"CREATE SCHEMA IF NOT EXISTS {self.service_name}"
-                    print(f"Creating database schema {sql}")
-                    cursor.execute(sql)
-                print(f"Database schema {self.postgres_db_config['dbname']} created.")
-            else:
-                raise ValueError("Unsupported database type")
-        except Exception as e:
-            raise Exception(f"Failed to create the database schema: {e}")
-        finally:
-            connection.close()
+        with self.get_db_connection(with_db=False) as connection:
+            cursor = connection.cursor()
+            sql = (
+                f"CREATE DATABASE IF NOT EXISTS {self.db_name}"
+                if self.db_type == "mysql"
+                else f"CREATE DATABASE {self.db_name}"
+            )
+            print(f"Creating database with command: {sql}")
+            cursor.execute(sql)
+            print(f"Database {self.db_name} created.")
+            cursor.close()
+
+    def ensure_schema(self):
+        """
+        Ensures that the database schema exists by creating it if necessary.
+        """
+        self.db_code_exists()
+        with self.get_db_connection() as connection:
+            cursor = connection.cursor()
+            sql = f"CREATE SCHEMA IF NOT EXISTS {self.db_name}"
+            print(f"Creating database schema with command: {sql}")
+            cursor.execute(sql)
+            print(f"Database schema {self.db_name} created.")
+            cursor.close()
 
     def create_migration(self, message: str):
         """
-        Create a new database migration file using Alembic with auto generation of migration scripts.
-
-        Args:
-            message (str): A brief description of the migration for use in the migration script.
+        Generates a new database migration file using Alembic with the specified message.
         """
         print(f"Generating migration: {message}")
         self.db_code_exists()
@@ -141,25 +149,20 @@ class DBManager:
             "-m",
             f"'{message}'",
         ]
-        print(f"Running command: {' '.join(commands)}")
         run(commands, cwd=self.db_dir)
 
     def run_migrations(self):
         """
-        Applies all pending migrations to the database up to the latest revision using Alembic.
+        Applies all pending migrations to the database up to the latest revision.
         """
-        print(f"Running migrations: {self.service_name}")
+        print(f"Running migrations on {self.db_name}")
         self.db_code_exists()
         commands = ["poetry", "run", "alembic", "upgrade", "head"]
-        print(f"Running command: {' '.join(commands)}")
         run(commands, cwd=self.db_dir)
 
     def revert_migration(self, revision: str):
         """
-        Reverts the database schema to a previous version specified by the revision tag using Alembic.
-
-        Args:
-            revision (str): The revision identifier to which the database should be reverted.
+        Reverts the database schema to a previous version specified by the revision identifier.
         """
         self.db_code_exists()
         commands = ["poetry", "run", "alembic", "downgrade", revision]
@@ -167,12 +170,8 @@ class DBManager:
 
     def show_migrations(self):
         """
-        Displays a list of all database migrations, both applied and pending, using Alembic.
-
-        Prints:
-            Outputs the list of migrations directly to the console.
+        Displays all database migrations, both applied and pending, for review.
         """
         self.db_code_exists()
-        print(f"Migrations: {self.service_name}")
         commands = ["poetry", "run", "alembic", "history"]
         run(commands, cwd=self.db_dir)

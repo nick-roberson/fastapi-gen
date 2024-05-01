@@ -39,7 +39,3 @@ def get_url() -> str:
         raise ValueError(
             f"Invalid database type {DB_TYPE} must be 'postgres' or 'mysql'"
         )
-
-
-# Get the database URL
-DB_URL = get_url()

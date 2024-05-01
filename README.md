@@ -241,7 +241,7 @@ Run Frontend (NPM):
         --output-dir example/alembic/output
 ```
 
-### 3. Apply Database Migrations
+### 3. Create and Apply Database Migrations
 
 If you are using PostgreSQL or MySQL, you can apply the migrations to the database using the following command:
 ```commandline

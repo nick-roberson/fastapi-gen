@@ -17,7 +17,6 @@ if config.config_file_name is not None:
 
 # Add your model's MetaData object here
 target_metadata = Base.metadata
-target_metadata.schema = "restaurant_app"
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -65,9 +64,6 @@ def get_url() -> str:
         )
 
 
-DB_URL = get_url()
-
-
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
 
@@ -81,7 +77,7 @@ def run_migrations_offline() -> None:
 
     """
     context.configure(
-        url=DB_URL,
+        url=get_url(),
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
@@ -98,7 +94,7 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    connectable = create_engine(DB_URL)
+    connectable = create_engine(get_url())
     with connectable.connect() as connection:
         context.configure(connection=connection, target_metadata=target_metadata)
 

@@ -4,15 +4,14 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.schema import MetaData
 from sqlalchemy.sql import func
 
-# Create a MetaData instance with the specified schema
-metadata = MetaData(schema="restaurant_app")
-Base = declarative_base(metadata=metadata)
+Base = declarative_base()
 
 
 class DBUser(Base):
 
     # Define Table Name
     __tablename__ = "user"
+
     # Define Columns
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -36,6 +35,7 @@ class DBRestaurant(Base):
 
     # Define Table Name
     __tablename__ = "restaurant"
+
     # Define Columns
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -59,6 +59,7 @@ class DBReservation(Base):
 
     # Define Table Name
     __tablename__ = "reservation"
+
     # Define Columns
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -82,6 +83,7 @@ class DBReview(Base):
 
     # Define Table Name
     __tablename__ = "review"
+
     # Define Columns
 
     id = Column(Integer, primary_key=True, autoincrement=True)

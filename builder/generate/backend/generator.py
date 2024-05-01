@@ -167,16 +167,6 @@ class BackendGenerator:
                 f"Invalid db_type '{db_type}', allowed types are {DatabaseTypes.choices()}"
             )
 
-    def _update_alembic_db(self):
-        """Generate the Alembic migration files."""
-        # Create the alembic migration files
-        run_command(
-            "poetry run alembic revision --autogenerate -m 'Initial Migration'",
-            cwd=self.db_dir,
-        )
-        # Apply the alembic migration files
-        run_command("poetry run alembic upgrade head", cwd=self.db_dir)
-
     def _generate_alembic_db(self):
         """Generate the Alembic database files."""
         # First copy over the alembic template files
@@ -256,9 +246,6 @@ class BackendGenerator:
                 "schema_name": self.config.service_info.name,
             },
         )
-
-        # Use alembic to generate the migration files
-        self._update_alembic_db()
 
         # Return all created files
         return alembic_files + manager_file_names + [output_path]

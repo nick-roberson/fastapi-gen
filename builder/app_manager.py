@@ -95,22 +95,22 @@ class ApplicationManager:
 
     def create_migration(self, message: str):
         """Create a new migration for the database."""
-        self.db_manager.create_schema()
+        self.db_manager.ensure_schema()
         self.db_manager.create_migration(message)
 
     def run_migrations(self):
         """Run the database migrations."""
-        self.db_manager.create_schema()
+        self.db_manager.ensure_schema()
         self.db_manager.run_migrations()
 
     def revert_migration(self, revision: str):
         """Revert the database to a previous revision."""
-        self.db_manager.create_schema()
+        self.db_manager.ensure_schema()
         self.db_manager.revert_migration(revision)
 
     def show_migrations(self):
         """Get a list of all migrations."""
-        self.db_manager.create_schema()
+        self.db_manager.ensure_schema()
         self.db_manager.show_migrations()
 
     ####################################################################################################################
