@@ -6,7 +6,7 @@ import yaml
 from rich import print
 
 from builder.cli.utils import validate_config
-from builder.config.parse import validate_output_dir
+from builder.config.parse import validate_config, validate_output_dir
 
 app = typer.Typer()
 
@@ -41,7 +41,10 @@ def create_config(output_dir: str) -> str:
     Returns:
         str: The path to the configuration file.
     """
+    # (1) Define the configuration structure
     config = {
+        # Get Output directory
+        "output_dir": output_dir,
         # Get service information
         "service": {
             "name": input_field("service name", required=False, default="my_service"),
@@ -75,7 +78,7 @@ def create_config(output_dir: str) -> str:
         "models": [],
     }
 
-    # Get model information
+    # (2) Get model information
     model_count = int(input("How many models would you like to define? "))
     for _ in range(model_count):
         model_name = input_field("model name")
@@ -101,12 +104,29 @@ def create_config(output_dir: str) -> str:
 
         config["models"].append({"name": model_name, "fields": fields})
 
-    # Write the configuration to a file
+    # (3) Try to validate the config structure
+    try:
+        validate_config(config)
+    except Exception as e:
+        print(f"Error validating configuration: {e}")
+        print(
+            "If this is an issue with the code you think, please open an issue on GitHub."
+        )
+        exit(1)
+
+    # (4) Check that the configuration is correct
+    print("Configuration:")
+    print(yaml.dump(config, sort_keys=False, indent=2))
+    confirm = input("Is this configuration correct? (y/n): ")
+    if confirm.lower() != "y":
+        print("Configuration not confirmed. Exiting.")
+        exit(1)
+
+    # (5) Write the configuration to a file
     config_file = os.path.join(output_dir, "config.yaml")
     with open(config_file, "w") as file:
         yaml.dump(config, file, sort_keys=False)
 
-    # Return the path to the configuration file
     return config_file
 
 
