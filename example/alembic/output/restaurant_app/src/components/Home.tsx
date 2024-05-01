@@ -10,7 +10,7 @@ export function Home() {
     <Box display="flex" justifyContent="center" height="100vh">
       <div>
         <Typography variant="h3" gutterBottom m={2}>
-          Welcome to the reservations-app!
+          Welcome to the restaurant_app!
         </Typography>
 
         <Typography m={2}>

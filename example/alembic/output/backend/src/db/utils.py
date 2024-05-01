@@ -1,11 +1,11 @@
 from sqlalchemy import create_engine
-from src.db.constants import DB_URL
+from src.db.constants import get_url
 from src.db.models import DBReservation, DBRestaurant, DBReview, DBUser
 
 
 async def ensure_all_tables():
     """Create all tables if they do not exist"""
-    engine = create_engine(DB_URL)
+    engine = create_engine(get_url())
     # Create the tables
 
     print(f"Ensuring table for DBUser")

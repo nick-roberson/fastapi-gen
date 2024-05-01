@@ -227,6 +227,14 @@ class ServiceInfo(BaseModel):
     version: str = "0.1.0"
     description: str = "A service built with builder"
 
+    def __init__(self, **data):
+        super().__init__(**data)
+        # Get rid of special characters in the name
+        self.name = self.name.replace("-", "_").replace(" ", "_")
+        # Set the email if not provided
+        if not self.email:
+            self.email = f"{self.name}@example.com"
+
     def __str__(self):
         return f"ServiceInfo(service_name={self.name}, version={self.version}, description={self.description})"
 

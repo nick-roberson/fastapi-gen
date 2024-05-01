@@ -127,7 +127,7 @@ def list(
     manager = ApplicationManager(service_config=service_config, output_dir=output_dir)
 
     # List all migrations
-    manager.get_migrations()
+    manager.show_migrations()
 
     print(f"List of all migrations")
     print(f"\nYou can now use this data to seed your database.")

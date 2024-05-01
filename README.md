@@ -128,6 +128,9 @@ correct environment variables set (see the `setup` section for more information)
   - https://openapi-generator.tech/docs/installation/
 - `npm` installed (for frontend running)
   - https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+- If using postgres as the database
+  - `brew install libpq`
+
 
 **Database**
 - If using **MongoDB** as the database, you will need to set up a free tier MongoDB Atlas database as well as have `MONGO_URI` set in your environment variables.
@@ -238,7 +241,7 @@ Run Frontend (NPM):
         --output-dir example/alembic/output
 ```
 
-### 3. Apply Database Migrations
+### 3. Create and Apply Database Migrations
 
 If you are using PostgreSQL or MySQL, you can apply the migrations to the database using the following command:
 ```commandline

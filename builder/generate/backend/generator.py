@@ -167,16 +167,6 @@ class BackendGenerator:
                 f"Invalid db_type '{db_type}', allowed types are {DatabaseTypes.choices()}"
             )
 
-    def _update_alembic_db(self):
-        """Generate the Alembic migration files."""
-        # Create the alembic migration files
-        run_command(
-            "poetry run alembic revision --autogenerate -m 'Initial Migration'",
-            cwd=self.db_dir,
-        )
-        # Apply the alembic migration files
-        run_command("poetry run alembic upgrade head", cwd=self.db_dir)
-
     def _generate_alembic_db(self):
         """Generate the Alembic database files."""
         # First copy over the alembic template files
@@ -199,7 +189,10 @@ class BackendGenerator:
             template_dir=ALEMBIC_TEMPLATES,
             template_name="models.jinja",
             output_path=output_path,
-            context={"models": self.config.models},
+            context={
+                "models": self.config.models,
+                "schema_name": self.config.service_info.name,
+            },
         )
 
         # Handle *_managers.py
@@ -250,11 +243,9 @@ class BackendGenerator:
             context={
                 "models": self.config.models,
                 "db_config": self.config.database,
+                "schema_name": self.config.service_info.name,
             },
         )
-
-        # Use alembic to generate the migration files
-        self._update_alembic_db()
 
         # Return all created files
         return alembic_files + manager_file_names + [output_path]
@@ -431,8 +422,8 @@ class BackendGenerator:
             run_command(f"touch {init_file}")
 
         # For each directory in the code dir create an __init__.py file if it does not exist
-        for root, dirs, files in os.walk(self.code_dir):
-            for dir in dirs:
-                init_file = os.path.join(root, dir, "__init__.py")
+        for root, directories, files in os.walk(self.code_dir):
+            for directory in directories:
+                init_file = os.path.join(root, directory, "__init__.py")
                 if not os.path.exists(init_file):
                     run_command(f"touch {init_file}")

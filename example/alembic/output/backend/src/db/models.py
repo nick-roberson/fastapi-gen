@@ -1,6 +1,7 @@
 from sqlalchemy import (JSON, Boolean, Column, DateTime, Float, Integer,
                         String, Text)
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.schema import MetaData
 from sqlalchemy.sql import func
 
 Base = declarative_base()
@@ -8,7 +9,10 @@ Base = declarative_base()
 
 class DBUser(Base):
 
+    # Define Table Name
     __tablename__ = "user"
+
+    # Define Columns
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
@@ -22,13 +26,17 @@ class DBUser(Base):
 
     role = Column(String(1000), nullable=True, default="user")
 
+    # Define Updated and Created At (Auto) (Could be used for DB Replication)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
 
 class DBRestaurant(Base):
 
+    # Define Table Name
     __tablename__ = "restaurant"
+
+    # Define Columns
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
@@ -42,13 +50,17 @@ class DBRestaurant(Base):
 
     price_range = Column(String(1000), nullable=True, default="")
 
+    # Define Updated and Created At (Auto) (Could be used for DB Replication)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
 
 class DBReservation(Base):
 
+    # Define Table Name
     __tablename__ = "reservation"
+
+    # Define Columns
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
@@ -62,13 +74,17 @@ class DBReservation(Base):
 
     special_requests = Column(String(1000), nullable=True, default="")
 
+    # Define Updated and Created At (Auto) (Could be used for DB Replication)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
 
 class DBReview(Base):
 
+    # Define Table Name
     __tablename__ = "review"
+
+    # Define Columns
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
@@ -80,5 +96,6 @@ class DBReview(Base):
 
     comment = Column(String(1000), nullable=True, default="")
 
+    # Define Updated and Created At (Auto) (Could be used for DB Replication)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())

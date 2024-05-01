@@ -1,0 +1,6 @@
+[run]
+omit =
+    */__init__.py
+    */tests/*
+    builder/templates/*
+    builder/cli/*

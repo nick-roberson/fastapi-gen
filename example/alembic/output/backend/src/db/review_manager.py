@@ -4,7 +4,7 @@ from typing import List
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from src.db.constants import DB_URL
+from src.db.constants import get_url
 from src.db.models import DBReview
 from src.models.models import Review, ReviewQuery
 
@@ -24,7 +24,7 @@ class ReviewManager:
 
     def __init__(self):
         """Initialize the CaseManager."""
-        engine = create_engine(DB_URL)
+        engine = create_engine(get_url())
         self.session_factory = sessionmaker(bind=engine)
         logging.info("CaseManager successfully initialized")
 

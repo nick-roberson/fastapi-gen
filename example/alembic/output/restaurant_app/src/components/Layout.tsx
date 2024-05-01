@@ -36,7 +36,7 @@ function Layout() {
           <Box>
             <Toolbar disableGutters>
               <Box m={1}>
-                <Typography variant="h5">reservations-app</Typography>
+                <Typography variant="h5">restaurant_app</Typography>
               </Box>
 
               <Box m={1}>

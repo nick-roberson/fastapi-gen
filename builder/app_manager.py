@@ -4,6 +4,7 @@ from typing import Dict
 
 # Import Generators
 from builder.generate.backend.generator import BackendGenerator
+from builder.generate.db.manager import DBManager
 from builder.generate.docker.generator import DockerGenerator
 from builder.generate.frontend.generator import FrontendGenerator
 from builder.generate.linting.manager import LintingManager
@@ -56,6 +57,11 @@ class ApplicationManager:
             config=service_config, output_dir=output_dir
         )
 
+        # Initialize the DB manager
+        self.db_manager = DBManager(
+            service_config=service_config, output_dir=output_dir
+        )
+
     ####################################################################################################################
     # Commands to run the front and backend services
     ####################################################################################################################
@@ -89,52 +95,23 @@ class ApplicationManager:
 
     def create_migration(self, message: str):
         """Create a new migration for the database."""
-        # Confirm the presence of the backend service
-        if not os.path.exists(self.db_dir):
-            raise FileNotFoundError(f"Backend service not found at {self.db_dir}")
-
-        # Run using alembic using poetry
-        commands = [
-            "poetry",
-            "run",
-            "alembic",
-            "revision",
-            "--autogenerate",
-            "-m",
-            message,
-        ]
-        run(commands, cwd=self.db_dir)
+        self.db_manager.ensure_schema()
+        self.db_manager.create_migration(message)
 
     def run_migrations(self):
         """Run the database migrations."""
-        # Confirm the presence of the backend service
-        if not os.path.exists(self.db_dir):
-            raise FileNotFoundError(f"Backend service not found at {self.db_dir}")
-
-        # Run using alembic using poetry
-        commands = ["poetry", "run", "alembic", "upgrade", "head"]
-        run(commands, cwd=self.db_dir)
+        self.db_manager.ensure_schema()
+        self.db_manager.run_migrations()
 
     def revert_migration(self, revision: str):
         """Revert the database to a previous revision."""
-        # Confirm the presence of the backend service
-        if not os.path.exists(self.db_dir):
-            raise FileNotFoundError(f"Backend service not found at {self.db_dir}")
+        self.db_manager.ensure_schema()
+        self.db_manager.revert_migration(revision)
 
-        # Run using alembic using poetry
-        commands = ["poetry", "run", "alembic", "downgrade", revision]
-        run(commands, cwd=self.db_dir)
-
-    def get_migrations(self):
+    def show_migrations(self):
         """Get a list of all migrations."""
-        # Confirm the presence of the backend service
-        if not os.path.exists(self.db_dir):
-            raise FileNotFoundError(f"Backend service not found at {self.db_dir}")
-
-        # Run using alembic using poetry
-        print(f"Migrations: {self.service_name}")
-        commands = ["poetry", "run", "alembic", "history"]
-        run(commands, cwd=self.db_dir)
+        self.db_manager.ensure_schema()
+        self.db_manager.show_migrations()
 
     ####################################################################################################################
     # Creating new applications from scratch
