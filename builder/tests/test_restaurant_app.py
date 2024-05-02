@@ -4,7 +4,7 @@ import os
 import subprocess
 import tempfile
 import time
-from typing import Dict, List, Tuple
+from typing import Dict, Tuple
 
 import pytest
 import requests
@@ -17,38 +17,32 @@ from builder.generate.poetry.generator import PoetryGenerator
 from builder.models.configs import ServiceConfig
 from builder.test_data.create_fake_data import create_fake_data
 
-# Constants to store the default host, port, and base URL of the running service
+# Set default values for the service's host, port, and URL
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8000
 BASE_URL = f"http://{DEFAULT_HOST}:{DEFAULT_PORT}"
-NUM_MODELS = 5
+NUM_MODELS = 5  # Number of model instances for testing
 
-# Constants to store the config and parameters for the tests
-TEST_RESTAURANTS_CONFIG_FP: str = os.path.abspath(
-    "builder/tests/configs/restaurant.yaml"
-)
-TEST_EVENTS_CONFIG_FP: str = os.path.abspath("builder/tests/configs/events.yaml")
-
-# Load and validate the restaurant config
+# Load configurations from files
+TEST_RESTAURANTS_CONFIG_FP = os.path.abspath("builder/tests/configs/restaurant.yaml")
 TEST_RESTAURANT_CONFIG: ServiceConfig = load_and_validate_config(
     TEST_RESTAURANTS_CONFIG_FP
 )
-TEST_RESTAURANT_PARAMS: List[Tuple] = [
+
+# Prepare parameters for model tests based on configurations
+TEST_RESTAURANT_PARAMS = [
     (model.name, model.name.lower()) for model in TEST_RESTAURANT_CONFIG.models
 ]
 
 
-# Fixture to create the code and start the service
 @pytest.fixture(scope="module")
 def service():
-    """Fixture to create the code and start the service, and ensure cleanup after tests."""
-    # Create a temporary directory that will be cleaned up automatically
+    """Setup the application environment, start the service, and perform cleanup."""
     with tempfile.TemporaryDirectory() as output_dir:
-        print(f"Output directory: {output_dir}")
         config = copy.copy(TEST_RESTAURANT_CONFIG)
         config.output_dir = output_dir
 
-        # (1) Generate the backend code
+        # Generate backend code components and setup the environment
         generator = BackendGenerator(config=config)
         generator.generate_models()
         generator.generate_services()
@@ -56,24 +50,23 @@ def service():
         generator.generate_database()
         generator.generate_readme()
 
-        # (2) Lint
+        # Lint the generated code
         linting_manager = LintingManager(config=config)
         linting_manager.lint_backend()
 
-        # (3) Install deps
+        # Install project dependencies using Poetry
         poetry_generator = PoetryGenerator(config=config)
         poetry_generator.generate_poetry_toml()
         poetry_generator.install_dependencies()
 
-        # (4) Create the database and run migrations
+        # Manage database migrations
         db_manager = DBManager(config=config)
         db_manager.create_migration("Initial migration")
         db_manager.run_migrations()
         db_manager.show_migrations()
 
-        # (5) Start the FastAPI app with Uvicorn in a subprocess
+        # Start the application server
         service_dir = os.path.join(output_dir, "backend")
-        print(f"Starting FastAPI app with Uvicorn from dir {service_dir}...")
         proc = subprocess.Popen(
             [
                 "uvicorn",
@@ -86,33 +79,24 @@ def service():
             ],
             cwd=service_dir,
         )
+        time.sleep(5)  # Allow time for the server to start
 
-        time.sleep(5)
-
-        # (6) Yield the process and output directory to the test function
         yield proc, output_dir
 
-        # (7) Cleanup after the test runs
-        print("Terminating the Uvicorn server...")
+        # Terminate the server and cleanup
         proc.kill()
         proc.wait()
-        print(f"Deleted output directory: {output_dir}")
 
 
 @pytest.fixture(scope="module")
-def fake_data(service: Tuple) -> Dict:
-    """Fixture to create the fake data for the service."""
-    # Unpack the service tuple
+def fake_data(service):
+    """Generate and load fake data for use in tests."""
     proc, output_dir = service
-
-    # Create the fake data
     fake_data_paths = create_fake_data(
-        config=TEST_RESTAURANT_CONFIG,
-        num=NUM_MODELS,
-        no_ids=True,
+        config=TEST_RESTAURANT_CONFIG, num=NUM_MODELS, no_ids=True
     )
 
-    # Load fake data from files
+    # Load the generated fake data from files
     fake_data = {}
     for model_name, fake_data_path in fake_data_paths.items():
         with open(fake_data_path, "r") as f:
@@ -121,21 +105,16 @@ def fake_data(service: Tuple) -> Dict:
     yield fake_data
 
 
-def test_root_endpoints(service: Tuple):
-    """Simple test to validate the example config and check the health endpoint."""
-    # Unpack the service tuple
+def test_root_endpoints(service):
+    """Test the health and readiness endpoints of the service."""
     proc, output_dir = service
 
-    # Check the health endpoint
-    BASE_URL = f"http://{DEFAULT_HOST}:{DEFAULT_PORT}"
-    print(f"Running Uvicorn on {BASE_URL} and hitting the health endpoint...")
-
-    # Perform HTTP GET request to the health endpoint
+    # Test health endpoint
     response = requests.get(f"{BASE_URL}/health")
     assert response.status_code == 200
     assert response.json() == {"message": "Healthy"}
 
-    # Perform HTTP GET request to the ready endpoint
+    # Test ready endpoint
     response = requests.get(f"{BASE_URL}/ready")
     assert response.status_code == 200
     assert response.json() == {"message": "Ready"}

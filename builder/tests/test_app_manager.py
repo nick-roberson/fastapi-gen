@@ -8,68 +8,44 @@ from builder.app_manager import ApplicationManager
 from builder.config.parse import load_and_validate_config
 from builder.models.configs import ServiceConfig
 
-# Constants to store the config and parameters for the tests
-TEST_RESTAURANT_CONFIG: str = os.path.abspath("builder/tests/configs/restaurant.yaml")
+# Path to the test restaurant configuration file
+TEST_RESTAURANT_CONFIG_PATH: str = os.path.abspath(
+    "builder/tests/configs/restaurant.yaml"
+)
+# Load and validate the configuration
+TEST_RESTAURANT_CONFIG: ServiceConfig = load_and_validate_config(
+    TEST_RESTAURANT_CONFIG_PATH
+)
 
-# Load and validate the restaurant config
-TEST_RESTAURANT_CONFIG: ServiceConfig = load_and_validate_config(TEST_RESTAURANT_CONFIG)
 
-
-# Fixture to create the code and start the service
-@pytest.mark.parametrize("config", [TEST_RESTAURANT_CONFIG])
-def test_app_manager_create(config):
-    """Fixture to create the code and start the service, and ensure cleanup after tests."""
-    # Create a temporary directory that will be cleaned up automatically
+@pytest.fixture
+def app_manager():
+    """Fixture to create an instance of ApplicationManager with a temporary output directory."""
     with tempfile.TemporaryDirectory() as output_dir:
-        print(f"Output directory: {output_dir}")
-        config = copy.copy(TEST_RESTAURANT_CONFIG)
+        config = copy.deepcopy(TEST_RESTAURANT_CONFIG)
         config.output_dir = output_dir
-
-        # (1) Init the application manager
-        app_manager = ApplicationManager(config=config)
-        app_manager.generate()
+        manager = ApplicationManager(config=config)
+        yield manager
 
 
-@pytest.mark.parametrize("config", [TEST_RESTAURANT_CONFIG])
-def test_app_manager_create(config):
-    """Fixture to create the code and start the service, and ensure cleanup after tests."""
-    # Create a temporary directory that will be cleaned up automatically
-    with tempfile.TemporaryDirectory() as output_dir:
-        print(f"Output directory: {output_dir}")
-        config = copy.copy(TEST_RESTAURANT_CONFIG)
-        config.output_dir = output_dir
-
-        # (1) Init the application manager
-        app_manager = ApplicationManager(config=config)
-        app_manager.generate_full_stack()
+def test_app_manager_create(app_manager):
+    """Test to create the application code and ensure cleanup post tests."""
+    app_manager.generate()
 
 
-@pytest.mark.parametrize("config", [TEST_RESTAURANT_CONFIG])
-def test_app_manager_create(config):
-    """Fixture to create the code and start the service, and ensure cleanup after tests."""
-    # Create a temporary directory that will be cleaned up automatically
-    with tempfile.TemporaryDirectory() as output_dir:
-        print(f"Output directory: {output_dir}")
-        config = copy.copy(TEST_RESTAURANT_CONFIG)
-        config.output_dir = output_dir
-
-        # (1) Init the application manager
-        app_manager = ApplicationManager(config=config)
-        app_manager.generate_backend()
-        app_manager.generate_frontend()
+def test_app_manager_full_stack(app_manager):
+    """Test to generate full stack of the application."""
+    app_manager.generate_full_stack()
 
 
-@pytest.mark.parametrize("config", [TEST_RESTAURANT_CONFIG])
-def test_app_manager_regenerate(config):
-    """Fixture to create the code and start the service, and ensure cleanup after tests."""
-    # Create a temporary directory that will be cleaned up automatically
-    with tempfile.TemporaryDirectory() as output_dir:
-        print(f"Output directory: {output_dir}")
-        config = copy.copy(TEST_RESTAURANT_CONFIG)
-        config.output_dir = output_dir
+def test_app_manager_backend_frontend(app_manager):
+    """Test to generate separately backend and frontend of the application."""
+    app_manager.generate_backend()
+    app_manager.generate_frontend()
 
-        # (1) Init the application manager
-        app_manager = ApplicationManager(config=config)
-        app_manager.regenerate()
-        app_manager.regenerate_frontend()
-        app_manager.regenerate_backend()
+
+def test_app_manager_regenerate(app_manager):
+    """Test to regenerate the application components."""
+    app_manager.regenerate()
+    app_manager.regenerate_frontend()
+    app_manager.regenerate_backend()
