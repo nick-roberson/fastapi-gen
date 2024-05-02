@@ -227,6 +227,10 @@ class ServiceInfo(BaseModel):
     version: str = "0.1.0"
     description: str = "A service built with builder"
 
+    @property
+    def author(self):
+        return f"{self.name} <{self.email}>"
+
     def __init__(self, **data):
         super().__init__(**data)
         # Get rid of special characters in the name

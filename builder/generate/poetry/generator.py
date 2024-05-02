@@ -49,7 +49,7 @@ class PoetryGenerator:
             "name": self.config.service_info.name,
             "version": self.config.service_info.version,
             "description": self.config.service_info.description,
-            "email": self.config.service_info.email,
+            "author": self.config.service_info.author,
             "dependency_rows": "\n".join(dependency_rows),
         }
         return populate_template(
