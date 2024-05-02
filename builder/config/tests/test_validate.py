@@ -12,6 +12,7 @@ def test_validate(config):
     """Simple test to validate the example config"""
     with tempfile.TemporaryDirectory() as output_dir:
         config_def = load_config(config)
+        config_def.output_dir = output_dir
         validate_config(config_def)
 
 
@@ -20,6 +21,7 @@ def test_parse(config):
     """Simple test to parse the example config"""
     with tempfile.TemporaryDirectory() as output_dir:
         config_def = load_config(config)
+        config_def.output_dir = output_dir
         parse_config(config_def)
 
 

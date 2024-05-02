@@ -14,6 +14,7 @@ def test_docker_generator(config):
         # Parse the model definitions
         config_def = load_config(config)
         config = parse_config(config_def)
+        config.output_dir = output_dir
 
         # Create the frontend generator
         docker_generator = DockerGenerator(config=config)

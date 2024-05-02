@@ -15,6 +15,7 @@ def test_backend_generator(config):
         # Parse the model definitions
         config_def = load_config(config)
         config = parse_config(config_def)
+        config.output_dir = output_dir
 
         # Init the backend generator
         generator = BackendGenerator(config=config)
