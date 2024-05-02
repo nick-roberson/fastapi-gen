@@ -40,16 +40,27 @@ DEFAULT_PORT: int = 8000
 PYTHON_VERSION = "3.12.2"
 PYTHON_DEPENDENCIES = [
     ("python", f"^{PYTHON_VERSION}"),
+    ("pyyaml", "^6.0.1"),
+    ("jinja2", "^3.1.3"),
     ("pydantic", "^2.6.4"),
     ("fastapi", "^0.110.0"),
     ("uvicorn", "^0.28.0"),
     ("pymongo", "^4.6.2"),
     ("certifi", "^2024.2.2"),
     ("rich", "^13.7.1"),
+    ("isort", "^5.13.2"),
+    ("black", "^24.2.0"),
+    ("typer", "^0.9.0"),
+    ("pytest", "^8.1.1"),
+    ("coverage", "^7.4.4"),
+    ("faker", "^24.7.1"),
     ("alembic", "^1.13.1"),
     ("sqlalchemy", "^2.0.29"),
     ("pymysql", "^1.0.2"),
     ("httpx", "^0.27.0"),
+    ("urllib3", "^2.2.1"),
+    ("requests", "^2.31.0"),
+    ("psycopg2-binary", "^2.9.9"),
 ]
 
 # Node Dependencies
