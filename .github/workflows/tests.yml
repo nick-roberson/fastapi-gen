@@ -1,12 +1,11 @@
-name: Run Tests
+name: Run Tests and Build
 
 on: [push]
 
 jobs:
-  build:
+  setup:
     runs-on: ubuntu-latest
 
-    # Setup test MYSQL Database
     services:
       mysql:
         image: mysql:5.7
@@ -23,121 +22,81 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10
 
     steps:
-      # Checkout the code
       - uses: actions/checkout@v4
-
-      # Setup Python
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.12.2'
           architecture: 'x64'
-
-      # Install Homebrew and OpenAPI Generator
       - name: Install Homebrew and OpenAPI Generator
         run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bashrc
+          echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/runner/.bashrc
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
           brew install openapi-generator
-
-      # Setup Node
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
-
-      # Create necessary databases
       - name: Create Additional Databases
         run: |
           mysql --host 127.0.0.1 --port 3306 --user root --password=root -e "CREATE DATABASE IF NOT EXISTS test_events_app;"
           mysql --host 127.0.0.1 --port 3306 --user root --password=root -e "CREATE DATABASE IF NOT EXISTS test_restaurant_app;"
 
-      # Install Backend Dependencies
-      - name: Install Backend Dependencies
-        run: |
-          echo "Installing Backend Dependencies"
-          python -m pip install --upgrade pip
-          pip install poetry coverage
-          poetry install
-
-      # Test CLI Interface
-      - name: Test CLI Interface
+  cli-tests:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run CLI Tests
         run: |
           export DB_HOST=127.0.0.1
           export DB_PORT=3306
           export DB_USER=root
           export DB_PASSWORD=root
           export DB_NAME=test_restaurant_app
-          echo "Testing --help"
+          echo "Testing CLI commands"
           poetry run python main.py --help
           poetry run python main.py config --help
           poetry run python main.py app --help
           poetry run python main.py db --help
           poetry run python main.py data --help
-          echo "Testing Creat Entire App"
+          echo "Testing Create Entire App"
           poetry run python main.py app create --config example/alembic/restaurant.yaml
 
-      # Run end-to-end tests
-      - name: Test Unit and End to End
+  unit-tests:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Unit and End-to-End Tests
         run: |
-          echo "Running Tests"
+          echo "Running Unit and E2E Tests"
           export VERBOSE=1
-          # Set database connection environment variables if not set in the test configs
           export DB_HOST=127.0.0.1
           export DB_PORT=3306
           export DB_USER=root
           export DB_PASSWORD=root
           export DB_NAME=test_restaurant_app
-          # Run End to End and Unit Tests
           poetry run coverage run --source=builder -m pytest builder/ --verbose
           poetry run coverage report -m
 
-      # Run test create app
-#      - name: Test Sample Restaurant App
-#        run: |
-#          echo "Running Tests"
-#          export VERBOSE=1
-#          # Set database connection environment variables if not set in the test configs
-#          export DB_HOST=127.0.0.1
-#          export DB_PORT=3306
-#          export DB_USER=root
-#          export DB_PASSWORD=root
-#          export DB_NAME=testdb
-#          # Run Tests
-#          mkdir test-create-app
-#          poetry run python main.py app create --config example/alembic/restaurant.yaml --output-dir test-create-app
-#          poetry run python main.py db migrate --config example/alembic/restaurant.yaml --output-dir test-create-app
-
-
-
-  # Build and publish once tests pass
   build-and-publish:
     runs-on: ubuntu-latest
-    needs: build
-
+    needs: [cli-tests, unit-tests]
     steps:
-    - uses: actions/checkout@v3
-
-    # Set up Python
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.12.2'
-
-    # Install dependencies
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install setuptools wheel twine
-
-    # Build the package
-#    - name: Build dist
-#      run: |
-#        python setup.py sdist bdist_wheel
-
-    # Publish to PyPI
-#    - name: Publish to PyPI
-#      uses: pypa/gh-action-pypi-publish@v1.4.2
-#      with:
-#        password: ${{ secrets.PYPI_API_TOKEN }}
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.2'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools wheel twine
+      - name: Build the package
+        run: python setup.py sdist bdist_wheel
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@v1.4.2
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
