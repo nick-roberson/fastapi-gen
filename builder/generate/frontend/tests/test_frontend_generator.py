@@ -5,7 +5,7 @@ import pytest
 from builder.config.parse import load_config, parse_config
 from builder.constants import TEST_MYSQL_CONFIG
 from builder.generate.frontend.generator import FrontendGenerator
-from builder.generate.linting.manager import LintingManager
+from builder.managers.linting.manager import LintingManager
 
 
 @pytest.mark.parametrize("config", [TEST_MYSQL_CONFIG])

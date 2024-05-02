@@ -11,9 +11,9 @@ import requests
 
 from builder.config.parse import load_and_validate_config
 from builder.generate.backend.generator import BackendGenerator
-from builder.generate.db.manager import DBManager
-from builder.generate.linting.manager import LintingManager
 from builder.generate.poetry.generator import PoetryGenerator
+from builder.managers.db.manager import DBManager
+from builder.managers.linting.manager import LintingManager
 from builder.models.configs import ServiceConfig
 from builder.test_data.create_fake_data import create_fake_data
 
