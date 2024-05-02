@@ -9,7 +9,7 @@ from builder.generate.linting.manager import LintingManager
 
 
 @pytest.mark.parametrize("config", [TEST_MYSQL_CONFIG])
-def test_generate(config):
+def test_frontend_generator(config):
     """Simple test to validate the example config"""
     with tempfile.TemporaryDirectory() as output_dir:
         # Parse the model definitions
