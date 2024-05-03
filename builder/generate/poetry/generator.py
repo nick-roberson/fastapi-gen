@@ -7,40 +7,52 @@ from builder.utils import clear_file, run_command
 
 
 class PoetryGenerator:
-    """Class to handle Poetry dependencies and configuration files."""
+    """
+    A class to handle Poetry dependency management and configuration file generation.
 
-    # Class constant for the directory name
-    CODE_DIR = "backend"
+    Attributes:
+        config (ServiceConfig): Configuration object containing service details.
+        output_dir (str): The directory where output files will be saved.
+        code_dir (str): The specific directory within output_dir for code-related files.
+        poetry_toml (str): Path to the generated poetry TOML file.
+        poetry_lock (str): Path to the Poetry lock file.
+        requirements_txt (str): Path to the generated requirements.txt file.
+        template_path (str): Path to the template file used for generating TOML files.
+    """
 
-    # Poetry files
+    CODE_DIR = "backend"  # Directory name for code files
     POETRY_TOML_FILE = "pyproject.toml"
     POETRY_LOCK_FILE = "poetry.lock"
     REQUIREMENTS_TXT_FILE = "requirements.txt"
-
-    # Template file
-    TEMPLATE_FILE = "toml.jinja"
+    TEMPLATE_FILE = "toml.jinja"  # Jinja template file name
 
     def __init__(self, config: ServiceConfig):
-        # Set the config and output directory
+        """
+        Initialize the PoetryGenerator with a service configuration.
+
+        Parameters:
+            config (ServiceConfig): Configuration object for the service.
+        """
         self.config = config
         self.output_dir = config.output_dir
-
-        # Define the code directory
         self.code_dir = os.path.join(self.output_dir, self.CODE_DIR)
         os.makedirs(self.code_dir, exist_ok=True)
 
-        # Define paths for the poetry files
         self.poetry_toml = os.path.join(self.code_dir, self.POETRY_TOML_FILE)
         self.poetry_lock = os.path.join(self.code_dir, self.POETRY_LOCK_FILE)
         self.requirements_txt = os.path.join(self.code_dir, self.REQUIREMENTS_TXT_FILE)
-
-        # Check template exists
         self.template_path = os.path.join(POETRY_TEMPLATES, self.TEMPLATE_FILE)
+
         if not os.path.exists(self.template_path):
             raise FileNotFoundError(f"Template file {self.template_path} not found")
 
     def generate_poetry_toml(self) -> str:
-        """Generate the poetry toml file using template."""
+        """
+        Generate the Poetry TOML file using the specified template.
+
+        Returns:
+            str: Path to the generated Poetry TOML file.
+        """
         dependency_rows = [
             f'{dep.name} = "{dep.version}"' if dep.version else f'{dep.name} = "*"'
             for dep in self.config.dependencies
@@ -60,20 +72,26 @@ class PoetryGenerator:
         )
 
     def install_dependencies(self) -> None:
-        """Install the backend dependencies using poetry."""
+        """
+        Install the backend dependencies using Poetry.
+        """
         run_command(f"poetry env use {PYTHON_VERSION}", cwd=self.code_dir)
         run_command("poetry install", cwd=self.code_dir)
         self.export_requirements()
 
     def export_requirements(self) -> None:
-        """Export requirements.txt from Poetry."""
+        """
+        Export the requirements.txt file from Poetry.
+        """
         run_command(
             f"poetry export -f requirements.txt --output {self.requirements_txt}",
             cwd=self.code_dir,
         )
 
     def clear_poetry_files(self) -> None:
-        """Clear Poetry-related files."""
+        """
+        Clear all Poetry-related files.
+        """
         clear_file(self.poetry_toml)
         clear_file(self.poetry_lock)
         clear_file(self.requirements_txt)

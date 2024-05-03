@@ -5,7 +5,7 @@ import psycopg2
 import pymysql
 from rich import print
 
-from builder.generate.db.constants import get_url
+from builder.managers.db.constants import get_url
 from builder.models import ServiceConfig
 
 

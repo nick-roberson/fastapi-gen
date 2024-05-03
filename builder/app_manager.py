@@ -4,12 +4,12 @@ from typing import Dict
 
 # Import Generators
 from builder.generate.backend.generator import BackendGenerator
-from builder.generate.db.manager import DBManager
 from builder.generate.docker.generator import DockerGenerator
 from builder.generate.frontend.generator import FrontendGenerator
-from builder.generate.linting.manager import LintingManager
 from builder.generate.openapi.generator import OpenAPIGenerator
 from builder.generate.poetry.generator import PoetryGenerator
+from builder.managers.db.manager import DBManager
+from builder.managers.linting.manager import LintingManager
 from builder.models import ServiceConfig
 
 
