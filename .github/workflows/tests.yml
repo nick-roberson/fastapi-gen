@@ -77,6 +77,10 @@ jobs:
           poetry run python main.py data --help
           echo "Testing Creat Entire App"
           poetry run python main.py app create --config example/alembic/restaurant.yaml
+          echo "Testing reload backend"
+          poetry run python main.py app reload --config example/alembic/restaurant.yaml --backend-only
+          echo "Testing reload frontend"
+          poetry run python main.py app reload --config example/alembic/restaurant.yaml --frontend-only
 
       # Run end-to-end tests
       - name: Test Unit and End to End

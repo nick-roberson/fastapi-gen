@@ -1,5 +1,7 @@
+import os
 from typing import Any, Dict, List, Optional
 
+import yaml
 from faker import Faker
 from pydantic import BaseModel, ConfigDict, field_validator
 from pydantic.fields import FieldInfo
@@ -259,6 +261,34 @@ class ServiceConfig(BaseModel):
     models: List[ModelConfig] = []
     # List of dependencies
     dependencies: List[DependencyConfig] = []
+
+    def to_file(self, file_path: str):
+        """Writes config to a YAML file"""
+        # If the directory does not exist, create it
+        if not os.path.exists(file_path):
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+        # Obfuscate the database password
+        config_dict = self.dict()
+        if self.database.db_type in ["mysql", "postgres"]:
+            config_dict["database"]["config"]["password"] = "********"
+            config_dict["database"]["config"]["host"] = "********"
+        elif self.database.db_type == "mongo":
+            config_dict["database"]["config"]["db_uri"] = "********"
+
+        # Write the config to the file
+        with open(file_path, "w") as file:
+            yaml.dump(config_dict, file)
+
+    def from_file(file_path: str):
+        """Reads config from a YAML file"""
+        # Check if the file exists
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"Config file not found at {file_path}")
+        # Read the config from the file
+        with open(file_path, "r") as file:
+            data = yaml.safe_load(file)
+            return ServiceInfo(**data)
 
     def __str__(self):
         return f"Config(models={self.models}, dependencies={self.dependencies})"

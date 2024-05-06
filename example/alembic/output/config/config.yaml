@@ -1,0 +1,206 @@
+database:
+  config:
+    db_name: fast_api_gen
+    host: localhost
+    password: '********'
+    port: '3306'
+    user: root
+  db_type: mysql
+dependencies:
+- name: python
+  version: ^3.12.2
+- name: pyyaml
+  version: ^6.0.1
+- name: jinja2
+  version: ^3.1.3
+- name: pydantic
+  version: ^2.6.4
+- name: fastapi
+  version: ^0.110.0
+- name: uvicorn
+  version: ^0.28.0
+- name: pymongo
+  version: ^4.6.2
+- name: certifi
+  version: ^2024.2.2
+- name: rich
+  version: ^13.7.1
+- name: isort
+  version: ^5.13.2
+- name: black
+  version: ^24.2.0
+- name: typer
+  version: ^0.9.0
+- name: pytest
+  version: ^8.1.1
+- name: coverage
+  version: ^7.4.4
+- name: faker
+  version: ^24.7.1
+- name: alembic
+  version: ^1.13.1
+- name: sqlalchemy
+  version: ^2.0.29
+- name: pymysql
+  version: ^1.0.2
+- name: httpx
+  version: ^0.27.0
+- name: urllib3
+  version: ^2.2.1
+- name: requests
+  version: ^2.31.0
+- name: psycopg2-binary
+  version: ^2.9.9
+models:
+- fields:
+  - default: null
+    description: The unique identifier of the user
+    name: id
+    of_type: null
+    required: false
+    type: int
+  - default: null
+    description: The username of the user
+    name: username
+    of_type: null
+    required: true
+    type: str
+  - default: null
+    description: The email address of the user
+    name: email
+    of_type: null
+    required: true
+    type: str
+  - default: null
+    description: The phone number of the user
+    name: phone_number
+    of_type: null
+    required: false
+    type: str
+  - default: []
+    description: The dining preferences of the user
+    name: preferences
+    of_type: null
+    required: false
+    type: list
+  - default: user
+    description: The role of the user (e.g., admin, user, restaurant_owner)
+    name: role
+    of_type: null
+    required: false
+    type: str
+  name: User
+- fields:
+  - default: null
+    description: The unique identifier of the alembic
+    name: id
+    of_type: null
+    required: false
+    type: int
+  - default: null
+    description: The name of the alembic
+    name: name
+    of_type: null
+    required: true
+    type: str
+  - default: null
+    description: The physical location of the alembic
+    name: location
+    of_type: null
+    required: true
+    type: str
+  - default: null
+    description: The type of cuisine the alembic offers
+    name: cuisine
+    of_type: null
+    required: false
+    type: str
+  - default: null
+    description: The average rating of the alembic
+    name: rating
+    of_type: null
+    required: false
+    type: float
+  - default: null
+    description: The price range of the alembic
+    name: price_range
+    of_type: null
+    required: false
+    type: str
+  name: Restaurant
+- fields:
+  - default: null
+    description: The unique identifier of the reservation
+    name: id
+    of_type: null
+    required: false
+    type: int
+  - default: null
+    description: The ID of the alembic where the reservation is made
+    name: restaurant_id
+    of_type: null
+    required: true
+    type: int
+  - default: null
+    description: The ID of the user who made the reservation
+    name: user_id
+    of_type: null
+    required: true
+    type: int
+  - default: null
+    description: The date and time of the reservation
+    name: reservation_time
+    of_type: null
+    required: true
+    type: datetime
+  - default: null
+    description: The size of the party for the reservation
+    name: party_size
+    of_type: null
+    required: true
+    type: int
+  - default: null
+    description: Any special requests made by the user
+    name: special_requests
+    of_type: null
+    required: false
+    type: str
+  name: Reservation
+- fields:
+  - default: null
+    description: The unique identifier of the review
+    name: id
+    of_type: null
+    required: false
+    type: int
+  - default: null
+    description: The ID of the alembic being reviewed
+    name: restaurant_id
+    of_type: null
+    required: true
+    type: int
+  - default: null
+    description: The ID of the user who wrote the review
+    name: user_id
+    of_type: null
+    required: true
+    type: int
+  - default: null
+    description: The rating given by the user
+    name: rating
+    of_type: null
+    required: true
+    type: float
+  - default: null
+    description: The textual comment of the review
+    name: comment
+    of_type: null
+    required: false
+    type: str
+  name: Review
+output_dir: /Users/nicholas/Code/fastapi-gen/example/alembic/output
+service_info:
+  description: An Alembic + MySQL backed simple Reservations Service
+  email: test@test.com
+  name: restaurant_app
+  version: 1.0.0

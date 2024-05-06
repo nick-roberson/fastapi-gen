@@ -242,6 +242,33 @@ poetry run python main.py app run-frontend \
     --config example/alembic/restaurant.yaml 
 ```
 
+## Working with an Existing Service
+
+If you have an existing service that you want to work with, you can use the following commands to manage the service.
+
+### Reload the Frontend or Backend
+
+If you want to reload the frontend or backend templates, you can use the following command:
+```commandline
+poetry run python main.py app reload \
+    --config example/alembic/restaurant.yaml \
+    --frontend-only
+    
+poetry run python main.py app reload \
+    --config example/alembic/restaurant.yaml \
+    --backend-only
+```
+
+### Update the Database
+
+If you have made changes to the models and want to update the database, you can use the following command:
+```commandline
+poetry run python main.py db migrate \
+    --config example/alembic/restaurant.yaml \
+    --message 'Update models for restaurant_app'
+```
+
+
 ## Other Commands
 
 ### Reverting Database Migrations
@@ -259,22 +286,6 @@ If you want to list the migrations that have been applied to the database, you c
 ```commandline
 poetry run python main.py db list \
     --config example/alembic/restaurant.yaml
-```
-
-### Regenerating Templated Files
-
-If you want to reload the frontend templates, you can use the following command:
-```commandline
-poetry run python main.py app reload \
-    --config example/alembic/restaurant.yaml \
-    --frontend-only
-```
-
-If you want to reload the backend templates, you can use the following command:
-```commandline
-poetry run python main.py app reload \
-  --config example/alembic/restaurant.yaml \
-  --backend-only 
 ```
 
 You can run both of these commands while the application is running to see the changes take effect. No need
