@@ -23,7 +23,12 @@ class ApplicationManager:
         Args:
             config (ServiceConfig): Configuration for the service.
         """
+        # Set the output directory and configuration directory
         self.output_dir = config.output_dir
+        self.config_dir = os.path.join(self.output_dir, "config")
+        self.config_fp = os.path.join(self.config_dir, "config.yaml")
+
+        # Set the configuration
         self.config = config
         self.service_name = config.service_info.name
 
@@ -119,13 +124,21 @@ class ApplicationManager:
         Returns:
             Dict: Dictionary containing paths to the generated files and any other relevant data.
         """
+        # Generate only the backend
         if backend_only:
-            return self.generate_backend(clear=clear)
+            created_files = self.generate_backend(clear=clear)
+        # Generate only the frontend
+        elif frontend_only:
+            created_files = self.generate_frontend(clear=clear)
+        # Generate the full stack
+        else:
+            created_files = self.generate_full_stack(clear=clear)
 
-        if frontend_only:
-            return self.generate_frontend(clear=clear)
+        # Write the configuration to a file
+        self.config.to_file(self.config_fp)
 
-        return self.generate_full_stack(clear=clear)
+        # Return the generated files
+        return created_files
 
     def generate_backend(self, clear: bool = False) -> Dict:
         """Generate only the backend components of the application."""
@@ -147,6 +160,10 @@ class ApplicationManager:
 
         print("\nCreating Python Client...\n")
         self.openapi_generator.generate_python_client()
+
+        # Write the configuration to a file
+        self.config.to_file(self.config_fp)
+
         return result
 
     def generate_frontend(self, clear: bool = False) -> Dict:
@@ -156,6 +173,10 @@ class ApplicationManager:
 
         print("\nCreating Typescript Client...\n")
         self.openapi_generator.generate_typescript_client()
+
+        # Write the configuration to a file
+        self.config.to_file(self.config_fp)
+
         return result
 
     def generate_full_stack(self, clear: bool = False) -> Dict:
@@ -202,6 +223,10 @@ class ApplicationManager:
 
         regenerated_files = self.regenerate_full_stack()
         self.linting_manager.lint_all()
+
+        # Write the new configuration to a file
+        self.config.to_file(self.config_fp)
+
         return regenerated_files
 
     def regenerate_backend(self) -> Dict:

@@ -32,6 +32,12 @@ def create(
         backend_only (bool, optional): Generate only the backend code.
             Defaults to False.
     """
+    # Check for invalid inputs
+    if frontend_only and backend_only:
+        raise ValueError(
+            "Cannot regenerate both frontend and backend at the same time."
+        )
+
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
 
@@ -76,36 +82,25 @@ def reload(
         backend_only (bool, optional): Regenerate only the backend code.
             Defaults to False.
     """
+    # Check for invalid inputs
+    if frontend_only and backend_only:
+        raise ValueError(
+            "Cannot regenerate both frontend and backend at the same time."
+        )
+
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
     manager = ApplicationManager(config=service_config)
 
-    if frontend_only and not backend_only:
-        # Recreate the frontend templates
-        created_files = manager.regenerate_frontend()
-        process_close(
-            result=created_files,
-            config=service_config,
-            config_path=config,
-        )
-    elif backend_only and not frontend_only:
-        # Recreate the backend templates
-        created_files = manager.regenerate_backend()
-        process_close(
-            result=created_files,
-            config=service_config,
-            config_path=config,
-        )
-    else:
-        # Regenerate both frontend and backend
-        created_files = manager.regenerate(
-            frontend_only=frontend_only, backend_only=backend_only
-        )
-        process_close(
-            result=created_files,
-            config=service_config,
-            config_path=config,
-        )
+    # Regenerate the files and close out
+    regenerated_files = manager.regenerate(
+        frontend_only=frontend_only, backend_only=backend_only
+    )
+    process_close(
+        result=regenerated_files,
+        config=service_config,
+        config_path=config,
+    )
 
 
 @app.command()
