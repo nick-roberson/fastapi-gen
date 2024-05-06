@@ -272,6 +272,7 @@ class ServiceConfig(BaseModel):
         config_dict = self.dict()
         if self.database.db_type in ["mysql", "postgres"]:
             config_dict["database"]["config"]["password"] = "********"
+            config_dict["database"]["config"]["host"] = "********"
         elif self.database.db_type == "mongo":
             config_dict["database"]["config"]["db_uri"] = "********"
 
