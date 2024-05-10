@@ -75,13 +75,14 @@ class {{ model.name }}Manager:
             logging.error(f"Failed to retrieve multiple {{ model.name }} records: {e}")
             raise
 
-    def get_all(self) -> List[{{ model.name }}]:
+    def get_all(self, skip: int = 0, limit: int = 0) -> List[{{ model.name }}]:
         """Retrieve all {{ model.name }} records from the database."""
         logging.info(f"Retrieving all {{ model.name }} records")
         session_factory = self.get_session_factory()
         try:
+            # Get models with pagination enabled
             with session_factory() as session:
-                items = session.query(DB{{ model.name }}).all()
+                items = session.query(DB{{ model.name }}).offset(skip).limit(limit).all()
                 return [{{ model.name }}.from_orm(item) for item in items] if items else []
 
         except Exception as e:

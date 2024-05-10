@@ -79,13 +79,14 @@ class UserManager:
             logging.error(f"Failed to retrieve multiple User records: {e}")
             raise
 
-    def get_all(self) -> List[User]:
+    def get_all(self, skip: int = 0, limit: int = 0) -> List[User]:
         """Retrieve all User records from the database."""
         logging.info(f"Retrieving all User records")
         session_factory = self.get_session_factory()
         try:
+            # Get models with pagination enabled
             with session_factory() as session:
-                items = session.query(DBUser).all()
+                items = session.query(DBUser).offset(skip).limit(limit).all()
                 return [User.from_orm(item) for item in items] if items else []
 
         except Exception as e:

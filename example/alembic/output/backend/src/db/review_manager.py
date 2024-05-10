@@ -79,13 +79,14 @@ class ReviewManager:
             logging.error(f"Failed to retrieve multiple Review records: {e}")
             raise
 
-    def get_all(self) -> List[Review]:
+    def get_all(self, skip: int = 0, limit: int = 0) -> List[Review]:
         """Retrieve all Review records from the database."""
         logging.info(f"Retrieving all Review records")
         session_factory = self.get_session_factory()
         try:
+            # Get models with pagination enabled
             with session_factory() as session:
-                items = session.query(DBReview).all()
+                items = session.query(DBReview).offset(skip).limit(limit).all()
                 return [Review.from_orm(item) for item in items] if items else []
 
         except Exception as e:

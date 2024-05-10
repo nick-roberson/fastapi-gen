@@ -6,8 +6,10 @@ from pydantic.fields import FieldInfo
 
 
 class User(BaseModel):
+    # Pydantic model configuration, enables from_orm and to_orm methods
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
+    # Core model fields
     id: Optional[int] = FieldInfo(
         default=None, description="The unique identifier of the user", required=False
     )
@@ -25,13 +27,28 @@ class User(BaseModel):
         required=False,
     )
 
+    # Optional created_at and updated_at fields
+    created_at: Optional[datetime] = FieldInfo(
+        default=None, alias="created_at", description="The time the record was created"
+    )
+    updated_at: Optional[datetime] = FieldInfo(
+        default=None,
+        alias="updated_at",
+        description="The time the record was last updated",
+    )
+
     def to_dict(self) -> Dict:
+        """Convert the model to a dictionary"""
         return self.dict()
 
 
 class UserQuery(BaseModel):
+    """Query model for User"""
+
+    # Pydantic model configuration, enables from_orm and to_orm methods
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
+    # Query model fields
     id: Optional[int] = None
     username: Optional[str] = None
     email: Optional[str] = None
@@ -40,12 +57,15 @@ class UserQuery(BaseModel):
     role: Optional[str] = None
 
     def to_dict(self) -> Dict:
+        """Convert the model to a dictionary"""
         return self.dict()
 
 
 class Restaurant(BaseModel):
+    # Pydantic model configuration, enables from_orm and to_orm methods
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
+    # Core model fields
     id: Optional[int] = FieldInfo(
         default=None, description="The unique identifier of the alembic", required=False
     )
@@ -65,13 +85,28 @@ class Restaurant(BaseModel):
         default=None, description="The price range of the alembic", required=False
     )
 
+    # Optional created_at and updated_at fields
+    created_at: Optional[datetime] = FieldInfo(
+        default=None, alias="created_at", description="The time the record was created"
+    )
+    updated_at: Optional[datetime] = FieldInfo(
+        default=None,
+        alias="updated_at",
+        description="The time the record was last updated",
+    )
+
     def to_dict(self) -> Dict:
+        """Convert the model to a dictionary"""
         return self.dict()
 
 
 class RestaurantQuery(BaseModel):
+    """Query model for Restaurant"""
+
+    # Pydantic model configuration, enables from_orm and to_orm methods
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
+    # Query model fields
     id: Optional[int] = None
     name: Optional[str] = None
     location: Optional[str] = None
@@ -80,12 +115,15 @@ class RestaurantQuery(BaseModel):
     price_range: Optional[str] = None
 
     def to_dict(self) -> Dict:
+        """Convert the model to a dictionary"""
         return self.dict()
 
 
 class Reservation(BaseModel):
+    # Pydantic model configuration, enables from_orm and to_orm methods
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
+    # Core model fields
     id: Optional[int] = FieldInfo(
         default=None,
         description="The unique identifier of the reservation",
@@ -109,13 +147,28 @@ class Reservation(BaseModel):
         required=False,
     )
 
+    # Optional created_at and updated_at fields
+    created_at: Optional[datetime] = FieldInfo(
+        default=None, alias="created_at", description="The time the record was created"
+    )
+    updated_at: Optional[datetime] = FieldInfo(
+        default=None,
+        alias="updated_at",
+        description="The time the record was last updated",
+    )
+
     def to_dict(self) -> Dict:
+        """Convert the model to a dictionary"""
         return self.dict()
 
 
 class ReservationQuery(BaseModel):
+    """Query model for Reservation"""
+
+    # Pydantic model configuration, enables from_orm and to_orm methods
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
+    # Query model fields
     id: Optional[int] = None
     restaurant_id: Optional[int] = None
     user_id: Optional[int] = None
@@ -124,12 +177,15 @@ class ReservationQuery(BaseModel):
     special_requests: Optional[str] = None
 
     def to_dict(self) -> Dict:
+        """Convert the model to a dictionary"""
         return self.dict()
 
 
 class Review(BaseModel):
+    # Pydantic model configuration, enables from_orm and to_orm methods
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
+    # Core model fields
     id: Optional[int] = FieldInfo(
         default=None, description="The unique identifier of the review", required=False
     )
@@ -144,13 +200,28 @@ class Review(BaseModel):
         default=None, description="The textual comment of the review", required=False
     )
 
+    # Optional created_at and updated_at fields
+    created_at: Optional[datetime] = FieldInfo(
+        default=None, alias="created_at", description="The time the record was created"
+    )
+    updated_at: Optional[datetime] = FieldInfo(
+        default=None,
+        alias="updated_at",
+        description="The time the record was last updated",
+    )
+
     def to_dict(self) -> Dict:
+        """Convert the model to a dictionary"""
         return self.dict()
 
 
 class ReviewQuery(BaseModel):
+    """Query model for Review"""
+
+    # Pydantic model configuration, enables from_orm and to_orm methods
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
+    # Query model fields
     id: Optional[int] = None
     restaurant_id: Optional[int] = None
     user_id: Optional[int] = None
@@ -158,4 +229,5 @@ class ReviewQuery(BaseModel):
     comment: Optional[str] = None
 
     def to_dict(self) -> Dict:
+        """Convert the model to a dictionary"""
         return self.dict()

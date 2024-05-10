@@ -63,12 +63,12 @@ def get_reservation(reservation_id: str) -> Reservation:
 
 
 @router.get("/reservations")
-def get_reservations() -> List[Reservation]:
+def get_reservations(skip: int = 0, limit: int = 100) -> List[Reservation]:
     """Get all Reservations"""
     logging.info(f"Getting all Reservations")
 
     # Get all Reservations, if none found raise 404
-    models = reservation_manager.get_all()
+    models = reservation_manager.get_all(skip=skip, limit=limit)
     if not models:
         raise HTTPException(status_code=404, detail=f"No Reservations found")
 

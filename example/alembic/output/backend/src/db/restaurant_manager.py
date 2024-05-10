@@ -83,13 +83,14 @@ class RestaurantManager:
             logging.error(f"Failed to retrieve multiple Restaurant records: {e}")
             raise
 
-    def get_all(self) -> List[Restaurant]:
+    def get_all(self, skip: int = 0, limit: int = 0) -> List[Restaurant]:
         """Retrieve all Restaurant records from the database."""
         logging.info(f"Retrieving all Restaurant records")
         session_factory = self.get_session_factory()
         try:
+            # Get models with pagination enabled
             with session_factory() as session:
-                items = session.query(DBRestaurant).all()
+                items = session.query(DBRestaurant).offset(skip).limit(limit).all()
                 return [Restaurant.from_orm(item) for item in items] if items else []
 
         except Exception as e:

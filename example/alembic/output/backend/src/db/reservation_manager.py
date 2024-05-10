@@ -83,13 +83,14 @@ class ReservationManager:
             logging.error(f"Failed to retrieve multiple Reservation records: {e}")
             raise
 
-    def get_all(self) -> List[Reservation]:
+    def get_all(self, skip: int = 0, limit: int = 0) -> List[Reservation]:
         """Retrieve all Reservation records from the database."""
         logging.info(f"Retrieving all Reservation records")
         session_factory = self.get_session_factory()
         try:
+            # Get models with pagination enabled
             with session_factory() as session:
-                items = session.query(DBReservation).all()
+                items = session.query(DBReservation).offset(skip).limit(limit).all()
                 return [Reservation.from_orm(item) for item in items] if items else []
 
         except Exception as e:
