@@ -1,5 +1,4 @@
 import logging
-
 from datetime import datetime
 from typing import List
 
@@ -10,326 +9,197 @@ from src.db.constants import get_url
 from src.models.models import {{ model.name }}, {{ model.name }}Query
 from src.db.models import DB{{ model.name }}
 
-
 # Singleton Manager for {{ model.name }}
-__{{ model.name.upper()}}_MANAGER = None
-def get_{{ model.name.lower() }}_manager():
-    global __{{ model.name.upper()}}_MANAGER
-    if not __{{ model.name.upper()}}_MANAGER:
-        __{{ model.name.upper()}}_MANAGER = {{ model.name }}Manager()
-    return __{{ model.name.upper()}}_MANAGER
+__{{ model.name.upper() }}_MANAGER = None
 
+def get_{{ model.name.lower() }}_manager():
+    global __{{ model.name.upper() }}_MANAGER
+    if not __{{ model.name.upper() }}_MANAGER:
+        __{{ model.name.upper() }}_MANAGER = {{ model.name }}Manager()
+    return __{{ model.name.upper() }}_MANAGER
 
 class {{ model.name }}Manager:
-    """{{ model.name }} manager to handle all database operations for the {{ model.name }} records."""
+    """Manager to handle all database operations for the {{ model.name }} records."""
+    _session_factory = None
 
-    def __init__(self):
-        """Initialize the CaseManager."""
-        engine = create_engine(get_url())
-        self.session_factory = sessionmaker(bind=engine)
-        logging.info("CaseManager successfully initialized")
-
-
-    ########################################################
-    # Query Operations                                     #
-    ########################################################
+    @classmethod
+    def get_session_factory(cls):
+        if cls._session_factory is None:
+            engine = create_engine(get_url())
+            cls._session_factory = sessionmaker(bind=engine)
+            logging.info("Database engine and session factory initialized")
+        return cls._session_factory
 
     def query(self, query: {{ model.name }}Query) -> List[{{ model.name }}]:
         """Query the {{ model.name }} records from the database."""
         logging.info(f"Querying {{ model.name }} records: {query}")
+        session_factory = self.get_session_factory()
         try:
-            with self.session_factory() as session:
-
-                # Build the query
+            with session_factory() as session:
                 query_builder = session.query(DB{{ model.name }})
                 for key, value in query.dict().items():
                     if value is not None:
                         query_builder = query_builder.filter(getattr(DB{{ model.name }}, key) == value)
-
-                # Execute the query
                 items = query_builder.all()
-                if not items:
-                    return []
-
-                # Return the {{ model.name }} records
-                logging.info(f"Successfully queried {{ model.name }} records: {items}")
-                return [{{ model.name }}.from_orm(item) for item in items]
+                return [{{ model.name }}.from_orm(item) for item in items] if items else []
 
         except Exception as e:
             logging.error(f"Failed to query {{ model.name }} records: {e}")
-            raise f"Failed to query {{ model.name }} records: {e}"
-        finally:
-            self.close_session()
-
-
-    ########################################################
-    # Get Operations                                       #
-    ########################################################
+            raise
 
     def get(self, model_id: int) -> {{ model.name }}:
         """Retrieve a {{ model.name }} record from the database by its ID."""
         logging.info(f"Retrieving {{ model.name }} record with ID: {model_id}")
+        session_factory = self.get_session_factory()
         try:
-            with self.session_factory() as session:
-
-                # Retrieve the {{ model.name }} record by its ID
+            with session_factory() as session:
                 item = session.query(DB{{ model.name }}).get(model_id)
                 if not item:
                     return None
-
-                # Return the {{ model.name }} record
-                logging.info(f"Successfully retrieved {{ model.name }} record: {item}")
                 return {{ model.name }}.from_orm(item)
 
         except Exception as e:
             logging.error(f"Failed to retrieve {{ model.name }} record: {e}")
-            raise f"Failed to retrieve {{ model.name }} record: {e}"
-        finally:
-            self.close_session()
+            raise
 
     def get_many(self, model_ids: List[int]) -> List[{{ model.name }}]:
         """Retrieve multiple {{ model.name }} records from the database by their IDs."""
         logging.info(f"Retrieving multiple {{ model.name }} records with IDs: {model_ids}")
+        session_factory = self.get_session_factory()
         try:
-            with self.session_factory() as session:
-
-                # Retrieve the {{ model.name }} records by their IDs
+            with session_factory() as session:
                 items = session.query(DB{{ model.name }}).filter(DB{{ model.name }}.id.in_(model_ids)).all()
-                if not items:
-                    return []
-
-                # Return the {{ model.name }} records
-                logging.info(f"Successfully retrieved multiple {{ model.name }} records: {items}")
-                return [{{ model.name }}.from_orm(item) for item in items]
+                return [{{ model.name }}.from_orm(item) for item in items] if items else []
 
         except Exception as e:
             logging.error(f"Failed to retrieve multiple {{ model.name }} records: {e}")
-            raise f"Failed to retrieve multiple {{ model.name }} records: {e}"
-        finally:
-            self.close_session()
+            raise
 
     def get_all(self) -> List[{{ model.name }}]:
         """Retrieve all {{ model.name }} records from the database."""
-        logging.info("Retrieving all {{ model.name }} records")
+        logging.info(f"Retrieving all {{ model.name }} records")
+        session_factory = self.get_session_factory()
         try:
-            with self.session_factory() as session:
-
-                # Retrieve all {{ model.name }} records
+            with session_factory() as session:
                 items = session.query(DB{{ model.name }}).all()
-                if not items:
-                    return []
-
-                # Return the {{ model.name }} records
-                logging.info(f"Successfully retrieved all {{ model.name }} records: {items}")
-                return [{{ model.name }}.from_orm(item) for item in items]
+                return [{{ model.name }}.from_orm(item) for item in items] if items else []
 
         except Exception as e:
             logging.error(f"Failed to retrieve all {{ model.name }} records: {e}")
-            raise f"Failed to retrieve all {{ model.name }} records: {e}"
-        finally:
-            self.close_session()
-
-
-    ########################################################
-    # Create Operations                                    #
-    ########################################################
-
+            raise
 
     def create(self, model: {{ model.name }}) -> {{ model.name }}:
         """Create a new {{ model.name }} record in the database."""
         logging.info(f"Creating new {{ model.name }} record: {model}")
+        session_factory = self.get_session_factory()
         try:
-            with self.session_factory() as session:
-
-                # Create a new {{ model.name }} record
+            with session_factory() as session:
                 new_item = DB{{ model.name }}(**model.dict())
-
-                # Clear the id of the new model to ensure it is created as a new record
-                new_item.id = None
-
-                # Add the new {{ model.name }} record to the session and commit
+                new_item.id = None  # Ensuring it's treated as a new record
                 session.add(new_item)
                 session.commit()
-
-                # Refresh and return the new {{ model.name }} record
                 session.refresh(new_item)
-                logging.info(f"Successfully created new {{ model.name }} record: {new_item}")
                 return {{ model.name }}.from_orm(new_item)
 
         except Exception as e:
             logging.error(f"Failed to create new {{ model.name }} record: {e}")
-            raise f"Failed to create new {{ model.name }} record: {e}"
-        finally:
-            self.close_session()
+            raise
 
     def create_many(self, model_list: List[{{ model.name }}]) -> List[{{ model.name }}]:
         """Create multiple new {{ model.name }} records in the database."""
         logging.info(f"Creating multiple new {{ model.name }} records: {model_list}")
+        session_factory = self.get_session_factory()
         try:
-            with self.session_factory() as session:
-
-                # Create new {{ model.name }} records
+            with session_factory() as session:
                 new_items = [DB{{ model.name }}(**model.dict()) for model in model_list]
-
-                # Clear the ids of the new models to ensure they are created as new records
                 for item in new_items:
                     item.id = None
-
-                # Add the new {{ model.name }} records to the session and commit
                 session.add_all(new_items)
                 session.commit()
-
-                # Refresh and return the new {{ model.name }} records
                 for item in new_items:
                     session.refresh(item)
-                logging.info(f"Successfully created multiple new {{ model.name }} records: {new_items}")
                 return [{{ model.name }}.from_orm(item) for item in new_items]
 
         except Exception as e:
             logging.error(f"Failed to create multiple new {{ model.name }} records: {e}")
-            raise f"Failed to create multiple new {{ model.name }} records: {e}"
-        finally:
-            self.close_session()
-
-    ########################################################
-    # Update Operations                                    #
-    ########################################################
+            raise
 
     def update(self, model: {{ model.name }}) -> {{ model.name }}:
         """Update an existing {{ model.name }} record in the database."""
-        logging.info(f"Updating {{ model.name }} record with ID {id}: {model}")
+        logging.info(f"Updating {{ model.name }} record with ID {model.id}: {model}")
+        session_factory = self.get_session_factory()
         try:
-            with self.session_factory() as session:
-
-                # If id is not present on update, raise an exception
-                if not model.id:
-                    raise Exception("ID is required to update {{ model.name }} record")
-
-                # Retrieve the {{ model.name }} record by its ID
+            with session_factory() as session:
                 item = session.query(DB{{ model.name }}).get(model.id)
                 if not item:
                     raise Exception("{{ model.name }} record does not exist")
-
-                # Update the {{ model.name }} record with the new data
                 for key, value in model.dict().items():
                     setattr(item, key, value)
                 item.updated_at = datetime.now()
-
-                # Commit the changes
                 session.commit()
-
-                # Refresh and return the updated {{ model.name }} record
                 session.refresh(item)
-                logging.info(f"Successfully updated {{ model.name }} record: {item}")
                 return {{ model.name }}.from_orm(item)
 
         except Exception as e:
             logging.error(f"Failed to update {{ model.name }} record: {e}")
-            raise f"Failed to update {{ model.name }} record: {e}"
-        finally:
-            self.close_session()
+            raise
 
     def update_many(self, model_list: List[{{ model.name }}]) -> List[{{ model.name }}]:
         """Update multiple existing {{ model.name }} records in the database."""
         logging.info(f"Updating multiple {{ model.name }} records: {model_list}")
+        session_factory = self.get_session_factory()
         try:
-            with self.session_factory() as session:
-                # Update the {{ model.name }} records with the new data
-                updated_items = []
-
-                # Get all the items by id, raise exception if any are missing
+            with session_factory() as session:
                 model_ids = [model.id for model in model_list]
                 items = session.query(DB{{ model.name }}).filter(DB{{ model.name }}.id.in_(model_ids)).all()
                 if len(items) != len(model_ids):
                     raise Exception("Some {{ model.name }} records do not exist")
-
                 item_map = {item.id: item for item in items}
-                update_map = {model.id: model for model in model_list}
-
-                # Update the items with the new data
-                for id, item in item_map.items():
-                    new_update = update_map[id]
-                    for key, value in new_update.dict().items():
+                for model in model_list:
+                    item = item_map[model.id]
+                    for key, value in model.dict().items():
                         setattr(item, key, value)
                     item.updated_at = datetime.now()
-                    updated_items.append(item)
-
-                # Commit the changes
                 session.commit()
-
-                # Refresh and return the updated {{ model.name }} records
-                for item in updated_items:
+                for item in items:
                     session.refresh(item)
-
-                # Return the updated items
-                logging.info(f"Successfully updated multiple {{ model.name }} records: {updated_items}")
-                return [{{ model.name }}.from_orm(item) for item in updated_items]
+                return [{{ model.name }}.from_orm(item) for item in items]
 
         except Exception as e:
             logging.error(f"Failed to update multiple {{ model.name }} records: {e}")
-            raise f"Failed to update multiple {{ model.name }} records: {e}"
-        finally:
-            self.close_session()
-
-
-    ########################################################
-    # Delete Operations                                    #
-    ########################################################
-
+            raise
 
     def delete(self, model_id: int) -> {{ model.name }}:
         """Delete a {{ model.name }} record from the database by its ID."""
         logging.info(f"Deleting {{ model.name }} record with ID: {model_id}")
+        session_factory = self.get_session_factory()
         try:
-            with self.session_factory() as session:
-
-                # Retrieve the {{ model.name }} record by its ID
+            with session_factory() as session:
                 item = session.query(DB{{ model.name }}).get(model_id)
                 if not item:
                     raise Exception("{{ model.name }} record does not exist")
-
-                # Delete the {{ model.name }} record
                 session.delete(item)
                 session.commit()
-
-                # Return the deleted {{ model.name }} record
-                logging.info(f"Successfully deleted {{ model.name }} record: {item}")
                 return {{ model.name }}.from_orm(item)
 
         except Exception as e:
             logging.error(f"Failed to delete {{ model.name }} record: {e}")
-            raise f"Failed to delete {{ model.name }} record: {e}"
-        finally:
-            self.close_session()
+            raise
 
     def delete_many(self, model_ids: List[int]) -> List[{{ model.name }}]:
         """Delete multiple {{ model.name }} records from the database by their IDs."""
         logging.info(f"Deleting multiple {{ model.name }} records with IDs: {model_ids}")
+        session_factory = self.get_session_factory()
         try:
-            with self.session_factory() as session:
-
-                # Retrieve the {{ model.name }} records by their IDs
+            with session_factory() as session:
                 items = session.query(DB{{ model.name }}).filter(DB{{ model.name }}.id.in_(model_ids)).all()
                 if len(items) != len(model_ids):
                     raise Exception("Some {{ model.name }} records do not exist")
-
-                # Delete the {{ model.name }} records
                 for item in items:
                     session.delete(item)
-
-                # Commit the changes
                 session.commit()
-
-                # Return the deleted {{ model.name }} records
-                logging.info(f"Successfully deleted multiple {{ model.name }} records: {items}")
                 return [{{ model.name }}.from_orm(item) for item in items]
 
         except Exception as e:
             logging.error(f"Failed to delete multiple {{ model.name }} records: {e}")
-            raise f"Failed to delete multiple {{ model.name }} records: {e}"
-        finally:
-            self.close_session()
-
-    def close_session(self):
-        """This method is now redundant since each action opens and closes its session."""
-        pass
+            raise
