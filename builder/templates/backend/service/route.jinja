@@ -63,12 +63,12 @@ def get_{{ model.name.lower() }}({{ model.model_id_var_name }}: str) -> {{ model
     return model
 
 @router.get("/{{ model.name.lower() }}s")
-def get_{{ model.name.lower() }}s() -> List[{{ model.name }}]:
+def get_{{ model.name.lower() }}s(skip: int = 0, limit: int = 100) -> List[{{ model.name }}]:
     """ Get all {{ model.name }}s """
     logging.info(f"Getting all {{ model.name }}s")
 
     # Get all {{ model.name }}s, if none found raise 404
-    models = {{ model.manager_var_name }}.get_all()
+    models = {{ model.manager_var_name }}.get_all(skip=skip, limit=limit)
     if not models:
         raise HTTPException(status_code=404, detail=f"No {{ model.name }}s found")
 

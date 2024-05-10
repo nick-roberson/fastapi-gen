@@ -61,12 +61,12 @@ def get_user(user_id: str) -> User:
 
 
 @router.get("/users")
-def get_users() -> List[User]:
+def get_users(skip: int = 0, limit: int = 100) -> List[User]:
     """Get all Users"""
     logging.info(f"Getting all Users")
 
     # Get all Users, if none found raise 404
-    models = user_manager.get_all()
+    models = user_manager.get_all(skip=skip, limit=limit)
     if not models:
         raise HTTPException(status_code=404, detail=f"No Users found")
 

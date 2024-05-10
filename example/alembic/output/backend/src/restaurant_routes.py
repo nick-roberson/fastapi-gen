@@ -63,12 +63,12 @@ def get_restaurant(restaurant_id: str) -> Restaurant:
 
 
 @router.get("/restaurants")
-def get_restaurants() -> List[Restaurant]:
+def get_restaurants(skip: int = 0, limit: int = 100) -> List[Restaurant]:
     """Get all Restaurants"""
     logging.info(f"Getting all Restaurants")
 
     # Get all Restaurants, if none found raise 404
-    models = restaurant_manager.get_all()
+    models = restaurant_manager.get_all(skip=skip, limit=limit)
     if not models:
         raise HTTPException(status_code=404, detail=f"No Restaurants found")
 

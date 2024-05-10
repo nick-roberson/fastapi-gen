@@ -61,12 +61,12 @@ def get_review(review_id: str) -> Review:
 
 
 @router.get("/reviews")
-def get_reviews() -> List[Review]:
+def get_reviews(skip: int = 0, limit: int = 100) -> List[Review]:
     """Get all Reviews"""
     logging.info(f"Getting all Reviews")
 
     # Get all Reviews, if none found raise 404
-    models = review_manager.get_all()
+    models = review_manager.get_all(skip=skip, limit=limit)
     if not models:
         raise HTTPException(status_code=404, detail=f"No Reviews found")
 

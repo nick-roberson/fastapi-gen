@@ -107,11 +107,15 @@ class {{ model.name }}Manager:
             raise f"Error getting {{ model.name }}s: {e}"
 
 
-    def get_all(self) -> List[{{ model.name }}]:
+    def get_all(self, skip: int = 0, limit: int = 0) -> List[{{ model.name }}]:
         """ Get all {{ model.name }} """
         logger.info(f"Getting all {{ model.name }}")
         try:
-            return list(self.collection.find())
+            # Get models with skip and limit
+            if limit > 0:
+                return list(self.collection.find().skip(skip).limit(limit))
+            else:
+                return list(self.collection.find())
         except Exception as e:
             logger.error(f"Error getting all {{ model.name }}: {e}")
             raise f"Error getting all {{ model.name }}: {e}"
