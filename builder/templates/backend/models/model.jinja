@@ -6,20 +6,32 @@ from typing import List, Dict, Optional
 
 {% for model in models %}
 class {{ model.name }}(BaseModel):
+    # Pydantic model configuration, enables from_orm and to_orm methods
     model_config = ConfigDict(extra='ignore', from_attributes=True)
 
+    # Core model fields
     {% for field in model.fields %}{{ field.row }}
     {% endfor %}
 
+    # Optional created_at and updated_at fields
+    created_at: Optional[datetime] = FieldInfo(default=None, alias='created_at', description='The time the record was created')
+    updated_at: Optional[datetime] = FieldInfo(default=None, alias='updated_at', description='The time the record was last updated')
+
     def to_dict(self) -> Dict:
+        """ Convert the model to a dictionary """
         return self.dict()
 
 class {{ model.name }}Query(BaseModel):
+    """ Query model for {{ model.name }} """
+
+    # Pydantic model configuration, enables from_orm and to_orm methods
     model_config = ConfigDict(extra='ignore', from_attributes=True)
 
+    # Query model fields
     {% for field in model.fields %}{{ field.name }}: Optional[{{ field.type }}] = None
     {% endfor %}
 
     def to_dict(self) -> Dict:
+        """ Convert the model to a dictionary """
         return self.dict()
 {% endfor %}
