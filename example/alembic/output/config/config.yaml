@@ -1,7 +1,7 @@
 database:
   config:
     db_name: fast_api_gen
-    host: localhost
+    host: '********'
     password: '********'
     port: '3306'
     user: root
