@@ -88,6 +88,17 @@ def _query_models(model_name: str, query: Dict) -> List[Dict]:
     return response.json()
 
 
+def _update_model(model_name: str, model_id: int, model_data: Dict) -> Dict:
+    """Update a model instance with the given ID"""
+    url = f"{BASE_URL}/{model_name.lower()}"
+    print(f"[_update_model] Updating model {url}: {model_id} with data: {model_data}")
+    params = {f"{model_name.lower()}_id": model_id}
+    response = requests.put(url, params=params, json=model_data)
+    response.raise_for_status()
+    assert response.status_code == 200
+    return response.json()
+
+
 # Fixtures
 @pytest.fixture(scope="module")
 def service():
@@ -172,17 +183,36 @@ def test_create_and_manage_models(
     all_models = _get_models(model_name)
     assert len(all_models) == NUM_MODELS
 
-    # Check that we can query each model instance
+    # Check that we can query each model instance, update it, and check the updated data
     for created_id in created_instances:
+
+        # Get the model instance and check its data
         query = {"id": created_id}
         queried_models = _query_models(model_name, query)
         assert len(queried_models) == 1
 
+        # Update all string fields to check if the update works
+        model_instance = queried_models[0]
+        updated_data = {
+            key: f"{value}_updated"
+            for key, value in model_instance.items()
+            if isinstance(value, str)
+        }
+        updated_instance = _update_model(model_name, created_id, updated_data)
+
+        # Check that the updated data is correct
+        assert updated_instance["id"] == created_id
+        for key, value in updated_data.items():
+            if isinstance(value, str):
+                assert updated_instance[key] == value
+
     # Test model deletion
     for model_id in created_instances:
+
         # Delete the model and check if it was removed
         deleted_model = _delete_model(model_name, model_id)
         assert deleted_model["id"] == model_id
+
         # Check that fetching this model now raises an error
         with pytest.raises(requests.HTTPError):
             _get_model(model_name, model_id)
