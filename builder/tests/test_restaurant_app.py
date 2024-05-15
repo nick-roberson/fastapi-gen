@@ -196,7 +196,7 @@ def test_create_and_manage_models(
         updated_data = {
             key: f"{value}_updated"
             for key, value in model_instance.items()
-            if isinstance(value, str)
+            if isinstance(value, str) and key != "id"
         }
         updated_instance = _update_model(model_name, created_id, updated_data)
 
