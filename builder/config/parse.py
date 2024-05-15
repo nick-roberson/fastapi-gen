@@ -41,20 +41,6 @@ def load_config(input_file: str) -> Dict:
 ########################################
 
 
-def validate_field(field: FieldDefinition) -> None:
-    field_info = FIELD_DEFINITION_FIELDS.get(field.name)
-    if field_info is None:
-        raise ValueError(f"Invalid field name '{field.name}' in FieldDefinition")
-
-
-def validate_dependencies(dependency: DependencyConfig) -> None:
-    for field_name in dependency:
-        if field_name not in DEPENDENCY_DEFINITION_FIELDS.keys():
-            raise ValueError(
-                f"Invalid field name '{field_name}' in DependencyConfig {dependency['base']}"
-            )
-
-
 def validate_config(config: Dict) -> None:
     """Validate the config to ensure it has the correct fields.
 
@@ -187,6 +173,14 @@ def parse_config(config) -> ServiceConfig:
     Returns:
         Config
     """
+    # (0) Check some top level keys
+    if "models" not in config:
+        raise ValueError("Models not found in config")
+    if "service" not in config:
+        raise ValueError("Service info not found in config")
+    if "database" not in config:
+        raise ValueError("Database info not found in config")
+
     # (1) Parse the service info
     service_info = parse_service_info(config["service"])
 
@@ -195,9 +189,12 @@ def parse_config(config) -> ServiceConfig:
 
     # (3) Parse the models
     models_config = []
-    for model in config.get("models", []):
+    for model in config.get("models"):
         fields = []
         # Parse the fields
+        if "fields" not in model:
+            raise ValueError(f"Fields not found in model {model['name']}")
+
         for field in model["fields"]:
             fields.append(FieldDefinition(**field))
         # If no 'id' field is present, add it
