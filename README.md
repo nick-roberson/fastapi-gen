@@ -67,6 +67,10 @@ to quickly prototype ideas and test out new features!**
 # Table of Contents
 
 - [Features](#features)
+- [How to Contribute](#how-to-contribute)
+  - [Reporting Bugs](#reporting-bugs)
+  - [Suggesting Features](#suggesting-features)
+  - [Code Contributions](#code-contributions)
 - [Pre-generated Example Code](#pre-generated-example-code)
 - [Setup](#setup)
 - [Usage](#usage)
@@ -101,6 +105,24 @@ to quickly prototype ideas and test out new features!**
 Additionally `fastapi-gen` provides an interface for simply running your application as well as reloading changes
 to the frontend or backend without having to restart the application.
 
+## How to Contribute
+
+### Reporting Bugs
+
+If you find a bug, please create an issue using the bug report template. Include as much detail as possible.
+
+### Suggesting Features
+
+I welcome feature suggestions! Please create an issue using the feature request template. Describe the problem you're facing and how your suggestion would solve it.
+
+### Code Contributions
+
+To contribute code, follow these steps:
+1. Create a new branch: `git checkout -b my-feature-branch`
+2. Make your changes.
+3. Commit your changes: `git commit -m 'Add new feature'`
+4. Push to your fork: `git push origin my-feature-branch`
+5. Create a pull request.
 
 ## Pre-generated Example Code
 
