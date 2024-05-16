@@ -1,7 +1,7 @@
 # Generated Service
 
 This service was generated using the FastAPI Generation tool. All dependencies are managed using Poetry. The database
-migrations are managed depending on the database type that was used in the service generate (either Alembic or Mongo).
+migrations are managed depending on the database type that was used in the service generate.
 
 
 ## Poetry Commands

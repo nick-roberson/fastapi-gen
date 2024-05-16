@@ -8,7 +8,7 @@ from pydantic.fields import FieldInfo
 from builder.constants import PYTHON_DEPENDENCIES, REQUIRED_DB_ENV_VARS
 from builder.models import (DatabaseTypes, DependencyConfig, FieldDefinition,
                             ModelConfig, ServiceConfig, ServiceInfo)
-from builder.models.db import DBConfig, MongoDBConfig, RelationalDBConfig
+from builder.models.db import DBConfig, RelationalDBConfig
 
 # Pull output the fields from the models
 FIELD_DEFINITION_FIELDS: dict[str, FieldInfo] = FieldDefinition.model_fields
@@ -74,12 +74,6 @@ def validate_config(config: Dict) -> None:
                     if env_var not in os.environ or not os.environ[env_var]:
                         raise ValueError(
                             f"Missing required environment variable '{env_var}' for mysql"
-                        )
-            elif db_type == DatabaseTypes.MONGO.value:
-                for env_var in REQUIRED_DB_ENV_VARS["mongo"]:
-                    if env_var not in os.environ or not os.environ[env_var]:
-                        raise ValueError(
-                            f"Missing required environment variable '{env_var}' for mongo"
                         )
             else:
                 raise ValueError(
@@ -157,9 +151,7 @@ def parse_service_info(config: Dict[str, Any]) -> ServiceInfo:
 
 def parse_db_config(config: Dict[str, Any]) -> DBConfig:
     """Parse the database config."""
-    if config["db_type"] == DatabaseTypes.MONGO.value:
-        return MongoDBConfig(**config)
-    elif config["db_type"] in [DatabaseTypes.POSTGRES.value, DatabaseTypes.MYSQL.value]:
+    if config["db_type"] in DatabaseTypes.choices():
         return RelationalDBConfig(**config)
     else:
         raise ValueError(f"Invalid db_type {config['db_type']}")

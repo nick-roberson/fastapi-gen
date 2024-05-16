@@ -25,7 +25,7 @@ def query_review(query: ReviewQuery) -> List[Review]:
     logging.info(f"Querying Reviews with query: {str(query)}")
 
     # If all fields are None in the query return 400
-    if not any(query.dict().values()):
+    if not any(query.model_dump().values()):
         allowed_fields = ", ".join(
             [field_name for field_name in ReviewQuery.__fields__.keys()]
         )

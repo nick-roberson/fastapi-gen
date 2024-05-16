@@ -4,6 +4,7 @@ import yaml
 from pydantic import BaseModel
 
 from builder.models import ServiceConfig
+from builder.models.enum import DatabaseTypes
 
 
 class ConfigVersion(BaseModel):
@@ -28,12 +29,12 @@ class ConfigVersion(BaseModel):
             os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
         # Obfuscate the database password
-        config_dict = self.dict()
-        if self.database.db_type in ["mysql", "postgres"]:
+        config_dict = self.model_dump()
+        if self.database.db_type in DatabaseTypes.choices():
             config_dict["database"]["config"]["password"] = "********"
             config_dict["database"]["config"]["host"] = "********"
-        elif self.database.db_type == "mongo":
-            config_dict["database"]["config"]["db_uri"] = "********"
+        else:
+            raise ValueError(f"Invalid db_type: {self.database.db_type}")
 
         # Write the config to the file
         with open(file_path, "w") as file:

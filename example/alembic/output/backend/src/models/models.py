@@ -39,7 +39,7 @@ class User(BaseModel):
 
     def to_dict(self) -> Dict:
         """Convert the model to a dictionary"""
-        return self.dict()
+        return self.model()
 
 
 class UserQuery(BaseModel):
@@ -58,7 +58,7 @@ class UserQuery(BaseModel):
 
     def to_dict(self) -> Dict:
         """Convert the model to a dictionary"""
-        return self.dict()
+        return self.model_dump()
 
 
 class Restaurant(BaseModel):
@@ -97,7 +97,7 @@ class Restaurant(BaseModel):
 
     def to_dict(self) -> Dict:
         """Convert the model to a dictionary"""
-        return self.dict()
+        return self.model()
 
 
 class RestaurantQuery(BaseModel):
@@ -116,7 +116,7 @@ class RestaurantQuery(BaseModel):
 
     def to_dict(self) -> Dict:
         """Convert the model to a dictionary"""
-        return self.dict()
+        return self.model_dump()
 
 
 class Reservation(BaseModel):
@@ -159,7 +159,7 @@ class Reservation(BaseModel):
 
     def to_dict(self) -> Dict:
         """Convert the model to a dictionary"""
-        return self.dict()
+        return self.model()
 
 
 class ReservationQuery(BaseModel):
@@ -178,7 +178,7 @@ class ReservationQuery(BaseModel):
 
     def to_dict(self) -> Dict:
         """Convert the model to a dictionary"""
-        return self.dict()
+        return self.model_dump()
 
 
 class Review(BaseModel):
@@ -212,7 +212,7 @@ class Review(BaseModel):
 
     def to_dict(self) -> Dict:
         """Convert the model to a dictionary"""
-        return self.dict()
+        return self.model()
 
 
 class ReviewQuery(BaseModel):
@@ -230,4 +230,4 @@ class ReviewQuery(BaseModel):
 
     def to_dict(self) -> Dict:
         """Convert the model to a dictionary"""
-        return self.dict()
+        return self.model_dump()

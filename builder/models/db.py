@@ -35,40 +35,6 @@ class DBConfig(BaseModel):
         """
 
 
-class MongoDBConfig(DBConfig):
-    """Config for a MongoDB setup."""
-
-    db_uri_env: MinStrType = Field(
-        ..., description="Environment variable for the DB URI"
-    )
-
-    def __init__(self, **data):
-        """Initialize the MongoDB config."""
-        # Check for valid db_type
-        if data["db_type"] != DatabaseTypes.MONGO.value:
-            raise ValueError(
-                f"db_type {data['db_type']} must be {DatabaseTypes.MONGO.value}"
-            )
-
-        # Load the environment variables
-        data["config"] = {
-            "db_uri": os.getenv(data["db_uri_env"]),
-        }
-
-        # Call the parent constructor
-        super().__init__(**data)
-
-    def __str__(self):
-        obfuscated_config = {**self.config, "db_uri": "********"}
-        return f"""
-        MongoDBConfig(
-            db_type={self.db_type},
-            config={obfuscated_config},
-            db_uri_env={self.db_uri_env}
-        )
-        """
-
-
 class RelationalDBConfig(DBConfig):
     """Config for a relational database setup."""
 
@@ -86,9 +52,8 @@ class RelationalDBConfig(DBConfig):
     def __init__(self, **data):
         """Initialize the relational database config."""
         # Check for valid db_type
-        types = [DatabaseTypes.POSTGRES.value, DatabaseTypes.MYSQL.value]
-        if data["db_type"] not in types:
-            raise ValueError(f"db_type must be one of {types}")
+        if data["db_type"] not in DatabaseTypes.choices():
+            raise ValueError(f"db_type must be one of {DatabaseTypes.choices()}")
 
         # Set the driver based on the db_type
         if data["db_type"] == DatabaseTypes.MYSQL.value:

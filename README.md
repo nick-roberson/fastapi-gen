@@ -3,7 +3,7 @@
 <p align="center" markdown=1>
     <i>
         Create and manage FastAPI backends and React/Typescript frontends effortlessly using a simple CLI tool. 
-        Database support includes MongoDB, PostgreSQL, and MySQL.
+        Database support includes PostgreSQL and MySQL.
         ... Collaborators are always welcome!
     </i>
 </p>
@@ -25,9 +25,6 @@
 
 <h3 align="center">Database </h3>
 <p align="center">
-    <a href="https://www.mongodb.com/">
-        <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB">
-    </a>
     <a href="https://www.sqlalchemy.org/">
         <img src="https://img.shields.io/badge/SQLAlchemy-3178C6?style=for-the-badge&logo=sqlalchemy&logoColor=white" alt="SQLAlchemy">
     </a>
@@ -59,8 +56,6 @@
       <img src="https://img.shields.io/badge/Redis-E92063?style=for-the-badge&logo=redis&logoColor=white" alt="Redis">
     </a>
 </p>
-
-**Mongo DB Integration is lagging behind the MySQL / PostrgreSQL implementation... working to bring them back into sync!**
 
 _**NOTE:**_
 - _This project is actively under development._
@@ -109,7 +104,7 @@ to the frontend or backend without having to restart the application.
 
 ## Pre-generated Example Code
 
-You can find an example config for both `MongoDB` and `MySQL + Alembic` in the `example/` directory
+You can find an example config for `MySQL + Alembic` in the `example/` directory
 under their respective folders.
 
 In addition, there is a full generated example of a `Restaurant` service in the `example/alembic/output` directory.
@@ -133,14 +128,9 @@ correct environment variables set (see the `setup` section for more information)
 
 
 **Database**
-- If using **MongoDB** as the database, you will need to set up a free tier MongoDB Atlas database as well as have `MONGO_URI` set in your environment variables.
 - If using **PostgreSQL** or **MySQL** as the database, you will need to set up either database locally or somewhere else and have the following environment variables set:
   - `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_NAME`
-- The options in the config for the `db_type` are `mongo`, `postgres`, and `mysql`
-
-To learn more about how to set up a free tier MongoDB Atlas database,
-see the following link: [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-- Click "Try Free" and follow the instructions to set up a free tier database
+- The options in the config for the `db_type` are `postgres` and `mysql`
 
 **Poetry**
 

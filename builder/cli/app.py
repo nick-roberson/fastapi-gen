@@ -5,7 +5,7 @@ from rich import print
 
 from builder.app_manager import ApplicationManager
 from builder.cli.utils import process_close, validate_config
-from builder.constants import SAMPLE_INPUT_FILE
+from builder.constants import TEST_MYSQL_CONFIG
 
 app = typer.Typer()
 
@@ -13,7 +13,7 @@ app = typer.Typer()
 @app.command()
 def create(
     config: Optional[str] = typer.Option(
-        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+        TEST_MYSQL_CONFIG, "--config", "-c", help="Path to the input yaml config."
     ),
     frontend_only: bool = typer.Option(
         False, "--frontend-only", "-f", help="Generate only the frontend code."
@@ -26,7 +26,7 @@ def create(
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
-            Defaults to SAMPLE_INPUT_FILE.
+            Defaults to TEST_MYSQL_CONFIG.
         frontend_only (bool, optional): Generate only the frontend code.
             Defaults to False.
         backend_only (bool, optional): Generate only the backend code.
@@ -63,7 +63,7 @@ def create(
 @app.command()
 def reload(
     config: Optional[str] = typer.Option(
-        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+        TEST_MYSQL_CONFIG, "--config", "-c", help="Path to the input yaml config."
     ),
     frontend_only: bool = typer.Option(
         False, "--frontend-only", "-f", help="Regenerate only the frontend code."
@@ -76,7 +76,7 @@ def reload(
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
-            Defaults to SAMPLE_INPUT_FILE.
+            Defaults to TEST_MYSQL_CONFIG.
         frontend_only (bool, optional): Regenerate only the frontend code.
             Defaults to False.
         backend_only (bool, optional): Regenerate only the backend code.
@@ -106,14 +106,14 @@ def reload(
 @app.command()
 def run_frontend(
     config: Optional[str] = typer.Option(
-        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+        TEST_MYSQL_CONFIG, "--config", "-c", help="Path to the input yaml config."
     ),
 ):
     """Run the React frontend from the input yaml config.
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
-            Defaults to SAMPLE_INPUT_FILE.
+            Defaults to TEST_MYSQL_CONFIG.
         output_dir (Optional[str], optional): Path to the output directory.
             Defaults to SAMPLE_OUTPUT_DIR.
     """
@@ -133,14 +133,14 @@ def run_frontend(
 @app.command()
 def run_backend(
     config: Optional[str] = typer.Option(
-        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+        TEST_MYSQL_CONFIG, "--config", "-c", help="Path to the input yaml config."
     ),
 ):
     """Run the FastAPI backend from the input yaml config.
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
-            Defaults to SAMPLE_INPUT_FILE.
+            Defaults to TEST_MYSQL_CONFIG.
     """
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)

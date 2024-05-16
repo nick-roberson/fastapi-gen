@@ -19,7 +19,7 @@ class {{ model.name }}(BaseModel):
 
     def to_dict(self) -> Dict:
         """ Convert the model to a dictionary """
-        return self.dict()
+        return self.model()
 
 class {{ model.name }}Query(BaseModel):
     """ Query model for {{ model.name }} """
@@ -33,5 +33,5 @@ class {{ model.name }}Query(BaseModel):
 
     def to_dict(self) -> Dict:
         """ Convert the model to a dictionary """
-        return self.dict()
+        return self.model_dump()
 {% endfor %}
