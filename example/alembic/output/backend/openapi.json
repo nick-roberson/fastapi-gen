@@ -223,55 +223,39 @@
         "summary": "Get Users",
         "description": "Get all Users",
         "operationId": "get_users_users_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  },
-                  "type": "array",
-                  "title": "Response Get Users Users Get"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Update Users",
-        "description": "Update multiple Users",
-        "operationId": "update_users_users_put",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "$ref": "#/components/schemas/User"
-                },
-                "type": "array",
-                "title": "Users"
-              }
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Skip"
             }
           },
-          "required": true
-        },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/User"
                   },
-                  "type": "array",
-                  "title": "Response Update Users Users Put"
+                  "title": "Response Get Users Users Get"
                 }
               }
             }
@@ -296,18 +280,18 @@
         "description": "Create multiple Users",
         "operationId": "create_users_users_post",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
+                "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/User"
                 },
-                "type": "array",
                 "title": "Users"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -315,11 +299,59 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/User"
                   },
-                  "type": "array",
                   "title": "Response Create Users Users Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update Users",
+        "description": "Update multiple Users",
+        "operationId": "update_users_users_put",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "title": "Users"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "title": "Response Update Users Users Put"
                 }
               }
             }
@@ -344,18 +376,18 @@
         "description": "Delete multiple Users",
         "operationId": "delete_users_users_delete",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
+                "type": "array",
                 "items": {
                   "type": "integer"
                 },
-                "type": "array",
                 "title": "User Ids"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -363,10 +395,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/User"
                   },
-                  "type": "array",
                   "title": "Response Delete Users Users Delete"
                 }
               }
@@ -848,55 +880,39 @@
         "summary": "Get Restaurants",
         "description": "Get all Restaurants",
         "operationId": "get_restaurants_restaurants_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Restaurant"
-                  },
-                  "type": "array",
-                  "title": "Response Get Restaurants Restaurants Get"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Restaurant"
-        ],
-        "summary": "Update Restaurants",
-        "description": "Update multiple Restaurants",
-        "operationId": "update_restaurants_restaurants_put",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "$ref": "#/components/schemas/Restaurant"
-                },
-                "type": "array",
-                "title": "Restaurants"
-              }
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Skip"
             }
           },
-          "required": true
-        },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Restaurant"
                   },
-                  "type": "array",
-                  "title": "Response Update Restaurants Restaurants Put"
+                  "title": "Response Get Restaurants Restaurants Get"
                 }
               }
             }
@@ -921,18 +937,18 @@
         "description": "Create multiple Restaurants",
         "operationId": "create_restaurants_restaurants_post",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
+                "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/Restaurant"
                 },
-                "type": "array",
                 "title": "Restaurants"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -940,11 +956,59 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Restaurant"
                   },
-                  "type": "array",
                   "title": "Response Create Restaurants Restaurants Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Update Restaurants",
+        "description": "Update multiple Restaurants",
+        "operationId": "update_restaurants_restaurants_put",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Restaurant"
+                },
+                "title": "Restaurants"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Restaurant"
+                  },
+                  "title": "Response Update Restaurants Restaurants Put"
                 }
               }
             }
@@ -969,18 +1033,18 @@
         "description": "Delete multiple Restaurants",
         "operationId": "delete_restaurants_restaurants_delete",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
+                "type": "array",
                 "items": {
                   "type": "integer"
                 },
-                "type": "array",
                 "title": "Restaurant Ids"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -988,10 +1052,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Restaurant"
                   },
-                  "type": "array",
                   "title": "Response Delete Restaurants Restaurants Delete"
                 }
               }
@@ -1473,55 +1537,39 @@
         "summary": "Get Reservations",
         "description": "Get all Reservations",
         "operationId": "get_reservations_reservations_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Reservation"
-                  },
-                  "type": "array",
-                  "title": "Response Get Reservations Reservations Get"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Reservation"
-        ],
-        "summary": "Update Reservations",
-        "description": "Update multiple Reservations",
-        "operationId": "update_reservations_reservations_put",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "$ref": "#/components/schemas/Reservation"
-                },
-                "type": "array",
-                "title": "Reservations"
-              }
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Skip"
             }
           },
-          "required": true
-        },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Reservation"
                   },
-                  "type": "array",
-                  "title": "Response Update Reservations Reservations Put"
+                  "title": "Response Get Reservations Reservations Get"
                 }
               }
             }
@@ -1546,18 +1594,18 @@
         "description": "Create multiple Reservations",
         "operationId": "create_reservations_reservations_post",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
+                "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/Reservation"
                 },
-                "type": "array",
                 "title": "Reservations"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -1565,11 +1613,59 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Reservation"
                   },
-                  "type": "array",
                   "title": "Response Create Reservations Reservations Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Reservation"
+        ],
+        "summary": "Update Reservations",
+        "description": "Update multiple Reservations",
+        "operationId": "update_reservations_reservations_put",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Reservation"
+                },
+                "title": "Reservations"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Reservation"
+                  },
+                  "title": "Response Update Reservations Reservations Put"
                 }
               }
             }
@@ -1594,18 +1690,18 @@
         "description": "Delete multiple Reservations",
         "operationId": "delete_reservations_reservations_delete",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
+                "type": "array",
                 "items": {
                   "type": "integer"
                 },
-                "type": "array",
                 "title": "Reservation Ids"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -1613,10 +1709,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Reservation"
                   },
-                  "type": "array",
                   "title": "Response Delete Reservations Reservations Delete"
                 }
               }
@@ -2098,55 +2194,39 @@
         "summary": "Get Reviews",
         "description": "Get all Reviews",
         "operationId": "get_reviews_reviews_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Review"
-                  },
-                  "type": "array",
-                  "title": "Response Get Reviews Reviews Get"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Review"
-        ],
-        "summary": "Update Reviews",
-        "description": "Update multiple Reviews",
-        "operationId": "update_reviews_reviews_put",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "$ref": "#/components/schemas/Review"
-                },
-                "type": "array",
-                "title": "Reviews"
-              }
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Skip"
             }
           },
-          "required": true
-        },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Review"
                   },
-                  "type": "array",
-                  "title": "Response Update Reviews Reviews Put"
+                  "title": "Response Get Reviews Reviews Get"
                 }
               }
             }
@@ -2171,18 +2251,18 @@
         "description": "Create multiple Reviews",
         "operationId": "create_reviews_reviews_post",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
+                "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/Review"
                 },
-                "type": "array",
                 "title": "Reviews"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -2190,11 +2270,59 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Review"
                   },
-                  "type": "array",
                   "title": "Response Create Reviews Reviews Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Update Reviews",
+        "description": "Update multiple Reviews",
+        "operationId": "update_reviews_reviews_put",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Review"
+                },
+                "title": "Reviews"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  },
+                  "title": "Response Update Reviews Reviews Put"
                 }
               }
             }
@@ -2219,18 +2347,18 @@
         "description": "Delete multiple Reviews",
         "operationId": "delete_reviews_reviews_delete",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
+                "type": "array",
                 "items": {
                   "type": "integer"
                 },
-                "type": "array",
                 "title": "Review Ids"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -2238,10 +2366,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Review"
                   },
-                  "type": "array",
                   "title": "Response Delete Reviews Reviews Delete"
                 }
               }
@@ -2618,6 +2746,32 @@
             ],
             "title": "Special Requests",
             "description": "Any special requests made by the user"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At",
+            "description": "The time the record was created"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At",
+            "description": "The time the record was last updated"
           }
         },
         "type": "object",
@@ -2700,7 +2854,8 @@
           }
         },
         "type": "object",
-        "title": "ReservationQuery"
+        "title": "ReservationQuery",
+        "description": "Query model for Reservation "
       },
       "Restaurant": {
         "properties": {
@@ -2761,6 +2916,32 @@
             ],
             "title": "Price Range",
             "description": "The price range of the alembic"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At",
+            "description": "The time the record was created"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At",
+            "description": "The time the record was last updated"
           }
         },
         "type": "object",
@@ -2840,7 +3021,8 @@
           }
         },
         "type": "object",
-        "title": "RestaurantQuery"
+        "title": "RestaurantQuery",
+        "description": "Query model for Restaurant "
       },
       "Review": {
         "properties": {
@@ -2882,6 +3064,32 @@
             ],
             "title": "Comment",
             "description": "The textual comment of the review"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At",
+            "description": "The time the record was created"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At",
+            "description": "The time the record was last updated"
           }
         },
         "type": "object",
@@ -2951,7 +3159,8 @@
           }
         },
         "type": "object",
-        "title": "ReviewQuery"
+        "title": "ReviewQuery",
+        "description": "Query model for Review "
       },
       "User": {
         "properties": {
@@ -3015,6 +3224,32 @@
             "title": "Role",
             "description": "The role of the user (e.g., admin, user, restaurant_owner)",
             "default": "user"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At",
+            "description": "The time the record was created"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At",
+            "description": "The time the record was last updated"
           }
         },
         "type": "object",
@@ -3095,7 +3330,8 @@
           }
         },
         "type": "object",
-        "title": "UserQuery"
+        "title": "UserQuery",
+        "description": "Query model for User "
       },
       "ValidationError": {
         "properties": {

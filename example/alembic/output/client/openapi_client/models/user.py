@@ -17,6 +17,7 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
+from datetime import datetime
 from typing import Any, ClassVar, Dict, List, Optional, Set
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
@@ -34,6 +35,8 @@ class User(BaseModel):
     phone_number: Optional[StrictStr] = None
     preferences: Optional[List[Any]] = None
     role: Optional[StrictStr] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
     __properties: ClassVar[List[str]] = [
         "id",
         "username",
@@ -41,6 +44,8 @@ class User(BaseModel):
         "phone_number",
         "preferences",
         "role",
+        "created_at",
+        "updated_at",
     ]
 
     model_config = ConfigDict(
@@ -100,6 +105,16 @@ class User(BaseModel):
         if self.role is None and "role" in self.model_fields_set:
             _dict["role"] = None
 
+        # set to None if created_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.created_at is None and "created_at" in self.model_fields_set:
+            _dict["created_at"] = None
+
+        # set to None if updated_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.updated_at is None and "updated_at" in self.model_fields_set:
+            _dict["updated_at"] = None
+
         return _dict
 
     @classmethod
@@ -119,6 +134,8 @@ class User(BaseModel):
                 "phone_number": obj.get("phone_number"),
                 "preferences": obj.get("preferences"),
                 "role": obj.get("role"),
+                "created_at": obj.get("created_at"),
+                "updated_at": obj.get("updated_at"),
             }
         )
         return _obj

@@ -25,7 +25,7 @@ from typing_extensions import Self
 
 class ReviewQuery(BaseModel):
     """
-    ReviewQuery
+    Query model for Review
     """  # noqa: E501
 
     id: Optional[StrictInt] = None

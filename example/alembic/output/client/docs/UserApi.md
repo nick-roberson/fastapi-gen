@@ -641,7 +641,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_users_users_get**
-> List[User] get_users_users_get()
+> List[User] get_users_users_get(skip=skip, limit=limit)
 
 Get Users
 
@@ -667,10 +667,12 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.UserApi(api_client)
+    skip = 0 # int |  (optional) (default to 0)
+    limit = 100 # int |  (optional) (default to 100)
 
     try:
         # Get Users
-        api_response = api_instance.get_users_users_get()
+        api_response = api_instance.get_users_users_get(skip=skip, limit=limit)
         print("The response of UserApi->get_users_users_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -681,7 +683,11 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **skip** | **int**|  | [optional] [default to 0]
+ **limit** | **int**|  | [optional] [default to 100]
 
 ### Return type
 
@@ -701,6 +707,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

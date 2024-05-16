@@ -49,6 +49,18 @@ export interface Review {
    * @memberof Review
    */
   comment?: string;
+  /**
+   *
+   * @type {Date}
+   * @memberof Review
+   */
+  createdAt?: Date;
+  /**
+   *
+   * @type {Date}
+   * @memberof Review
+   */
+  updatedAt?: Date;
 }
 
 /**
@@ -78,6 +90,10 @@ export function ReviewFromJSONTyped(
     userId: json["user_id"],
     rating: json["rating"],
     comment: json["comment"] == null ? undefined : json["comment"],
+    createdAt:
+      json["created_at"] == null ? undefined : new Date(json["created_at"]),
+    updatedAt:
+      json["updated_at"] == null ? undefined : new Date(json["updated_at"]),
   };
 }
 
@@ -91,5 +107,13 @@ export function ReviewToJSON(value?: Review | null): any {
     user_id: value["userId"],
     rating: value["rating"],
     comment: value["comment"],
+    created_at:
+      value["createdAt"] == null
+        ? undefined
+        : (value["createdAt"] as any).toISOString(),
+    updated_at:
+      value["updatedAt"] == null
+        ? undefined
+        : (value["updatedAt"] as any).toISOString(),
   };
 }

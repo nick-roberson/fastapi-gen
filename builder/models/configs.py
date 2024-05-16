@@ -5,11 +5,11 @@ import yaml
 from faker import Faker
 from pydantic import BaseModel, ConfigDict, Field, constr, field_validator
 
-from builder.constants import DEFAULT_SERVICE_NAME
 from builder.models.db import DBConfig
 from builder.models.enum import FieldDataType
 
-DefaultStr = constr(strip_whitespace=True, min_length=1)
+# Custom type for string types that enforce a minimum length and no whitespace
+MinStrType = constr(strip_whitespace=True, min_length=1)
 
 
 class FieldDefinition(BaseModel):
@@ -21,8 +21,8 @@ class FieldDefinition(BaseModel):
         super().__init__(**data)
         self.verify_default()
 
-    name: DefaultStr = Field(description="Name of the field", required=True)
-    type: DefaultStr = Field(description="Type of the field", required=True)
+    name: MinStrType = Field(description="Name of the field", required=True)
+    type: MinStrType = Field(description="Type of the field", required=True)
     of_type: Optional[str] = Field(
         default=None, description="Reference to another model"
     )
@@ -121,15 +121,15 @@ class FieldDefinition(BaseModel):
         """
         # If required, override to not include default
         if self.required:
-            return f"{self.name}: {self.type} = Field(description='{self.description}', required={self.required})"
+            return f"{self.name}: {self.type} = FieldInfo(description='{self.description}', required={self.required})"
         # If not required, include default (if present)
         else:
             if self.default is None:
-                return f"{self.name}: Optional[{self.type}] = Field(default=None, description='{self.description}', required={self.required})"
+                return f"{self.name}: Optional[{self.type}] = FieldInfo(default=None, description='{self.description}', required={self.required})"
             else:
                 default = f"'{self.default}'" if self.type == "str" else self.default
                 return (
-                    f"{self.name}: Optional[{self.type}] = Field(default={default}, description='{self.description}', "
+                    f"{self.name}: Optional[{self.type}] = FieldInfo(default={default}, description='{self.description}', "
                     f"required={self.required})"
                 )
 
@@ -190,7 +190,7 @@ class ModelConfig(BaseModel):
 
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
-    name: DefaultStr
+    name: MinStrType
     fields: List[FieldDefinition]
 
     @property
@@ -226,8 +226,8 @@ class DependencyConfig(BaseModel):
     """Dependency definition"""
 
     model_config = ConfigDict(extra="ignore", from_attributes=True)
-    name: DefaultStr
-    version: Optional[DefaultStr] = None
+    name: MinStrType
+    version: Optional[MinStrType] = None
 
     def __str__(self):
         return f"""
@@ -241,10 +241,10 @@ class DependencyConfig(BaseModel):
 class ServiceInfo(BaseModel):
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
-    name: DefaultStr
-    email: DefaultStr
-    version: DefaultStr = "1.0.0"
-    description: DefaultStr = "A service built with the FastAPI Gen builder."
+    name: MinStrType
+    email: MinStrType
+    version: MinStrType = "1.0.0"
+    description: MinStrType = "A service built with the FastAPI Gen builder."
 
     @property
     def author(self):
@@ -275,7 +275,7 @@ class ServiceConfig(BaseModel):
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
     # Output directory
-    output_dir: DefaultStr = "output"
+    output_dir: MinStrType = "output"
 
     # Service information
     service_info: ServiceInfo

@@ -1,5 +1,6 @@
 # ReviewQuery
 
+Query model for Review 
 
 ## Properties
 

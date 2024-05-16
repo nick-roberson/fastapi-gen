@@ -1,5 +1,6 @@
 # RestaurantQuery
 
+Query model for Restaurant 
 
 ## Properties
 

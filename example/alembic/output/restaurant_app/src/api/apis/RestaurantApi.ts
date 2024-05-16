@@ -63,6 +63,11 @@ export interface GetRestaurantRestaurantGetRequest {
   restaurantId: string;
 }
 
+export interface GetRestaurantsRestaurantsGetRequest {
+  skip?: number;
+  limit?: number;
+}
+
 export interface QueryRestaurantRestaurantQueryPostRequest {
   restaurantQuery: RestaurantQuery;
 }
@@ -571,9 +576,18 @@ export class RestaurantApi extends runtime.BaseAPI {
    * Get Restaurants
    */
   async getRestaurantsRestaurantsGetRaw(
+    requestParameters: GetRestaurantsRestaurantsGetRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Array<Restaurant>>> {
     const queryParameters: any = {};
+
+    if (requestParameters["skip"] != null) {
+      queryParameters["skip"] = requestParameters["skip"];
+    }
+
+    if (requestParameters["limit"] != null) {
+      queryParameters["limit"] = requestParameters["limit"];
+    }
 
     const headerParameters: runtime.HTTPHeaders = {};
 
@@ -597,9 +611,13 @@ export class RestaurantApi extends runtime.BaseAPI {
    * Get Restaurants
    */
   async getRestaurantsRestaurantsGet(
+    requestParameters: GetRestaurantsRestaurantsGetRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<Restaurant>> {
-    const response = await this.getRestaurantsRestaurantsGetRaw(initOverrides);
+    const response = await this.getRestaurantsRestaurantsGetRaw(
+      requestParameters,
+      initOverrides,
+    );
     return await response.value();
   }
 

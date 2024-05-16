@@ -8,8 +8,7 @@ from pydantic.fields import FieldInfo
 from builder.constants import PYTHON_DEPENDENCIES, REQUIRED_DB_ENV_VARS
 from builder.models import (DatabaseTypes, DependencyConfig, FieldDefinition,
                             ModelConfig, ServiceConfig, ServiceInfo)
-from builder.models.db import (MONGO, MYSQL, POSTGRES, DBConfig, MongoDBConfig,
-                               RelationalDBConfig)
+from builder.models.db import DBConfig, MongoDBConfig, RelationalDBConfig
 
 # Pull output the fields from the models
 FIELD_DEFINITION_FIELDS: dict[str, FieldInfo] = FieldDefinition.model_fields
@@ -158,9 +157,9 @@ def parse_service_info(config: Dict[str, Any]) -> ServiceInfo:
 
 def parse_db_config(config: Dict[str, Any]) -> DBConfig:
     """Parse the database config."""
-    if config["db_type"] == MONGO:
+    if config["db_type"] == DatabaseTypes.MONGO.value:
         return MongoDBConfig(**config)
-    elif config["db_type"] in [MYSQL, POSTGRES]:
+    elif config["db_type"] in [DatabaseTypes.POSTGRES.value, DatabaseTypes.MYSQL.value]:
         return RelationalDBConfig(**config)
     else:
         raise ValueError(f"Invalid db_type {config['db_type']}")

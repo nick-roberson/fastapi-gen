@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **cuisine** | **str** |  | [optional] 
 **rating** | **float** |  | [optional] 
 **price_range** | **str** |  | [optional] 
+**created_at** | **datetime** |  | [optional] 
+**updated_at** | **datetime** |  | [optional] 
 
 ## Example
 

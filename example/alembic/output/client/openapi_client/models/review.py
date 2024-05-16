@@ -17,6 +17,7 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
+from datetime import datetime
 from typing import Any, ClassVar, Dict, List, Optional, Set, Union
 
 from pydantic import (BaseModel, ConfigDict, Field, StrictFloat, StrictInt,
@@ -36,12 +37,16 @@ class Review(BaseModel):
         description="The rating given by the user"
     )
     comment: Optional[StrictStr] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
     __properties: ClassVar[List[str]] = [
         "id",
         "restaurant_id",
         "user_id",
         "rating",
         "comment",
+        "created_at",
+        "updated_at",
     ]
 
     model_config = ConfigDict(
@@ -91,6 +96,16 @@ class Review(BaseModel):
         if self.comment is None and "comment" in self.model_fields_set:
             _dict["comment"] = None
 
+        # set to None if created_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.created_at is None and "created_at" in self.model_fields_set:
+            _dict["created_at"] = None
+
+        # set to None if updated_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.updated_at is None and "updated_at" in self.model_fields_set:
+            _dict["updated_at"] = None
+
         return _dict
 
     @classmethod
@@ -109,6 +124,8 @@ class Review(BaseModel):
                 "user_id": obj.get("user_id"),
                 "rating": obj.get("rating"),
                 "comment": obj.get("comment"),
+                "created_at": obj.get("created_at"),
+                "updated_at": obj.get("updated_at"),
             }
         )
         return _obj

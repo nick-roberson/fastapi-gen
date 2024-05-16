@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **reservation_time** | **datetime** | The date and time of the reservation | 
 **party_size** | **int** | The size of the party for the reservation | 
 **special_requests** | **str** |  | [optional] 
+**created_at** | **datetime** |  | [optional] 
+**updated_at** | **datetime** |  | [optional] 
 
 ## Example
 

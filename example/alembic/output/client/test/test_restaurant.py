@@ -41,7 +41,9 @@ class TestRestaurant(unittest.TestCase):
                 location = '',
                 cuisine = '',
                 rating = 1.337,
-                price_range = ''
+                price_range = '',
+                created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
             )
         else:
             return Restaurant(

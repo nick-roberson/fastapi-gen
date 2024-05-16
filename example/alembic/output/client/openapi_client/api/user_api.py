@@ -2290,6 +2290,8 @@ class UserApi:
     @validate_call
     def get_users_users_get(
         self,
+        skip: Optional[StrictInt] = None,
+        limit: Optional[StrictInt] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2306,6 +2308,10 @@ class UserApi:
 
         Get all Users
 
+        :param skip:
+        :type skip: int
+        :param limit:
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2329,6 +2335,8 @@ class UserApi:
         """  # noqa: E501
 
         _param = self._get_users_users_get_serialize(
+            skip=skip,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2337,6 +2345,7 @@ class UserApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "List[User]",
+            "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -2350,6 +2359,8 @@ class UserApi:
     @validate_call
     def get_users_users_get_with_http_info(
         self,
+        skip: Optional[StrictInt] = None,
+        limit: Optional[StrictInt] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2366,6 +2377,10 @@ class UserApi:
 
         Get all Users
 
+        :param skip:
+        :type skip: int
+        :param limit:
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2389,6 +2404,8 @@ class UserApi:
         """  # noqa: E501
 
         _param = self._get_users_users_get_serialize(
+            skip=skip,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2397,6 +2414,7 @@ class UserApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "List[User]",
+            "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -2410,6 +2428,8 @@ class UserApi:
     @validate_call
     def get_users_users_get_without_preload_content(
         self,
+        skip: Optional[StrictInt] = None,
+        limit: Optional[StrictInt] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2426,6 +2446,10 @@ class UserApi:
 
         Get all Users
 
+        :param skip:
+        :type skip: int
+        :param limit:
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2449,6 +2473,8 @@ class UserApi:
         """  # noqa: E501
 
         _param = self._get_users_users_get_serialize(
+            skip=skip,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2457,6 +2483,7 @@ class UserApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             "200": "List[User]",
+            "422": "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -2465,6 +2492,8 @@ class UserApi:
 
     def _get_users_users_get_serialize(
         self,
+        skip,
+        limit,
         _request_auth,
         _content_type,
         _headers,
@@ -2484,6 +2513,14 @@ class UserApi:
 
         # process the path parameters
         # process the query parameters
+        if skip is not None:
+
+            _query_params.append(("skip", skip))
+
+        if limit is not None:
+
+            _query_params.append(("limit", limit))
+
         # process the header parameters
         # process the form parameters
         # process the body parameter

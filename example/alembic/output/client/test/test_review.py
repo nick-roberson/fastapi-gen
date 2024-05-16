@@ -40,7 +40,9 @@ class TestReview(unittest.TestCase):
                 restaurant_id = 56,
                 user_id = 56,
                 rating = 1.337,
-                comment = ''
+                comment = '',
+                created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
             )
         else:
             return Review(

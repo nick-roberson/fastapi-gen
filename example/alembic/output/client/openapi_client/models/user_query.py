@@ -25,7 +25,7 @@ from typing_extensions import Self
 
 class UserQuery(BaseModel):
     """
-    UserQuery
+    Query model for User
     """  # noqa: E501
 
     id: Optional[StrictInt] = None
