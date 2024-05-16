@@ -25,6 +25,19 @@ class DBConfig(BaseModel):
     db_type: str = Field(..., description="Type of the database")
     config: Dict[str, Any] = Field({}, description="Database config")
 
+    def __str__(self):
+        obfuscated_config = {**self.config}
+        if "password" in obfuscated_config:
+            obfuscated_config["password"] = "********"
+        if "db_uri" in obfuscated_config:
+            obfuscated_config["db_uri"] = "********"
+        return f"""
+        DBConfig(
+            db_type={self.db_type},
+            config={obfuscated_config}
+        )
+        """
+
 
 class MongoDBConfig(DBConfig):
     """Config for a MongoDB setup."""
@@ -44,6 +57,16 @@ class MongoDBConfig(DBConfig):
 
         # Call the parent constructor
         super().__init__(**data)
+
+    def __str__(self):
+        obfuscated_config = {**self.config, "db_uri": "********"}
+        return f"""
+        MongoDBConfig(
+            db_type={self.db_type},
+            config={obfuscated_config},
+            db_uri_env={self.db_uri_env}
+        )
+        """
 
 
 class RelationalDBConfig(DBConfig):
@@ -81,3 +104,18 @@ class RelationalDBConfig(DBConfig):
 
         # Call the parent constructor
         super().__init__(**data)
+
+    def __str__(self):
+        obfuscated_config = {**self.config, "password": "********", "host": "********"}
+        return f"""
+        RelationalDBConfig(
+            db_type={self.db_type},
+            db_driver={self.db_driver},
+            config={obfuscated_config},
+            host_env={self.host_env},
+            port_env={self.port_env},
+            user_env={self.user_env},
+            password_env={self.password_env},
+            db_name_env={self.db_name_env}
+        )
+        """
