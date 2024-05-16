@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **phone_number** | **str** |  | [optional] 
 **preferences** | **List[object]** |  | [optional] 
 **role** | **str** |  | [optional] 
+**created_at** | **datetime** |  | [optional] 
+**updated_at** | **datetime** |  | [optional] 
 
 ## Example
 

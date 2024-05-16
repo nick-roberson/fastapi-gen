@@ -59,6 +59,11 @@ export interface GetUserUserGetRequest {
   userId: string;
 }
 
+export interface GetUsersUsersGetRequest {
+  skip?: number;
+  limit?: number;
+}
+
 export interface QueryUserUserQueryPostRequest {
   userQuery: UserQuery;
 }
@@ -567,9 +572,18 @@ export class UserApi extends runtime.BaseAPI {
    * Get Users
    */
   async getUsersUsersGetRaw(
+    requestParameters: GetUsersUsersGetRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Array<User>>> {
     const queryParameters: any = {};
+
+    if (requestParameters["skip"] != null) {
+      queryParameters["skip"] = requestParameters["skip"];
+    }
+
+    if (requestParameters["limit"] != null) {
+      queryParameters["limit"] = requestParameters["limit"];
+    }
 
     const headerParameters: runtime.HTTPHeaders = {};
 
@@ -593,9 +607,13 @@ export class UserApi extends runtime.BaseAPI {
    * Get Users
    */
   async getUsersUsersGet(
+    requestParameters: GetUsersUsersGetRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<User>> {
-    const response = await this.getUsersUsersGetRaw(initOverrides);
+    const response = await this.getUsersUsersGetRaw(
+      requestParameters,
+      initOverrides,
+    );
     return await response.value();
   }
 

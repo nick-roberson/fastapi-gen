@@ -55,6 +55,18 @@ export interface Reservation {
    * @memberof Reservation
    */
   specialRequests?: string;
+  /**
+   *
+   * @type {Date}
+   * @memberof Reservation
+   */
+  createdAt?: Date;
+  /**
+   *
+   * @type {Date}
+   * @memberof Reservation
+   */
+  updatedAt?: Date;
 }
 
 /**
@@ -87,6 +99,10 @@ export function ReservationFromJSONTyped(
     partySize: json["party_size"],
     specialRequests:
       json["special_requests"] == null ? undefined : json["special_requests"],
+    createdAt:
+      json["created_at"] == null ? undefined : new Date(json["created_at"]),
+    updatedAt:
+      json["updated_at"] == null ? undefined : new Date(json["updated_at"]),
   };
 }
 
@@ -101,5 +117,13 @@ export function ReservationToJSON(value?: Reservation | null): any {
     reservation_time: value["reservationTime"].toISOString(),
     party_size: value["partySize"],
     special_requests: value["specialRequests"],
+    created_at:
+      value["createdAt"] == null
+        ? undefined
+        : (value["createdAt"] as any).toISOString(),
+    updated_at:
+      value["updatedAt"] == null
+        ? undefined
+        : (value["updatedAt"] as any).toISOString(),
   };
 }

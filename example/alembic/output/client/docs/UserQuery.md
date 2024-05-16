@@ -1,5 +1,6 @@
 # UserQuery
 
+Query model for User 
 
 ## Properties
 

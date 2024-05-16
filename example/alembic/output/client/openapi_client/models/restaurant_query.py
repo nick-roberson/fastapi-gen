@@ -25,7 +25,7 @@ from typing_extensions import Self
 
 class RestaurantQuery(BaseModel):
     """
-    RestaurantQuery
+    Query model for Restaurant
     """  # noqa: E501
 
     id: Optional[StrictInt] = None

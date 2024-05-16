@@ -59,6 +59,11 @@ export interface GetReviewReviewGetRequest {
   reviewId: string;
 }
 
+export interface GetReviewsReviewsGetRequest {
+  skip?: number;
+  limit?: number;
+}
+
 export interface QueryReviewReviewQueryPostRequest {
   reviewQuery: ReviewQuery;
 }
@@ -567,9 +572,18 @@ export class ReviewApi extends runtime.BaseAPI {
    * Get Reviews
    */
   async getReviewsReviewsGetRaw(
+    requestParameters: GetReviewsReviewsGetRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Array<Review>>> {
     const queryParameters: any = {};
+
+    if (requestParameters["skip"] != null) {
+      queryParameters["skip"] = requestParameters["skip"];
+    }
+
+    if (requestParameters["limit"] != null) {
+      queryParameters["limit"] = requestParameters["limit"];
+    }
 
     const headerParameters: runtime.HTTPHeaders = {};
 
@@ -593,9 +607,13 @@ export class ReviewApi extends runtime.BaseAPI {
    * Get Reviews
    */
   async getReviewsReviewsGet(
+    requestParameters: GetReviewsReviewsGetRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<Review>> {
-    const response = await this.getReviewsReviewsGetRaw(initOverrides);
+    const response = await this.getReviewsReviewsGetRaw(
+      requestParameters,
+      initOverrides,
+    );
     return await response.value();
   }
 

@@ -14,7 +14,7 @@
 
 import { mapValues } from "../runtime";
 /**
- *
+ * Query model for Review
  * @export
  * @interface ReviewQuery
  */

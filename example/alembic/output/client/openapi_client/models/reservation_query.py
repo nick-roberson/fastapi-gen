@@ -26,7 +26,7 @@ from typing_extensions import Self
 
 class ReservationQuery(BaseModel):
     """
-    ReservationQuery
+    Query model for Reservation
     """  # noqa: E501
 
     id: Optional[StrictInt] = None

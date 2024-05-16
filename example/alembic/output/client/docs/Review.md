@@ -10,6 +10,8 @@ Name | Type | Description | Notes
 **user_id** | **int** | The ID of the user who wrote the review | 
 **rating** | **float** | The rating given by the user | 
 **comment** | **str** |  | [optional] 
+**created_at** | **datetime** |  | [optional] 
+**updated_at** | **datetime** |  | [optional] 
 
 ## Example
 

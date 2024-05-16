@@ -63,6 +63,11 @@ export interface GetReservationReservationGetRequest {
   reservationId: string;
 }
 
+export interface GetReservationsReservationsGetRequest {
+  skip?: number;
+  limit?: number;
+}
+
 export interface QueryReservationReservationQueryPostRequest {
   reservationQuery: ReservationQuery;
 }
@@ -572,9 +577,18 @@ export class ReservationApi extends runtime.BaseAPI {
    * Get Reservations
    */
   async getReservationsReservationsGetRaw(
+    requestParameters: GetReservationsReservationsGetRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<Array<Reservation>>> {
     const queryParameters: any = {};
+
+    if (requestParameters["skip"] != null) {
+      queryParameters["skip"] = requestParameters["skip"];
+    }
+
+    if (requestParameters["limit"] != null) {
+      queryParameters["limit"] = requestParameters["limit"];
+    }
 
     const headerParameters: runtime.HTTPHeaders = {};
 
@@ -598,10 +612,13 @@ export class ReservationApi extends runtime.BaseAPI {
    * Get Reservations
    */
   async getReservationsReservationsGet(
+    requestParameters: GetReservationsReservationsGetRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<Reservation>> {
-    const response =
-      await this.getReservationsReservationsGetRaw(initOverrides);
+    const response = await this.getReservationsReservationsGetRaw(
+      requestParameters,
+      initOverrides,
+    );
     return await response.value();
   }
 

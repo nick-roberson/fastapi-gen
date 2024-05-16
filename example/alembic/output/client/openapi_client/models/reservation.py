@@ -43,6 +43,8 @@ class Reservation(BaseModel):
         description="The size of the party for the reservation"
     )
     special_requests: Optional[StrictStr] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
     __properties: ClassVar[List[str]] = [
         "id",
         "restaurant_id",
@@ -50,6 +52,8 @@ class Reservation(BaseModel):
         "reservation_time",
         "party_size",
         "special_requests",
+        "created_at",
+        "updated_at",
     ]
 
     model_config = ConfigDict(
@@ -102,6 +106,16 @@ class Reservation(BaseModel):
         ):
             _dict["special_requests"] = None
 
+        # set to None if created_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.created_at is None and "created_at" in self.model_fields_set:
+            _dict["created_at"] = None
+
+        # set to None if updated_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.updated_at is None and "updated_at" in self.model_fields_set:
+            _dict["updated_at"] = None
+
         return _dict
 
     @classmethod
@@ -121,6 +135,8 @@ class Reservation(BaseModel):
                 "reservation_time": obj.get("reservation_time"),
                 "party_size": obj.get("party_size"),
                 "special_requests": obj.get("special_requests"),
+                "created_at": obj.get("created_at"),
+                "updated_at": obj.get("updated_at"),
             }
         )
         return _obj

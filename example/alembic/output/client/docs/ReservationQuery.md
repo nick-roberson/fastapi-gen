@@ -1,5 +1,6 @@
 # ReservationQuery
 
+Query model for Reservation 
 
 ## Properties
 

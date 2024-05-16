@@ -14,7 +14,7 @@
 
 import { mapValues } from "../runtime";
 /**
- *
+ * Query model for Reservation
  * @export
  * @interface ReservationQuery
  */

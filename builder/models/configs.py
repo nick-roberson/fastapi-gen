@@ -1,14 +1,15 @@
 import os
-from typing import Any, Dict, List, Optional
+from typing import Any, List, Optional
 
 import yaml
 from faker import Faker
-from pydantic import BaseModel, ConfigDict, field_validator
-from pydantic.fields import FieldInfo
+from pydantic import BaseModel, ConfigDict, Field, constr, field_validator
 
-from builder.constants import DEFAULT_SERVICE_NAME
 from builder.models.db import DBConfig
 from builder.models.enum import FieldDataType
+
+# Custom type for string types that enforce a minimum length and no whitespace
+MinStrType = constr(strip_whitespace=True, min_length=1)
 
 
 class FieldDefinition(BaseModel):
@@ -20,25 +21,23 @@ class FieldDefinition(BaseModel):
         super().__init__(**data)
         self.verify_default()
 
-    name: str = FieldInfo(description="Name of the field", required=True)
-    type: str = FieldInfo(description="Type of the field", required=True)
-    of_type: Optional[str] = FieldInfo(
+    name: MinStrType = Field(description="Name of the field", required=True)
+    type: MinStrType = Field(description="Type of the field", required=True)
+    of_type: Optional[str] = Field(
         default=None, description="Reference to another model"
     )
-    description: Optional[str] = FieldInfo(
+    description: Optional[str] = Field(
         default=None, description="Description of the field"
     )
-    default: Optional[Any] = FieldInfo(
+    default: Optional[Any] = Field(
         default=None, description="Default value of the field"
     )
-    required: Optional[bool] = FieldInfo(
-        default=True, description="Is the field required"
-    )
+    required: Optional[bool] = Field(default=True, description="Is the field required")
 
     @field_validator("type")
     def validate_type(cls, v):
         if v not in FieldDataType.choices():
-            raise ValueError(f"type must be one of {FieldDataType.choices()}")
+            raise ValueError(f"type must be one of {FieldDataType.choices()}, was {v}")
         return v
 
     @property
@@ -102,10 +101,16 @@ class FieldDefinition(BaseModel):
                 )
 
     def __str__(self):
-        return (
-            f"FieldDefinition(name={self.name}, type={self.type}, of_type={self.of_type}, "
-            f"description={self.description}, default={self.default}, required={self.required})"
+        return f"""
+        FieldDefinition(
+            name={self.name},
+            type={self.type},
+            of_type={self.of_type},
+            description={self.description},
+            default={self.default},
+            required={self.required}
         )
+        """
 
     @property
     def row(self):
@@ -117,10 +122,10 @@ class FieldDefinition(BaseModel):
         # If required, override to not include default
         if self.required:
             return f"{self.name}: {self.type} = FieldInfo(description='{self.description}', required={self.required})"
-        # If not required, include default  (if present)
+        # If not required, include default (if present)
         else:
             if self.default is None:
-                return f"{self.name}: Optional[{self.type}] = FieldInfo(default=None,description='{self.description}', required={self.required})"
+                return f"{self.name}: Optional[{self.type}] = FieldInfo(default=None, description='{self.description}', required={self.required})"
             else:
                 default = f"'{self.default}'" if self.type == "str" else self.default
                 return (
@@ -175,7 +180,9 @@ class FieldDefinition(BaseModel):
         elif self.type == FieldDataType.DICT.value:
             return {fake.word(): fake.word() for _ in range(3)}
         else:
-            return None
+            raise ValueError(
+                f"type must be one of {FieldDataType.choices()}, was {self.type}"
+            )
 
 
 class ModelConfig(BaseModel):
@@ -183,7 +190,7 @@ class ModelConfig(BaseModel):
 
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
-    name: str
+    name: MinStrType
     fields: List[FieldDefinition]
 
     @property
@@ -199,7 +206,12 @@ class ModelConfig(BaseModel):
         return f"{self.name.lower()}_manager"
 
     def __str__(self):
-        return f"ModelConfig(name={self.name}, fields={self.fields})"
+        return f"""
+        ModelConfig(
+            name={self.name},
+            fields={self.fields}
+        )
+        """
 
     def create_fake_data(self, no_ids: bool = False):
         """Create fake data for the model"""
@@ -214,20 +226,25 @@ class DependencyConfig(BaseModel):
     """Dependency definition"""
 
     model_config = ConfigDict(extra="ignore", from_attributes=True)
-    name: str
-    version: Optional[str] = None
+    name: MinStrType
+    version: Optional[MinStrType] = None
 
     def __str__(self):
-        return f"DependencyConfig(name={self.name}, version={self.version})"
+        return f"""
+        DependencyConfig(
+            name={self.name},
+            version={self.version}
+        )
+        """
 
 
 class ServiceInfo(BaseModel):
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
-    name: str = DEFAULT_SERVICE_NAME
-    email: str = ""
-    version: str = "0.1.0"
-    description: str = "A service built with builder"
+    name: MinStrType
+    email: MinStrType
+    version: MinStrType = "1.0.0"
+    description: MinStrType = "A service built with the FastAPI Gen builder."
 
     @property
     def author(self):
@@ -242,7 +259,14 @@ class ServiceInfo(BaseModel):
             self.email = f"{self.name}@example.com"
 
     def __str__(self):
-        return f"ServiceInfo(service_name={self.name}, version={self.version}, description={self.description})"
+        return f"""
+        ServiceInfo(
+            name={self.name},
+            email={self.email},
+            version={self.version},
+            description={self.description}
+        )
+        """
 
 
 class ServiceConfig(BaseModel):
@@ -251,7 +275,7 @@ class ServiceConfig(BaseModel):
     model_config = ConfigDict(extra="ignore", from_attributes=True)
 
     # Output directory
-    output_dir: str = "output"
+    output_dir: MinStrType = "output"
 
     # Service information
     service_info: ServiceInfo
@@ -280,7 +304,8 @@ class ServiceConfig(BaseModel):
         with open(file_path, "w") as file:
             yaml.dump(config_dict, file)
 
-    def from_file(file_path: str):
+    @classmethod
+    def from_file(cls, file_path: str):
         """Reads config from a YAML file"""
         # Check if the file exists
         if not os.path.exists(file_path):
@@ -288,7 +313,15 @@ class ServiceConfig(BaseModel):
         # Read the config from the file
         with open(file_path, "r") as file:
             data = yaml.safe_load(file)
-            return ServiceInfo(**data)
+            return cls(**data)
 
     def __str__(self):
-        return f"Config(models={self.models}, dependencies={self.dependencies})"
+        return f"""
+        ServiceConfig(
+            output_dir={self.output_dir},
+            service_info={self.service_info},
+            database={self.database},
+            models={self.models},
+            dependencies={self.dependencies}
+        )
+        """

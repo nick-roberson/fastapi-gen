@@ -55,6 +55,18 @@ export interface Restaurant {
    * @memberof Restaurant
    */
   priceRange?: string;
+  /**
+   *
+   * @type {Date}
+   * @memberof Restaurant
+   */
+  createdAt?: Date;
+  /**
+   *
+   * @type {Date}
+   * @memberof Restaurant
+   */
+  updatedAt?: Date;
 }
 
 /**
@@ -84,6 +96,10 @@ export function RestaurantFromJSONTyped(
     cuisine: json["cuisine"] == null ? undefined : json["cuisine"],
     rating: json["rating"] == null ? undefined : json["rating"],
     priceRange: json["price_range"] == null ? undefined : json["price_range"],
+    createdAt:
+      json["created_at"] == null ? undefined : new Date(json["created_at"]),
+    updatedAt:
+      json["updated_at"] == null ? undefined : new Date(json["updated_at"]),
   };
 }
 
@@ -98,5 +114,13 @@ export function RestaurantToJSON(value?: Restaurant | null): any {
     cuisine: value["cuisine"],
     rating: value["rating"],
     price_range: value["priceRange"],
+    created_at:
+      value["createdAt"] == null
+        ? undefined
+        : (value["createdAt"] as any).toISOString(),
+    updated_at:
+      value["updatedAt"] == null
+        ? undefined
+        : (value["updatedAt"] as any).toISOString(),
   };
 }

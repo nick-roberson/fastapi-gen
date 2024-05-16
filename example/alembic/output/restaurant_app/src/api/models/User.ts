@@ -55,6 +55,18 @@ export interface User {
    * @memberof User
    */
   role?: string;
+  /**
+   *
+   * @type {Date}
+   * @memberof User
+   */
+  createdAt?: Date;
+  /**
+   *
+   * @type {Date}
+   * @memberof User
+   */
+  updatedAt?: Date;
 }
 
 /**
@@ -85,6 +97,10 @@ export function UserFromJSONTyped(
       json["phone_number"] == null ? undefined : json["phone_number"],
     preferences: json["preferences"] == null ? undefined : json["preferences"],
     role: json["role"] == null ? undefined : json["role"],
+    createdAt:
+      json["created_at"] == null ? undefined : new Date(json["created_at"]),
+    updatedAt:
+      json["updated_at"] == null ? undefined : new Date(json["updated_at"]),
   };
 }
 
@@ -99,5 +115,13 @@ export function UserToJSON(value?: User | null): any {
     phone_number: value["phoneNumber"],
     preferences: value["preferences"],
     role: value["role"],
+    created_at:
+      value["createdAt"] == null
+        ? undefined
+        : (value["createdAt"] as any).toISOString(),
+    updated_at:
+      value["updatedAt"] == null
+        ? undefined
+        : (value["updatedAt"] as any).toISOString(),
   };
 }
