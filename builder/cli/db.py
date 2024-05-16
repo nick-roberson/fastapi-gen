@@ -5,7 +5,7 @@ from rich import print
 
 from builder.app_manager import ApplicationManager
 from builder.cli.utils import validate_config
-from builder.constants import SAMPLE_INPUT_FILE
+from builder.constants import TEST_MYSQL_CONFIG
 
 app = typer.Typer()
 
@@ -15,22 +15,13 @@ def _get_manager(config: str) -> ApplicationManager:
     # Validate the inputs, get absolute paths, clean the service name, build the context
     service_config = validate_config(config)
     manager = ApplicationManager(config=service_config)
-
-    # If the db_type is "mongo" show an error
-    if service_config.database.db_type == "mongo":
-        print(
-            "[red]MongoDB is not supported for migrations. "
-            "Please use a relational database like MySQL or PostgreSQL.[/red]"
-        )
-        typer.Exit(code=1)
-
     return manager
 
 
 @app.command()
 def migrate(
     config: Optional[str] = typer.Option(
-        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+        TEST_MYSQL_CONFIG, "--config", "-c", help="Path to the input yaml config."
     ),
     message: Optional[str] = typer.Option(
         None, "--message", "-m", help="Message for the migration."
@@ -40,7 +31,7 @@ def migrate(
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
-            Defaults to SAMPLE_INPUT_FILE.
+            Defaults to TEST_MYSQL_CONFIG.
         message (Optional[str], optional): Message for the migration.
 
     Example:
@@ -62,7 +53,7 @@ def migrate(
 @app.command()
 def revert(
     config: Optional[str] = typer.Option(
-        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+        TEST_MYSQL_CONFIG, "--config", "-c", help="Path to the input yaml config."
     ),
     revision: Optional[str] = typer.Option(
         None, "--revision", "-r", help="Revision to revert to."
@@ -72,7 +63,7 @@ def revert(
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
-            Defaults to SAMPLE_INPUT_FILE.
+            Defaults to TEST_MYSQL_CONFIG.
         revision (Optional[str], optional): Revision to revert to.
 
     Example:
@@ -93,14 +84,14 @@ def revert(
 @app.command()
 def list(
     config: Optional[str] = typer.Option(
-        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input yaml config."
+        TEST_MYSQL_CONFIG, "--config", "-c", help="Path to the input yaml config."
     ),
 ):
     """ List all migrations
 
     Args:
         config (Optional[str], optional): Path to the input yaml config.
-            Defaults to SAMPLE_INPUT_FILE.
+            Defaults to TEST_MYSQL_CONFIG.
 
     Example:
         export DB_NAME=restaurants && poetry run python main.py db list \

@@ -5,8 +5,8 @@ from typing import Dict, List
 from rich import print
 
 from builder.constants import (ALEMBIC_TEMPLATES, DOCKER_TEMPLATES,
-                               MODEL_TEMPLATES, MONGO_TEMPLATES,
-                               README_TEMPLATES, SERVICE_TEMPLATES)
+                               MODEL_TEMPLATES, README_TEMPLATES,
+                               SERVICE_TEMPLATES)
 from builder.jinja.templates import populate_template
 from builder.models import DatabaseTypes, ServiceConfig
 from builder.utils import clear_directory, clear_file, run_command
@@ -109,7 +109,7 @@ class BackendGenerator:
         else:
             print("\t1. Skipping clearing the output directory...")
 
-        # Generate the models, services, managers, and mongo files
+        # Generate the models, services, managers, and files
         print("\t2. Generating the backend code...")
         templated_files = self.generate_templated_components()
         self.create_init_files()
@@ -151,14 +151,8 @@ class BackendGenerator:
         """
         db_type = self.config.database.db_type
 
-        relational_db_types = [DatabaseTypes.POSTGRES.value, DatabaseTypes.MYSQL.value]
-        mongo_db_types = [DatabaseTypes.MONGO.value]
-
-        # If the db_type is MONGO, generate the mongo files
-        if db_type in mongo_db_types:
-            created_files = self._generate_mongo_db()
-            return created_files
-        if db_type in relational_db_types:
+        # Check valid db_type
+        if db_type in DatabaseTypes.choices():
             created_files = self._generate_alembic_db()
             return created_files
         # Otherwise, raise an error
@@ -249,40 +243,6 @@ class BackendGenerator:
 
         # Return all created files
         return alembic_files + manager_file_names + [output_path]
-
-    def _generate_mongo_db(self):
-        """Generate the MongoDB database files and managers."""
-        # Create utils file
-        output_file = os.path.join(self.code_dir, "db", "utils.py")
-        utils_file = populate_template(
-            template_dir=MONGO_TEMPLATES,
-            template_name="mongo.jinja",
-            output_path=output_file,
-        )
-
-        # Create different managers
-        manager_file_names = []
-        for model in self.config.models:
-            # Create inputs for the model template
-            output_path = os.path.join(
-                self.code_dir, "db", f"{model.name.lower()}_manager.py"
-            )
-            context = {
-                "model": model,
-                "db_config": self.config.database,
-            }
-
-            # Populate the manager template and append the file name
-            output_file = populate_template(
-                template_dir=MONGO_TEMPLATES,
-                template_name="manager.jinja",
-                output_path=output_path,
-                context=context,
-            )
-            manager_file_names.append(output_file)
-
-        db_files = manager_file_names + [utils_file]
-        return db_files
 
     def generate_models(self) -> str:
         """Use the JINJA Template to generate the models

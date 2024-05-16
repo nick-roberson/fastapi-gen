@@ -39,7 +39,7 @@ class ReservationManager:
         try:
             with session_factory() as session:
                 query_builder = session.query(DBReservation)
-                for key, value in query.dict().items():
+                for key, value in query.model_dump().items():
                     if value is not None:
                         query_builder = query_builder.filter(
                             getattr(DBReservation, key) == value
@@ -103,7 +103,7 @@ class ReservationManager:
         session_factory = self.get_session_factory()
         try:
             with session_factory() as session:
-                new_item = DBReservation(**model.dict())
+                new_item = DBReservation(**model.model_dump())
                 new_item.id = None  # Ensuring it's treated as a new record
                 session.add(new_item)
                 session.commit()
@@ -120,7 +120,9 @@ class ReservationManager:
         session_factory = self.get_session_factory()
         try:
             with session_factory() as session:
-                new_items = [DBReservation(**model.dict()) for model in model_list]
+                new_items = [
+                    DBReservation(**model.model_dump()) for model in model_list
+                ]
                 for item in new_items:
                     item.id = None
                 session.add_all(new_items)
@@ -142,7 +144,7 @@ class ReservationManager:
                 item = session.query(DBReservation).get(model.id)
                 if not item:
                     raise Exception("Reservation record does not exist")
-                for key, value in model.dict().items():
+                for key, value in model.model_dump().items():
                     setattr(item, key, value)
                 item.updated_at = datetime.now()
                 session.commit()
@@ -170,7 +172,7 @@ class ReservationManager:
                 item_map = {item.id: item for item in items}
                 for model in model_list:
                     item = item_map[model.id]
-                    for key, value in model.dict().items():
+                    for key, value in model.model_dump().items():
                         setattr(item, key, value)
                     item.updated_at = datetime.now()
                 session.commit()

@@ -25,7 +25,7 @@ def query_reservation(query: ReservationQuery) -> List[Reservation]:
     logging.info(f"Querying Reservations with query: {str(query)}")
 
     # If all fields are None in the query return 400
-    if not any(query.dict().values()):
+    if not any(query.model_dump().values()):
         allowed_fields = ", ".join(
             [field_name for field_name in ReservationQuery.__fields__.keys()]
         )

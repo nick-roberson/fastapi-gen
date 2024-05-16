@@ -6,7 +6,7 @@ from faker import Faker
 from pydantic import BaseModel, ConfigDict, Field, constr, field_validator
 
 from builder.models.db import DBConfig
-from builder.models.enum import FieldDataType
+from builder.models.enum import DatabaseTypes, FieldDataType
 
 # Custom type for string types that enforce a minimum length and no whitespace
 MinStrType = constr(strip_whitespace=True, min_length=1)
@@ -293,13 +293,12 @@ class ServiceConfig(BaseModel):
             os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
         # Obfuscate the database password
-        config_dict = self.dict()
-        if self.database.db_type in ["mysql", "postgres"]:
+        config_dict = self.model_dump()
+        if self.database.db_type in DatabaseTypes.choices():
             config_dict["database"]["config"]["password"] = "********"
             config_dict["database"]["config"]["host"] = "********"
-        elif self.database.db_type == "mongo":
-            config_dict["database"]["config"]["db_uri"] = "********"
-
+        else:
+            raise ValueError(f"Invalid db_type: {self.database.db_type}")
         # Write the config to the file
         with open(file_path, "w") as file:
             yaml.dump(config_dict, file)

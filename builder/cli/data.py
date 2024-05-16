@@ -4,7 +4,7 @@ import typer
 from rich import print
 
 from builder.cli.utils import validate_config
-from builder.constants import SAMPLE_INPUT_FILE
+from builder.constants import TEST_MYSQL_CONFIG
 from builder.test_data.create_fake_data import create_fake_data
 
 app = typer.Typer()
@@ -13,7 +13,7 @@ app = typer.Typer()
 @app.command()
 def create(
     config: Optional[str] = typer.Option(
-        SAMPLE_INPUT_FILE, "--config", "-c", help="Path to the input YAML config."
+        TEST_MYSQL_CONFIG, "--config", "-c", help="Path to the input YAML config."
     )
 ):
     """
@@ -21,7 +21,7 @@ def create(
 
     Args:
         config (str, optional): Path to the input YAML configuration file.
-            Defaults to SAMPLE_INPUT_FILE.
+            Defaults to TEST_MYSQL_CONFIG.
     """
     # Validate and process the configuration file
     service_config = validate_config(config)

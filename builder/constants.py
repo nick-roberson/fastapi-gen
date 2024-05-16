@@ -5,11 +5,6 @@ CODEGEN_DIR_NAME: str = "backend"
 
 # Test configs
 TEST_MYSQL_CONFIG: str = os.path.abspath("example/alembic/restaurant.yaml")
-TEST_MONGO_CONFIG: str = os.path.abspath("example/mongo/restaurant.yaml")
-
-# Sample input file and output dir
-SAMPLE_INPUT_FILE: str = os.path.abspath("example/mongo/restaurant.yaml")
-SAMPLE_OUTPUT_DIR: str = os.path.abspath("example/mongo/output")
 
 # Version directory
 VERSIONS_DIR: str = os.path.abspath("versions")
@@ -30,9 +25,6 @@ FRONTEND_TEMPLATES: str = f"{TEMPLATE_DIR}/frontend/"
 # Alembic Templates
 ALEMBIC_TEMPLATES: str = f"{TEMPLATE_DIR}/databases/alembic/"
 
-# MongoDB Templates
-MONGO_TEMPLATES: str = f"{TEMPLATE_DIR}/databases/mongo/"
-
 # Default port
 DEFAULT_PORT: int = 8000
 
@@ -45,7 +37,6 @@ PYTHON_DEPENDENCIES = [
     ("pydantic", "^2.6.4"),
     ("fastapi", "^0.110.0"),
     ("uvicorn", "^0.28.0"),
-    ("pymongo", "^4.6.2"),
     ("certifi", "^2024.2.2"),
     ("rich", "^13.7.1"),
     ("isort", "^5.13.2"),
@@ -96,5 +87,4 @@ VERBOSE: bool = True if os.getenv("VERBOSE") else False
 REQUIRED_DB_ENV_VARS = {
     "mysql": ["DB_HOST", "DB_PORT", "DB_USER", "DB_NAME", "DB_PASSWORD"],
     "postgres": ["DB_HOST", "DB_PORT", "DB_USER", "DB_NAME", "DB_PASSWORD"],
-    "mongo": ["MONGO_URI"],
 }
