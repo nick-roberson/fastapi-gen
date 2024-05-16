@@ -6,3 +6,5 @@ logs
 .env
 .coverage
 versions
+.DS_Store
+**/.DS_Store
