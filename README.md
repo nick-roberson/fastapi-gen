@@ -136,8 +136,9 @@ correct environment variables set (see the `setup` section for more information)
 
 ## Setup
 
-**General**
-- Poetry installed
+**General Requirements**
+- `poetry` installed
+  - `pip install poetry`
 - Python 3.12.2 installed (can install via poetry)
 - `docker` installed (for backend running)
   - https://docs.docker.com/engine/install/
@@ -154,12 +155,13 @@ correct environment variables set (see the `setup` section for more information)
   - `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_NAME`
 - The options in the config for the `db_type` are `postgres` and `mysql`
 
-**Poetry**
+**Install from Source**
 
-All you should need to do before running otherwise is to install the dependencies using poetry.
 ```bash
-% pip install poetry
+% git clone git@github.com:nick-roberson/fastapi-gen.git`
+% cd fastapi-gen
 % poetry install
+% poetry run python main.py --help
 ```
 
 ## Usage
