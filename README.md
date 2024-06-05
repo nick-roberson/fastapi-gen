@@ -158,7 +158,7 @@ correct environment variables set (see the `setup` section for more information)
 **Install from Source**
 
 ```bash
-% git clone git@github.com:nick-roberson/fastapi-gen.git`
+% git clone git@github.com:nick-roberson/fastapi-gen.git
 % cd fastapi-gen
 % poetry install
 % poetry run python main.py --help
