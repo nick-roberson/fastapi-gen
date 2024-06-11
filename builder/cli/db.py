@@ -35,7 +35,7 @@ def migrate(
         message (Optional[str], optional): Message for the migration.
 
     Example:
-        export DB_NAME=restaurants && poetry run python main.py db migrate \
+        export DB_NAME=restaurants && poetry run builder db migrate \
             --config example/alembic/restaurant.yaml \
             --output-dir example/alembic/output
     """
@@ -67,7 +67,7 @@ def revert(
         revision (Optional[str], optional): Revision to revert to.
 
     Example:
-        export DB_NAME=restaurants && poetry run python main.py revert list \
+        export DB_NAME=restaurants && poetry run builder revert list \
             --config example/alembic/restaurant.yaml \
             --output-dir example/alembic/output
     """
@@ -94,7 +94,7 @@ def list(
             Defaults to TEST_MYSQL_CONFIG.
 
     Example:
-        export DB_NAME=restaurants && poetry run python main.py db list \
+        export DB_NAME=restaurants && poetry run builder db list \
             --config example/alembic/restaurant.yaml \
             --output-dir example/alembic/output
     """

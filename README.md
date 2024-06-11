@@ -161,7 +161,7 @@ correct environment variables set (see the `setup` section for more information)
 % git clone git@github.com:nick-roberson/fastapi-gen.git
 % cd fastapi-gen
 % poetry install
-% poetry run python main.py --help
+% poetry run builder --help
 ```
 
 ## Usage
@@ -194,7 +194,7 @@ main
 
 If you want to create a new service from scratch, you can use the `create` command to create a new config file interactively.
 ```bash
-% poetry run python main.py app generate \
+% poetry run builder app generate \
   --config output/new_service.yaml
 ```
 You will be prompted to enter the information about the following areas:
@@ -210,22 +210,22 @@ Once you have your config ready (or you can use the example config), you can gen
 ### 2. Generate Application Files
 
 ```bash
-% poetry run python main.py app create \
+% poetry run builder app create \
   --config example/alembic/restaurant.yaml 
 
 ...
 
 1. Apply new migrations:
-  % poetry run python main.py db migrate \
+  % poetry run builder db migrate \
       --config example/alembic/restaurant.yaml \
       --message 'Initial migration for restaurant_app'
 
 2. Run backend:
-  % poetry run python main.py app run-backend \
+  % poetry run builder app run-backend \
       --config example/alembic/restaurant.yaml
 
 3. Run frontend:
-  % poetry run python main.py app run-frontend \
+  % poetry run builder app run-frontend \
       --config example/alembic/restaurant.yaml
 ```
 
@@ -233,7 +233,7 @@ Once you have your config ready (or you can use the example config), you can gen
 
 If you are using PostgreSQL or MySQL, you can apply the migrations to the database using the following command:
 ```commandline
-poetry run python main.py db migrate \
+poetry run builder db migrate \
     --config example/alembic/restaurant.yaml \
     --message 'Initial migration for restaurant_app'
 ```
@@ -244,7 +244,7 @@ poetry run python main.py db migrate \
 
 To run the backend, you can use the following command:
 ```commandline
-poetry run python main.py app run-backend \
+poetry run builder app run-backend \
     --config example/alembic/restaurant.yaml 
 ```
 
@@ -252,7 +252,7 @@ poetry run python main.py app run-backend \
 
 To run the frontend, you can use the following command:
 ```commandline
-poetry run python main.py app run-frontend \
+poetry run builder app run-frontend \
     --config example/alembic/restaurant.yaml 
 ```
 
@@ -264,11 +264,11 @@ If you have an existing service that you want to work with, you can use the foll
 
 If you want to reload the frontend or backend templates, you can use the following command:
 ```commandline
-poetry run python main.py app reload \
+poetry run builder app reload \
     --config example/alembic/restaurant.yaml \
     --frontend-only
     
-poetry run python main.py app reload \
+poetry run builder app reload \
     --config example/alembic/restaurant.yaml \
     --backend-only
 ```
@@ -277,7 +277,7 @@ poetry run python main.py app reload \
 
 If you have made changes to the models and want to update the database, you can use the following command:
 ```commandline
-poetry run python main.py db migrate \
+poetry run builder db migrate \
     --config example/alembic/restaurant.yaml \
     --message 'Update models for restaurant_app'
 ```
@@ -289,7 +289,7 @@ poetry run python main.py db migrate \
 
 If you want to revert the database to a previous revision, you can use the following command:
 ```commandline
-poetry run python main.py db revert \
+poetry run builder db revert \
     --config example/alembic/restaurant.yaml  \
     --revision <revision>
 ```
@@ -298,7 +298,7 @@ poetry run python main.py db revert \
 
 If you want to list the migrations that have been applied to the database, you can use the following command:
 ```commandline
-poetry run python main.py db list \
+poetry run builder db list \
     --config example/alembic/restaurant.yaml
 ```
 
@@ -310,7 +310,7 @@ to restart the application!
 To create some fake data that you can insert into the database, you can use the following command:
 
 ```commandline
-poetry run python main.py data create \
+poetry run builder data create \
   --config example/alembic/restaurant.yaml 
 
 Generated fake data at

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "fastapi-gen"
+name = "builder"
 version = "1.0.0"
 description = "A service builder for creating RESTful APIs and React frontends"
 authors = ["nick-roberson <nicholas.roberson.95@gmail.com>"]
@@ -31,6 +31,8 @@ psycopg2-binary = "^2.9.9"
 celery = "^5.4.0"
 redis = "^5.0.4"
 
+[tool.poetry.scripts]
+builder = "builder:app"
 
 [build-system]
 requires = ["poetry-core"]
