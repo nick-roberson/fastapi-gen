@@ -71,16 +71,16 @@ def process_close(result: Dict, config: ServiceConfig, config_path: str):
 
     # Display the commands for the user to run
     migration_lines = [
-        "  % poetry run python main.py db migrate \\",
+        "  % poetry run builder db migrate \\",
         f"\t--config {rel_config} \\",
         f"\t--message 'Initial migration for {config.service_info.name}'",
     ]
     run_backend_lines = [
-        "  % poetry run python main.py app run-backend \\",
+        "  % poetry run builder app run-backend \\",
         f"\t--config {rel_config}",
     ]
     run_frontend_lines = [
-        "  % poetry run python main.py app run-frontend \\",
+        "  % poetry run builder app run-frontend \\",
         f"\t--config {rel_config}",
     ]
 

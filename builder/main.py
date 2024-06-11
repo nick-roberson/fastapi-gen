@@ -37,10 +37,5 @@ app.add_typer(
 )
 
 
-def run():
-    """Run the CLI application."""
-    app()
-
-
 if __name__ == "__main__":
-    run()
+    app()
