@@ -8,15 +8,10 @@ from src.db.constants import get_url
 from src.db.models import DBReview
 from src.models.models import Review, ReviewQuery
 
-# Singleton Manager for Review
-__REVIEW_MANAGER = None
 
-
-def get_review_manager():
-    global __REVIEW_MANAGER
-    if not __REVIEW_MANAGER:
-        __REVIEW_MANAGER = ReviewManager()
-    return __REVIEW_MANAGER
+def get_review_manager() -> "ReviewManager":
+    """Get the Review manager instance."""
+    return ReviewManager()
 
 
 class ReviewManager:

@@ -8,15 +8,10 @@ from src.db.constants import get_url
 from src.db.models import DBReservation
 from src.models.models import Reservation, ReservationQuery
 
-# Singleton Manager for Reservation
-__RESERVATION_MANAGER = None
 
-
-def get_reservation_manager():
-    global __RESERVATION_MANAGER
-    if not __RESERVATION_MANAGER:
-        __RESERVATION_MANAGER = ReservationManager()
-    return __RESERVATION_MANAGER
+def get_reservation_manager() -> "ReservationManager":
+    """Get the Reservation manager instance."""
+    return ReservationManager()
 
 
 class ReservationManager:
