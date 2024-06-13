@@ -9,14 +9,9 @@ from src.db.constants import get_url
 from src.models.models import {{ model.name }}, {{ model.name }}Query
 from src.db.models import DB{{ model.name }}
 
-# Singleton Manager for {{ model.name }}
-__{{ model.name.upper() }}_MANAGER = None
-
-def get_{{ model.name.lower() }}_manager():
-    global __{{ model.name.upper() }}_MANAGER
-    if not __{{ model.name.upper() }}_MANAGER:
-        __{{ model.name.upper() }}_MANAGER = {{ model.name }}Manager()
-    return __{{ model.name.upper() }}_MANAGER
+def get_{{ model.name.lower() }}_manager() -> "{{ model.name }}Manager":
+    """ Get the {{ model.name }} manager instance. """
+    return {{ model.name }}Manager()
 
 class {{ model.name }}Manager:
     """Manager to handle all database operations for the {{ model.name }} records."""

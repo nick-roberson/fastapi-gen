@@ -8,15 +8,10 @@ from src.db.constants import get_url
 from src.db.models import DBUser
 from src.models.models import User, UserQuery
 
-# Singleton Manager for User
-__USER_MANAGER = None
 
-
-def get_user_manager():
-    global __USER_MANAGER
-    if not __USER_MANAGER:
-        __USER_MANAGER = UserManager()
-    return __USER_MANAGER
+def get_user_manager() -> "UserManager":
+    """Get the User manager instance."""
+    return UserManager()
 
 
 class UserManager:

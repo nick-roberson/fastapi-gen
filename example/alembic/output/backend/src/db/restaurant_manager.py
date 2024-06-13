@@ -8,15 +8,10 @@ from src.db.constants import get_url
 from src.db.models import DBRestaurant
 from src.models.models import Restaurant, RestaurantQuery
 
-# Singleton Manager for Restaurant
-__RESTAURANT_MANAGER = None
 
-
-def get_restaurant_manager():
-    global __RESTAURANT_MANAGER
-    if not __RESTAURANT_MANAGER:
-        __RESTAURANT_MANAGER = RestaurantManager()
-    return __RESTAURANT_MANAGER
+def get_restaurant_manager() -> "RestaurantManager":
+    """Get the Restaurant manager instance."""
+    return RestaurantManager()
 
 
 class RestaurantManager:

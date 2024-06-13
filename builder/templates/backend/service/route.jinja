@@ -1,21 +1,23 @@
 import logging
 
 from typing import List
-from fastapi import APIRouter, HTTPException, BackgroundTasks
+from fastapi import APIRouter, HTTPException, BackgroundTasks, Depends
 
 from src.models.models import {{ model_name }}
 from src.models.models import {{ query_model_name }}
-{% for model in models %}from src.db.{{ model.name.lower() }}_manager import get_{{ model.manager_var_name }}
-{% endfor %}
-
-# Create instances of managers for each model
-{% for model in models %}
-{{ model.manager_var_name }} = get_{{ model.manager_var_name }}()
+{% for model in models %}from src.db.{{ model.name.lower() }}_manager import {{ model.name }}Manager
 {% endfor %}
 
 # Define Router
 router = APIRouter()
 
+{% for model in models %}
+
+def get_manager() -> {{ model.name }}Manager:
+    """ Get the {{ model.name }} Manager """
+    return {{ model.name }}Manager()
+
+{% endfor %}
 
 ########################################################################################################################
 # Query Endpoints for {{ model_name }}
@@ -24,7 +26,10 @@ router = APIRouter()
 {% for model in models %}
 
 @router.post("/{{ model.name.lower() }}/query")
-def query_{{ model.name.lower() }}(query: {{ query_model_name }}) -> List[{{ model.name }}]:
+def query_{{ model.name.lower() }}(
+    query: {{ query_model_name }},
+    manager: {{ model.name }}Manager = Depends(get_manager)
+) -> List[{{ model.name }}]:
     """ Query {{ model.name }}s """
     logging.info(f"Querying {{ model.name }}s with query: {str(query)}")
 
@@ -35,7 +40,7 @@ def query_{{ model.name.lower() }}(query: {{ query_model_name }}) -> List[{{ mod
         raise HTTPException(status_code=400, detail=detail)
 
     # Query the {{ model.name }}s with the given query, if none found raise 404
-    models = {{ model.manager_var_name }}.query(query)
+    models = manager.query(query)
     if not models:
         raise HTTPException(status_code=404, detail=f"No {{ model.name }}s found")
 
@@ -50,12 +55,15 @@ def query_{{ model.name.lower() }}(query: {{ query_model_name }}) -> List[{{ mod
 
 {% for model in models %}
 @router.get("/{{ model.name.lower() }}")
-def get_{{ model.name.lower() }}({{ model.model_id_var_name }}: str) -> {{ model.name }}:
+def get_{{ model.name.lower() }}(
+    {{ model.model_id_var_name }}: str,
+    manager: {{ model.name }}Manager = Depends(get_manager)
+) -> {{ model.name }}:
     """ Get a {{ model.name }} """
     logging.info(f"Getting {{ model.name }} with id: {id}")
 
     # Get the {{ model.name }} with the given id, if none found raise 404
-    model = {{ model.manager_var_name }}.get({{ model.model_id_var_name }}={{ model.model_id_var_name }})
+    model = manager.get({{ model.model_id_var_name }}={{ model.model_id_var_name }})
     if not model:
         raise HTTPException(status_code=404, detail=f"{{ model.name }} with id {id} not found")
 
@@ -63,12 +71,16 @@ def get_{{ model.name.lower() }}({{ model.model_id_var_name }}: str) -> {{ model
     return model
 
 @router.get("/{{ model.name.lower() }}s")
-def get_{{ model.name.lower() }}s(skip: int = 0, limit: int = 100) -> List[{{ model.name }}]:
+def get_{{ model.name.lower() }}s(
+    skip: int = 0,
+    limit: int = 100,
+    manager: {{ model.name }}Manager = Depends(get_manager)
+) -> List[{{ model.name }}]:
     """ Get all {{ model.name }}s """
     logging.info(f"Getting all {{ model.name }}s")
 
     # Get all {{ model.name }}s, if none found raise 404
-    models = {{ model.manager_var_name }}.get_all(skip=skip, limit=limit)
+    models = manager.get_all(skip=skip, limit=limit)
     if not models:
         raise HTTPException(status_code=404, detail=f"No {{ model.name }}s found")
 
@@ -84,12 +96,15 @@ def get_{{ model.name.lower() }}s(skip: int = 0, limit: int = 100) -> List[{{ mo
 
 {% for model in models %}
 
-def _create_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -> {{ model.name }}:
+def _create_{{ model.name.lower() }}(
+    {{model.name.lower()}}: {{ model.name }},
+    manager: {{ model.name }}Manager
+) -> {{ model.name }}:
     """ Create a {{ model.name }} helper function """
     logging.info(f"Creating {{ model.name }}: {str({{model.name.lower()}})}")
 
     # Create the {{ model.name }}, if failed raise 400
-    model = {{ model.manager_var_name }}.create({{model.name.lower()}})
+    model = manager.create({{model.name.lower()}})
     if not model:
         raise HTTPException(status_code=400, detail=f"Failed to create {{ model.name }}")
 
@@ -97,27 +112,37 @@ def _create_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -
     return model
 
 @router.post("/{{ model.name.lower() }}")
-def create_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -> {{ model.name }}:
+def create_{{ model.name.lower() }}(
+    {{model.name.lower()}}: {{ model.name }},
+    manager: {{ model.name }}Manager = Depends(get_manager)
+) -> {{ model.name }}:
     """ Create a {{ model.name }} """
     # Call the helper function to create the {{ model.name }}
-    return _create_{{ model.name.lower() }}({{model.name.lower()}})
+    return _create_{{ model.name.lower() }}({{model.name.lower()}}, manager)
 
 @router.post("/{{ model.name.lower() }}/async")
-def create_{{ model.name.lower() }}_async({{model.name.lower()}}: {{ model.name }}, background_tasks: BackgroundTasks):
+async def create_{{ model.name.lower() }}_async(
+    {{model.name.lower()}}: {{ model.name }},
+    background_tasks: BackgroundTasks,
+    manager: {{ model.name }}Manager = Depends(get_manager)
+):
     """ Create a {{ model.name }} asynchronously """
     logging.info(f"Creating {{ model.name }} asynchronously: {str({{model.name.lower()}})}")
     # Create the {{ model.name }} asynchronously
-    background_tasks.add_task(_create_{{ model.name.lower() }}, {{model.name.lower()}})
+    background_tasks.add_task(_create_{{ model.name.lower() }}, {{model.name.lower()}}, manager)
     # Return the created {{ model.name }}
     return {"message": "Creating {{ model.name }} asynchronously"}
 
 
-def _create_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.name }}]) -> List[{{ model.name }}]:
+def _create_{{ model.name.lower() }}s(
+    {{model.name.lower()}}s: List[{{ model.name }}],
+    manager: {{ model.name }}Manager
+) -> List[{{ model.name }}]:
     """ Create multiple {{ model.name }}s helper function """
     logging.info(f"Creating {{ model.name }}s: {str({{model.name.lower()}}s)}")
 
     # Create the {{ model.name }}s, if failed raise 400
-    models = {{ model.manager_var_name }}.create_many({{model.name.lower()}}s)
+    models = manager.create_many({{model.name.lower()}}s)
     if not models:
         raise HTTPException(status_code=400, detail=f"Failed to create {{ model.name }}s")
 
@@ -125,17 +150,24 @@ def _create_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.nam
     return models
 
 @router.post("/{{ model.name.lower() }}s")
-def create_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.name }}]) -> List[{{ model.name }}]:
+def create_{{ model.name.lower() }}s(
+    {{model.name.lower()}}s: List[{{ model.name }}],
+    manager: {{ model.name }}Manager = Depends(get_manager)
+) -> List[{{ model.name }}]:
     """ Create multiple {{ model.name }}s """
     # Call the helper function to create the {{ model.name }}s
-    return _create_{{ model.name.lower() }}s({{model.name.lower()}}s)
+    return _create_{{ model.name.lower() }}s({{model.name.lower()}}s, manager)
 
 @router.post("/{{ model.name.lower() }}s/async")
-def create_{{ model.name.lower() }}s_async({{model.name.lower()}}s: List[{{ model.name }}], background_tasks: BackgroundTasks):
+async def create_{{ model.name.lower() }}s_async(
+    {{model.name.lower()}}s: List[{{ model.name }}],
+    background_tasks: BackgroundTasks,
+    manager: {{ model.name }}Manager = Depends(get_manager)
+):
     """ Create multiple {{ model.name }}s asynchronously """
     logging.info(f"Creating {{ model.name }}s asynchronously: {str({{model.name.lower()}}s)}")
     # Create the {{ model.name }}s asynchronously
-    background_tasks.add_task(_create_{{ model.name.lower() }}s, {{model.name.lower()}}s)
+    background_tasks.add_task(_create_{{ model.name.lower() }}s, {{model.name.lower()}}s, manager)
     # Return the created {{ model.name }}s
     return {"message": "Creating {{ model.name }}s asynchronously"}
 
@@ -147,12 +179,15 @@ def create_{{ model.name.lower() }}s_async({{model.name.lower()}}s: List[{{ mode
 
 {% for model in models %}
 
-def _update_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -> {{ model.name }}:
+def _update_{{ model.name.lower() }}(
+    {{model.name.lower()}}: {{ model.name }},
+    manager: {{ model.name }}Manager
+) -> {{ model.name }}:
     """ Update a {{ model.name }} helper function """
     logging.info(f"Updating {{ model.name }}: {str({{model.name.lower()}})}")
 
     # Update the {{ model.name }}, if failed raise 400
-    model = {{ model.manager_var_name }}.update({{model.name.lower()}})
+    model = manager.update({{model.name.lower()}})
     if not model:
         raise HTTPException(status_code=400, detail=f"Failed to update {{ model.name }}")
 
@@ -160,26 +195,36 @@ def _update_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -
     return model
 
 @router.put("/{{ model.name.lower() }}")
-def update_{{ model.name.lower() }}({{model.name.lower()}}: {{ model.name }}) -> {{ model.name }}:
+def update_{{ model.name.lower() }}(
+    {{model.name.lower()}}: {{ model.name }},
+    manager: {{ model.name }}Manager = Depends(get_manager)
+) -> {{ model.name }}:
     """ Update a {{ model.name }} """
     # Call the helper function to update the {{ model.name }}
-    return _update_{{ model.name.lower() }}({{model.name.lower()}})
+    return _update_{{ model.name.lower() }}({{model.name.lower()}}, manager)
 
 @router.put("/{{ model.name.lower() }}/async")
-def update_{{ model.name.lower() }}_async({{model.name.lower()}}: {{ model.name }}, background_tasks: BackgroundTasks):
+async def update_{{ model.name.lower() }}_async(
+    {{model.name.lower()}}: {{ model.name }},
+    background_tasks: BackgroundTasks,
+    manager: {{ model.name }}Manager = Depends(get_manager)
+):
     """ Update a {{ model.name }} asynchronously """
     logging.info(f"Updating {{ model.name }} asynchronously: {str({{model.name.lower()}})}")
     # Update the {{ model.name }} asynchronously
-    background_tasks.add_task(_update_{{ model.name.lower() }}, {{model.name.lower()}})
+    background_tasks.add_task(_update_{{ model.name.lower() }}, {{model.name.lower()}}, manager)
     # Return the updated {{ model.name }}
     return {"message": "Updating {{ model.name }} asynchronously"}
 
-def _update_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.name }}]) -> List[{{ model.name }}]:
+def _update_{{ model.name.lower() }}s(
+    {{model.name.lower()}}s: List[{{ model.name }}],
+    manager: {{ model.name }}Manager
+) -> List[{{ model.name }}]:
     """ Update multiple {{ model.name }}s helper function """
     logging.info(f"Updating {{ model.name }}s: {str({{model.name.lower()}}s)}")
 
     # Update the {{ model.name }}s, if failed raise 400
-    models = {{ model.manager_var_name }}.update_many({{model.name.lower()}}s)
+    models = manager.update_many({{model.name.lower()}}s)
     if not models:
         raise HTTPException(status_code=400, detail=f"Failed to update {{ model.name }}s")
 
@@ -187,17 +232,24 @@ def _update_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.nam
     return models
 
 @router.put("/{{ model.name.lower() }}s")
-def update_{{ model.name.lower() }}s({{model.name.lower()}}s: List[{{ model.name }}]) -> List[{{ model.name }}]:
+def update_{{ model.name.lower() }}s(
+    {{model.name.lower()}}s: List[{{ model.name }}],
+    manager: {{ model.name }}Manager = Depends(get_manager)
+) -> List[{{ model.name }}]:
     """ Update multiple {{ model.name }}s """
     # Call the helper function to update the {{ model.name }}s
-    return _update_{{ model.name.lower() }}s({{model.name.lower()}}s)
+    return _update_{{ model.name.lower() }}s({{model.name.lower()}}s, manager)
 
 @router.put("/{{ model.name.lower() }}s/async")
-def update_{{ model.name.lower() }}s_async({{model.name.lower()}}s: List[{{ model.name }}], background_tasks: BackgroundTasks):
+async def update_{{ model.name.lower() }}s_async(
+    {{model.name.lower()}}s: List[{{ model.name }}],
+    background_tasks: BackgroundTasks,
+    manager: {{ model.name }}Manager = Depends(get_manager)
+):
     """ Update multiple {{ model.name }}s asynchronously """
     logging.info(f"Updating {{ model.name }}s asynchronously: {str({{model.name.lower()}}s)}")
     # Update the {{ model.name }}s asynchronously
-    background_tasks.add_task(_update_{{ model.name.lower() }}s, {{model.name.lower()}}s)
+    background_tasks.add_task(_update_{{ model.name.lower() }}s, {{model.name.lower()}}s, manager)
     # Return the updated {{ model.name }}s
     return {"message": "Updating {{ model.name }}s asynchronously"}
 
@@ -209,12 +261,15 @@ def update_{{ model.name.lower() }}s_async({{model.name.lower()}}s: List[{{ mode
 
 {% for model in models %}
 
-def _delete_{{ model.name.lower() }}({{ model.model_id_var_name }}: int) -> {{ model.name }}:
+def _delete_{{ model.name.lower() }}(
+    {{ model.model_id_var_name }}: int,
+    manager: {{ model.name }}Manager
+) -> {{ model.name }}:
     """ Delete a {{ model.name }} helper function """
     logging.info(f"Deleting {{ model.name }} with id: {id}")
 
     # Delete the {{ model.name }}, if failed raise 404
-    model = {{ model.manager_var_name }}.delete({{ model.model_id_var_name }})
+    model = manager.delete({{ model.model_id_var_name }})
     if not model:
         raise HTTPException(status_code=404, detail=f"Failed to delete {{ model.name }}")
 
@@ -222,26 +277,36 @@ def _delete_{{ model.name.lower() }}({{ model.model_id_var_name }}: int) -> {{ m
     return model
 
 @router.delete("/{{ model.name.lower() }}")
-def delete_{{ model.name.lower()}}({{ model.model_id_var_name }}: int) -> {{ model.name }}:
+def delete_{{ model.name.lower()}}(
+    {{ model.model_id_var_name }}: int,
+    manager: {{ model.name }}Manager = Depends(get_manager)
+) -> {{ model.name }}:
     """ Delete a {{ model.name }} """
     # Call the helper function to delete the {{ model.name }}
-    return _delete_{{ model.name.lower() }}({{ model.model_id_var_name }})
+    return _delete_{{ model.name.lower() }}({{ model.model_id_var_name }}, manager)
 
 @router.delete("/{{ model.name.lower() }}/async")
-def delete_{{ model.name.lower() }}_async({{ model.model_id_var_name }}: int, background_tasks: BackgroundTasks):
+async def delete_{{ model.name.lower() }}_async(
+    {{ model.model_id_var_name }}: int,
+    background_tasks: BackgroundTasks,
+    manager: {{ model.name }}Manager = Depends(get_manager)
+):
     """ Delete a {{ model.name }} asynchronously """
     logging.info(f"Deleting {{ model.name }} asynchronously with id: {id}")
     # Delete the {{ model.name }} asynchronously
-    background_tasks.add_task(_delete_{{ model.name.lower() }}, {{ model.model_id_var_name }})
+    background_tasks.add_task(_delete_{{ model.name.lower() }}, {{ model.model_id_var_name }}, manager)
     # Return the deleted {{ model.name }}
     return {"message": "Deleting {{ model.name }} asynchronously"}
 
-def _delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s: List[int]) -> List[{{ model.name }}]:
+def _delete_{{ model.name.lower() }}s(
+    {{ model.model_id_var_name }}s: List[int],
+    manager: {{ model.name }}Manager
+) -> List[{{ model.name }}]:
     """ Delete multiple {{ model.name }}s helper function """
     logging.info(f"Deleting {{ model.name }}s: {str({{ model.model_id_var_name }}s)}")
 
     # Delete the {{ model.name }}s, if failed raise 404
-    models = {{ model.manager_var_name }}.delete_many({{ model.model_id_var_name }}s)
+    models = manager.delete_many({{ model.model_id_var_name }}s)
     if not models:
         raise HTTPException(status_code=404, detail=f"Failed to delete {{ model.name }}s")
 
@@ -249,17 +314,24 @@ def _delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s: List[int])
     return models
 
 @router.delete("/{{ model.name.lower() }}s")
-def delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s: List[int]) -> List[{{ model.name }}]:
+def delete_{{ model.name.lower() }}s(
+    {{ model.model_id_var_name }}s: List[int],
+    manager: {{ model.name }}Manager = Depends(get_manager)
+) -> List[{{ model.name }}]:
     """ Delete multiple {{ model.name }}s """
     # Call the helper function to delete the {{ model.name }}s
-    return _delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s)
+    return _delete_{{ model.name.lower() }}s({{ model.model_id_var_name }}s, manager)
 
 @router.delete("/{{ model.name.lower() }}s/async")
-def delete_{{ model.name.lower() }}s_async({{ model.model_id_var_name }}s: List[int], background_tasks: BackgroundTasks):
+async def delete_{{ model.name.lower() }}s_async(
+    {{ model.model_id_var_name }}s: List[int],
+    background_tasks: BackgroundTasks,
+    manager: {{ model.name }}Manager = Depends(get_manager)
+):
     """ Delete multiple {{ model.name }}s asynchronously """
     logging.info(f"Deleting {{ model.name }}s asynchronously: {str({{ model.model_id_var_name }}s)}")
     # Delete the {{ model.name }}s asynchronously
-    background_tasks.add_task(_delete_{{ model.name.lower() }}s, {{ model.model_id_var_name }}s)
+    background_tasks.add_task(_delete_{{ model.name.lower() }}s, {{ model.model_id_var_name }}s, manager)
     # Return the deleted {{ model.name }}s
     return {"message": "Deleting {{ model.name }}s asynchronously"}
 
